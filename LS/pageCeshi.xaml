@@ -1,0 +1,19 @@
+﻿<Window x:Class="LS.pageCeshi"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LS"
+        mc:Ignorable="d"
+        Title="pageCeshi" Height="623.55" Width="1259">
+    <Grid Margin="0,0,0,-108">
+        <TreeView HorizontalAlignment="Left" Height="550" Margin="10,22,0,0" VerticalAlignment="Top" Width="138">
+            <TreeViewItem Header="市局" Height="109" Width="111" IsExpanded="True" FontSize="18">
+                <TreeViewItem Header="地方" Height="24" HorizontalAlignment="Left" Width="92" Selected="地方_Selected"/>
+                <TreeViewItem Header="你猜" HorizontalAlignment="Left" Height="25" Width="81" Selected="你猜_Selected"/>
+            </TreeViewItem>
+        </TreeView>
+        <Frame x:Name="frame" Content="" HorizontalAlignment="Left" Height="550" Margin="153,22,0,0" VerticalAlignment="Top" Width="1000"/>
+
+    </Grid>
+</Window>

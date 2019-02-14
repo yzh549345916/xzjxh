@@ -1,0 +1,37 @@
+﻿<Window x:Class="sjzd.人员修改"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:sjzd"
+        mc:Ignorable="d"
+        Title="人员修改" Height="449.68" Width="1078.331" WindowStartupLocation="CenterScreen">
+    <Viewbox  >
+        <Grid Width="576" Height="223">
+
+            <ComboBox x:Name="QXList" HorizontalAlignment="Left" Margin="21,73,0,0" VerticalAlignment="Top" Width="93" Height="23"  SelectionChanged="QXList_SelectionChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+
+            </ComboBox>
+            <Label Content="旗县区站号" HorizontalAlignment="Left" Margin="32,41,0,0" VerticalAlignment="Top" Height="26" Width="70"/>
+            <Label Content="当前姓名" HorizontalAlignment="Left" Margin="278,39,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.343,0.615" Height="26" Width="57"/>
+            <Button Content="保存" HorizontalAlignment="Right" Margin="0,100,13,0" VerticalAlignment="Top" Width="75" Click="Button_Click" Height="22"/>
+            <TextBox x:Name="CStationName" HorizontalAlignment="Left" Height="23" Margin="145,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox x:Name="CStationID" HorizontalAlignment="Left" Height="23" Margin="264,153,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Content="修改后的ID" HorizontalAlignment="Left" Margin="154,120,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.225,0" Height="26" Width="82"/>
+            <Label Content="修改后的姓名" HorizontalAlignment="Left" Margin="272,122,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.225,0" Height="26" Width="81"/>
+            <TextBox x:Name="stationID"  HorizontalAlignment="Left" Height="23" Margin="264,73,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <Button x:Name="DeleteBtu" Content="删除" HorizontalAlignment="Right" Margin="0,47,13,0" VerticalAlignment="Top" Width="75" Height="22" Click="DeleteBtu_Click"/>
+            <Button x:Name="QuitBtu" Content="退出" HorizontalAlignment="Right" Margin="0,154,13,0" VerticalAlignment="Top" Width="75" Height="22" Click="QuitBtu_Click"/>
+            <ComboBox x:Name="PeopleList" HorizontalAlignment="Left" Margin="145,73,0,0" VerticalAlignment="Top" Width="93" Height="23"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="XZList_SelectionChanged"/>
+            <Label Content="请选择人员" HorizontalAlignment="Left" Margin="157,39,0,0" VerticalAlignment="Top" Height="26" Width="70"/>
+            <ComboBox x:Name="QXList_Copy" HorizontalAlignment="Left" Margin="21,153,0,0" VerticalAlignment="Top" Width="93" Height="23"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Content="修改后的旗县" HorizontalAlignment="Left" Margin="21,122,0,0" VerticalAlignment="Top" Height="26" Width="82"/>
+            <Label Content="是否管理员" HorizontalAlignment="Left" Margin="388,122,0,0" VerticalAlignment="Top"/>
+            <ComboBox x:Name="Admin" HorizontalAlignment="Left" Margin="388,153,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.937,0.427" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectedIndex="0">
+                <ComboBoxItem Content="否" HorizontalAlignment="Center" Width="68" HorizontalContentAlignment="Center"/>
+                <ComboBoxItem Content="是" HorizontalAlignment="Center" Width="68" HorizontalContentAlignment="Center"/>
+            </ComboBox>
+
+        </Grid>
+    </Viewbox>
+</Window>

@@ -1,0 +1,53 @@
+﻿<Window 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:旗县端"
+        x:Class="旗县端.登录窗口"
+        mc:Ignorable="d"
+        
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow"
+        Title="登录窗口" Height="408.86" Width="775.144" ResizeMode="CanMinimize">
+    <Window.Resources>
+        <Style x:Key="contentCenterStyle"  
+               TargetType="{x:Type TextBlock}">
+            <Setter Property="HorizontalAlignment"  
+                    Value="Center" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="16,0,16,-2">
+        <ComboBox x:Name="userchoose" HorizontalAlignment="Left" Margin="24,96,0,0" VerticalAlignment="Top" Width="111" Height="32" FontSize="16" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="预报员选择"/>
+        <Button x:Name="DL" Content="登录" HorizontalAlignment="Left" Margin="129,177,0,0" VerticalAlignment="Top" Width="111" Click="DL_Click" RenderTransformOrigin="1.122,-3.988" FontSize="16" Height="36"/>
+        <PasswordBox x:Name="passWord" HorizontalAlignment="Left" Margin="248,96,0,0" VerticalAlignment="Top" Width="106" FontSize="14" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="输入密码"/>
+        <DataGrid x:Name="History"  ItemsSource="{Binding}" HorizontalAlignment="Left" Height="311" Margin="433,48,0,0" VerticalAlignment="Top"  AutoGenerateColumns="False" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Visible" FontSize="16" IsReadOnly="True" BorderBrush="#FF1654AE" >
+            <DataGrid.ColumnHeaderStyle>
+                <Style 
+                        TargetType="DataGridColumnHeader">
+                    <Setter 
+                        Property="HorizontalContentAlignment" Value="Center">
+
+                    </Setter>
+                </Style>
+
+            </DataGrid.ColumnHeaderStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="时间" Binding="{Binding DLdate}" Width="150" ElementStyle="{StaticResource contentCenterStyle}" />
+                <DataGridTextColumn Header="姓名" Binding="{Binding userName}" Width="120" ElementStyle="{StaticResource contentCenterStyle}" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+        <Label Content="预报员" HorizontalAlignment="Left" Margin="56,63,0,0" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="0.692,-0.893"/>
+        <Label Content="密码" HorizontalAlignment="Left" Margin="282,63,0,0" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="0.447,1.714"/>
+        <Label Content="本月登陆记录" HorizontalAlignment="Left" Margin="492,15,0,0" VerticalAlignment="Top" FontSize="18" RenderTransformOrigin="0.447,1.714" Width="182" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="楷体"/>
+        <TextBox x:Name="BWZTTxt" HorizontalAlignment="Left" Height="38" Margin="78,264,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+        <TextBox x:Name="RKZTTxt" HorizontalAlignment="Left" Height="39" Margin="78,320,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+        <Label Content="报文状态" HorizontalAlignment="Left" Margin="9,269,0,0" VerticalAlignment="Top"/>
+        <Label Content="入库状态" HorizontalAlignment="Left" Margin="9,324,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="ZTCXBtu" Content="状态查询" HorizontalAlignment="Left" Margin="326,269,0,0" VerticalAlignment="Top" Width="92" Background="#FF658FFF" Click="ZTCXBtu_Click" Height="25" FontSize="16"/>
+
+    </Grid>
+</Window>

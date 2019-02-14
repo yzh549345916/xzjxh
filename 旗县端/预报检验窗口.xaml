@@ -1,0 +1,29 @@
+﻿<Window x:Class="旗县端.预报检验窗口"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:旗县端"
+        mc:Ignorable="d"
+        Title="预报检验窗口" Height="623.55" Width="1413.721" WindowStartupLocation="CenterScreen">
+    <Viewbox>
+        <Grid Margin="0,0,2,13">
+            <TreeView HorizontalAlignment="Left" Height="550" Margin="6,22,0,0" VerticalAlignment="Top" Width="381">
+                <TreeViewItem Header="数值预报" Height="71" Width="343" IsExpanded="True" FontSize="18">
+                    <TreeViewItem Header="省级智能网格"  HorizontalAlignment="Left" Width="311" Selected="省级智能网格高低温查询_Selected" Margin="0,0,-9,0"/>
+                    <TreeViewItem Header="省级智能网格准确率查询"  HorizontalAlignment="Left" Width="311" Selected="省级智能网格准确率查询页_Selected" Margin="0,0,-9,0"/>
+                </TreeViewItem>
+                <TreeViewItem Header="预报检验" Height="194" Width="343" IsExpanded="True" FontSize="18">
+                    <TreeViewItem Header="市局乡镇精细化预报准确率逐日查询" Height="30" HorizontalAlignment="Left" Width="311" Selected="市局乡镇精细化预报准确率页_Selected" Margin="0,0,-9,0"/>
+                    <TreeViewItem Header="旗县乡镇精细化预报准确率逐日查询" HorizontalAlignment="Left" Height="25" Width="320" Selected="旗县乡镇精细化预报准确率页_Selected" />
+                    <TreeViewItem Header="集体评分逐日查询" HorizontalAlignment="Left" Height="25" Width="320" Selected="集体评分逐日查询页_Selected" />
+                    <TreeViewItem Header="个人评分逐日查询" HorizontalAlignment="Left" Height="25" Width="320" Selected="个人评分逐日查询页_Selected" />
+                    <TreeViewItem Header="逐日评分详情" HorizontalAlignment="Left" Height="25" Width="320" Selected="逐日评分详情_Selected" />
+                    <TreeViewItem Header="到报率查询" HorizontalAlignment="Left" Height="25" Width="320" Selected="到报率查询_Selected" />
+                </TreeViewItem>
+            </TreeView>
+            <Frame x:Name="frame" Content="" HorizontalAlignment="Left" Height="550" Margin="392,22,0,0" VerticalAlignment="Top" Width="1000"/>
+
+        </Grid>
+    </Viewbox>
+</Window>
