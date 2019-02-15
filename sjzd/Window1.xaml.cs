@@ -28,9 +28,8 @@ namespace sjzd
         }
         private void btnSimple_Click(object sender, EventArgs e)
         {
-            var doc = new Document();
-            var builder = new DocumentBuilder(doc);
-
+            Document doc = new Document();
+            DocumentBuilder builder = new DocumentBuilder(doc);
             //添加包含默认数据的图表。您可以指定不同的图表类型和大小。
             var shape = builder.InsertChart(ChartType.Column, 432, 252);
             //Shape的Chart属性包含所有与图表相关的选项。

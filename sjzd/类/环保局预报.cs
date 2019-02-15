@@ -16,7 +16,8 @@ namespace sjzd
         //输入数组每行内容为：旗县名称+区站号+未来三天分别的天气、风向风速、最低气温、最高气温，因此列数为2+4*3。方法将数组中的指定要素保存至发布单
         public void DCWord(short sc)
         {
-            List<YBList> dataList = CLSJ(sc);
+            string error="";
+            List<YBList> dataList = CLSJ(sc,ref error);
             if (dataList.Count > 0)
             {
                 string configpathPath = Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
@@ -297,18 +298,66 @@ namespace sjzd
 
             return fxfs;
         }
+        public double GetFS(double v, double u)
+        {
+            double fx = 999.9; //风向
 
+            if ((u > 0) & (v > 0))
+            {
+                fx = 270 - Math.Atan(v / u) * 180 / Math.PI;
+            }
+            else if ((u < 0) & (v > 0))
+            {
+                fx = 90 - Math.Atan(v / u) * 180 / Math.PI;
+            }
+            else if ((u < 0) & (v < 0))
+            {
+                fx = 90 - Math.Atan(v / u) * 180 / Math.PI;
+            }
+            else if ((u > 0) & (v < 0))
+            {
+                fx = 270 - Math.Atan(v / u) * 180 / Math.PI;
+            }
+            else if ((u == 0) & (v > 0))
+            {
+                fx = 180;
+            }
+            else if ((u == 0) & (v < 0))
+            {
+                fx = 0;
+            }
+            else if ((u > 0) & (v == 0))
+            {
+                fx = 270;
+            }
+            else if ((u < 0) & (v == 0))
+            {
+                fx = 90;
+            }
+            else if ((u == 0) & (v == 0))
+            {
+                fx = 999.9;
+            }
 
-        public List<YBList> CLSJ(short sc)
+            //风速是uv分量的平方和
+
+            double fs = Math.Sqrt(Math.Pow(u, 2) + Math.Pow(v, 2));
+            int intfx = Convert.ToInt32(Math.Round(fx / 45, 0));
+          
+
+            return fs;
+        }
+
+        public List<YBList> CLSJ(short sc,ref string error)
         {
             List<YBList> list = new List<YBList>();
-
+             List<IDName> iDNames = new List<IDName>();
             try
             {
                 XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
                 string con = util.Read("OtherConfig", "xzjxhDB");
                 string strID = "";
-                List<IDName> iDNames = new List<IDName>();
+               
                 using (SqlConnection mycon = new SqlConnection(con))
                 {
                     mycon.Open(); //打开
@@ -356,7 +405,9 @@ namespace sjzd
                         {
                             try
                             {
-                                string fxfs = GetFXFS(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2), Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2));
+                                double v=Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2),u=Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2);
+                                string fxfs = GetFXFS(v,u );
+                                
                                 List<IDName> ll = iDNames.FindAll(y => y.GJID == sqlreader.GetString(sqlreader.GetOrdinal("StatioID"))).ToList();
                                 for (int j = 0; j < ll.Count; j++)
                                 {
@@ -370,12 +421,15 @@ namespace sjzd
                                         SX = sqlreader.GetInt16(sqlreader.GetOrdinal("SX")),
                                         FX = fxfs.Split(',')[0],
                                         FS = fxfs.Split(',')[1],
+                                        doubleFS=GetFS(v,u),
                                         VIS = Convert.ToInt32(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("VIS")), 0))
                                     });
                                 }
+
                             }
                             catch (Exception ex1)
                             {
+                                error+=ex1.Message;
                                 list.Clear();
                                 sqlreader.Close();
                                 DateTime dt1 = DateTime.Now;
@@ -397,7 +451,8 @@ namespace sjzd
                                     {
                                         try
                                         {
-                                            string fxfs = GetFXFS(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2), Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2));
+                                           double v=Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2),u=Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2);
+                                string fxfs = GetFXFS(v,u );
                                             List<IDName> ll = iDNames.FindAll(y => y.GJID == sqlreader.GetString(sqlreader.GetOrdinal("StatioID"))).ToList();
                                             for (int j = 0; j < ll.Count; j++)
                                             {
@@ -411,12 +466,14 @@ namespace sjzd
                                                     SX = Convert.ToInt16(sqlreader.GetInt16(sqlreader.GetOrdinal("SX")) - 12),
                                                     FX = fxfs.Split(',')[0],
                                                     FS = fxfs.Split(',')[1],
+                                                    doubleFS=GetFS(v,u),
                                                     VIS = sqlreader.GetInt32(sqlreader.GetOrdinal("VIS"))
                                                 });
                                             }
                                         }
                                         catch (Exception ex)
                                         {
+                                            error+=ex.Message;
                                         }
                                     }
                                 }
@@ -447,7 +504,8 @@ namespace sjzd
                             {
                                 try
                                 {
-                                    string fxfs = GetFXFS(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2), Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2));
+                                    double v=Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2),u=Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2);
+                                string fxfs = GetFXFS(v,u );
                                     List<IDName> ll = iDNames.FindAll(y => y.GJID == sqlreader.GetString(sqlreader.GetOrdinal("StatioID"))).ToList();
                                     for (int j = 0; j < ll.Count; j++)
                                     {
@@ -461,12 +519,14 @@ namespace sjzd
                                             SX = Convert.ToInt16(sqlreader.GetInt16(sqlreader.GetOrdinal("SX")) - 12),
                                             FX = fxfs.Split(',')[0],
                                             FS = fxfs.Split(',')[1],
+                                            doubleFS=GetFS(v,u),
                                             VIS = sqlreader.GetInt32(sqlreader.GetOrdinal("VIS"))
                                         });
                                     }
                                 }
                                 catch (Exception ex)
                                 {
+                                    error+=ex.Message;
                                 }
                             }
                         }
@@ -479,7 +539,67 @@ namespace sjzd
             }
 
             if (list.Count > 1)
-                list = list.OrderBy(y => y.ID).ToList();
+            {
+                list = list.OrderBy(y => y.ID).ThenBy(y => y.SX).ToList();
+                if(iDNames.Count*24!=list.Count)
+                {
+                    for(short i=3;i<73;i=(short)(i+3))
+                    {
+                        foreach(IDName j in iDNames)
+                        {
+                            if(!list.Exists(y => y.ID==j.ID && y.SX==i))//如果数据遗漏
+                            {
+                                 try
+                                 {
+                                    if (list.Exists(y => y.ID == j.ID && y.SX == i - 3))//如果前一时次的数据存在，则用前一时次的数据弥补
+                                    {
+                                        YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i - 3);
+                                        list.Add(new YBList
+                                        {
+                                            Name = j.Name,
+                                            ID = j.ID,
+                                            TEM = ybList.TEM,
+                                            ERH = ybList.ERH,
+                                            PRE = ybList.PRE,
+                                            SX = i,
+                                            FX = ybList.FX,
+                                            FS = ybList.FS,
+                                            doubleFS = ybList.doubleFS,
+                                            VIS = ybList.VIS
+                                        });
+                                        error += j.Name + i + "小时数据不存在，已经用" + (i - 3) + "小时数据代替";
+                                    }
+                                    else if (list.Exists(y => y.ID == j.ID && y.SX == i + 3))//如果后一时次的数据存在，则用后一时次的数据弥补
+                                    {
+                                        YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i + 3);
+                                        list.Add(new YBList
+                                        {
+                                            Name = j.Name,
+                                            ID = j.ID,
+                                            TEM = ybList.TEM,
+                                            ERH = ybList.ERH,
+                                            PRE = ybList.PRE,
+                                            SX = i,
+                                            FX = ybList.FX,
+                                            FS = ybList.FS,
+                                            doubleFS = ybList.doubleFS,
+                                            VIS = ybList.VIS
+                                        });
+                                        error += j.Name + i + "小时数据不存在，已经用" + (i + 3) + "小时数据代替";
+                                    }
+                                    else//如果临近两个时次都不存在，则查找前一个起报时次
+                                    {
+
+                                    }
+                                }
+                                 catch
+                                 {
+                                 }
+                            }
+                        }
+                    }
+                }
+            }
             return list;
         }
 
@@ -494,6 +614,7 @@ namespace sjzd
             public double PRE { get; set; }
             public short SX { get; set; }
             public int VIS { get; set; }
+            public double doubleFS{get;set;}
         }
 
         public class IDName

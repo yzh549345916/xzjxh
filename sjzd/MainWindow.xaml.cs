@@ -204,8 +204,9 @@ namespace sjzd
 
         private void ZZFBD_Click(object sender, RoutedEventArgs e)
         {
+            string error="";
             环保局预报 hb = new 环保局预报();
-            hb.CLSJ(8);
+            hb.CLSJ(8,ref error);
             ZDSZCL zdszcl = new ZDSZCL();
             zdszcl.ZDYBBWtoSZ(DateTime.Now.ToString("yyyyMMdd"));
 
