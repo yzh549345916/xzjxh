@@ -1,0 +1,9 @@
+sql管理员=Server=172.18.142.157;Database=xzjxhyb_DB;user id=sa;password=134679;
+sql旗县=Server=172.18.142.157;Database=xzjxhyb_DB;user id=sa;password=134679;
+实况入库小时=7
+实况入库分钟=0
+实况时次=20
+旗县预报入库小时=17
+旗县预报入库分钟=0
+订正市局指导实况时次=15
+订正市局指导实况时次是指订正市局指导预报时用的实况的时次，应该早于每天发报的时间

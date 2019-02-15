@@ -1,0 +1,1 @@
+发报软件路径=D:\CITYFORECAST\MakeForeCast(2.0).exe
