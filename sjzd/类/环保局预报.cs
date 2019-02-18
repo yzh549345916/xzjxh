@@ -8,106 +8,150 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Aspose.Words;
+using Aspose.Words.Drawing;
+using Aspose.Words.Drawing.Charts;
 
 namespace sjzd
 {
     internal class 环保局预报
     {
         //输入数组每行内容为：旗县名称+区站号+未来三天分别的天气、风向风速、最低气温、最高气温，因此列数为2+4*3。方法将数组中的指定要素保存至发布单
-        public void DCWord(short sc)
+        public void DCWord(DateTime date, short sc)
         {
+            List<IDName> iDNames = new List<IDName>();
+            string con = "";
+            string strID = "";
+            try
+            {
+                XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
+                 con = util.Read("OtherConfig", "xzjxhDB");
+                
+
+                using (SqlConnection mycon = new SqlConnection(con))
+                {
+                    mycon.Open(); //打开
+                    string sql = "select * from 社区精细化预报站点 where Station_levl='71'";
+                    SqlCommand sqlman = new SqlCommand(sql, mycon);
+                    SqlDataReader sqlreader = sqlman.ExecuteReader();
+                    while (sqlreader.Read())
+                    {
+                        try
+                        {
+                            string idLS = sqlreader.GetString(sqlreader.GetOrdinal("GJStatioID"));
+                            if (!strID.Contains(idLS))
+                            {
+                                strID += '\'' + idLS + '\'' + ',';
+                            }
+
+                            iDNames.Add(new IDName
+                            {
+                                ID = sqlreader.GetString(sqlreader.GetOrdinal("StatioID")),
+                                Name = sqlreader.GetString(sqlreader.GetOrdinal("Name")),
+                                GJID = sqlreader.GetString(sqlreader.GetOrdinal("GJStatioID"))
+                            });
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+                if (strID.Length > 2)
+                {
+                    strID = strID.Substring(0, strID.Length - 1);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+
             string error="";
-            List<YBList> dataList = CLSJ(sc,ref error);
+            List<YBList> dataList = CLSJ(date,sc,strID,iDNames, ref error);
+            
             if (dataList.Count > 0)
             {
+                if (error.Trim().Length > 0)
+                {
+                    MessageBoxResult dr = MessageBox.Show(error + "\r\n是否继续生成产品", "警告", MessageBoxButton.YesNo);
+                    if (dr == MessageBoxResult.No)
+                    {
+                        return;
+                    }
+                }
                 string configpathPath = Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
                 try
                 {
-                    string SJMBPath = Environment.CurrentDirectory + @"\模版\社区街道精细化预报模板.docx";
+                    string SJMBPath = Environment.CurrentDirectory + @"\模版\空气质量精细化气象指导预报模板.docx";
                     string SJsaPath = "";
                     using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
                     {
                         string line = "";
                         while ((line = sr.ReadLine()) != null)
                         {
-                            if (line.Split('=')[0] == "社区街道精细化预报发布路径")
+                            if (line.Split('=')[0] == "空气质量精细化气象指导预报发布路径")
                             {
                                 SJsaPath = line.Split('=')[1];
                             }
                         }
                     }
 
-                    SJsaPath += DateTime.Now.ToString("yyyy") + "\\" + DateTime.Now.ToString("MM") + "月\\";
+                    SJsaPath += date.ToString("yyyy") + "\\" + date.ToString("MM") + "月\\";
                     if (!File.Exists(SJsaPath))
                     {
                         Directory.CreateDirectory(SJsaPath);
                     }
 
-                    SJsaPath += DateTime.Now.ToString("yyyy年MM月dd日") + "社区街道精细化预报.docx";
+                    SJsaPath += date.ToString("yyyy年MM月dd日") +sc.ToString().PadLeft(2,'0')+ "时空气质量精细化气象指导预报.docx";
                     Document doc = new Document(SJMBPath);
                     DocumentBuilder builder = new DocumentBuilder(doc);
                     builder.CellFormat.Borders.LineStyle = LineStyle.Single;
                     builder.CellFormat.Borders.Color = Color.Black;
-                    builder.MoveToBookmark("标题日期");
+                    builder.MoveToBookmark("预报日期");
                     builder.Font.Size = 14;
                     builder.Font.Name = "宋体";
-                    builder.Write(DateTime.Now.ToString("yyyy年MM月dd日"));
-
-                    for (int i = 0; i < 7; i++)
+                    builder.Write(date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2,'0')+"时");
+                    builder.MoveToBookmark("预报0");
+                    Shape shape = builder.InsertChart(ChartType.Line, 700, 300);
+                    Chart chart = shape.Chart;
+                    chart.Series.Clear();
+                    //chart.AxisX.TickLabelSpacing = 1;//坐标间隔
+                    chart.AxisX.Crosses = AxisCrosses.Minimum  ;
+                    chart.Title.Text = "气温";
+                    for (int i=0;i< iDNames.Count;i++)
                     {
-                        try
+                       
+                        
+                        
+                        string[] timsSZ = new string[24];
+                        double[] temSZ = new double[24];
+                        List<YBList> lists1 = dataList.FindAll(y => y.ID == iDNames[i].ID).OrderBy(y => y.SX).ToList();
+                        DateTime dt1 = Convert.ToDateTime(date.ToString("yyyy-MM-dd"));
+                        dt1 = dt1.AddHours(sc);
+                        foreach (YBList yBList in lists1)
                         {
-                            string bq = "预报" + i * 3;
-                            builder.MoveToBookmark(bq);
-                            builder.InsertCell();
-                            builder.Font.Name = "宋体";
-                            builder.Font.Size = 11;
-                            builder.Write("名称");
-                            builder.InsertCell();
-                            builder.Write("定时气温");
-                            builder.InsertCell();
-                            builder.Write("风向");
-                            builder.InsertCell();
-                            builder.Write("风速");
-                            builder.InsertCell();
-                            builder.Write("相对湿度");
-                            builder.InsertCell();
-                            builder.Write("降水量");
-                            builder.EndRow();
-                            List<YBList> listLS = dataList.FindAll(y => y.SX == 3 * i);
-                            for (int j = 0; j < listLS.Count; j++)
-                            {
-                                builder.InsertCell();
-                                builder.Font.Name = "宋体";
-                                builder.Font.Size = 11;
-                                builder.Write(listLS[j].Name);
-                                builder.InsertCell();
-                                builder.Font.Name = "宋体";
-                                builder.Font.Size = 11;
-                                builder.Write(listLS[j].TEM.ToString());
-                                builder.InsertCell();
-                                builder.Font.Name = "宋体";
-                                builder.Font.Size = 11;
-                                builder.Write(listLS[j].FX);
-                                builder.InsertCell();
-                                builder.Font.Name = "宋体";
-                                builder.Font.Size = 11;
-                                builder.Write(listLS[j].FS);
-                                builder.InsertCell();
-                                builder.Font.Name = "宋体";
-                                builder.Font.Size = 11;
-                                builder.Write(listLS[j].ERH.ToString());
-                                builder.InsertCell();
-                                builder.Font.Name = "宋体";
-                                builder.Font.Size = 11;
-                                builder.Write(listLS[j].PRE.ToString());
-                                builder.EndRow();
-                            }
 
-                            builder.EndTable();
+                            timsSZ[(yBList.SX / 3) - 1] = dt1.AddHours(yBList.SX).ToString("dd日HH时");
+                            temSZ[(yBList.SX / 3) - 1] = yBList.TEM;
                         }
-                        catch (Exception exx)
+                        ChartSeries series0 = chart.Series.Add(iDNames[i].Name, timsSZ, temSZ);
+                        series0.Smooth = true;
+                        if(i==0)
                         {
+                            for(int j=0;j<24;j++)
+                            {
+                                if(j==0)
+                                {
+                                    ChartDataLabel chartDataLabel0 = series0.DataLabels.Add(j);
+                                    chartDataLabel0.ShowValue = true;
+                                    chartDataLabel0.NumberFormat.FormatCode = "\"$\"#,##0.00";
+                                }
+                                else
+                                {
+                                    ChartDataLabel chartDataLabel0 = series0.DataLabels.Add(j);
+                                    chartDataLabel0.ShowValue = false;
+                                }
+                            }
                         }
                     }
 
@@ -136,7 +180,10 @@ namespace sjzd
                 MessageBox.Show("国家级智能网格数据获取失败，无法制作产品");
             }
         }
-
+        public void insertChart(DocumentBuilder builder,string title, string seriesName,string[] categories,double[] date)
+        {
+           
+        }
         public string GetFXFS(double v, double u)
         {
             string fxfs = "";
@@ -348,55 +395,22 @@ namespace sjzd
             return fs;
         }
 
-        public List<YBList> CLSJ(short sc,ref string error)
+        public List<YBList> CLSJ(DateTime date, short sc,string strID, List<IDName> iDNames,ref string error)
         {
             List<YBList> list = new List<YBList>();
-             List<IDName> iDNames = new List<IDName>();
+            
             try
             {
                 XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
                 string con = util.Read("OtherConfig", "xzjxhDB");
-                string strID = "";
-               
-                using (SqlConnection mycon = new SqlConnection(con))
-                {
-                    mycon.Open(); //打开
-                    string sql = "select * from 社区精细化预报站点 where Station_levl='71'";
-                    SqlCommand sqlman = new SqlCommand(sql, mycon);
-                    SqlDataReader sqlreader = sqlman.ExecuteReader();
-                    while (sqlreader.Read())
-                    {
-                        try
-                        {
-                            string idLS = sqlreader.GetString(sqlreader.GetOrdinal("GJStatioID"));
-                            if (!strID.Contains(idLS))
-                            {
-                                strID += '\'' + idLS + '\'' + ',';
-                            }
 
-                            iDNames.Add(new IDName
-                            {
-                                ID = sqlreader.GetString(sqlreader.GetOrdinal("StatioID")),
-                                Name = sqlreader.GetString(sqlreader.GetOrdinal("Name")),
-                                GJID = sqlreader.GetString(sqlreader.GetOrdinal("GJStatioID"))
-                            });
-                        }
-                        catch
-                        {
-                        }
-                    }
-                }
-
-                if (strID.Length > 2)
-                {
-                    strID = strID.Substring(0, strID.Length - 1);
-                }
+                
 
                 con = util.Read("OtherConfig", "DB");
                 using (SqlConnection mycon = new SqlConnection(con))
                 {
                     mycon.Open(); //打开
-                    string sql = string.Format("select * from 全国智能网格预报服务产品3h240 where StatioID in ({0}) and sc='{2}'and sx in (3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,60,63,66,69,72) and date='{1}'", strID, DateTime.Now.ToString("yyyy-MM-dd"), sc);
+                    string sql = string.Format("select * from 全国智能网格预报服务产品3h240 where StatioID in ({0}) and sc='{2}'and sx in (3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,60,63,66,69,72) and date='{1}'", strID, date.ToString("yyyy-MM-dd"), sc);
                     SqlCommand sqlman = new SqlCommand(sql, mycon);
                     SqlDataReader sqlreader = sqlman.ExecuteReader();
                     if (sqlreader.HasRows)
@@ -405,7 +419,7 @@ namespace sjzd
                         {
                             try
                             {
-                                double v=Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2),u=Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2);
+                                double v= sqlreader.IsDBNull(sqlreader.GetOrdinal("WIV10")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2),u= sqlreader.IsDBNull(sqlreader.GetOrdinal("WIU10")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2);
                                 string fxfs = GetFXFS(v,u );
                                 
                                 List<IDName> ll = iDNames.FindAll(y => y.GJID == sqlreader.GetString(sqlreader.GetOrdinal("StatioID"))).ToList();
@@ -415,24 +429,24 @@ namespace sjzd
                                     {
                                         Name = ll[j].Name,
                                         ID = ll[j].ID,
-                                        TEM = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
-                                        ERH = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
-                                        PRE = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 2),
+                                        TEM = sqlreader.IsDBNull(sqlreader.GetOrdinal("TEM")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
+                                        ERH = sqlreader.IsDBNull(sqlreader.GetOrdinal("ERH")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
+                                        PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 2),
                                         SX = sqlreader.GetInt16(sqlreader.GetOrdinal("SX")),
                                         FX = fxfs.Split(',')[0],
                                         FS = fxfs.Split(',')[1],
                                         doubleFS=GetFS(v,u),
-                                        VIS = Convert.ToInt32(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("VIS")), 0))
+                                        VIS = sqlreader.IsDBNull(sqlreader.GetOrdinal("VIS")) ? -999999 : Convert.ToInt32(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("VIS")), 0)),
                                     });
                                 }
 
                             }
                             catch (Exception ex1)
                             {
-                                error+=ex1.Message;
+                                error+=ex1.Message+"\r\n";
                                 list.Clear();
                                 sqlreader.Close();
-                                DateTime dt1 = DateTime.Now;
+                                DateTime dt1 = date;
                                 short sc1 = sc;
                                 if (sc == 8)
                                 {
@@ -451,8 +465,8 @@ namespace sjzd
                                     {
                                         try
                                         {
-                                           double v=Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2),u=Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2);
-                                string fxfs = GetFXFS(v,u );
+                                            double v = sqlreader.IsDBNull(sqlreader.GetOrdinal("WIV10")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2), u = sqlreader.IsDBNull(sqlreader.GetOrdinal("WIU10")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2);
+                                            string fxfs = GetFXFS(v, u);
                                             List<IDName> ll = iDNames.FindAll(y => y.GJID == sqlreader.GetString(sqlreader.GetOrdinal("StatioID"))).ToList();
                                             for (int j = 0; j < ll.Count; j++)
                                             {
@@ -460,20 +474,20 @@ namespace sjzd
                                                 {
                                                     Name = ll[j].Name,
                                                     ID = ll[j].ID,
-                                                    TEM = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
-                                                    ERH = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
-                                                    PRE = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 2),
-                                                    SX = Convert.ToInt16(sqlreader.GetInt16(sqlreader.GetOrdinal("SX")) - 12),
+                                                    TEM = sqlreader.IsDBNull(sqlreader.GetOrdinal("TEM")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
+                                                    ERH = sqlreader.IsDBNull(sqlreader.GetOrdinal("ERH")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
+                                                    PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 2),
+                                                    SX = sqlreader.GetInt16(sqlreader.GetOrdinal("SX")-12),
                                                     FX = fxfs.Split(',')[0],
                                                     FS = fxfs.Split(',')[1],
-                                                    doubleFS=GetFS(v,u),
-                                                    VIS = sqlreader.GetInt32(sqlreader.GetOrdinal("VIS"))
+                                                    doubleFS = GetFS(v, u),
+                                                    VIS = sqlreader.IsDBNull(sqlreader.GetOrdinal("VIS")) ? -999999 : Convert.ToInt32(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("VIS")), 0)),
                                                 });
                                             }
                                         }
                                         catch (Exception ex)
                                         {
-                                            error+=ex.Message;
+                                            error+=ex.Message + "\r\n";
                                         }
                                     }
                                 }
@@ -485,7 +499,7 @@ namespace sjzd
                     else
                     {
                         sqlreader.Close();
-                        DateTime dt1 = DateTime.Now;
+                        DateTime dt1 = date;
                         short sc1 = sc;
                         if (sc == 8)
                         {
@@ -504,8 +518,8 @@ namespace sjzd
                             {
                                 try
                                 {
-                                    double v=Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2),u=Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2);
-                                string fxfs = GetFXFS(v,u );
+                                    double v = sqlreader.IsDBNull(sqlreader.GetOrdinal("WIV10")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2), u = sqlreader.IsDBNull(sqlreader.GetOrdinal("WIU10")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2);
+                                    string fxfs = GetFXFS(v, u);
                                     List<IDName> ll = iDNames.FindAll(y => y.GJID == sqlreader.GetString(sqlreader.GetOrdinal("StatioID"))).ToList();
                                     for (int j = 0; j < ll.Count; j++)
                                     {
@@ -513,20 +527,20 @@ namespace sjzd
                                         {
                                             Name = ll[j].Name,
                                             ID = ll[j].ID,
-                                            TEM = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
-                                            ERH = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
-                                            PRE = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 2),
-                                            SX = Convert.ToInt16(sqlreader.GetInt16(sqlreader.GetOrdinal("SX")) - 12),
+                                            TEM = sqlreader.IsDBNull(sqlreader.GetOrdinal("TEM")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
+                                            ERH = sqlreader.IsDBNull(sqlreader.GetOrdinal("ERH")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
+                                            PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 2),
+                                            SX = sqlreader.GetInt16(sqlreader.GetOrdinal("SX") - 12),
                                             FX = fxfs.Split(',')[0],
                                             FS = fxfs.Split(',')[1],
-                                            doubleFS=GetFS(v,u),
-                                            VIS = sqlreader.GetInt32(sqlreader.GetOrdinal("VIS"))
+                                            doubleFS = GetFS(v, u),
+                                            VIS = sqlreader.IsDBNull(sqlreader.GetOrdinal("VIS")) ? -999999 : Convert.ToInt32(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("VIS")), 0)),
                                         });
                                     }
                                 }
                                 catch (Exception ex)
                                 {
-                                    error+=ex.Message;
+                                    error+=ex.Message + "\r\n";
                                 }
                             }
                         }
@@ -567,7 +581,7 @@ namespace sjzd
                                             doubleFS = ybList.doubleFS,
                                             VIS = ybList.VIS
                                         });
-                                        error += j.Name + i + "小时数据不存在，已经用" + (i - 3) + "小时数据代替";
+                                        error += j.Name + i + "小时数据不存在，已经用" + (i - 3) + "小时数据代替" + "\r\n";
                                     }
                                     else if (list.Exists(y => y.ID == j.ID && y.SX == i + 3))//如果后一时次的数据存在，则用后一时次的数据弥补
                                     {
@@ -585,19 +599,72 @@ namespace sjzd
                                             doubleFS = ybList.doubleFS,
                                             VIS = ybList.VIS
                                         });
-                                        error += j.Name + i + "小时数据不存在，已经用" + (i + 3) + "小时数据代替";
+                                        error += j.Name + i + "小时数据不存在，已经用" + (i + 3) + "小时数据代替" + "\r\n";
                                     }
                                     else//如果临近两个时次都不存在，则查找前一个起报时次
                                     {
+                                        try
+                                        {
+                                            XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
+                                            string con = util.Read("OtherConfig", "xzjxhDB");
+                                            using (SqlConnection mycon = new SqlConnection(con))
+                                            {
+                                                mycon.Open(); //打开
+                                                DateTime dt1 = date;
+                                                short sc1 = sc;
+                                                if (sc == 8)
+                                                {
+                                                    sc1 = 20;
+                                                    dt1 = dt1.AddDays(-1);
+                                                }
+                                                else
+                                                    sc1 = 8;
 
+                                                string sql = string.Format("select * from 全国智能网格预报服务产品3h240 where StatioID = ({0}) and sc='{1}' and sx ='{2}'", j.ID, sc1, i + 12);
+                                                SqlCommand sqlman = new SqlCommand(sql, mycon);
+                                                SqlDataReader sqlreader = sqlman.ExecuteReader();
+                                                while (sqlreader.Read())
+                                                {
+                                                    try
+                                                    {
+                                                        double v = sqlreader.IsDBNull(sqlreader.GetOrdinal("WIV10")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2), u = sqlreader.IsDBNull(sqlreader.GetOrdinal("WIU10")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2);
+                                                        string fxfs = GetFXFS(v, u);
+                                                        list.Add(new YBList
+                                                        {
+                                                            Name = j.Name,
+                                                            ID = j.ID,
+                                                            TEM = sqlreader.IsDBNull(sqlreader.GetOrdinal("TEM")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
+                                                            ERH = sqlreader.IsDBNull(sqlreader.GetOrdinal("ERH")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
+                                                            PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 2),
+                                                            SX = i,
+                                                            FX = fxfs.Split(',')[0],
+                                                            FS = fxfs.Split(',')[1],
+                                                            doubleFS = GetFS(v, u),
+                                                            VIS = sqlreader.IsDBNull(sqlreader.GetOrdinal("VIS")) ? -999999 : Convert.ToInt32(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("VIS")), 0)),
+                                                        });
+                                                        error += j.Name + i + "小时数据不存在，已经用" + sc1+ "时的数据代替" + "\r\n";
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        error += ex.Message+"\r\n";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        catch(Exception ex)
+                                        {
+                                            error += ex.Message + "\r\n";
+                                        }
                                     }
                                 }
-                                 catch
+                                 catch(Exception ex)
                                  {
+                                    error += ex.Message + "\r\n";
                                  }
                             }
                         }
                     }
+                    list = list.OrderBy(y => y.ID).ThenBy(y => y.SX).ToList();
                 }
             }
             return list;

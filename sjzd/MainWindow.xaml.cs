@@ -206,9 +206,9 @@ namespace sjzd
         {
             string error="";
             环保局预报 hb = new 环保局预报();
-            hb.CLSJ(8,ref error);
-            ZDSZCL zdszcl = new ZDSZCL();
-            zdszcl.ZDYBBWtoSZ(DateTime.Now.ToString("yyyyMMdd"));
+            hb.DCWord( DateTime.Now,8);
+            //ZDSZCL zdszcl = new ZDSZCL();
+           // zdszcl.ZDYBBWtoSZ(DateTime.Now.ToString("yyyyMMdd"));
 
         }
 
