@@ -204,11 +204,11 @@ namespace sjzd
 
         private void ZZFBD_Click(object sender, RoutedEventArgs e)
         {
-            string error="";
-            环保局预报 hb = new 环保局预报();
-            hb.DCWord( DateTime.Now,8);
-            //ZDSZCL zdszcl = new ZDSZCL();
-           // zdszcl.ZDYBBWtoSZ(DateTime.Now.ToString("yyyyMMdd"));
+            //string error="";
+           // 环保局预报 hb = new 环保局预报();
+           // hb.DCWord( DateTime.Now.AddDays(-2),20);
+            ZDSZCL zdszcl = new ZDSZCL();
+            zdszcl.ZDYBBWtoSZ(DateTime.Now.ToString("yyyyMMdd"));
 
         }
 

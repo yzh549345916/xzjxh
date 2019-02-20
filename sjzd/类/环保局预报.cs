@@ -103,28 +103,74 @@ namespace sjzd
                     }
 
                     SJsaPath += date.ToString("yyyy年MM月dd日") +sc.ToString().PadLeft(2,'0')+ "时空气质量精细化气象指导预报.docx";
-                    Document doc = new Document(SJMBPath);
+                    Document doc = new Document();//SJMBPath
+
                     DocumentBuilder builder = new DocumentBuilder(doc);
+                    //builder.InsertBreak(BreakType.SectionBreakNewPage);
+                    builder.PageSetup.Orientation= Orientation.Landscape;//更改纸张方向
+                    builder.Font.Size = 30;
+                    builder.Font.Bold = true;
+                    builder.Font.Name = "微软雅黑";
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                    builder.Write("呼和浩特市空气质量精细化\r\n气象指导预报");
                     builder.CellFormat.Borders.LineStyle = LineStyle.Single;
                     builder.CellFormat.Borders.Color = Color.Black;
-                    builder.MoveToBookmark("预报日期");
+                   
+                    //builder.MoveToBookmark("预报日期");
                     builder.Font.Size = 14;
                     builder.Font.Name = "宋体";
+                    builder.Font.Bold = false;
+                    builder.Write("\r\n呼和浩特市气象台                                        ");
                     builder.Write(date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2,'0')+"时");
-                    builder.MoveToBookmark("预报0");
-                    Shape shape = builder.InsertChart(ChartType.Line, 700, 300);
+                    builder.InsertParagraph();
+                    //builder.InsertParagraph();
+                    //builder.MoveToBookmark("预报0");
+                    Shape lineShape = new Shape(doc, ShapeType.Line);
+                    lineShape.Width = 620;
+                    Stroke stroke = lineShape.Stroke;
+                    stroke.On = true;
+                    stroke.Weight = 5.5;
+                    stroke.Color = Color.Red;
+                    stroke.LineStyle = ShapeLineStyle.ThinThick;
+                    builder.InsertNode(lineShape);
+                    builder.InsertParagraph();
+                    Shape shape = builder.InsertChart(ChartType.Line, 600, 320);
+                    builder.InsertParagraph();
+                    Shape shapeVis= builder.InsertChart(ChartType.Line, 600, 420);
+                    builder.InsertParagraph();
+                    Shape shapeErh = builder.InsertChart(ChartType.Line, 600, 420);
+                    builder.InsertParagraph();
+                    Shape shapePre= builder.InsertChart(ChartType.Line, 600, 420);
+                    builder.InsertParagraph();
+                    Shape shapeFS = builder.InsertChart(ChartType.Line, 600, 420);
                     Chart chart = shape.Chart;
+                    Chart chartVis = shapeVis.Chart;
+                    Chart chartErh = shapeErh.Chart;
+                    Chart chartPre = shapePre.Chart;
+                    Chart chartFS = shapeFS.Chart;
                     chart.Series.Clear();
+                    chartVis.Series.Clear();
+                    chartErh.Series.Clear();
+                    chartPre.Series.Clear();
+                    chartFS.Series.Clear();
                     //chart.AxisX.TickLabelSpacing = 1;//坐标间隔
-                    chart.AxisX.Crosses = AxisCrosses.Minimum  ;
-                    chart.Title.Text = "气温";
+                    chart.AxisX.Crosses = AxisCrosses.Minimum; 
+                    chartVis.AxisX.Crosses = AxisCrosses.Minimum;
+                    chart.Title.Text = date.ToString("yyyy年MM月dd日")+ sc.ToString().PadLeft(2, '0') + "时气温变化情况";
+                    chartVis.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时能见度变化情况";
+                    chartErh.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时相对湿度变化情况";
+                    chartPre.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时降水量变化情况";
+                    chartFS.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时风速变化情况";
+                    int visMin = 999999;//保存最小能见度，确定坐标轴
                     for (int i=0;i< iDNames.Count;i++)
                     {
-                       
-                        
-                        
+
                         string[] timsSZ = new string[24];
                         double[] temSZ = new double[24];
+                        double[] visSZ= new double[24];
+                        double[] erhSZ = new double[24];
+                        double[] preSZ = new double[24];
+                        double[] fsSZ = new double[24];
                         List<YBList> lists1 = dataList.FindAll(y => y.ID == iDNames[i].ID).OrderBy(y => y.SX).ToList();
                         DateTime dt1 = Convert.ToDateTime(date.ToString("yyyy-MM-dd"));
                         dt1 = dt1.AddHours(sc);
@@ -133,29 +179,55 @@ namespace sjzd
 
                             timsSZ[(yBList.SX / 3) - 1] = dt1.AddHours(yBList.SX).ToString("dd日HH时");
                             temSZ[(yBList.SX / 3) - 1] = yBList.TEM;
+                            visSZ[(yBList.SX / 3) - 1] = yBList.VIS;
+                            erhSZ[(yBList.SX / 3) - 1] = yBList.ERH;
+                            preSZ[(yBList.SX / 3) - 1] = yBList.PRE;
+                            fsSZ[(yBList.SX / 3) - 1] = yBList.doubleFS;
+                            if (visMin > yBList.VIS)
+                                visMin = yBList.VIS;
                         }
+                        
                         ChartSeries series0 = chart.Series.Add(iDNames[i].Name, timsSZ, temSZ);
+                        ChartSeries series1 = chartVis.Series.Add(iDNames[i].Name, timsSZ, visSZ);
+                        ChartSeries series2 = chartErh.Series.Add(iDNames[i].Name, timsSZ, erhSZ);
+                        ChartSeries series3 = chartPre.Series.Add(iDNames[i].Name, timsSZ, preSZ);
+                        ChartSeries series4 = chartFS.Series.Add(iDNames[i].Name, timsSZ, fsSZ);
                         series0.Smooth = true;
-                        if(i==0)
+                        series1.Smooth = true;
+                        series2.Smooth = true;
+                        series3.Smooth = true;
+                        series4.Smooth = true;
+                        if (i==0)
                         {
-                            for(int j=0;j<24;j++)
+                           // series0.Marker.Symbol = MarkerSymbol.Dash;
+                            //series0.Marker.Size = 50;
+                            for (int j=0;j<24;j++)
                             {
-                                if(j==0)
+                                ChartDataLabel label= series0.DataLabels.Add(j);
+                                label.ShowValue = true;
+                                label.NumberFormat.FormatCode = "#,##0.0\"℃\"";
+                                ChartDataLabel labe2 = series1.DataLabels.Add(j);
+                                labe2.ShowValue = true;
+                                labe2.NumberFormat.FormatCode = "#,##0";
+                                ChartDataLabel labe3 = series2.DataLabels.Add(j);
+                                labe3.ShowValue = true;
+                                labe3.NumberFormat.FormatCode = "#,##0.0\"%\"";
+                                if(preSZ[j]>0.04)
                                 {
-                                    ChartDataLabel chartDataLabel0 = series0.DataLabels.Add(j);
-                                    chartDataLabel0.ShowValue = true;
-                                    chartDataLabel0.NumberFormat.FormatCode = "\"$\"#,##0.00";
+                                    ChartDataLabel labe4 = series3.DataLabels.Add(j);
+                                    labe4.ShowValue = true;
+                                    labe4.NumberFormat.FormatCode = "#,##0.0\"mm\"";
                                 }
-                                else
-                                {
-                                    ChartDataLabel chartDataLabel0 = series0.DataLabels.Add(j);
-                                    chartDataLabel0.ShowValue = false;
-                                }
+                                ChartDataLabel labe5 = series4.DataLabels.Add(j);
+                                labe5.ShowValue = true;
+                                labe5.NumberFormat.FormatCode = "#,##0.0\"m/s\"";
                             }
                         }
+                        
                     }
-
-
+                    //更改坐标轴
+                   
+                    chartVis.AxisY.Scaling.Minimum = new AxisBound(Convert.ToDouble(Math.Floor(Convert.ToDecimal(visMin / 1000)) * 1000));
                     doc.Save(SJsaPath);
                     MessageBoxResult dr = MessageBox.Show("产品制作完成,保存路径为：\r\n" + SJsaPath + "\n是否打开？", "提示", MessageBoxButton.YesNo);
                     if (dr == MessageBoxResult.Yes)
@@ -431,7 +503,7 @@ namespace sjzd
                                         ID = ll[j].ID,
                                         TEM = sqlreader.IsDBNull(sqlreader.GetOrdinal("TEM")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
                                         ERH = sqlreader.IsDBNull(sqlreader.GetOrdinal("ERH")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
-                                        PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 2),
+                                        PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 1),
                                         SX = sqlreader.GetInt16(sqlreader.GetOrdinal("SX")),
                                         FX = fxfs.Split(',')[0],
                                         FS = fxfs.Split(',')[1],
@@ -476,7 +548,7 @@ namespace sjzd
                                                     ID = ll[j].ID,
                                                     TEM = sqlreader.IsDBNull(sqlreader.GetOrdinal("TEM")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
                                                     ERH = sqlreader.IsDBNull(sqlreader.GetOrdinal("ERH")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
-                                                    PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 2),
+                                                    PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 1),
                                                     SX = sqlreader.GetInt16(sqlreader.GetOrdinal("SX")-12),
                                                     FX = fxfs.Split(',')[0],
                                                     FS = fxfs.Split(',')[1],
@@ -529,7 +601,7 @@ namespace sjzd
                                             ID = ll[j].ID,
                                             TEM = sqlreader.IsDBNull(sqlreader.GetOrdinal("TEM")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
                                             ERH = sqlreader.IsDBNull(sqlreader.GetOrdinal("ERH")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
-                                            PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 2),
+                                            PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 1),
                                             SX = sqlreader.GetInt16(sqlreader.GetOrdinal("SX") - 12),
                                             FX = fxfs.Split(',')[0],
                                             FS = fxfs.Split(',')[1],

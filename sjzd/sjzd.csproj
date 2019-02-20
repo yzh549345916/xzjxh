@@ -69,7 +69,7 @@
     </Reference>
     <Reference Include="Aspose.Words, Version=18.11.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\demo\Aspose.Words.dll</HintPath>
+      <HintPath>bin\x86\Debug\Aspose.Words.dll</HintPath>
     </Reference>
     <Reference Include="Ice">
       <HintPath>bin\x86\Debug\Ice.dll</HintPath>
@@ -98,9 +98,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="中期逐日.cs" />
     <Compile Include="类\短时预报.cs" />
     <Compile Include="类\报文读取.cs" />
@@ -208,10 +205,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Style\win7Button.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Window1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

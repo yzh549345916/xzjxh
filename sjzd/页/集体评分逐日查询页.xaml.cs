@@ -130,16 +130,18 @@ namespace sjzd
                             {
                                 for(int j=0;j<3;j++)
                                 {
-                                    if(SJzqlFloat[2 + j * 3] == 100)
-                                    {
-                                        QYJQ[j] = zqlFloat[2 + j * 3] - SJzqlFloat[2 + j * 3];
-                                        QYJQ[j] = (float)Math.Round(QYJQ[j] , 2);
-                                    }
-                                    else
-                                    {
-                                        QYJQ[j] = (zqlFloat[2 + j * 3] - SJzqlFloat[2 + j * 3]) / (100 - SJzqlFloat[2 + j * 3]);
-                                        QYJQ[j]= (float)Math.Round(QYJQ[j] * 100, 2);
-                                    }
+                                    //if(SJzqlFloat[2 + j * 3] == 100)
+                                    //{
+                                    //    QYJQ[j] = zqlFloat[2 + j * 3] - SJzqlFloat[2 + j * 3];
+                                    //    QYJQ[j] = (float)Math.Round(QYJQ[j] , 2);
+                                    //}
+                                    //else
+                                    //{
+                                    //    QYJQ[j] = (zqlFloat[2 + j * 3] - SJzqlFloat[2 + j * 3]) / (100 - SJzqlFloat[2 + j * 3]);
+                                    //    QYJQ[j]= (float)Math.Round(QYJQ[j] * 100, 2);
+                                    //}
+                                    QYJQ[j] = zqlFloat[2 + j * 3] - SJzqlFloat[2 + j * 3];
+                                    QYJQ[j] = (float)Math.Round(QYJQ[j], 2);
                                 }
                             }
                             catch (Exception ex)
