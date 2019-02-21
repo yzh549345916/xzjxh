@@ -47,12 +47,12 @@ namespace sjzd
                     if (sc == 8)
                     {
                         SJMBPath = Environment.CurrentDirectory + @"\模版\短期预报模板08.doc";
-                        SJsaPath +=  DateTime.Now.ToString("yyyyMMdd") + "10测试.doc";
+                        SJsaPath +=  DateTime.Now.ToString("yyyyMMdd") + "10.doc";
                     }
                     else
                     {
                         SJMBPath = Environment.CurrentDirectory + @"\模版\短期预报模板20.doc";
-                        SJsaPath +=  DateTime.Now.ToString("yyyyMMdd") + "17测试.doc";
+                        SJsaPath +=  DateTime.Now.ToString("yyyyMMdd") + "17.doc";
                     }
 
                     Document doc = new Document(SJMBPath);

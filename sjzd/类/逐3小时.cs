@@ -62,7 +62,7 @@ namespace sjzd
                     DocumentBuilder builder = new DocumentBuilder(doc);
                     builder.CellFormat.Borders.LineStyle = LineStyle.Single;
                     builder.CellFormat.Borders.Color = Color.Black;
-                    builder.CellFormat.FitText = true;
+                    builder.CellFormat.FitText = false;
                     builder.MoveToBookmark("标题日期");
                     builder.Font.Size = 14;
                     builder.Font.Name = "宋体";
@@ -72,25 +72,28 @@ namespace sjzd
                     builder.MoveToBookmark("签发");
                     builder.Write(qfName);
                     builder.MoveToBookmark("table"); //开始添加值
-                    Aspose.Words.Tables.Table table = builder.StartTable();
+                    Table table = builder.StartTable();
+                    
                     builder.RowFormat.HeadingFormat = true;
                     builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
                     builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;//垂直居中对齐
                     for (Int16 i = 81; i <= 85; i++)
                     {
                         builder.InsertCell();// 添加一个单元格
-                      
+                        if(i==81)
+                            table.PreferredWidth = PreferredWidth.FromPercent(101.25);
                         builder.Font.Color = System.Drawing.Color.Red;
                         builder.Font.Size = 14;
                         builder.CellFormat.Orientation = TextOrientation.Horizontal;
                         builder.CellFormat.Width = 30;
                         builder.CellFormat.WrapText = true;
                       
-                        builder.CellFormat.VerticalMerge = Aspose.Words.Tables.CellMerge.First;
+                        builder.CellFormat.VerticalMerge =CellMerge.First;
                         
                         switch (i)
                         {
                             case 81:
+                                
                                 builder.Write("呼和浩特市四区");
                                 break;
                             case 82:
