@@ -217,6 +217,9 @@ namespace sjzd
                 case 7:
                     fxfs = "西北风";
                     break;
+                case 999017:
+                    fxfs = "静风";
+                    break;
                 default:
                     fxfs = "北风";
                     break;
