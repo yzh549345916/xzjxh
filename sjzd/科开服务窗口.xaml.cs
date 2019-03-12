@@ -140,8 +140,17 @@ namespace sjzd
 
         private void ExcelBtu_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\科开设置.xml");
+                util.Write(StationID.Trim(), "StationConfig");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             科开服务 kk = new 科开服务();
-            kk.DCExcel(8,DateTime.Now,"53463");
+            kk.DCZXWord(Convert.ToInt16(SCCom.Text), Convert.ToDateTime(sDate.SelectedDate), StationID, Convert.ToInt16(DayCom.Text));
         }
     }
     }

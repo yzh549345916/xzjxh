@@ -1,5 +1,7 @@
 ﻿using Aspose.Cells;
 using Aspose.Words;
+using Aspose.Words.Drawing;
+using Aspose.Words.Drawing.Charts;
 using Aspose.Words.Tables;
 using System;
 using System.Collections.Generic;
@@ -26,7 +28,6 @@ namespace sjzd
             {
                 try
                 {
-                    string SJMBPath = "";
 
                     string SJsaPath = System.Environment.CurrentDirectory + @"\科开服务\";
                     SJsaPath += dt.ToString("yyyy") + "\\" + dt.ToString("yyyy-MM") + "\\";
@@ -34,35 +35,39 @@ namespace sjzd
                     {
                         Directory.CreateDirectory(SJsaPath);
                     }
-                    SJMBPath = Environment.CurrentDirectory + @"\模版\科开服务模板.doc";
-                    SJsaPath += dt.ToString("yyyy年MM月dd日") +Days+ "天服务预报.doc";
-
-                    Document doc = new Document(SJMBPath);
+                    SJsaPath += dt.ToString("yyyy年MM月dd日") +Days+ "天服务预报.docx";
+                    Document doc = new Document();
                     DocumentBuilder builder = new DocumentBuilder(doc);
+                    builder.Font.Size = 30;
+                    builder.Font.Bold = true;
+                    builder.Font.Name = "微软雅黑";
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                    builder.Write("呼和浩特市灾害防御中心\r\n气象服务预报");
                     builder.CellFormat.Borders.LineStyle = LineStyle.Single;
                     builder.CellFormat.Borders.Color = Color.Black;
-                    builder.MoveToBookmark("标题日期");
+
+                    //builder.MoveToBookmark("预报日期");
                     builder.Font.Size = 14;
                     builder.Font.Name = "宋体";
-                    builder.Write(dt.ToString("yyyy年MM月dd日"));
-                    builder.Font.Size = 12;
-                    builder.Font.Name = "宋体";
-                    builder.MoveToBookmark("天气"); //开始添加值
-
-                    //foreach (string sls in ybData.Split('\n'))
-                    //{
-                    //    string[] szls = sls.Split(',');
-                    //    if (szls[0].Trim() == "53463")
-                    //    {
-
-
-                    //        break;
-
-                    //    }
-                    //}
-                    builder.Font.Name = "宋体";
                     builder.Font.Bold = false;
-                    
+                    builder.Write("\r\n呼和浩特市灾害防御中心        ");
+                    builder.Write(dt.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时");
+                    builder.InsertParagraph();
+                    //builder.InsertParagraph();
+                    //builder.MoveToBookmark("预报0");
+                    Shape lineShape = new Shape(doc, ShapeType.Line);
+                    lineShape.Width = 420;
+                    Stroke stroke = lineShape.Stroke;
+                    stroke.On = true;
+                    stroke.Weight = 5.5;
+                    stroke.Color = Color.Red;
+                    stroke.LineStyle = ShapeLineStyle.ThinThick;
+                    builder.InsertNode(lineShape);
+                    builder.InsertParagraph();
+                    builder.CellFormat.Borders.LineStyle = LineStyle.Single; 
+                    builder.CellFormat.Borders.Color = Color.Black;
+                    builder.Font.Name = "宋体";
+                    builder.Font.Bold = false;          
                     for (Int16 j = 0; j < Days; j++)
                     {
     
@@ -76,28 +81,169 @@ namespace sjzd
 
                             builder.RowFormat.HeadingFormat = true;
                             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-                            builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;//垂直居中对齐                 
+                            builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;//垂直居中对齐 
                             builder.Font.Bold = false;
                             foreach (YBList yBList in yBLists)
                             {
 
                                 builder.InsertCell();
-                                builder.CellFormat.Width = 10;
+                                builder.CellFormat.Width = 15;
                                 builder.Write(yBList.Name);
-
                                 builder.InsertCell();
                                 builder.CellFormat.Width = 15;
                                 builder.Write(yBList.TQ);
                                 builder.InsertCell();
-                                builder.CellFormat.Width = 20;
+                                builder.CellFormat.Width = 15;
                                 builder.Write(yBList.FXFS);
                                 builder.InsertCell();
-                                builder.CellFormat.Width = 20;
+                                builder.CellFormat.Width = 10;
                                 builder.Write(yBList.TEM);
                                 builder.EndRow();
                             }
                             builder.EndTable();
                         }
+                    }
+
+
+
+
+
+
+                    doc.Save(SJsaPath);
+                    MessageBoxResult dr = MessageBox.Show("产品制作完成,保存路径为：\r\n" + SJsaPath + "\n是否打开？", "提示", MessageBoxButton.YesNo);
+                    if (dr == MessageBoxResult.Yes)
+                    {
+                        try
+                        {
+                            System.Diagnostics.Process.Start(SJsaPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+
+
+                }
+
+                catch (Exception ex)
+                {
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("城镇预报数据获取失败，无法制作产品");
+            }
+
+
+        }
+
+        public void DCZXWord(Int16 sc, DateTime dt, string StationID, Int16 Days)
+        {
+            报文读取 bw2 = new 报文读取();
+            string strDate = dt.ToString("yyyyMMdd");
+            string ybData = bw2.Sjyb(strDate, sc.ToString().PadLeft(2, '0'));
+            if (ybData.Trim().Length > 0)
+            {
+                try
+                {
+
+                    string SJsaPath = System.Environment.CurrentDirectory + @"\科开服务\";
+                    SJsaPath += dt.ToString("yyyy") + "\\" + dt.ToString("yyyy-MM") + "\\";
+                    if (!File.Exists(SJsaPath))
+                    {
+                        Directory.CreateDirectory(SJsaPath);
+                    }
+                    SJsaPath += dt.ToString("yyyy年MM月dd日") + Days + "天服务预报折线.docx";
+                    Document doc = new Document();
+                    DocumentBuilder builder = new DocumentBuilder(doc);
+                    builder.PageSetup.Orientation = Orientation.Landscape;//更改纸张方向
+                    builder.Font.Size = 20;
+                    builder.Font.Bold = true;
+                    builder.Font.Name = "微软雅黑";
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                    builder.Write("呼和浩特市灾害防御中心\r\n气象服务预报折线");
+                    builder.CellFormat.Borders.LineStyle = LineStyle.Single;
+                    builder.CellFormat.Borders.Color = Color.Black;
+
+                    //builder.MoveToBookmark("预报日期");
+                    builder.Font.Size = 14;
+                    builder.Font.Name = "宋体";
+                    builder.Font.Bold = false;
+                    builder.Write("\r\n呼和浩特市灾害防御中心           ");
+                    builder.Write(dt.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时");
+                    builder.InsertParagraph();
+                    //builder.InsertParagraph();
+                    //builder.MoveToBookmark("预报0");
+                    Shape lineShape = new Shape(doc, ShapeType.Line);
+                    lineShape.Width = 620;
+                    Stroke stroke = lineShape.Stroke;
+                    stroke.On = true;
+                    stroke.Weight = 5.5;
+                    stroke.Color = Color.Red;
+                    stroke.LineStyle = ShapeLineStyle.ThinThick;
+                    builder.InsertNode(lineShape);
+                    builder.InsertParagraph();
+                    List<YBZXList> yBZXLists = new List<YBZXList>();
+                    for (Int16 j = 0; j < Days; j++)
+                    {
+                        List<YBList> yBLists = CLYB(ybData, j, StationID);
+                        yBLists = yBLists.OrderBy(y => y.ID).ToList();
+                        yBZXLists.Add(new YBZXList
+                        {
+                            date=dt.AddDays(j),
+                            yBLists=yBLists,
+                            sc=sc
+                        });
+                    }
+                    Shape shapeAll = builder.InsertChart(ChartType.Line, 600, 320);
+                    Chart chartAll = shapeAll.Chart;
+                    builder.InsertParagraph();
+                    chartAll.Series.Clear();
+                    chartAll.AxisX.TickLabelSpacing = 2;//坐标间隔
+                    chartAll.AxisX.Crosses = AxisCrosses.Minimum;
+                    chartAll.Title.Text =  "气温变化折线";
+                    for (int i=0;i<yBZXLists[0].yBLists.Count;i++)
+                    {
+                        
+                        Shape shape = builder.InsertChart(ChartType.Line, 600, 420);
+                        builder.InsertParagraph();
+                        Chart chart = shape.Chart;
+                        chart.Series.Clear();
+                        chart.AxisX.TickLabelSpacing = 2;//坐标间隔
+                        chart.AxisX.Crosses = AxisCrosses.Minimum;
+                        chart.Title.Text = yBZXLists[0].yBLists[i].Name + "气温变化折线";
+                        string[] timsSZ = new string[Days*2];
+                        double[] temSZ = new double[Days * 2];
+                        for(int j=0;j< yBZXLists.Count;j++)
+                        {
+                            timsSZ[j * 2] = yBZXLists[j].date.ToString("MM月dd日");
+                            timsSZ[j * 2+1] = yBZXLists[j].date.ToString("MM月dd日");
+                            string temStr=yBZXLists[j].yBLists[i].TEM;
+                             temStr=temStr.Replace("℃", "");
+                            temStr = temStr.Replace("～", " ");
+                            temSZ[j * 2] = Convert.ToDouble(temStr.Split()[0]);
+                            temSZ[j * 2+1] = Convert.ToDouble(temStr.Split()[1]);
+                        }
+                        ChartSeries series0 = chart.Series.Add(yBZXLists[0].yBLists[i].Name, timsSZ, temSZ);
+                        ChartSeries series1 = chartAll.Series.Add(yBZXLists[0].yBLists[i].Name, timsSZ, temSZ);
+                        series0.Smooth = true;
+                        series1.Smooth = true;
+                        for (int j=0;j<temSZ.Length;j++)
+                        {
+                            ChartDataLabel label = series0.DataLabels.Add(j);
+                            label.ShowValue = true;
+                            label.NumberFormat.FormatCode = "#,##0\"℃\"";
+                            if (yBZXLists[0].yBLists[i].ID=="53463")
+                            {
+                                ChartDataLabel label2 = series1.DataLabels.Add(j);
+                                label2.ShowValue = true;
+                                label2.NumberFormat.FormatCode = "#,##0\"℃\"";
+                            }
+                           
+                        }
+                       
                     }
 
 
@@ -374,6 +520,13 @@ namespace sjzd
             public string TQ { get; set; }
             public string TEM { get; set; }
             public string FXFS { get; set; }
+        }
+        public class YBZXList
+        {
+            public List<YBList> yBLists { get; set; }
+            public int sc { get; set; }
+            public DateTime date { get; set; }
+
         }
     }
 }
