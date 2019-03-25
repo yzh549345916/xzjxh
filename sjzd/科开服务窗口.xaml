@@ -11,14 +11,14 @@
         <Grid Height="526" Width="795" >
             <Label Content="起报时间" HorizontalAlignment="Left" Margin="155,101,0,0" VerticalAlignment="Top" Width="130" Height="45" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22" RenderTransformOrigin="2.234,1.051"/>
             <Label Content="时次" HorizontalAlignment="Left" Margin="638,101,0,0" VerticalAlignment="Top" Width="130" Height="45" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22" RenderTransformOrigin="0.636,1.19"/>
-            <ComboBox x:Name="DayCom" SelectedIndex="0" HorizontalAlignment="Left" Margin="395,171,0,0" VerticalAlignment="Top" Width="130" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22">
+            <ComboBox x:Name="DayCom" SelectedIndex="4" HorizontalAlignment="Left" Margin="395,171,0,0" VerticalAlignment="Top" Width="130" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22">
                 <ComboBoxItem Content="1" HorizontalAlignment="Center" Margin="0,0,0,0" Width="130" />
                 <ComboBoxItem Content="2" HorizontalAlignment="Center" Margin="0,0,0,0" Width="130" />
                 <ComboBoxItem Content="3" HorizontalAlignment="Center" Margin="0,0,0,0" Width="130" />
                 <ComboBoxItem Content="4" HorizontalAlignment="Center" Margin="0,0,0,0" Width="130" />
                 <ComboBoxItem Content="5" HorizontalAlignment="Center" Margin="0,0,0,0" Width="130" />
             </ComboBox>
-            <ComboBox x:Name="SCCom" SelectedIndex="1" HorizontalAlignment="Left" Margin="638,171,0,0" VerticalAlignment="Top" Width="130" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22">
+            <ComboBox x:Name="SCCom" SelectedIndex="0" HorizontalAlignment="Left" Margin="638,171,0,0" VerticalAlignment="Top" Width="130" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22">
                 <ComboBoxItem Content="08" HorizontalAlignment="Center" Margin="0,0,0,0" Width="130" />
                 <ComboBoxItem Content="20" HorizontalAlignment="Center" Margin="0,0,0,0" Width="130" />
             </ComboBox>
@@ -39,6 +39,11 @@
                     <CheckBox x:Name="S53463" Checked="S53463_Checked" Unchecked="S53463_Unchecked" Content="市区" HorizontalAlignment="Left" Margin="361,321,0,0" VerticalAlignment="Top" Height="19" Width="62" FontSize="14"/>
                 </Grid>
             </Viewbox>
+            <ComboBox x:Name="selectWord" SelectedIndex="1" HorizontalAlignment="Left" Margin="126,403,0,0" VerticalAlignment="Top" Width="159" Height="35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22" RenderTransformOrigin="0.525,0.741">
+                <ComboBoxItem Content="时间拆分" HorizontalAlignment="Center" Margin="0,0,0,0" Width="120" HorizontalContentAlignment="Center" />
+                <ComboBoxItem Content="时间合并" HorizontalAlignment="Center" Margin="0,0,0,0" Width="120" HorizontalContentAlignment="Center"/>
+            </ComboBox>
+            <Label Content="word导出样式" HorizontalAlignment="Left" Margin="135,356,0,0" VerticalAlignment="Top" Width="150" Height="32" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" RenderTransformOrigin="0.636,1.19"/>
 
         </Grid>
     </Viewbox>

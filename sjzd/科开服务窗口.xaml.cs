@@ -81,7 +81,15 @@ namespace sjzd
                 MessageBox.Show(ex.Message);
             }
             科开服务 kk = new 科开服务();
-            kk.DCWord(Convert.ToInt16(SCCom.Text), Convert.ToDateTime(sDate.SelectedDate),StationID, Convert.ToInt16(DayCom.Text));
+            if(selectWord.SelectedIndex==0)
+            {
+                kk.DCWord(Convert.ToInt16(SCCom.Text), Convert.ToDateTime(sDate.SelectedDate), StationID, Convert.ToInt16(DayCom.Text));
+            }
+            else if(selectWord.SelectedIndex==1)
+            {
+                kk.DCWordbyALLDate(Convert.ToInt16(SCCom.Text), Convert.ToDateTime(sDate.SelectedDate), StationID, Convert.ToInt16(DayCom.Text));
+            }
+            
         }
 
         private void Z308Btu_Copy_Click(object sender, RoutedEventArgs e)
