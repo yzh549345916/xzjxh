@@ -101,6 +101,7 @@
     <Compile Include="中期逐日.cs" />
     <Compile Include="类\短时预报.cs" />
     <Compile Include="类\报文读取.cs" />
+    <Compile Include="类\生态与农业气象信息.cs" />
     <Compile Include="类\科开服务.cs" />
     <Compile Include="类\短期预报.cs" />
     <Compile Include="类\社区精细化.cs" />

@@ -157,5 +157,12 @@ namespace sjzd
             科开服务窗口 ZQ = new 科开服务窗口();
             ZQ.Show();
         }
+
+        private void STBtu_Click(object sender, RoutedEventArgs e)
+        {
+            生态与农业气象信息 st = new 生态与农业气象信息();
+            st.DCWord(5, 12005, 2019, 4, 1, "胡志超");
+            //st.DCWord(5,12005, 2019, 4, 2, "胡志超");
+        }
     }
 }
