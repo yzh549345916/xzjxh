@@ -64,8 +64,9 @@
     <ApplicationIcon>哆啦A梦.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.Cells">
-      <HintPath>..\..\Aspose.Cells.dll</HintPath>
+    <Reference Include="Aspose.Cells, Version=8.9.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Aspose.Cells for.net18.10破解版\4.0\Aspose.Cells.dll</HintPath>
     </Reference>
     <Reference Include="Aspose.Words, Version=18.11.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -176,6 +177,9 @@
     <Compile Include="科开服务窗口.xaml.cs">
       <DependentUpon>科开服务窗口.xaml</DependentUpon>
     </Compile>
+    <Compile Include="生态选择1.xaml.cs">
+      <DependentUpon>生态选择1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="预报人员选择2.xaml.cs">
       <DependentUpon>预报人员选择2.xaml</DependentUpon>
     </Compile>
@@ -282,6 +286,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="科开服务窗口.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="生态选择1.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

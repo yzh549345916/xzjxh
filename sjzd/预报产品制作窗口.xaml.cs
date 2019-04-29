@@ -160,9 +160,8 @@ namespace sjzd
 
         private void STBtu_Click(object sender, RoutedEventArgs e)
         {
-            生态与农业气象信息 st = new 生态与农业气象信息();
-            st.DCWord(5, 12005, 2019, 4, 1, "胡志超");
-            //st.DCWord(5,12005, 2019, 4, 2, "胡志超");
+            生态选择1 stwin = new 生态选择1();
+            stwin.Show();
         }
     }
 }
