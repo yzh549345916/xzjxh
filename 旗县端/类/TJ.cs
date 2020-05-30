@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace 旗县端
@@ -82,7 +80,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -92,7 +90,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -211,7 +209,7 @@ namespace 旗县端
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -258,7 +256,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -268,7 +266,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -433,7 +431,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -443,7 +441,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -605,7 +603,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -615,7 +613,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -733,7 +731,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -743,7 +741,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -855,7 +853,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -865,7 +863,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -972,7 +970,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -982,7 +980,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1091,7 +1089,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1101,7 +1099,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1202,7 +1200,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1212,7 +1210,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1378,7 +1376,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1388,7 +1386,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1507,7 +1505,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1517,7 +1515,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1619,17 +1617,17 @@ namespace 旗县端
                                     try
                                     {
                                         sjzqlTJ1.Add(new ZQLTJ1()
-                                    {
-                                        SJ24TmaxZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax24")),
-                                        SJ24TminZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin24")),
-                                        SJ24QYZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain24")),
-                                        SJ48TmaxZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax48")),
-                                        SJ48TminZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin48")),
-                                        SJ48QYZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain48")),
-                                        SJ72TmaxZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax72")),
-                                        SJ72TminZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin72")),
-                                        SJ72QYZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain72")),
-                                    });
+                                        {
+                                            SJ24TmaxZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax24")),
+                                            SJ24TminZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin24")),
+                                            SJ24QYZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain24")),
+                                            SJ48TmaxZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax48")),
+                                            SJ48TminZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin48")),
+                                            SJ48QYZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain48")),
+                                            SJ72TmaxZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax72")),
+                                            SJ72TminZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin72")),
+                                            SJ72QYZQL = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain72")),
+                                        });
                                     }
                                     catch
                                     {
@@ -1640,7 +1638,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1650,7 +1648,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1799,14 +1797,14 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
                     mycon1.Close();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -2018,7 +2016,7 @@ namespace 旗县端
 
 
 
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -2109,7 +2107,7 @@ namespace 旗县端
                             }
 
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
 
                         }
@@ -2121,7 +2119,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

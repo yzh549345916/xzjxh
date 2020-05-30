@@ -1,22 +1,13 @@
-﻿using System;
+﻿using Aspose.Cells;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Aspose.Cells;
 
 namespace sjzd
 {
@@ -29,7 +20,7 @@ namespace sjzd
         CalendarDateRange dr1 = new CalendarDateRange((DateTime.Now.Date).AddDays(+1), DateTime.MaxValue), dr2 = new CalendarDateRange((DateTime.Now.Date).AddDays(+1), DateTime.MaxValue);
         public 逐日评分详情()
         {
-            
+
             InitializeComponent();
             BTLabel.Content = "逐日评分详情查询";
             string configXZPath = System.Environment.CurrentDirectory + @"\设置文件\旗县乡镇.txt";
@@ -168,8 +159,8 @@ namespace sjzd
                     }
                 }
                 TJ tj = new TJ();
-                
-                string QXname = QXSelect.Text,StationID="";//待查询旗县站号
+
+                string QXname = QXSelect.Text, StationID = "";//待查询旗县站号
                 /*using (StreamReader sr = new StreamReader(QXNameDZPath, Encoding.Default))
                 {
                     string line1 = "";
@@ -190,16 +181,16 @@ namespace sjzd
                         
                     }
                 }*/
-                for(int i=0;i<QXName.Length;i++)
+                for (int i = 0; i < QXName.Length; i++)
                 {
-                    if(QXname==QXName[i])
+                    if (QXname == QXName[i])
                     {
                         StationID = QXID[i];
                         break;
                     }
                 }
-                string[,] zrData=tj.ZRPF(startDate,SXSelect.Text,StationID);
-                for(int i =0;i<zrData.GetLength(0); i++)
+                string[,] zrData = tj.ZRPF(startDate, SXSelect.Text, StationID);
+                for (int i = 0; i < zrData.GetLength(0); i++)
                 {
                     zrpf.Add(new ZRPF()
                     {
@@ -215,7 +206,7 @@ namespace sjzd
                         SKJS = zrData[i, 9],
                         SJTQ = zrData[i, 10],
                         SJQY = zrData[i, 11],
-                        Name=zrData[i,12],
+                        Name = zrData[i, 12],
                     });
                 }
 
@@ -254,13 +245,13 @@ namespace sjzd
             dt= GRPFList.ItemsSourc]*/
             //DataTable dt = (DataTable)GRPFList.ItemsSource;
             FolderBrowserDialog m_Dialog = new FolderBrowserDialog();
-            DialogResult result = m_Dialog.ShowDialog(); 
+            DialogResult result = m_Dialog.ShowDialog();
 
             if (result == System.Windows.Forms.DialogResult.Cancel)
             {
                 return;
             }
-            string strPath = m_Dialog.SelectedPath+ "\\"+ QXSelect.Text+BTLabel.Content+".xls";
+            string strPath = m_Dialog.SelectedPath + "\\" + QXSelect.Text + BTLabel.Content + ".xls";
             ZRPF[] dcsz = zrpf.ToArray();
             try
             {
@@ -294,11 +285,11 @@ namespace sjzd
                 cellSheet.Cells[0, 11].PutValue("市台天气");
                 cellSheet.Cells[0, 12].PutValue("市台晴雨");
                 //cellSheet.Cells.SetColumnWidthPixel(0, 300);
-                
+
 
                 for (int i = 0; i < dcsz.Length; i++)
                 {
-                    cellSheet.Cells[i+1, 0].PutValue(dcsz[i].Name);
+                    cellSheet.Cells[i + 1, 0].PutValue(dcsz[i].Name);
                     cellSheet.Cells[i + 1, 0].SetStyle(style1);
                     cellSheet.Cells[i + 1, 1].PutValue(dcsz[i].StationID);
                     cellSheet.Cells[i + 1, 1].SetStyle(style1);
@@ -347,13 +338,13 @@ namespace sjzd
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message);
             }
         }
 
-       
+
 
     }
 }

@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Aspose.Cells;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using System.Collections.ObjectModel;
-using System.Data.SqlClient;
-using Aspose.Cells;
 
 namespace 旗县端
 {
@@ -98,19 +89,19 @@ namespace 旗县端
                     }
                     string startDate = Convert.ToDateTime(sDate.SelectedDate).ToString("yyyy-MM-dd");
                     string endDate = Convert.ToDateTime(eDate.SelectedDate).ToString("yyyy-MM-dd");
-                    BTLabel.Content = startDate+"至"+endDate+"到报率查询";
+                    BTLabel.Content = startDate + "至" + endDate + "到报率查询";
                     TJ tJ = new TJ();
                     string[,] DBLSZ = tJ.DBLTJ(QXID, QXName, startDate, endDate);
-                    
-                    for(int i=0;i<DBLSZ.GetLength(0);i++)
+
+                    for (int i = 0; i < DBLSZ.GetLength(0); i++)
                     {
                         dbllist.Add(new DBLList()
                         {
-                            Name = DBLSZ[i,0],
-                            DBL = Convert.ToSingle( DBLSZ[i,1]),
-                            QBL= Convert.ToSingle(DBLSZ[i,2]),
-                            QBDate=DBLSZ[i,3],
-                            YQL = Convert.ToSingle(DBLSZ[i,4]),
+                            Name = DBLSZ[i, 0],
+                            DBL = Convert.ToSingle(DBLSZ[i, 1]),
+                            QBL = Convert.ToSingle(DBLSZ[i, 2]),
+                            QBDate = DBLSZ[i, 3],
+                            YQL = Convert.ToSingle(DBLSZ[i, 4]),
                             YQDate = DBLSZ[i, 5],
 
                         });
@@ -119,7 +110,7 @@ namespace 旗县端
 
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -142,7 +133,7 @@ namespace 旗县端
                 dt = dt.AddMonths(1).AddDays(-1);
                 eDate.SelectedDate = dt;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

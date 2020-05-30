@@ -1,29 +1,15 @@
-﻿using System;
+﻿using Aspose.Words;
+using cma.cimiss.client;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using cma.cimiss.client;
-using cma.cimiss;
-using System.Drawing;
-using Aspose.Words;
-using Aspose.Words.Tables;
-using Aspose.Words.Drawing;
-using Aspose.Words.Lists;
-using Aspose.Words.Fields;
 
 namespace xzjxhyb_DBmain
 {
-   public class SJZDCXRK
+    public class SJZDCXRK
     {
         string BWBCPath = System.Environment.CurrentDirectory + @"\设置文件\报文保存路径.txt";
         string RKTime = "20";
@@ -70,14 +56,14 @@ namespace xzjxhyb_DBmain
             }
             catch
             {
-                var result1 = System.Windows.MessageBox.Show(dt.ToString("yyyyMMdd")+"的指导预报路径错误，是否手动选择乡镇指导预报文件", "错误", MessageBoxButton.YesNo);
+                MessageBoxResult result1 = System.Windows.MessageBox.Show(dt.ToString("yyyyMMdd") + "的指导预报路径错误，是否手动选择乡镇指导预报文件", "错误", MessageBoxButton.YesNo);
                 if (result1 == System.Windows.MessageBoxResult.Yes)
                 {
-                    var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+                    Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog()
                     {
                         Filter = "文本 (*.txt)|*.txt"
                     };
-                    var result = openFileDialog.ShowDialog();
+                    bool? result = openFileDialog.ShowDialog();
                     if (result == true)
                     {
                         YBPath = openFileDialog.FileName;
@@ -391,7 +377,7 @@ namespace xzjxhyb_DBmain
                             string[] szLS = strLS.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);//名单按行分组
                             strLS = szLS[lineCount - 1];//区站号前一行为站名，因此Linecount-1确认站名，列数与区站号一致，
                             szLS = strLS.Split(',');//该旗县及其乡镇的名称数组
-                            strError += dt.ToString("yyyyMMdd")+ szLS[i] + "(" + line.Split(',')[i] + ")的实况数据不存在，实况暂时用其旗县站点" + line.Split(',')[0] + "的实况代替，请及时确认站点信息，设置旗县站点\r\n";
+                            strError += dt.ToString("yyyyMMdd") + szLS[i] + "(" + line.Split(',')[i] + ")的实况数据不存在，实况暂时用其旗县站点" + line.Split(',')[0] + "的实况代替，请及时确认站点信息，设置旗县站点\r\n";
                             string[] szQXData = strQXData.Split('\n');
                             for (int j = 0; j < szQXData.Length; j++)//确认站名后用乡镇的站名代替第一组，后面的内容用其所在旗县的实况代替
                             {
@@ -427,7 +413,7 @@ namespace xzjxhyb_DBmain
 
         }
 
-        public string[,] CZCL( string[,] zdybSZ, string QXSK, string XZSK, ref string strError)//输入为处理后的指导预报数组，旗县实况，各乡镇的实况.//输出数组行数为旗县乡镇个数，每行内容为：旗县名称+区站号+未来七天分别的天气、风向风速、最低气温、最高气温，因此列数为2+4*7
+        public string[,] CZCL(string[,] zdybSZ, string QXSK, string XZSK, ref string strError)//输入为处理后的指导预报数组，旗县实况，各乡镇的实况.//输出数组行数为旗县乡镇个数，每行内容为：旗县名称+区站号+未来七天分别的天气、风向风速、最低气温、最高气温，因此列数为2+4*7
         {
 
             double d1 = 0, d2 = 0;
@@ -540,7 +526,7 @@ namespace xzjxhyb_DBmain
                                 {
                                     douMin = Math.Round(Convert.ToDouble((XZSK.Split('\n')[k]).Split('\t')[4]), 1);//按换行符和制表符分割乡镇实况字符串，每行第5个为最低温，第4个为最高温度
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
                                 {
                                     douMin = d1;
                                 }
@@ -573,14 +559,10 @@ namespace xzjxhyb_DBmain
                             }
                             else if ((intLS - 4) % 4 == 0)
                             {
-                                string QXName = "";
-                                
                                 szYB[intHS, intLS] = (Math.Round(douMin + szMin[intCount3++])).ToString("f1");
                             }
                             else if (((intLS - 5) % 4 == 0) && intLS != 1)
                             {
-                                string QXName = "";
-                                
                                 szYB[intHS, intLS] = (Math.Round(douMax + szMax[intCount4++])).ToString("f1");
                             }
                         }
@@ -671,7 +653,7 @@ namespace xzjxhyb_DBmain
 
                                     BWData += ID + jd.ToString().PadLeft(8) + wd.ToString().PadLeft(8) + gd.ToString().PadLeft(8) + " 14 21\r\n";
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
                                 {
 
                                 }
@@ -1047,7 +1029,7 @@ namespace xzjxhyb_DBmain
                     sw.Close();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1658,7 +1640,7 @@ namespace xzjxhyb_DBmain
                         }
                     }
                 }
-                DCWord(dt,zdybSZ);
+                DCWord(dt, zdybSZ);
 
             }
 

@@ -1,0 +1,29 @@
+﻿<telerik:RadTabbedWindow x:Name="tabWindow"  x:Class="sjzd.TabWindow查询统计"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:sjzd"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                         xmlns:telerikNavigationPrimitives="clr-namespace:Telerik.Windows.Controls.Primitives;assembly=Telerik.Windows.Controls.Navigation"
+                         mc:Ignorable="d"
+        AddButtonVisibility="Visible"
+        WindowStartupLocation="CenterScreen"
+        AddingNewTab="TabWindow1_OnAddingNewTab"
+        SelectedItemRemoveBehaviour="SelectLast"
+        Header="查询统计窗口" Height="800" MinWidth="1550">
+    <telerik:RadTabbedWindow.ItemsPanel>
+        <ItemsPanelTemplate>
+            <telerikNavigationPrimitives:TabWrapPanel />
+        </ItemsPanelTemplate>
+    </telerik:RadTabbedWindow.ItemsPanel>
+    <telerik:EventToCommandBehavior.EventBindings>
+        <telerik:EventBinding EventName="MouseLeftButtonDown" Command="{x:Static telerik:RadialMenuCommands.Hide}" RaiseOnHandledEvents="True" />
+        <telerik:EventBinding EventName="LostFocus" Command="{x:Static telerik:RadialMenuCommands.Hide}" RaiseOnHandledEvents="True" />
+        <!--<telerik:EventBinding EventName="MouseRightButtonDown" Command="{x:Static telerik:RadialMenuCommands.Show}" RaiseOnHandledEvents="True" />-->
+    </telerik:EventToCommandBehavior.EventBindings>
+    <telerik:RadRadialMenu.RadialContextMenu >
+        <local:查询统计右键菜单 PopupPlacement="Center"/>
+    </telerik:RadRadialMenu.RadialContextMenu>
+
+</telerik:RadTabbedWindow>

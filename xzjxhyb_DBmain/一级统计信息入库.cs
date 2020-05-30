@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
-using System.IO;
 using System.Data.SqlClient;
-using System.Windows;
+using System.IO;
+using System.Text;
 
 
 namespace xzjxhyb_DBmain

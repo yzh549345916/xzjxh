@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Aspose.Cells;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using System.Collections.ObjectModel;
-using System.Data.SqlClient;
-using Aspose.Cells;
 
 namespace sjzd
 {
@@ -83,24 +73,24 @@ namespace sjzd
                     }
                 }
                 TJ tj = new TJ();
-                
+
                 for (int i = 0; i < intQXGS; i++)
                 {
 
-                        float[] zqlFloat = tj.QXZQL(startDate, endDate, QXID[i]);
-                        sjzqlTJ1.Add(new TJ.ZQLTJ1()
-                        {
-                            Name = QXName[i],
-                            SJ24TmaxZQL = zqlFloat[0],
-                            SJ24TminZQL = zqlFloat[1],
-                            SJ24QYZQL = zqlFloat[2],
-                            SJ48TmaxZQL = zqlFloat[3],
-                            SJ48TminZQL = zqlFloat[4],
-                            SJ48QYZQL = zqlFloat[5],
-                            SJ72TmaxZQL = zqlFloat[6],
-                            SJ72TminZQL = zqlFloat[7],
-                            SJ72QYZQL = zqlFloat[8],
-                        });
+                    float[] zqlFloat = tj.QXZQL(startDate, endDate, QXID[i]);
+                    sjzqlTJ1.Add(new TJ.ZQLTJ1()
+                    {
+                        Name = QXName[i],
+                        SJ24TmaxZQL = zqlFloat[0],
+                        SJ24TminZQL = zqlFloat[1],
+                        SJ24QYZQL = zqlFloat[2],
+                        SJ48TmaxZQL = zqlFloat[3],
+                        SJ48TminZQL = zqlFloat[4],
+                        SJ48QYZQL = zqlFloat[5],
+                        SJ72TmaxZQL = zqlFloat[6],
+                        SJ72TminZQL = zqlFloat[7],
+                        SJ72QYZQL = zqlFloat[8],
+                    });
 
                 }
                 ((this.FindName("ZQLList")) as DataGrid).ItemsSource = sjzqlTJ1;
@@ -217,7 +207,7 @@ namespace sjzd
                 dt = dt.AddMonths(1).AddDays(-1);
                 eDate.SelectedDate = dt;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

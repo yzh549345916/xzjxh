@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
+using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using System.Data.SqlClient;
 
 namespace xzjxhyb_DBmain
 {
@@ -24,7 +15,7 @@ namespace xzjxhyb_DBmain
         public WPFAddQX()
         {
             InitializeComponent();
-            
+
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
             {
@@ -42,7 +33,7 @@ namespace xzjxhyb_DBmain
 
             ConfigClass1 configClass1 = new ConfigClass1();
             configClass1.TBBD();
-            XHText.Text= configClass1.HqzxXH(-1).ToString();
+            XHText.Text = configClass1.HqzxXH(-1).ToString();
 
         }
 
@@ -53,7 +44,7 @@ namespace xzjxhyb_DBmain
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-           
+
             Int16 countLS1 = 0;
             using (SqlConnection mycon = new SqlConnection(con))
             {
@@ -64,13 +55,13 @@ namespace xzjxhyb_DBmain
                     string sql = string.Format(@"SELECT COUNT(*) FROM QX Where ID = '{0}'", QXID.Text.Trim());  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
                     SqlCommand sqlman = new SqlCommand(sql, mycon);
                     SqlDataReader reader = sqlman.ExecuteReader();
-                    if(reader.Read())
+                    if (reader.Read())
                     {
-                        countLS1=Convert.ToInt16(reader[0]);
+                        countLS1 = Convert.ToInt16(reader[0]);
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -86,7 +77,7 @@ namespace xzjxhyb_DBmain
                     {
 
                         mycon.Open();//打开
-                        string sql = string.Format(@"insert into QX values('{0}','{1}','{2}','{3}')",Convert.ToInt32(XHText.Text.Trim()), QXID.Text.Trim(), "-1", QXName.Text.Trim());  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
+                        string sql = string.Format(@"insert into QX values('{0}','{1}','{2}','{3}')", Convert.ToInt32(XHText.Text.Trim()), QXID.Text.Trim(), "-1", QXName.Text.Trim());  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
                         SqlCommand sqlman = new SqlCommand(sql, mycon);
                         jlCount = sqlman.ExecuteNonQuery();
                         if (jlCount <= 0)
@@ -104,12 +95,12 @@ namespace xzjxhyb_DBmain
                                     if (jlCount <= 0)
                                         MessageBox.Show("旗县标识保存失败");
                                 }
-                                catch(Exception ex)
+                                catch (Exception ex)
                                 {
                                     MessageBox.Show(ex.Message);
                                 }
                             }
-                                ConfigClass1 configClass1 = new ConfigClass1();
+                            ConfigClass1 configClass1 = new ConfigClass1();
                             XHText.Text = configClass1.HqzxXH(-1).ToString();
                             if (MessageBox.Show("旗县新增成功，是否同步本地设置文件", "注意", MessageBoxButton.YesNo,
                                     MessageBoxImage.Information) == MessageBoxResult.Yes)
@@ -121,7 +112,7 @@ namespace xzjxhyb_DBmain
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         MessageBox.Show("新增旗县失败");
                     }
@@ -135,6 +126,6 @@ namespace xzjxhyb_DBmain
 
         }
 
-        
+
     }
 }

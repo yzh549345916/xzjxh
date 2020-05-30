@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
+using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using System.Data.SqlClient;
-using System.Threading;
 
 namespace xzjxhyb_DBmain
 {
@@ -273,7 +266,7 @@ namespace xzjxhyb_DBmain
                 else if (strName.Trim() == "CITYFORECAST路径")
                 {
 
-                    TBBD("CITYFORECAST路径",ContentText.Text, PathConfigPath);
+                    TBBD("CITYFORECAST路径", ContentText.Text, PathConfigPath);
                     MessageBox.Show("配置信息修改成功");
                 }
                 else
@@ -288,7 +281,7 @@ namespace xzjxhyb_DBmain
                             {
                                 MessageBox.Show("配置信息修改成功");
                             }
-                            TBBD(strName, ContentText.Text, System.Environment.CurrentDirectory + @"\设置文件\" +szls[3].Trim()+ ".txt");
+                            TBBD(strName, ContentText.Text, System.Environment.CurrentDirectory + @"\设置文件\" + szls[3].Trim() + ".txt");
                             break;
                         }
                     }
@@ -331,7 +324,7 @@ namespace xzjxhyb_DBmain
         /// <param name="name">属性名称</param>
         /// <param name="sx">修改后的属性内容</param>
         /// <param name="path">文件路径</param>
-        public void TBBD(string name,string sx, string path)
+        public void TBBD(string name, string sx, string path)
         {
             try
             {
@@ -391,7 +384,7 @@ namespace xzjxhyb_DBmain
                     {
                         string name = sqlreader.GetString(sqlreader.GetOrdinal("name"));
                         string data = sqlreader.GetString(sqlreader.GetOrdinal("data"));
-                        string filename=sqlreader.GetString(sqlreader.GetOrdinal("filename")) ;
+                        string filename = sqlreader.GetString(sqlreader.GetOrdinal("filename"));
                         TBBD(name, data, Environment.CurrentDirectory + @"\设置文件\" + filename.Trim() + ".txt");
                         Thread.Sleep(500);
                     }
@@ -403,9 +396,9 @@ namespace xzjxhyb_DBmain
                 MessageBox.Show("保存成功");
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("同步失败，原因为\n"+ex.Message);
+                MessageBox.Show("同步失败，原因为\n" + ex.Message);
             }
         }
     }

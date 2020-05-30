@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace sjzd
@@ -83,7 +81,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -93,7 +91,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -212,7 +210,7 @@ namespace sjzd
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -251,7 +249,7 @@ namespace sjzd
                                     }
                                     catch
                                     {
-                                            
+
                                     }
                                 }
 
@@ -259,7 +257,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -269,7 +267,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -434,7 +432,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -444,7 +442,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -607,7 +605,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -617,7 +615,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -736,7 +734,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -746,7 +744,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -864,7 +862,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -874,7 +872,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -925,7 +923,7 @@ namespace sjzd
             return tjsz;
         }
 
-        public string[,] ZBXXTJ(string StartDate, string EndDate, String QXID,ref Int16 ZBJS)//返回指定旗县、指定时间段的人员名单及值班次数，引用参数ZBJS为该旗县值班基数
+        public string[,] ZBXXTJ(string StartDate, string EndDate, String QXID, ref Int16 ZBJS)//返回指定旗县、指定时间段的人员名单及值班次数，引用参数ZBJS为该旗县值班基数
         {
             ObservableCollection<ZBXX> zbxx = new ObservableCollection<ZBXX>();
             float[] tjsz = new float[6];
@@ -981,7 +979,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -991,7 +989,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1000,16 +998,16 @@ namespace sjzd
             string zbxxStr = "";
             for (int i = 0; i < s1.Length; i++)
             {
-                zbxxStr += s1[i].userID+',';
-                
+                zbxxStr += s1[i].userID + ',';
+
             }
             zbxxStr = zbxxStr.Substring(0, zbxxStr.Length - 1);
             string[] IDJLSz = zbxxStr.Split(',');//保存指定时间段所有值班人员ID
-            
+
             string IDList = "";//保存指定时间段值班人员名单
-            for(int i=0;i<IDJLSz.Length;i++)
+            for (int i = 0; i < IDJLSz.Length; i++)
             {
-                if(!IDList.Contains(IDJLSz[i]))
+                if (!IDList.Contains(IDJLSz[i]))
                 {
                     IDList += IDJLSz[i] + ',';
                 }
@@ -1017,7 +1015,7 @@ namespace sjzd
             IDList = IDList.Substring(0, IDList.Length - 1);
             string[] SZLS1 = IDList.Split(',');//保存值班人员数组，人员ID不重复
             double douLS1;
-            if (SZLS1.Length==0)
+            if (SZLS1.Length == 0)
             {
                 douLS1 = 0;//防止没有记录时候报错
             }
@@ -1026,17 +1024,17 @@ namespace sjzd
             ZBJS = Convert.ToInt16(Math.Round(douLS1, 0));//计算值班基数，2/3*值班总次数/（起止时间天数差+1）
             int[] CountSZ = new int[SZLS1.Length];//保存每个人值班次数
             string[,] TJSZ = new string[SZLS1.Length, 2];//保存返回统计信息，第一列为ID，第二列为值班次数
-            for(int i=0;i<SZLS1.Length;i++)
+            for (int i = 0; i < SZLS1.Length; i++)
             {
-                for(int j=0;j<IDJLSz.Length;j++)
+                for (int j = 0; j < IDJLSz.Length; j++)
                 {
-                    if(SZLS1[i]==IDJLSz[j])
+                    if (SZLS1[i] == IDJLSz[j])
                     {
                         CountSZ[i]++;
                     }
                 }
             }
-            for(int i = 0; i < SZLS1.Length; i++)
+            for (int i = 0; i < SZLS1.Length; i++)
             {
                 TJSZ[i, 0] = SZLS1[i];
                 TJSZ[i, 1] = CountSZ[i].ToString();
@@ -1101,7 +1099,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1111,7 +1109,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1137,7 +1135,7 @@ namespace sjzd
                 if (!IDList.Contains(IDJLSz[i]))
                 {
                     IDList += IDJLSz[i] + ',';
-                    NameList+=nameJLsz[i]+ ',';
+                    NameList += nameJLsz[i] + ',';
                 }
             }
             IDList = IDList.Substring(0, IDList.Length - 1);
@@ -1145,7 +1143,7 @@ namespace sjzd
             string[] SZLS1 = IDList.Split(',');//保存值班人员数组，人员ID不重复
             string[] SZLS2 = NameList.Split(',');//保存值班人员数组，人员ID不重复
             string[,] FHSZ = new string[SZLS1.Length, 2];
-            for(int i=0;i<SZLS1.Length;i++)
+            for (int i = 0; i < SZLS1.Length; i++)
             {
                 FHSZ[i, 0] = SZLS1[i];
                 FHSZ[i, 1] = SZLS2[i];
@@ -1153,7 +1151,7 @@ namespace sjzd
             return FHSZ;
         }
 
-        public float[] GRZQL(string StartDate, string EndDate, String userID,ref string qbdate)//返回指定区站号、指定时间段个人三天预报的最高、最低、晴雨准确率以及缺报率
+        public float[] GRZQL(string StartDate, string EndDate, String userID, ref string qbdate)//返回指定区站号、指定时间段个人三天预报的最高、最低、晴雨准确率以及缺报率
         {
             ObservableCollection<PFZR> pfzrtj1 = new ObservableCollection<PFZR>();
             float[] tjsz = new float[10];
@@ -1228,7 +1226,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1238,7 +1236,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1258,9 +1256,9 @@ namespace sjzd
                 else if (s1[i].QX24TmaxZQL == -999999)
                 {
                     tjsz[9]++;
-                    if(s1[i].fID== s1[i].ID)
+                    if (s1[i].fID == s1[i].ID)
                     {
-                        qbdate += " AND date!=" + '\''+s1[i].Date + '\'';
+                        qbdate += " AND date!=" + '\'' + s1[i].Date + '\'';
                     }
                 }
                 if (s1[i].QX24TminZQL < 999998 && s1[i].QX24TminZQL > -999999)
@@ -1404,7 +1402,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1414,7 +1412,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1533,7 +1531,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1543,7 +1541,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1594,7 +1592,7 @@ namespace sjzd
             return tjsz;
         }
 
-        public float[] GRSJZQL(string StartDate, string EndDate, String userID,string qbdate)//返回指定区站号、指定时间段市局三天预报的最高、最低、晴雨准确率以及缺报率
+        public float[] GRSJZQL(string StartDate, string EndDate, String userID, string qbdate)//返回指定区站号、指定时间段市局三天预报的最高、最低、晴雨准确率以及缺报率
         {
             ObservableCollection<ZQLTJ1> sjzqlTJ1 = new ObservableCollection<ZQLTJ1>();
             float[] tjsz = new float[10];
@@ -1629,7 +1627,7 @@ namespace sjzd
                 {
                     mycon1.Open();//打开
                     string sql = string.Format(@"select * from TJ where PeopleID='{0}' AND Date>='{1}' AND Date<='{2}'", userID, StartDate, EndDate);
-                    if(qbdate!="")
+                    if (qbdate != "")
                     {
                         sql = string.Format(@"select * from TJ where PeopleID='{0}' AND Date>='{1}' AND Date<='{2}'", userID, StartDate, EndDate) + qbdate;
                     }
@@ -1666,7 +1664,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1676,7 +1674,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1771,7 +1769,7 @@ namespace sjzd
             return tjsz;
         }
 
-        
+
         public string[,] ZRPF(string StartDate, string times, String QXID)//返回指定旗县区站号指定时间、时次各个乡镇的逐日评分详情
         {
             ObservableCollection<ZRPFList> zrpflist = new ObservableCollection<ZRPFList>();
@@ -1812,7 +1810,7 @@ namespace sjzd
                     {
                         using (SqlCommand sqlman = new SqlCommand(sql, mycon1))
                         {
-                          
+
                             using (SqlDataReader sqlreader = sqlman.ExecuteReader())
                             {
                                 while (sqlreader.Read())
@@ -1825,19 +1823,19 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
                     mycon1.Close();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
             string[,] strszData = new string[coutXZGS, 13];//保存返回数组
-            if(coutXZGS>0)
+            if (coutXZGS > 0)
             {
                 try
                 {
@@ -1855,9 +1853,9 @@ namespace sjzd
                                 while (sqlreader.Read())
                                 {
                                     string qxrain = "QX_Rain" + times, sjrain = "SJ_Rain" + times;
-                                    strszData[count,0]= sqlreader.GetString(sqlreader.GetOrdinal("StationID"));
+                                    strszData[count, 0] = sqlreader.GetString(sqlreader.GetOrdinal("StationID"));
                                     strszData[count, 8] = (sqlreader.GetSqlSingle(sqlreader.GetOrdinal(qxrain))).ToString();
-                                    if(strszData[count, 8]=="1")
+                                    if (strszData[count, 8] == "1")
                                     {
                                         strszData[count, 8] = "✔";
                                     }
@@ -1865,18 +1863,18 @@ namespace sjzd
                                     {
                                         strszData[count, 8] = "×";
                                     }
-                                    else if(strszData[count, 8] == "999999")
-                                    {
-                                        strszData[count, 8] = "缺测";
-                                    }
-                                    else if (strszData[count, 8] == "-999999")
-                                    {
-                                        strszData[count, 8] = "缺报";
-                                    }
-                                    else if (strszData[count, 8] == "999998")
-                                    {
-                                        strszData[count, 8] = "不观测";
-                                    }
+                                    //else if (strszData[count, 8] == "999999")
+                                    //{
+                                    //    strszData[count, 8] = "缺测";
+                                    //}
+                                    //else if (strszData[count, 8] == "-999999")
+                                    //{
+                                    //    strszData[count, 8] = "缺报";
+                                    //}
+                                    //else if (strszData[count, 8] == "999998")
+                                    //{
+                                    //    strszData[count, 8] = "不观测";
+                                    //}
                                     strszData[count, 11] = (sqlreader.GetSqlSingle(sqlreader.GetOrdinal(sjrain))).ToString();
                                     if (strszData[count, 11] == "1")
                                     {
@@ -1886,18 +1884,18 @@ namespace sjzd
                                     {
                                         strszData[count, 11] = "×";
                                     }
-                                    else if (strszData[count, 11] == "999999")
-                                    {
-                                        strszData[count, 11] = "缺测";
-                                    }
-                                    else if (strszData[count, 11] == "-999999")
-                                    {
-                                        strszData[count, 11] = "缺报";
-                                    }
-                                    else if (strszData[count, 11] == "999998")
-                                    {
-                                        strszData[count, 11] = "不观测";
-                                    }
+                                    //else if (strszData[count, 11] == "999999")
+                                    //{
+                                    //    strszData[count, 11] = "缺测";
+                                    //}
+                                    //else if (strszData[count, 11] == "-999999")
+                                    //{
+                                    //    strszData[count, 11] = "缺报";
+                                    //}
+                                    //else if (strszData[count, 11] == "999998")
+                                    //{
+                                    //    strszData[count, 11] = "不观测";
+                                    //}
                                     count++;
 
                                 }
@@ -1914,9 +1912,9 @@ namespace sjzd
                         DateTime dtLS = Convert.ToDateTime(StartDate);
                         dtLS = dtLS.AddDays(intDays);
                         string SKDate = dtLS.ToString("yyyy-MM-dd");//查询日期
-                        for(int i =0;i<coutXZGS;i++)
+                        for (int i = 0; i < coutXZGS; i++)
                         {
-                            string sql = string.Format(@"select * from SK where StationID='{0}' AND Date='{1}'", strszData[i,0], SKDate);
+                            string sql = string.Format(@"select * from SK where StationID='{0}' AND Date='{1}'", strszData[i, 0], SKDate);
                             using (SqlCommand sqlman = new SqlCommand(sql, mycon1))
                             {
                                 using (SqlDataReader sqlreader = sqlman.ExecuteReader())
@@ -1926,51 +1924,54 @@ namespace sjzd
                                     {
                                         coutLS++;
                                         strszData[i, 2] = (sqlreader.GetSqlSingle(sqlreader.GetOrdinal("Tmax"))).ToString();
-                                        if (strszData[i, 2] == "999999")
-                                        {
-                                            strszData[i, 2] = "缺测";
-                                        }
-                                        else if (strszData[i, 2] == "-999999")
-                                        {
-                                            strszData[i, 2] = "缺报";
-                                        }
-                                        else if (strszData[i, 2] == "999998")
-                                        {
-                                            strszData[i, 2] = "不观测";
-                                        }
+                                        //if (strszData[i, 2] == "999999")
+                                        //{
+                                        //    strszData[i, 2] = "缺测";
+                                        //}
+                                        //else if (strszData[i, 2] == "-999999")
+                                        //{
+                                        //    strszData[i, 2] = "缺报";
+                                        //}
+                                        //else if (strszData[i, 2] == "999998")
+                                        //{
+                                        //    strszData[i, 2] = "不观测";
+                                        //}
                                         strszData[i, 5] = (sqlreader.GetSqlSingle(sqlreader.GetOrdinal("Tmin"))).ToString();
-                                        if (strszData[i, 5] == "999999")
-                                        {
-                                            strszData[i, 5] = "缺测";
-                                        }
-                                        else if (strszData[i, 5] == "-999999")
-                                        {
-                                            strszData[i, 5] = "缺报";
-                                        }
-                                        else if (strszData[i, 5] == "999998")
-                                        {
-                                            strszData[i, 5] = "不观测";
-                                        }
+                                        //if (strszData[i, 5] == "999999")
+                                        //{
+                                        //    strszData[i, 5] = "缺测";
+                                        //}
+                                        //else if (strszData[i, 5] == "-999999")
+                                        //{
+                                        //    strszData[i, 5] = "缺报";
+                                        //}
+                                        //else if (strszData[i, 5] == "999998")
+                                        //{
+                                        //    strszData[i, 5] = "不观测";
+                                        //}
                                         strszData[i, 9] = (sqlreader.GetSqlSingle(sqlreader.GetOrdinal("Rain"))).ToString();
-                                        if (strszData[i, 9] == "999999")
-                                        {
-                                            strszData[i, 9] = "缺测";
-                                        }
-                                        else if (strszData[i, 9] == "-999999")
-                                        {
-                                            strszData[i, 9] = "缺报";
-                                        }
-                                        else if (strszData[i, 9] == "999998")
-                                        {
-                                            strszData[i, 9] = "不观测";
-                                        }
+                                        //if (strszData[i, 9] == "999999")
+                                        //{
+                                        //    strszData[i, 9] = "缺测";
+                                        //}
+                                        //else if (strszData[i, 9] == "/*-999999*/")
+                                        //{
+                                        //    strszData[i, 9] = "缺报";
+                                        //}
+                                        //else if (strszData[i, 9] == "999998")
+                                        //{
+                                        //    strszData[i, 9] = "不观测";
+                                        //}
                                         strszData[i, 12] = sqlreader.GetString(sqlreader.GetOrdinal("Name"));
                                     }
-                                    if(coutLS==0)
+                                    if (coutLS == 0)
                                     {
-                                        strszData[i, 2] = "缺测";
-                                        strszData[i, 5] = "缺测";
-                                        strszData[i, 9] = "缺测";
+                                        strszData[i, 2] = "999999";
+                                        strszData[i, 5] = "999999";
+                                        strszData[i, 9] = "999999";
+                                        //strszData[i, 2] = "缺测";
+                                        //strszData[i, 5] = "缺测";
+                                        //strszData[i, 9] = "缺测";
                                     }
                                 }
                             }
@@ -1992,15 +1993,18 @@ namespace sjzd
                                     while (sqlreader.Read())
                                     {
                                         coutLS++;
-                                        strszData[i, 3] = (sqlreader.GetSqlSingle(sqlreader.GetOrdinal("Tmax"+times))).ToString();
-                                        strszData[i, 6] = (sqlreader.GetSqlSingle(sqlreader.GetOrdinal("Tmin"+times))).ToString();
-                                        strszData[i, 10] = sqlreader.GetString(sqlreader.GetOrdinal("Rain"+times));
+                                        strszData[i, 3] = (sqlreader.GetSqlSingle(sqlreader.GetOrdinal("Tmax" + times))).ToString();
+                                        strszData[i, 6] = (sqlreader.GetSqlSingle(sqlreader.GetOrdinal("Tmin" + times))).ToString();
+                                        strszData[i, 10] = sqlreader.GetString(sqlreader.GetOrdinal("Rain" + times));
                                     }
                                     if (coutLS == 0)
                                     {
-                                        strszData[i, 3] = "缺报";
-                                        strszData[i, 6] = "缺报";
-                                        strszData[i, 9] = "缺报";
+                                        strszData[i, 3] = "-999999";
+                                        strszData[i, 6] = "-999999";
+                                        strszData[i, 9] = "-999999";
+                                        //strszData[i, 3] = "缺报";
+                                        //strszData[i, 6] = "缺报";
+                                        //strszData[i, 9] = "缺报";
                                     }
                                 }
                             }
@@ -2030,9 +2034,13 @@ namespace sjzd
                                     }
                                     if (coutLS == 0)
                                     {
-                                        strszData[i, 1] = "缺报";
-                                        strszData[i, 4] = "缺报";
-                                        strszData[i, 7] = "缺报";
+
+                                        strszData[i, 1] = "-999999";
+                                        strszData[i, 4] = "-999999";
+                                        strszData[i, 7] = "-999999";
+                                        //strszData[i, 1] = "缺报";
+                                        //strszData[i, 4] = "缺报";
+                                        //strszData[i, 7] = "缺报";
                                     }
                                 }
                             }
@@ -2044,7 +2052,7 @@ namespace sjzd
 
 
 
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -2053,7 +2061,7 @@ namespace sjzd
             return strszData;
         }
 
-        public string[,] DBLTJ(string[] QXID,string[] QXName, string StartDate, string EndDate)//返回指定旗县ID列表指导起止时间的旗县名称、到报率、缺报率、缺报日期、逾期率、逾期日期
+        public string[,] DBLTJ(string[] QXID, string[] QXName, string StartDate, string EndDate)//返回指定旗县ID列表指导起止时间的旗县名称、到报率、缺报率、缺报日期、逾期率、逾期日期
         {
             string con = "";
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
@@ -2097,28 +2105,28 @@ namespace sjzd
                             {
                                 using (SqlDataReader sqlreader = sqlman.ExecuteReader())
                                 {
-                                    int ZS = 0, QBGS = 0,YQGS=0;
-                                    string QBDate = "",YQDate="";
+                                    int ZS = 0, QBGS = 0, YQGS = 0;
+                                    string QBDate = "", YQDate = "";
                                     while (sqlreader.Read())
                                     {
                                         string strLS = sqlreader.GetSqlSingle(sqlreader.GetOrdinal("QX_SKTmax24")).ToString();
                                         ZS++;
-                                        if(strLS== "-999999")
+                                        if (strLS == "-999999")
                                         {
                                             QBGS++;
-                                            QBDate+= sqlreader.GetDateTime(sqlreader.GetOrdinal("Date")).ToString("yyyy年MM月dd日")+";";
+                                            QBDate += sqlreader.GetDateTime(sqlreader.GetOrdinal("Date")).ToString("yyyy年MM月dd日") + ";";
                                         }
                                         else
                                         {
-                                            bool boolLS= sqlreader.GetBoolean(sqlreader.GetOrdinal("SFzhundian"));
-                                            if(!boolLS)//如果没有缺报并且逾期
+                                            bool boolLS = sqlreader.GetBoolean(sqlreader.GetOrdinal("SFzhundian"));
+                                            if (!boolLS)//如果没有缺报并且逾期
                                             {
                                                 YQGS++;
-                                                YQDate+= sqlreader.GetDateTime(sqlreader.GetOrdinal("Date")).ToString("yyyy年MM月dd日") + ";";
+                                                YQDate += sqlreader.GetDateTime(sqlreader.GetOrdinal("Date")).ToString("yyyy年MM月dd日") + ";";
                                             }
                                         }
                                     }
-                                    if(QBDate.Length==0)
+                                    if (QBDate.Length == 0)
                                     {
                                         QBDate = "没有缺报";
                                     }
@@ -2127,7 +2135,7 @@ namespace sjzd
                                         YQDate = "没有逾期";
                                     }
                                     dataFH[i, 2] = Convert.ToString(Math.Round(((double)QBGS * 100 / ZS), 2));
-                                    dataFH[i, 1] = Convert.ToString(100-Convert.ToDouble( dataFH[i,2]));
+                                    dataFH[i, 1] = Convert.ToString(100 - Convert.ToDouble(dataFH[i, 2]));
                                     dataFH[i, 3] = QBDate;
                                     dataFH[i, 4] = Convert.ToString(Math.Round(((double)YQGS * 100 / ZS), 2));
                                     dataFH[i, 5] = YQDate;
@@ -2135,23 +2143,23 @@ namespace sjzd
                             }
 
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
 
                         }
                     }
-                    
+
                     mycon1.Close();
                 }
 
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
-            
+
 
             return dataFH;
         }
@@ -2198,8 +2206,8 @@ namespace sjzd
 
         public class ZBXX//个人值班信息列表
         {
-            public string  userID { get; set; }
-            public string  userName { get; set; }
+            public string userID { get; set; }
+            public string userName { get; set; }
         }
 
         public class ZRPFList//逐日评分列表

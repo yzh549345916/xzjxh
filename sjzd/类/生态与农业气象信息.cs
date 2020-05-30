@@ -1,24 +1,20 @@
-﻿using Aspose.Words;
-using Aspose.Words.Tables;
+﻿using Aspose.Cells;
+using Aspose.Words;
 using cma.cimiss.client;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using Aspose.Cells;
 
 namespace sjzd
 {
     class 生态与农业气象信息
     {
         string cimissUserid = "", cimissPassword = "";
-        public void DCWord(int QS,int allQS, int year, int month, Int16 xun, string ybName)
+        public void DCWord(int QS, int allQS, int year, int month, Int16 xun, string ybName)
         {
             try
             {
@@ -36,10 +32,10 @@ namespace sjzd
                 string xybPath = util.Read("Path", "XYB");
                 cimissUserid = util.Read("CIMISS", "ID");
                 cimissPassword = util.Read("CIMISS", "Password");
-                
+
                 string ysExcelPath = fbPath + year + "气象要素\\" + year + "年气象要素.xls";
 
-                fbPath = fbPath + string.Format("呼和浩特DQ{3}（{0}）{1}月{2}生态与农业气象信息.doc", allQS, month, xunStr,QS);
+                fbPath = fbPath + string.Format("呼和浩特DQ{3}（{0}）{1}月{2}生态与农业气象信息.doc", allQS, month, xunStr, QS);
                 string stationID = util.Read("StationConfig");
                 if (xybPath.Trim().Length > 0 && fbPath.Trim().Length > 0)
                 {
@@ -117,7 +113,7 @@ namespace sjzd
                                     Sun = yB.Sun - bList.Sun,
                                 });
                             }
-                            
+
                             string btStr = year + "年" + timeStr + "我市";
                             //温度
                             try
@@ -784,7 +780,7 @@ namespace sjzd
                                     {
                                         ParagraphCollection pargraphs = doc2.FirstSection.Body.Paragraphs;//word中的所有段落
                                         bool bsls = false;
-                                        foreach (var pp in pargraphs)
+                                        foreach (Node pp in pargraphs)
                                         {
                                             string s = pp.GetText();
                                             if (s.Contains("天气趋势预报"))
@@ -871,16 +867,16 @@ namespace sjzd
                     MessageBox.Show("路径设置错误");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-        public void DCWordMonth(int QS, int allQS, int year, int month,  string ybName)
+        public void DCWordMonth(int QS, int allQS, int year, int month, string ybName)
         {
             try
             {
-               
+
                 XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\生态与农业气象信息设置.xml");
                 string fbPath = util.Read("Path", "FB") + year + "年生态与农业气象信息\\";
                 string xybPath = util.Read("Path", "XYB");
@@ -888,13 +884,13 @@ namespace sjzd
                 cimissPassword = util.Read("CIMISS", "Password");
                 string ysExcelPath = fbPath + year + "气象要素\\" + year + "年气象要素.xls";
                 string qxysPath = fbPath + year + "气象要素\\";
-                fbPath = fbPath + string.Format("呼和浩特DQ{2}（{0}）{1}月及下旬生态与农业气象信息.doc", allQS, month,QS);
+                fbPath = fbPath + string.Format("呼和浩特DQ{2}（{0}）{1}月及下旬生态与农业气象信息.doc", allQS, month, QS);
                 string stationID = util.Read("StationConfig");
-                
+
                 if (xybPath.Trim().Length > 0 && fbPath.Trim().Length > 0)
                 {
                     List<YBList> dqDataMonth = ZRtoMonth(year, month, stationID);
-                    List<YBList> lastYearDataMonth = ZRtoMonth((short)(year - 1), month,  stationID);
+                    List<YBList> lastYearDataMonth = ZRtoMonth((short)(year - 1), month, stationID);
                     List<YBList> tqDataMonth = getTQSJ(year, month, stationID);
                     List<YBList> dqData1 = ZRtoXun(year, month, 1, stationID);
                     List<YBList> lastYearData1 = ZRtoXun((short)(year - 1), month, 1, stationID);
@@ -905,11 +901,11 @@ namespace sjzd
                     List<YBList> dqData3 = ZRtoXun(year, month, 3, stationID);
                     List<YBList> lastYearData3 = ZRtoXun((short)(year - 1), month, 3, stationID);
                     List<YBList> tqData3 = getTQSJ(year, month, 3, stationID);
-                    if (dqDataMonth.Count == 0|| lastYearDataMonth.Count == 0 || tqDataMonth.Count==0)
+                    if (dqDataMonth.Count == 0 || lastYearDataMonth.Count == 0 || tqDataMonth.Count == 0)
                     {
                         MessageBox.Show("月相关数据获取失败");
                     }
-                    else if (dqData1.Count == 0|| tqData1.Count == 0 || lastYearData1.Count == 0)
+                    else if (dqData1.Count == 0 || tqData1.Count == 0 || lastYearData1.Count == 0)
                     {
                         MessageBox.Show("上旬相关数据获取失败");
                     }
@@ -938,7 +934,7 @@ namespace sjzd
                             builder.Write(DateTime.Now.ToString("yyyy年M月d"));
                             string timeStr = month.ToString() + "月";
                             builder.MoveToBookmark("标题日期");
-                            builder.Write(timeStr+"及下旬");
+                            builder.Write(timeStr + "及下旬");
                             builder.MoveToBookmark("图1时间");
                             builder.Write(timeStr);
                             builder.MoveToBookmark("图2时间");
@@ -1166,7 +1162,7 @@ namespace sjzd
                                             foreach (YBList yB in list1)
                                             {
                                                 strLS += $"{yB.Name}偏低{(yB.Tem * -1).ToString("F1")}℃，";
-                                               
+
                                             }
                                             if (list3.Count > 0)
                                             {
@@ -2082,19 +2078,19 @@ namespace sjzd
                                 xybPath += year;
                                 DirectoryInfo dir = new DirectoryInfo(xybPath);
                                 List<FileInfo> inf = dir.GetFiles("*.doc").Where(y => !y.Name.Contains("$")).OrderBy(y => y.LastWriteTime).ToList();
-                               
+
                                 if (inf.Count > 0)
                                 {
                                     string fileName = inf[inf.Count - 1].FullName;
                                     int count = 0;
-                                    foreach(FileInfo fi in inf)
+                                    foreach (FileInfo fi in inf)
                                     {
                                         int countls = 0;
                                         try
 
                                         {
                                             countls = Convert.ToInt32(fi.Name.Replace($"呼市{year}年中期旬报第", "").Replace("期.DOC", ""));
-                                            if(count<=countls)
+                                            if (count <= countls)
                                             {
                                                 count = countls;
                                                 fileName = fi.FullName;
@@ -2110,7 +2106,7 @@ namespace sjzd
                                     {
                                         ParagraphCollection pargraphs = doc2.FirstSection.Body.Paragraphs;//word中的所有段落
                                         bool bsls = false;
-                                        foreach (var pp in pargraphs)
+                                        foreach (Node pp in pargraphs)
                                         {
                                             string s = pp.GetText();
                                             if (s.Contains("天气趋势预报"))
@@ -2168,9 +2164,30 @@ namespace sjzd
                                         string myID = file.Name.Split('_')[3];
                                         StreamReader sr1 = file.OpenText();
                                         string[] szls = sr1.ReadToEnd().Split('@');
-                                        szls = szls[szls.Length - 3].Split(',');
-                                        double mySw = Convert.ToDouble(szls[szls.Length - 1]) / 100;
-                                        if (sWs.Find(y => y.ID == myID && y.Dxsw < 99.99) == null)
+                                        //szls = szls[szls.Length - 3].Split(',');
+                                        double mySw = 999;
+                                        for (int i = szls.Length - 1; i >= 0; i--)
+                                        {
+                                            try
+                                            {
+                                                string[] strsz = szls[i].Split(',');
+                                                if (strsz.Length > 3)
+                                                {
+                                                    int intls = Convert.ToInt32(strsz[strsz.Length - 1]);
+                                                    if (intls != 999 && intls != 99 && intls != 9999)
+                                                    {
+                                                        mySw = (double)intls / 100;
+                                                        break;
+                                                    }
+                                                }
+
+                                            }
+                                            catch
+                                            {
+                                            }
+                                        }
+                                        //mySw = Convert.ToDouble(szls[szls.Length - 1]) / 100;
+                                        if (sWs.Find(y => y.ID == myID && y.Dxsw < 99.99) == null && mySw != 999)
                                         {
                                             SW swls = new SW();
                                             if ((swls = sWs.Find(y => y.ID == myID)) != null)
@@ -2197,7 +2214,7 @@ namespace sjzd
                                         }
 
                                     }
-                                    catch (Exception ex)
+                                    catch (Exception)
                                     {
                                     }
                                 }
@@ -2211,9 +2228,9 @@ namespace sjzd
                                     DateTime dateTimedq = Convert.ToDateTime(year.ToString() + '-' + month.ToString().PadLeft(2, '0') + "-01");
                                     string pathLs = qxysPath + dateTimedq.ToString("yyyy") + "地下水位.txt";
                                     string strls = "";
-                                    MessageBoxResult dr2 = MessageBox.Show("是否更新地下水位信息？" , "提示", MessageBoxButton.YesNo);
+                                    MessageBoxResult dr2 = MessageBox.Show("是否更新地下水位信息？", "提示", MessageBoxButton.YesNo);
                                     bool bsSaveDX = (dr2 == MessageBoxResult.Yes);
-                                    if(bsSaveDX)
+                                    if (bsSaveDX)
                                     {
                                         if (File.Exists(pathLs))
                                         {
@@ -2247,7 +2264,7 @@ namespace sjzd
                                         strls = strls.Substring(0, strls.Length - 2);
                                         File.WriteAllText(pathLs, strls, Encoding.Default);
                                     }
-                                   
+
                                     strls = "";
                                     List<SW> sWsLastMonth = new List<SW>();
                                     List<SW> sWsLastYear = new List<SW>();
@@ -2313,13 +2330,13 @@ namespace sjzd
                                     }
                                     if (sWsLastMonth.Count > 0 & sWsLastYear.Count > 0)
                                     {
-                                      
-                                       
+
+
                                         List<SW> sWsls = new List<SW>();
-                                        for(int i=0;i<sWs.Count;i++)
+                                        for (int i = 0; i < sWs.Count; i++)
                                         {
                                             YBList yBList = dqDataMonth.Find(y => y.ID == sWs[i].ID);
-                                            if(yBList!=null)
+                                            if (yBList != null)
                                             {
                                                 sWs[i].Name = yBList.Name;
                                             }
@@ -2351,7 +2368,7 @@ namespace sjzd
                                             SW yBList = sWs.Find(y => y.ID == sWsLastYear[i].ID);
                                             if (yBList != null)
                                             {
-                                                sWsLastYear[i].Dxsw = sWsLastYear[i].Dxsw-yBList.Dxsw;
+                                                sWsLastYear[i].Dxsw = sWsLastYear[i].Dxsw - yBList.Dxsw;
                                                 sWsLastYear[i].Name = yBList.Name;
                                             }
                                         }
@@ -2360,15 +2377,15 @@ namespace sjzd
                                             SW yBList = sWs.Find(y => y.ID == sWsLastMonth[i].ID);
                                             if (yBList != null)
                                             {
-                                                sWsLastMonth[i].Dxsw = sWsLastMonth[i].Dxsw-yBList.Dxsw  ;
+                                                sWsLastMonth[i].Dxsw = sWsLastMonth[i].Dxsw - yBList.Dxsw;
                                                 sWsLastMonth[i].Name = yBList.Name;
                                             }
                                         }
                                         sWs = sWs.OrderByDescending(y => y.Dxsw).ToList();
-                                        strls = $"{year}年{month}月末地下水位{ sWs[sWs.Count - 1].Dxsw}（{ sWs[sWs.Count - 1].Name}）～{ sWs[0].Dxsw}m（{ sWs[0].Name}）。";
+                                        strls = $"{year}年{month}月末地下水位{ sWs[sWs.Count - 1].Dxsw.ToString("F2")}（{ sWs[sWs.Count - 1].Name}）～{ sWs[0].Dxsw.ToString("F2")}m（{ sWs[0].Name}）。";
                                         if (!sWsLastYear.Exists(y => y.Dxsw > 0))
                                         {
-                                           
+
                                             sWsls.Clear();
                                             sWsls = sWsLastYear.FindAll(y => y.Dxsw != 99.99).OrderByDescending(y => y.Dxsw).ToList();
                                             if (sWsls.Count > 1)
@@ -2383,7 +2400,7 @@ namespace sjzd
                                         }
                                         else if (!sWsLastYear.Exists(y => y.Dxsw < 0))
                                         {
-                                           
+
                                             sWsls.Clear();
                                             sWsls = sWsLastYear.FindAll(y => y.Dxsw != 0).OrderBy(y => y.Dxsw).ToList();
                                             if (sWsls.Count > 1)
@@ -2465,7 +2482,7 @@ namespace sjzd
                                             if (sWsls.Count > 1)
                                             {
                                                 strls += $"与上月末相比下降{sWsls[0].Dxsw.ToString("F2")}（{sWsls[0].Name}）～{sWsls[sWsls.Count - 1].Dxsw.ToString("F2")}m（{sWsls[sWsls.Count - 1].Name}）（图4）。";
-                                                btStr+= $"与上月末相比下降{sWsls[0].Dxsw.ToString("F2")}（{sWsls[0].Name}）～{sWsls[sWsls.Count - 1].Dxsw.ToString("F2")}m（{sWsls[sWsls.Count - 1].Name}）。";
+                                                btStr += $"与上月末相比下降{sWsls[0].Dxsw.ToString("F2")}（{sWsls[0].Name}）～{sWsls[sWsls.Count - 1].Dxsw.ToString("F2")}m（{sWsls[sWsls.Count - 1].Name}）。";
                                             }
                                             else
                                             {
@@ -2483,7 +2500,7 @@ namespace sjzd
                                                 sWsls.Clear();
                                                 sWsls = list1.OrderByDescending(y => y.Dxsw).ToList();
                                                 strls += $"与上月末相比，";
-                                                btStr+= $"与上月末相比，";
+                                                btStr += $"与上月末相比，";
                                                 foreach (SW yB in list2)
                                                 {
                                                     strls += $"{yB.Name}上升{yB.Dxsw.ToString("F2")}m，";
@@ -2528,33 +2545,33 @@ namespace sjzd
                                                 btStr += $"其余地区上升{sWsls[0].Dxsw.ToString("F2")}（{sWsls[0].Name}）～{sWsls[sWsls.Count - 1].Dxsw.ToString("F2")}m（{sWsls[sWsls.Count - 1].Name}）。";
                                             }
                                         }
-                                       
+
 
                                     }
                                     builder.MoveToBookmark("地下水位");
                                     builder.Write(strls);
                                 }
-                               
+
 
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                             }
 
                             builder.MoveToBookmark("提要");
                             builder.Write(btStr);
                             doc.Save(fbPath);
-                            if(!File.Exists(ysExcelPath))
+                            if (!File.Exists(ysExcelPath))
                             {
-                               try
-                               {
+                                try
+                                {
                                     File.Copy(Environment.CurrentDirectory + @"\生态\气象要素.xls", ysExcelPath);
                                 }
-                               catch
-                               {
-                               }
+                                catch
+                                {
+                                }
                             }
-                            BCYBExcel(ysExcelPath, dqData3, tqbjData3, qnbjData3, tqData3, lastYearData3, month,3);
+                            BCYBExcel(ysExcelPath, dqData3, tqbjData3, qnbjData3, tqData3, lastYearData3, month, 3);
                             BCYBExcel(ysExcelPath, dqDataMonth, tqbjDataMonth, qnbjDataMonth, tqDataMonth, lastYearDataMonth, month);
                             MessageBoxResult dr = MessageBox.Show("产品制作完成,保存路径为：\r\n" + fbPath + "\n是否打开？", "提示", MessageBoxButton.YesNo);
                             if (dr == MessageBoxResult.Yes)
@@ -2592,42 +2609,55 @@ namespace sjzd
             public string Name { get; set; }
             public double Dxsw { get; set; }
         }
-        public void BCYBExcel(string path, List<YBList> dqYb, List<YBList> bjTQ, List<YBList> bjLast, List<YBList> TQ, List<YBList> Last, int month,Int16 xun)
+        public void BCYBExcel(string path, List<YBList> dqYb, List<YBList> bjTQ, List<YBList> bjLast, List<YBList> TQ, List<YBList> Last, int month, Int16 xun)
         {
             try
             {
                 Workbook workbook = new Workbook(path);
                 WorksheetCollection sheets = workbook.Worksheets; //添加工作表 
                 Worksheet cellSheet = sheets[$"{month}月"];
-                if(cellSheet==null)//如果标签不存在则复制新建
+                if (cellSheet == null)//如果标签不存在则复制新建
                 {
-                    
-                    cellSheet = sheets.Insert(month-1, SheetType.Worksheet, $"{month}月");
+
+                    cellSheet = sheets.Insert(month - 1, SheetType.Worksheet, $"{month}月");
                     cellSheet.Copy(sheets[0]);
                     //sheet.AddCopy(0);
                     // sheet[sheet.Count - 1].Name = "14月";
                 }
+
                 int startHS = 0;
-                if(xun==1)
+                if (xun == 1)
                 {
                     startHS = 1;
                 }
-                else if(xun == 2)
+                else if (xun == 2)
                 {
                     startHS = 3 + dqYb.Count;
                 }
-                else 
+                else
                 {
-                    startHS = 5 + dqYb.Count*2;
+                    startHS = 5 + dqYb.Count * 2;
                 }
                 dqYb = dqYb.OrderBy(y => y.ID).ToList();
-                for(int i=0;i< dqYb.Count;i++)
+                cellSheet.Cells[0, 22].PutValue("历年温度");
+                cellSheet.Cells[9, 22].PutValue("历年温度");
+                cellSheet.Cells[18, 22].PutValue("历年温度");
+                cellSheet.Cells[27, 22].PutValue("历年温度");
+                cellSheet.Cells[0, 23].PutValue("历年降水量");
+                cellSheet.Cells[9, 23].PutValue("历年降水量");
+                cellSheet.Cells[18, 23].PutValue("历年降水量");
+                cellSheet.Cells[27, 23].PutValue("历年降水量");
+                cellSheet.Cells[0, 24].PutValue("历年日照");
+                cellSheet.Cells[9, 24].PutValue("历年日照");
+                cellSheet.Cells[18, 24].PutValue("历年日照");
+                cellSheet.Cells[27, 24].PutValue("历年日照");
+                for (int i = 0; i < dqYb.Count; i++)
                 {
                     YBList ybtqbj = bjTQ.Find(y => y.ID == dqYb[i].ID);
                     YBList ybqnbj = bjLast.Find(y => y.ID == dqYb[i].ID);
                     YBList ybqn = Last.Find(y => y.ID == dqYb[i].ID);
                     YBList ybtq = TQ.Find(y => y.ID == dqYb[i].ID);
-                    cellSheet.Cells[startHS+i, 0].PutValue(dqYb[i].ID);
+                    cellSheet.Cells[startHS + i, 0].PutValue(dqYb[i].ID);
                     cellSheet.Cells[startHS + i, 1].PutValue(dqYb[i].Name);
                     cellSheet.Cells[startHS + i, 2].PutValue(dqYb[i].Tem);
                     cellSheet.Cells[startHS + i, 3].PutValue(ybtqbj.Tem);
@@ -2646,12 +2676,15 @@ namespace sjzd
                     cellSheet.Cells[startHS + i, 17].PutValue(ybqnbj.Sun);
                     cellSheet.Cells[startHS + i, 19].PutValue(dqYb[i].Tmax);
                     cellSheet.Cells[startHS + i, 20].PutValue(dqYb[i].TmaxDays);
+                    cellSheet.Cells[startHS + i, 22].PutValue(ybtq.Tem);
+                    cellSheet.Cells[startHS + i, 23].PutValue(ybtq.Pre);
+                    cellSheet.Cells[startHS + i, 24].PutValue(ybtq.Sun);
                 }
                 sheets.ActiveSheetIndex = month - 1;
                 workbook.Save(path);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -2673,11 +2706,11 @@ namespace sjzd
                     // sheet[sheet.Count - 1].Name = "14月";
                 }
                 int startHS = 7 + dqYb.Count * 3;
-                cellSheet.Cells[startHS -1,1].PutValue($"{month}月");
+                cellSheet.Cells[startHS - 1, 1].PutValue($"{month}月");
                 cellSheet.Cells[startHS - 1, 9].PutValue("月最低");
                 cellSheet.Cells[startHS - 1, 9].PutValue("出现日期");
                 cellSheet.Cells[startHS - 1, 19].PutValue("月最高");
-                cellSheet.Cells[startHS - 1,20].PutValue("出现日期");
+                cellSheet.Cells[startHS - 1, 20].PutValue("出现日期");
                 dqYb = dqYb.OrderBy(y => y.ID).ToList();
                 for (int i = 0; i < dqYb.Count; i++)
                 {
@@ -2697,7 +2730,7 @@ namespace sjzd
                     cellSheet.Cells[startHS + i, 8].PutValue(dqYb[i].Wind);
                     cellSheet.Cells[startHS + i, 9].PutValue(dqYb[i].Tmin);
                     cellSheet.Cells[startHS + i, 10].PutValue(dqYb[i].TminDays);
-                   
+
                     cellSheet.Cells[startHS + i, 12].PutValue(ybqn.Tem);
                     cellSheet.Cells[startHS + i, 13].PutValue(ybqnbj.Tem);
                     cellSheet.Cells[startHS + i, 14].PutValue(ybqn.Pre);
@@ -2706,6 +2739,9 @@ namespace sjzd
                     cellSheet.Cells[startHS + i, 17].PutValue(ybqnbj.Sun);
                     cellSheet.Cells[startHS + i, 19].PutValue(dqYb[i].Tmax);
                     cellSheet.Cells[startHS + i, 20].PutValue(dqYb[i].TmaxDays);
+                    cellSheet.Cells[startHS + i, 22].PutValue(ybtq.Tem);
+                    cellSheet.Cells[startHS + i, 23].PutValue(ybtq.Pre);
+                    cellSheet.Cells[startHS + i, 24].PutValue(ybtq.Sun);
                 }
                 sheets.ActiveSheetIndex = month - 1;
                 workbook.Save(path);
@@ -2730,23 +2766,23 @@ namespace sjzd
                     cellSheet.Copy(sheets[0]);
                 }
                 cellSheet.Cells[34, 0].PutValue($"{year}年{month}月");
-                cellSheet.Cells[35, 0].PutValue($"{year-1}年{month}月");
-                cellSheet.Cells[36, 0].PutValue($"{year}年{month-1}月");
+                cellSheet.Cells[35, 0].PutValue($"{year - 1}年{month}月");
+                cellSheet.Cells[36, 0].PutValue($"{year}年{month - 1}月");
                 dqYb = dqYb.OrderBy(y => y.ID).ToList();
                 for (int i = 0; i < dqYb.Count; i++)
                 {
                     SW ybqn = LastMonth.Find(y => y.ID == dqYb[i].ID);
                     SW ybtq = LastYear.Find(y => y.ID == dqYb[i].ID);
-                    cellSheet.Cells[2, i+1].PutValue(dqYb[i].Name);
+                    cellSheet.Cells[2, i + 1].PutValue(dqYb[i].Name);
                     cellSheet.Cells[2 + month, i + 1].PutValue(ybtq.Dxsw);
-                    cellSheet.Cells[17 , i + 1].PutValue(dqYb[i].Name);
+                    cellSheet.Cells[17, i + 1].PutValue(dqYb[i].Name);
                     cellSheet.Cells[17 + month, i + 1].PutValue(dqYb[i].Dxsw);
                     cellSheet.Cells[33, i + 1].PutValue(dqYb[i].Name);
                     cellSheet.Cells[34, i + 1].PutValue(dqYb[i].Dxsw);
                     cellSheet.Cells[35, i + 1].PutValue(ybtq.Dxsw);
                     cellSheet.Cells[36, i + 1].PutValue(ybqn.Dxsw);
-                    cellSheet.Cells[38, i + 1].PutValue(dqYb[i].Dxsw- ybtq.Dxsw);
-                    cellSheet.Cells[39, i + 1].PutValue(dqYb[i].Dxsw- ybqn.Dxsw);
+                    cellSheet.Cells[38, i + 1].PutValue(dqYb[i].Dxsw - ybtq.Dxsw);
+                    cellSheet.Cells[39, i + 1].PutValue(dqYb[i].Dxsw - ybqn.Dxsw);
                 }
                 sheets.ActiveSheetIndex = sheets.IndexOf(cellSheet);
                 workbook.Save(path);
@@ -2757,7 +2793,7 @@ namespace sjzd
                 MessageBox.Show(ex.Message);
             }
         }
-        public List<YBList> getDQSJ(Int16 year, Int16 month, Int16 xun,string stationID)
+        public List<YBList> getDQSJ(Int16 year, Int16 month, Int16 xun, string stationID)
         {
             List<YBList> yBLists = new List<YBList>();
             DataQueryClient client = new DataQueryClient();
@@ -2770,7 +2806,7 @@ namespace sjzd
             // 必选参数
             paramsqx.Add("dataCode", "SURF_CHN_MUL_TEN"); // 资料代码
             //检索时间段
-            paramsqx.Add("times",year+month.ToString().PadLeft(2,'0')+ xun.ToString().PadLeft(2, '0')+ "000000");
+            paramsqx.Add("times", year + month.ToString().PadLeft(2, '0') + xun.ToString().PadLeft(2, '0') + "000000");
             paramsqx.Add("elements", "Station_Name,Station_Id_C,TEM_Avg,TEM_Max,TEM_Max_ODay_C,TEM_Min,TEM_Min_ODay_C,PRE_Time_2020,SSH");
             paramsqx.Add("staIds", stationID);
             string dataFormat = "Text";
@@ -2790,13 +2826,13 @@ namespace sjzd
                 {
                     strData = strData.Replace("\r\n", "\n");
                     string[] szData = strData.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                    if(szData.Length>2)
+                    if (szData.Length > 2)
                     {
-                        for(int i=2;i<szData.Length;i++)
+                        for (int i = 2; i < szData.Length; i++)
                         {
                             try
                             {
-                                
+
                                 string[] szls = szData[i].Split();
                                 yBLists.Add(new YBList()
                                 {
@@ -2812,7 +2848,7 @@ namespace sjzd
                                     Wind = getDF(year, month, xun, szls[1])
                                 });
                             }
-                            catch(Exception ex)
+                            catch (Exception)
                             { }
                         }
                     }
@@ -2821,7 +2857,7 @@ namespace sjzd
             }
             catch
             {
-                
+
             }
             return yBLists;
 
@@ -2839,7 +2875,7 @@ namespace sjzd
             // 必选参数
             paramsqx.Add("dataCode", "SURF_CHN_TEN_MMUT_19812010"); // 资料代码
             //检索时间段
-            paramsqx.Add("tensOfYear",((month - 1) * 3 + xun).ToString());
+            paramsqx.Add("tensOfYear", ((month - 1) * 3 + xun).ToString());
             paramsqx.Add("elements", "Station_Name,Station_Id_C,TEM_Avg,PRE,SSH");
             paramsqx.Add("staIds", stationID);
             string dataFormat = "Text";
@@ -2876,7 +2912,7 @@ namespace sjzd
                                     Sun = Convert.ToDouble(szls[4]) > 1000 ? 0 : Convert.ToDouble(szls[4]),
                                 });
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             { }
                         }
                     }
@@ -2940,7 +2976,7 @@ namespace sjzd
                                     Sun = Convert.ToDouble(szls[4]) > 1000 ? 0 : Convert.ToDouble(szls[4]),
                                 });
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             { }
                         }
                     }
@@ -3017,29 +3053,31 @@ namespace sjzd
             return days;
 
         }
-        public List<YBList> ZRtoMonth(int year, int month,  string stationID)
+        public List<YBList> ZRtoMonth(int year, int month, string stationID)
         {
             List<YBList> yBLists = new List<YBList>();
-            List<ZRList> zRLists = getZR(year, month,  stationID);
+            List<ZRList> zRLists = getZR(year, month, stationID);
+
             if (zRLists.Count > 0)
             {
                 string[] szStr = stationID.Split(',');
                 for (int i = 0; i < szStr.Length; i++)
                 {
                     List<ZRList> zRs = zRLists.FindAll(y => y.ID == szStr[i]);
+                    int countTem = zRs.Count;
                     if (zRs.Count > 0)
                     {
                         YBList yBList = new YBList()
                         {
                             ID = zRs[0].ID,
                             Name = zRs[0].Name,
-                            Pre = zRs[0].Pre,
-                            Sun = zRs[0].Sun,
-                            Tem = zRs[0].Tem,
-                            Wind = zRs[0].Wind,
-                            Tmax = zRs[0].Tmax,
+                            Pre = Math.Abs(zRs[0].Pre) < 1000 ? zRs[0].Pre : 0,
+                            Sun = Math.Abs(zRs[0].Sun) < 1000 ? zRs[0].Sun : 0,
+                            Tem = Math.Abs(zRs[0].Tem) < 1000 ? zRs[0].Tem : 0,
+                            Wind = Math.Abs(zRs[0].Wind) < 1000 ? zRs[0].Wind : 0,
+                            Tmax = Math.Abs(zRs[0].Tmax) < 1000 ? zRs[0].Tmax : -99999,
                             TmaxDays = zRs[0].Days,
-                            Tmin = zRs[0].Tmin,
+                            Tmin = Math.Abs(zRs[0].Tmin) < 1000 ? zRs[0].Tmin : 99999,
                             TminDays = zRs[0].Days,
 
                         };
@@ -3051,23 +3089,45 @@ namespace sjzd
                         {
                             for (int j = 1; j < zRs.Count; j++)
                             {
-                                yBList.Pre += zRs[j].Pre;
-                                yBList.Sun += zRs[j].Sun;
-                                yBList.Tem += zRs[j].Tem;
-                                yBList.Wind += zRs[j].Wind;
-                                if (yBList.Tmax < zRs[j].Tmax)
+                                if (Math.Abs(zRs[j].Pre) < 1000)
+                                {
+                                    yBList.Pre += zRs[j].Pre;
+                                }
+
+
+                                if (Math.Abs(zRs[j].Sun) < 1000)
+                                {
+                                    yBList.Sun += zRs[j].Sun;
+                                }
+
+
+                                if (Math.Abs(zRs[j].Tem) < 1000)
+                                {
+                                    yBList.Tem += zRs[j].Tem;
+                                }
+                                else
+                                {
+                                    countTem--;
+                                }
+
+                                if (Math.Abs(zRs[j].Wind) < 1000)
+                                {
+                                    yBList.Wind += zRs[j].Wind;
+                                }
+
+                                if (Math.Abs(zRs[j].Tmax) < 1000 && yBList.Tmax < zRs[j].Tmax)
                                 {
                                     yBList.Tmax = zRs[j].Tmax;
                                     yBList.TmaxDays = zRs[j].Days;
                                 }
-                                if (yBList.Tmin > zRs[j].Tmin)
+                                if (Math.Abs(zRs[j].Tmax) < 1000 && yBList.Tmin > zRs[j].Tmin)
                                 {
                                     yBList.Tmin = zRs[j].Tmin;
                                     yBList.TminDays = zRs[j].Days;
                                 }
                             }
                         }
-                        yBList.Tem = Math.Round(yBList.Tem / zRs.Count, 1);
+                        yBList.Tem = Math.Round(yBList.Tem / countTem, 1);
                         yBList.Pre = Math.Round(yBList.Pre, 1);
                         yBList.Sun = Math.Round(yBList.Sun, 1);
                         yBLists.Add(yBList);
@@ -3135,7 +3195,7 @@ namespace sjzd
                                     Wind = Convert.ToInt32(szls[8]) > 1000 ? 0 : Convert.ToInt32(szls[8]),
                                 });
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             { }
                         }
                     }
@@ -3153,53 +3213,76 @@ namespace sjzd
         {
             List<YBList> yBLists = new List<YBList>();
             List<ZRList> zRLists = getZR(year, month, xun, stationID);
-            if(zRLists.Count>0)
+            if (zRLists.Count > 0)
             {
                 string[] szStr = stationID.Split(',');
-                for(int i=0;i<szStr.Length;i++)
+                for (int i = 0; i < szStr.Length; i++)
                 {
-                    List<ZRList> zRs= zRLists.FindAll(y => y.ID == szStr[i]);
-                    if(zRs.Count>0)
+                    List<ZRList> zRs = zRLists.FindAll(y => y.ID == szStr[i]);
+                    int countTem = zRs.Count;
+                    if (zRs.Count > 0)
                     {
                         YBList yBList = new YBList()
                         {
-                            ID=zRs[0].ID,
-                            Name=zRs[0].Name,
-                            Pre= zRs[0].Pre,
-                            Sun= zRs[0].Sun,
-                            Tem= zRs[0].Tem,
-                            Wind= zRs[0].Wind,
-                            Tmax = zRs[0].Tmax,
-                            TmaxDays= zRs[0].Days,
-                            Tmin= zRs[0].Tmin,
-                            TminDays= zRs[0].Days,
+                            ID = zRs[0].ID,
+                            Name = zRs[0].Name,
+                            Pre = Math.Abs(zRs[0].Pre) < 1000 ? zRs[0].Pre : 0,
+                            Sun = Math.Abs(zRs[0].Sun) < 1000 ? zRs[0].Sun : 0,
+                            Tem = Math.Abs(zRs[0].Tem) < 1000 ? zRs[0].Tem : 0,
+                            Wind = Math.Abs(zRs[0].Wind) < 1000 ? zRs[0].Wind : 0,
+                            Tmax = Math.Abs(zRs[0].Tmax) < 1000 ? zRs[0].Tmax : -99999,
+                            TmaxDays = zRs[0].Days,
+                            Tmin = Math.Abs(zRs[0].Tmin) < 1000 ? zRs[0].Tmin : 99999,
+                            TminDays = zRs[0].Days,
 
                         };
                         if (yBList.ID == "53463")
                             yBList.Name = "市区北部";
                         else if (yBList.ID == "53466")
                             yBList.Name = "市区南部";
-                        if (zRs.Count>1)
+                        if (zRs.Count > 1)
                         {
-                            for(int j=1;j<zRs.Count;j++)
+                            for (int j = 1; j < zRs.Count; j++)
                             {
-                                yBList.Pre += zRs[j].Pre;
-                                yBList.Sun += zRs[j].Sun;
-                                yBList.Tem += zRs[j].Tem;
-                                yBList.Wind += zRs[j].Wind;
-                                if(yBList.Tmax<zRs[j].Tmax)
+                                if (Math.Abs(zRs[j].Pre) < 1000)
+                                {
+                                    yBList.Pre += zRs[j].Pre;
+                                }
+
+
+                                if (Math.Abs(zRs[j].Sun) < 1000)
+                                {
+                                    yBList.Sun += zRs[j].Sun;
+                                }
+
+
+                                if (Math.Abs(zRs[j].Tem) < 1000)
+                                {
+                                    yBList.Tem += zRs[j].Tem;
+                                }
+                                else
+                                {
+                                    countTem--;
+                                }
+
+                                if (Math.Abs(zRs[j].Wind) < 1000)
+                                {
+                                    yBList.Wind += zRs[j].Wind;
+                                }
+
+                                if (Math.Abs(zRs[j].Tmax) < 1000 && yBList.Tmax < zRs[j].Tmax)
                                 {
                                     yBList.Tmax = zRs[j].Tmax;
                                     yBList.TmaxDays = zRs[j].Days;
                                 }
-                                if (yBList.Tmin > zRs[j].Tmin)
+                                if (Math.Abs(zRs[j].Tmax) < 1000 && yBList.Tmin > zRs[j].Tmin)
                                 {
                                     yBList.Tmin = zRs[j].Tmin;
                                     yBList.TminDays = zRs[j].Days;
                                 }
                             }
                         }
-                        yBList.Tem = Math.Round(yBList.Tem / zRs.Count,1);
+                        yBList.Tem = Math.Round(yBList.Tem / countTem, 1);
                         yBList.Pre = Math.Round(yBList.Pre, 1);
                         yBList.Sun = Math.Round(yBList.Sun, 1);
                         yBLists.Add(yBList);
@@ -3232,7 +3315,7 @@ namespace sjzd
             }
             else
             {
-                DateTime dtls = Convert.ToDateTime(year.ToString() + '-'+month.ToString().PadLeft(2, '0') + '-' + "01").AddMonths(1).AddDays(-1);
+                DateTime dtls = Convert.ToDateTime(year.ToString() + '-' + month.ToString().PadLeft(2, '0') + '-' + "01").AddMonths(1).AddDays(-1);
                 timeRange = year.ToString() + month.ToString().PadLeft(2, '0') + "21000000," + dtls.ToString("yyyyMMdd") + "000000";
             }
             timeRange = '[' + timeRange + ']';
@@ -3269,16 +3352,16 @@ namespace sjzd
                                 {
                                     Name = szls[0],
                                     ID = szls[1],
-                                    Days=Convert.ToInt16(szls[2]),
+                                    Days = Convert.ToInt16(szls[2]),
                                     Tem = Convert.ToDouble(szls[3]),
-                                    Tmax= Convert.ToDouble(szls[4]),
+                                    Tmax = Convert.ToDouble(szls[4]),
                                     Tmin = Convert.ToDouble(szls[5]),
                                     Pre = Convert.ToDouble(szls[6]) > 1000 ? 0 : Convert.ToDouble(szls[6]),
                                     Sun = Convert.ToDouble(szls[7]) > 1000 ? 0 : Convert.ToDouble(szls[7]),
                                     Wind = Convert.ToInt32(szls[8]) > 1000 ? 0 : Convert.ToInt32(szls[8]),
                                 });
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             { }
                         }
                     }
@@ -3299,7 +3382,7 @@ namespace sjzd
             public double Tem { get; set; }
             public double Tmax { get; set; }
             public Int16 TmaxDays { get; set; }
-            public double Tmin{ get; set; }
+            public double Tmin { get; set; }
             public Int16 TminDays { get; set; }
             public double Pre { get; set; }
             public double Sun { get; set; }

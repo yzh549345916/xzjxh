@@ -1,24 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Telerik.Windows.Controls;
 
 namespace sjzd
 {
     /// <summary>
     /// 预报人员选择.xaml 的交互逻辑
     /// </summary>
-    public partial class 生态选择1 : Window
+    public partial class 生态选择1 : RadWindow
     {
         public 生态选择1()
         {
@@ -51,7 +41,7 @@ namespace sjzd
                     sDate.SelectedDate = DateTime.Now.AddMonths(-1);
                     xunSel.SelectedIndex = 2;
                 }
-                else if (DateTime.Now.Day >= 10&&DateTime.Now.Day< 20)
+                else if (DateTime.Now.Day >= 10 && DateTime.Now.Day < 20)
                 {
                     xunSel.SelectedIndex = 0;
                 }
@@ -64,29 +54,29 @@ namespace sjzd
             {
             }
         }
-           
-        
+
+
 
         private void Z308Btu_Click(object sender, RoutedEventArgs e)
         {
             XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\生态与农业气象信息设置.xml");
             try
             {
-                util.Write((Convert.ToInt32(QSALLT.Text.Trim()) + 1).ToString(),"Other", "ZQS");
+                util.Write((Convert.ToInt32(QSALLT.Text.Trim()) + 1).ToString(), "Other", "ZQS");
             }
             catch
             {
-                util.Write(QSALLT.Text.Trim(),"Other", "ZQS");
+                util.Write(QSALLT.Text.Trim(), "Other", "ZQS");
             }
             try
             {
-                util.Write((Convert.ToInt32(QST.Text.Trim()) + 1).ToString(),"Other", "QS");
+                util.Write((Convert.ToInt32(QST.Text.Trim()) + 1).ToString(), "Other", "QS");
             }
             catch
             {
-                util.Write(QST.Text.Trim(),"Other", "QS");
+                util.Write(QST.Text.Trim(), "Other", "QS");
             }
-           
+
             生态与农业气象信息 st = new 生态与农业气象信息();
             DateTime dt1 = Convert.ToDateTime(sDate.SelectedDate);
             int intqs = 0, intzqs = 0;
@@ -104,15 +94,15 @@ namespace sjzd
             catch
             {
             }
-            if(xunSel.SelectedIndex<2)
+            if (xunSel.SelectedIndex < 2)
             {
-                st.DCWord(intqs, intzqs, dt1.Year, dt1.Month,Convert.ToInt16(xunSel.SelectedIndex + 1), ZBCom.Text);
+                st.DCWord(intqs, intzqs, dt1.Year, dt1.Month, Convert.ToInt16(xunSel.SelectedIndex + 1), ZBCom.Text);
             }
             else
             {
                 st.DCWordMonth(intqs, intzqs, dt1.Year, dt1.Month, ZBCom.Text);
             }
-            
+
             this.Close();
         }
 

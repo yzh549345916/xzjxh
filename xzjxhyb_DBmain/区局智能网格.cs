@@ -1,15 +1,12 @@
 ﻿using cma.cimiss.client;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace xzjxhyb_DBmain
@@ -21,7 +18,7 @@ namespace xzjxhyb_DBmain
         {
             CSH();
 
-            
+
 
         }
         /// <summary>
@@ -34,7 +31,7 @@ namespace xzjxhyb_DBmain
 
         {
 
-            var tb = new DataTable(typeof(T).Name);
+            DataTable tb = new DataTable(typeof(T).Name);
 
 
 
@@ -58,7 +55,7 @@ namespace xzjxhyb_DBmain
 
             {
 
-                var values = new object[props.Length];
+                object[] values = new object[props.Length];
 
 
 
@@ -146,7 +143,7 @@ namespace xzjxhyb_DBmain
         {
             XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
             con = util.Read("OtherConfig", "DB");
-            
+
         }
 
         /// <summary>
@@ -157,7 +154,7 @@ namespace xzjxhyb_DBmain
         /// <param name="sx">待查询的时效24、48、72</param>
         /// <param name="stationID">区站号字符串，以需要加单引号，以逗号分隔。例如：'53464','C4531'</param>
         /// <returns>返回List YSList，ID、时效、最高、最低气温</returns>
-        public List<YSList> HQYS(string strTime, Int16 sc,Int16 sx, string stationID)
+        public List<YSList> HQYS(string strTime, Int16 sc, Int16 sx, string stationID)
         {
             List<YSList> ySLists = new List<YSList>();
             try
@@ -167,7 +164,7 @@ namespace xzjxhyb_DBmain
                     try
                     {
                         mycon.Open();//打开
-                        string sql = String.Format("select * from 省级格点预报订正产品 where StatioID in ({0}) and Date='{1}' and SC='{2}' and SX in ({3})", stationID, strTime, sc,sx);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
+                        string sql = String.Format("select * from 省级格点预报订正产品 where StatioID in ({0}) and Date='{1}' and SC='{2}' and SX in ({3})", stationID, strTime, sc, sx);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
                         SqlCommand sqlman = new SqlCommand(sql, mycon);
                         SqlDataReader sqlreader = sqlman.ExecuteReader();
                         while (sqlreader.Read())
@@ -181,7 +178,7 @@ namespace xzjxhyb_DBmain
                             });
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                     }
                 }
@@ -247,10 +244,10 @@ namespace xzjxhyb_DBmain
                                     tJLists.Add(new TJList()
                                     {
                                         ID = sqlreader.GetString(sqlreader.GetOrdinal("ID")),
-                                        SKTMAX= 999999,
-                                        SKTMIN= 999999,
-                                        YBTMAX= -999999,
-                                        YBTMIN= -999999,
+                                        SKTMAX = 999999,
+                                        SKTMIN = 999999,
+                                        YBTMAX = -999999,
+                                        YBTMIN = -999999,
                                     });
 
                                 }
@@ -302,13 +299,13 @@ namespace xzjxhyb_DBmain
                 }
 
                 string IDStr = "";
-                foreach (var l1 in tJLists)
+                foreach (TJList l1 in tJLists)
                 {
                     IDStr += '\'' + l1.ID + "\',";
                 }
 
                 IDStr = IDStr.Substring(0, IDStr.Length - 1);
-                List<YSList> ySLists=HQYS(dt.ToString("yyyy-MM-dd"), 20,24, IDStr);
+                List<YSList> ySLists = HQYS(dt.ToString("yyyy-MM-dd"), 20, 24, IDStr);
                 for (int i = 0; i < tJLists.Count; i++)
                 {
                     if (tJLists[i].SKTMAX == 999999 || tJLists[i].SKTMIN == 999999)
@@ -321,7 +318,7 @@ namespace xzjxhyb_DBmain
                         YSList ySList1 = ySLists.Find((YSList y) => y.ID == tJLists[i].ID);
                         if (ySList1 != null)
                         {
-                            tJLists[i].YBTMAX = Math.Round(ySList1.TMAX - tJLists[i].SKTMAX,2);
+                            tJLists[i].YBTMAX = Math.Round(ySList1.TMAX - tJLists[i].SKTMAX, 2);
                             tJLists[i].YBTMIN = Math.Round(ySList1.TMIN - tJLists[i].SKTMIN, 2);
                         }
                     }
@@ -330,7 +327,7 @@ namespace xzjxhyb_DBmain
 
                 string strTime = dt.ToString("yyyy-MM-dd");
                 List<TJList24> tJList24s = new List<TJList24>();
-                foreach (var ll in tJLists)
+                foreach (TJList ll in tJLists)
                 {
                     tJList24s.Add(new TJList24()
                     {
@@ -369,14 +366,14 @@ namespace xzjxhyb_DBmain
 
                 strTime = dt.AddDays(-1).ToString("yyyy-MM-dd");
                 List<TJList48> tJList48s = new List<TJList48>();
-                foreach (var ll in tJLists)
+                foreach (TJList ll in tJLists)
                 {
                     tJList48s.Add(new TJList48()
                     {
                         StationID = ll.ID,
                         Date = strTime,
                         QJZN_SKTmax48 = ll.YBTMAX,
-                        QJZN_SKTmin48= ll.YBTMIN
+                        QJZN_SKTmin48 = ll.YBTMIN
                     });
                     ll.YBTMIN = -999999;
                     ll.YBTMAX = -999999;
@@ -407,7 +404,7 @@ namespace xzjxhyb_DBmain
 
                 strTime = dt.AddDays(-2).ToString("yyyy-MM-dd");
                 List<TJList72> tJList72s = new List<TJList72>();
-                foreach (var ll in tJLists)
+                foreach (TJList ll in tJLists)
                 {
                     tJList72s.Add(new TJList72()
                     {
@@ -424,7 +421,7 @@ namespace xzjxhyb_DBmain
                 dtb.Clear();
                 return strError;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
                 return ex.Message;
@@ -444,7 +441,7 @@ namespace xzjxhyb_DBmain
                     SqlDataReader sqlreader = sqlman.ExecuteReader();
                     while (sqlreader.Read())
                     {
-                        Data = sqlreader.GetString(sqlreader.GetOrdinal("StatioID"))+' '+ sqlreader.GetString(sqlreader.GetOrdinal("Name")) + ' '+ sqlreader.GetDouble(sqlreader.GetOrdinal("JD")) + ' '+ sqlreader.GetDouble(sqlreader.GetOrdinal("WD")) + ' '+ sqlreader.GetDouble(sqlreader.GetOrdinal("High")) ;
+                        Data = sqlreader.GetString(sqlreader.GetOrdinal("StatioID")) + ' ' + sqlreader.GetString(sqlreader.GetOrdinal("Name")) + ' ' + sqlreader.GetDouble(sqlreader.GetOrdinal("JD")) + ' ' + sqlreader.GetDouble(sqlreader.GetOrdinal("WD")) + ' ' + sqlreader.GetDouble(sqlreader.GetOrdinal("High"));
                     }
                 }
                 catch
@@ -453,16 +450,15 @@ namespace xzjxhyb_DBmain
             }
             return Data;
         }
-        public void SaveStation(string stationID, string name,Int16 stationlevel,double Lon,double Lat,double High)
+        public void SaveStation(string stationID, string name, Int16 stationlevel, double Lon, double Lat, double High)
         {
             Stopwatch sw = new Stopwatch();
             using (SqlConnection mycon = new SqlConnection(con))
             {
-               try
+                try
                 {
                     string sql = "insert into Station(StatioID,Name,Station_levl,WD,JD,High) VALUES(@id,@name,@stationlev,@wd,@jd,@high)";
                     mycon.Open();//打开
-                    int i = 0;
                     int jlCount = 0;
                     sql = "insert into Station(StatioID,Name,Station_levl,WD,JD,High) VALUES(@id,@name,@stationlev,@wd,@jd,@high)";
                     using (SqlCommand sqlman = new SqlCommand(sql, mycon))
@@ -521,7 +517,7 @@ namespace xzjxhyb_DBmain
 
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
@@ -594,7 +590,7 @@ namespace xzjxhyb_DBmain
             return strData;
 
         }
-       
+
 
 
         public class TJList
@@ -604,7 +600,7 @@ namespace xzjxhyb_DBmain
             public double SKTMIN { get; set; }
             public double YBTMAX { get; set; }
             public double YBTMIN { get; set; }
-            
+
         }
         public class TJList24
         {
@@ -634,7 +630,7 @@ namespace xzjxhyb_DBmain
 
         }
 
-     
+
         /// <summary>
         /// SqlBulkCopy
         /// </summary>
@@ -643,7 +639,7 @@ namespace xzjxhyb_DBmain
         /// <param name="dt">数据源</param>
         private void SqlBulkCopyByDatatable(string connectionString, string TableName, DataTable dt)
         {
-            
+
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 using (SqlBulkCopy sqlbulkcopy = new SqlBulkCopy(connectionString, SqlBulkCopyOptions.FireTriggers))
@@ -658,15 +654,15 @@ namespace xzjxhyb_DBmain
                         sqlbulkcopy.WriteToServer(dt);
 
                     }
-                    catch (System.Exception ex)
+                    catch (System.Exception)
                     {
-                        
+
                     }
                 }
             }
         }
 
-           /// <summary>
+        /// <summary>
         /// SqlBulkCopy批量插入数据
         /// </summary>
         /// <param name="connectionStr">链接字符串</param>
@@ -685,7 +681,7 @@ namespace xzjxhyb_DBmain
                         sqlBulkCopy.BatchSize = batchSize;
                         for (int i = 0; i < sourceDataTable.Columns.Count; i++)
                         {
-                            
+
                             sqlBulkCopy.ColumnMappings.Add(sourceDataTable.Columns[i].ColumnName, sourceDataTable.Columns[i].ColumnName);
                         }
                         sqlBulkCopy.WriteToServer(sourceDataTable);

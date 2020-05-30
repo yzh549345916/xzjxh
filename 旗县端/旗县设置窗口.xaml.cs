@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
 
 namespace 旗县端
 {
@@ -25,18 +17,18 @@ namespace 旗县端
             string DQID = "";
             Dictionary<int, string> mydic = new Dictionary<int, string>();
             InitializeComponent();
-            
+
             using (StreamReader sr = new StreamReader(configPath, Encoding.Default))
             {
                 string line = "";
-                while((line=sr.ReadLine())!=null)
+                while ((line = sr.ReadLine()) != null)
                 {
                     if (line.Split('=')[0] == "当前旗县ID")
                         DQID = line.Split('=')[1];
-                    else if(line.Split('=')[0] == "旗县ID列表")
+                    else if (line.Split('=')[0] == "旗县ID列表")
                     {
                         string[] strsz = (line.Split('=')[1]).Split(',');
-                        for(int i=0;i<strsz.Length;i++)
+                        for (int i = 0; i < strsz.Length; i++)
                         {
                             mydic.Add(i, strsz[i]);
                         }
@@ -75,7 +67,7 @@ namespace 旗县端
         {
             string DQID = "";
             string strData = "";
-            if(ComBox1.SelectedIndex==-1)
+            if (ComBox1.SelectedIndex == -1)
             {
                 MessageBox.Show("请选择需要设置的站号");
             }
@@ -91,11 +83,11 @@ namespace 旗县端
                             strData += "当前旗县ID" + '=' + ComBox1.Text + "\r\n";
                             DQID = ComBox1.Text;
                         }
-                            
-                         else
-                         {
-                             strData += line;
-                         }
+
+                        else
+                        {
+                            strData += line;
+                        }
                     }
                 }
                 using (FileStream fs = new FileStream(configPath, FileMode.Create))
@@ -120,14 +112,14 @@ namespace 旗县端
             string FBConfigPath = System.Environment.CurrentDirectory + @"\config\YBpath.txt";
             try
             {
-                var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+                Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog()
                 {
                     Filter = "可执行文件|*"
                 };
-                var result = openFileDialog.ShowDialog();
-                if(result==true)
+                bool? result = openFileDialog.ShowDialog();
+                if (result == true)
                 {
-                    YBpath= "发报软件路径="+ openFileDialog.FileName;
+                    YBpath = "发报软件路径=" + openFileDialog.FileName;
                     using (FileStream fs = new FileStream(FBConfigPath, FileMode.Create))
                     {
                         StreamWriter sw = new StreamWriter(fs, Encoding.Default);
@@ -138,13 +130,13 @@ namespace 旗县端
                     MessageBox.Show("已将发报系统的路径设置为" + openFileDialog.FileName);
                 }
 
-                    
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -156,7 +148,7 @@ namespace 旗县端
 
         private void ConBtu_Click(object sender, RoutedEventArgs e)
         {
-            
+
             管理员登陆 gly = new 管理员登陆();
             gly.Show();
         }

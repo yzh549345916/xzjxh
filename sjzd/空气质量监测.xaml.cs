@@ -1,21 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.OleDb;
+using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace sjzd
 {
@@ -64,7 +55,7 @@ namespace sjzd
                         }
                         else if (line.Split('=')[0] == "城市列表")
                         {
-                            cityStr= line.Split('=')[1];
+                            cityStr = line.Split('=')[1];
                         }
                     }
                 }
@@ -107,7 +98,7 @@ namespace sjzd
             eDate.BlackoutDates.Add(dr1);//结束时间随着开始时间的改变增加新的范围
         }
 
-        void CXbyTime(DateTime sdt, DateTime edt,string cityName)
+        void CXbyTime(DateTime sdt, DateTime edt, string cityName)
         {
             xslist.Clear();
             string conStr = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + dbPath + ";Persist Security Info=False";
@@ -126,7 +117,7 @@ namespace sjzd
                     sql = string.Format(@"select * from data_pp where real_time >= {0} and real_time <={1} and city={2} order by sta_id asc, real_time asc", "\"" + sdt.ToString("yyyy-MM-dd HH:mm:ss") + "\"", "\"" + edt.ToString("yyyy-MM-dd HH:mm:ss") + "\"", "\"" + cityName + "\"");
                 }
 
-                
+
                 oleDapAdapter = new OleDbDataAdapter(sql, tempconn);
                 oleDapAdapter.Fill(ds);
                 if (ds.Tables[0].Rows.Count > 0)
@@ -135,24 +126,24 @@ namespace sjzd
                     {
                         xslist.Add(new XSList()
                         {
-                            
-                            cityName=  ds.Tables[0].Rows[i]["city"].ToString(),
+
+                            cityName = ds.Tables[0].Rows[i]["city"].ToString(),
                             StationID = ds.Tables[0].Rows[i]["sta_id"].ToString(),
-                            rTime=Convert.ToDateTime(ds.Tables[0].Rows[i]["real_time"]),
-                            so2=Convert.ToSingle(my_password.DecryptString("Wa@2ct0k", ds.Tables[0].Rows[i]["so2"].ToString())),
+                            rTime = Convert.ToDateTime(ds.Tables[0].Rows[i]["real_time"]),
+                            so2 = Convert.ToSingle(my_password.DecryptString("Wa@2ct0k", ds.Tables[0].Rows[i]["so2"].ToString())),
                             no2 = Convert.ToSingle(my_password.DecryptString("Wa@2ct0k", ds.Tables[0].Rows[i]["no2"].ToString())),
                             o3 = Convert.ToSingle(my_password.DecryptString("Wa@2ct0k", ds.Tables[0].Rows[i]["o3"].ToString())),
                             co = Convert.ToSingle(my_password.DecryptString("Wa@2ct0k", ds.Tables[0].Rows[i]["co"].ToString())),
                             pm10 = Convert.ToSingle(my_password.DecryptString("Wa@2ct0k", ds.Tables[0].Rows[i]["pm10"].ToString())),
                             pm25 = Convert.ToSingle(my_password.DecryptString("Wa@2ct0k", ds.Tables[0].Rows[i]["pm25"].ToString())),
-                            aqi = Convert.ToSingle( ds.Tables[0].Rows[i]["aqi"]),
-                            quality =  ds.Tables[0].Rows[i]["quality"].ToString(),
+                            aqi = Convert.ToSingle(ds.Tables[0].Rows[i]["aqi"]),
+                            quality = ds.Tables[0].Rows[i]["quality"].ToString(),
 
                         });
                     }
                     ((this.FindName("dataGrid")) as System.Windows.Controls.DataGrid).ItemsSource = xslist;
                 }
-                
+
 
 
             }

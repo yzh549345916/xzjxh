@@ -1,30 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
+using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using System.Data.SqlClient;
+using Telerik.Windows.Controls;
 
 namespace sjzd
 {
     /// <summary>
     /// WPFAddQX.xaml 的交互逻辑
     /// </summary>
-    public partial class WPFAddQX : Window
+    public partial class WPFAddQX : RadWindow
     {
         string con = "";
         public WPFAddQX()
         {
             InitializeComponent();
-            
+
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
             {
@@ -42,7 +34,7 @@ namespace sjzd
 
             ConfigClass1 configClass1 = new ConfigClass1();
             configClass1.TBBD();
-            XHText.Text= configClass1.HqzxXH(-1).ToString();
+            XHText.Text = configClass1.HqzxXH(-1).ToString();
 
         }
 
@@ -53,8 +45,8 @@ namespace sjzd
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-           
-            if(QXID.Text.Trim().Length > 0 && QXName.Text.Trim().Length > 0 && QXBS.Text.Trim().Length > 0 && LonText.Text.Trim().Length > 0 && LatText.Text.Trim().Length > 0 && HighText.Text.Trim().Length > 0)
+
+            if (QXID.Text.Trim().Length > 0 && QXName.Text.Trim().Length > 0 && QXBS.Text.Trim().Length > 0 && LonText.Text.Trim().Length > 0 && LatText.Text.Trim().Length > 0 && HighText.Text.Trim().Length > 0)
             {
                 Int16 countLS1 = 0;
                 using (SqlConnection mycon = new SqlConnection(con))
@@ -72,7 +64,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -92,7 +84,7 @@ namespace sjzd
                             SqlCommand sqlman = new SqlCommand(sql, mycon);
                             jlCount = sqlman.ExecuteNonQuery();
                             if (jlCount <= 0)
-                                MessageBox.Show("新增旗县失败");
+                                Alert("新增旗县失败");
                             else
                             {
                                 区局智能网格 qjzn = new 区局智能网格();
@@ -106,11 +98,11 @@ namespace sjzd
                                         SqlCommand sqlman2 = new SqlCommand(sql2, mycon2);
                                         jlCount = sqlman2.ExecuteNonQuery();
                                         if (jlCount <= 0)
-                                            MessageBox.Show("旗县标识保存失败");
+                                            Alert("旗县标识保存失败");
                                     }
                                     catch (Exception ex)
                                     {
-                                        MessageBox.Show(ex.Message);
+                                        Alert(ex.Message);
                                     }
                                 }
                                 ConfigClass1 configClass1 = new ConfigClass1();
@@ -121,35 +113,57 @@ namespace sjzd
                                 LonText.Text = "";
                                 LatText.Text = "";
                                 HighText.Text = "";
-                                if (MessageBox.Show("旗县新增成功，是否同步本地设置文件", "注意", MessageBoxButton.YesNo,
-                                        MessageBoxImage.Information) == MessageBoxResult.Yes)
+                                Dispatcher.Invoke(() =>
                                 {
-                                    //同步数据库旗县到本地文件
-                                    configClass1.TBBD();
-                                }
+                                    RadWindow.Confirm(new DialogParameters
+                                    {
+                                        Content = "旗县新增成功，是否同步本地设置文件",
+                                        Closed = OnConfirmClosed_同步设置,
+                                        Owner = Application.Current.MainWindow,
+                                        CancelButtonContent = "否",
+                                        OkButtonContent = "是",
+                                        Header = "注意"
+                                    });
+                                });
+
 
                             }
 
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            MessageBox.Show("新增旗县失败");
+                            Alert("新增旗县失败");
                         }
 
                     }
                 }
                 else
                 {
-                    MessageBox.Show("新增旗县失败,旗县区站号已经存在");
+                    Alert("新增旗县失败,旗县区站号已经存在");
                 }
             }
             else
             {
-                MessageBox.Show("请输入完整的信息");
+                Alert("请输入完整的信息");
             }
 
         }
+        private void OnConfirmClosed_同步设置(object sender, WindowClosedEventArgs e)
+        {
+            try
+            {
+                if (e.DialogResult == true)
+                {
+                    ConfigClass1 configClass1 = new ConfigClass1();
+                    configClass1.TBBD();
+                }
 
+            }
+            catch
+            {
+
+            }
+        }
         private void GetStationWZ_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -168,12 +182,12 @@ namespace sjzd
                     }
                     else
                     {
-                        MessageBox.Show("从CIMISS获取站点信息失败，请确认区站号是否正确，如果无误请手动填入站点的经纬度、海拔高度信息");
+                        Alert("从CIMISS获取站点信息失败，请确认区站号是否正确，如果无误请手动填入站点的经纬度、海拔高度信息");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("请先输入区站号");
+                    Alert("请先输入区站号");
                 }
             }
             catch

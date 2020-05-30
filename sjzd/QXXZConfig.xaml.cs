@@ -1,35 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using System.Diagnostics;
+﻿using System.Windows;
+using Telerik.Windows.Controls;
+
 
 namespace sjzd
 {
     /// <summary>
     /// QXXZConfig.xaml 的交互逻辑
     /// </summary>
-    public partial class QXXZConfig : Window
+    public partial class QXXZConfig : RadWindow
     {
         public QXXZConfig()
         {
             InitializeComponent();
-            /*
-            ProcessStartInfo info = new ProcessStartInfo();
-            info.FileName = @"E:\气象台软件\CITYFORECAST\MakeForeCast(2.0).exe";    // 指定路径
-            info.Arguments = "";
-            info.WindowStyle = ProcessWindowStyle.Normal;   // 设置窗体
-            Process pro = Process.Start(info);  // 启动
-            */
         }
 
         private void AddQX_Click(object sender, RoutedEventArgs e)
@@ -77,12 +59,34 @@ namespace sjzd
 
         private void TB_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("是否从数据库同步本地设置文件", "注意", MessageBoxButton.YesNo,
-                    MessageBoxImage.Information) == MessageBoxResult.Yes)
+            Dispatcher.Invoke(() =>
             {
-                ConfigClass1 configClass1 = new ConfigClass1();
-                //同步数据库旗县到本地文件
-                configClass1.TBBD();
+                RadWindow.Confirm(new DialogParameters
+                {
+                    Content = "是否从数据库同步本地设置文件",
+                    Closed = OnConfirmClosed_同步设置,
+                    Owner = Application.Current.MainWindow,
+                    CancelButtonContent = "否",
+                    OkButtonContent = "是",
+                    Header = "注意"
+                });
+            });
+        }
+        private void OnConfirmClosed_同步设置(object sender, WindowClosedEventArgs e)
+        {
+            try
+            {
+                if (e.DialogResult == true)
+                {
+                    ConfigClass1 configClass1 = new ConfigClass1();
+                    //同步数据库旗县到本地文件
+                    configClass1.TBBD();
+                }
+
+            }
+            catch
+            {
+
             }
         }
     }

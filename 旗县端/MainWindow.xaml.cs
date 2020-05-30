@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using System.Diagnostics;
 using System.Data.SqlClient;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
 using System.Threading;
+using System.Windows;
 
 namespace 旗县端
 {
@@ -36,7 +26,7 @@ namespace 旗县端
         {
             登录窗口 dlwindow = new 登录窗口();
             dlwindow.Show();
-            
+
         }
 
         private void UpdataBu_Click(object sender, RoutedEventArgs e)
@@ -84,7 +74,7 @@ namespace 旗县端
                 string error = "";
                 string data = znwg.CIMISS_ZDbyID("53368", ref error);
             }
-            catch(Exception ex)
+            catch (Exception)
             {
 
             }
@@ -106,22 +96,22 @@ namespace 旗县端
                     {
                         try
                         {
-                            if (line.Split('=')[0]== "myVersion")
+                            if (line.Split('=')[0] == "myVersion")
                             {
-                                myVersion = Convert.ToInt32(line.Trim().Split('=')[1]);                     
+                                myVersion = Convert.ToInt32(line.Trim().Split('=')[1]);
                             }
                             else if (line.Split('=')[0] == "GLVersion")
                             {
                                 GLVersion = line.Trim().Split('=')[1];
                             }
                         }
-                        catch 
+                        catch
                         { }
                     }
                 }
-                string con="";//这里是保存连接数据库的字符串
+                string con = "";//这里是保存连接数据库的字符串
                 string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";//改
-                
+
                 using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
                 {
                     string line;
@@ -145,12 +135,12 @@ namespace 旗县端
                     SqlDataReader sqlreader = sqlman.ExecuteReader();
                     sqlreader.Read();
                     versionLast = sqlreader.GetInt32(sqlreader.GetOrdinal("version"));
-                    updateText= sqlreader.GetString(sqlreader.GetOrdinal("versionAbout"))+"\r\n";
+                    updateText = sqlreader.GetString(sqlreader.GetOrdinal("versionAbout")) + "\r\n";
                     try
                     {
                         string[] szls = updateText.Split(';');
                         updateText = "";
-                        foreach(string ss in szls)
+                        foreach (string ss in szls)
                         {
                             updateText += ss + '\n';
                         }
@@ -160,7 +150,7 @@ namespace 旗县端
                 }
                 //当前版本是否被忽略
                 bool ISChek = true;
-                foreach(string v in GLVersion.Split(','))
+                foreach (string v in GLVersion.Split(','))
                 {
                     try
                     {
@@ -171,15 +161,15 @@ namespace 旗县端
                     catch { }
                 }
                 //版本比较
-                if (ISChek&& myVersion < versionLast)
+                if (ISChek && myVersion < versionLast)
                 {
-                    
-                    MessageBoxResult dr = System.Windows.MessageBox.Show("检查到有新的版本，更新内容有：\n"+ updateText + "是否更新", "更新提示", MessageBoxButton.YesNo);
+
+                    MessageBoxResult dr = System.Windows.MessageBox.Show("检查到有新的版本，更新内容有：\n" + updateText + "是否更新", "更新提示", MessageBoxButton.YesNo);
                     if (dr == MessageBoxResult.Yes)
                     {
                         //进行更新，此处修改更新程序，函数增加版本号变量，主程序检查是否包含新的更新程序
                         string data = "";
-                       //保存最新版本信息，更新程序获取
+                        //保存最新版本信息，更新程序获取
                         try
                         {
                             using (StreamReader sr = new StreamReader(versionPath, Encoding.Default))
@@ -201,7 +191,7 @@ namespace 旗县端
                                     { }
                                 }
                             }
-                            data += "myLastVersion="+versionLast.ToString();
+                            data += "myLastVersion=" + versionLast.ToString();
                             using (FileStream fs = new FileStream(versionPath, FileMode.Create))
                             {
                                 StreamWriter sw = new StreamWriter(fs, Encoding.Default);
@@ -235,13 +225,13 @@ namespace 旗县端
                         MessageBoxResult dr1 = System.Windows.MessageBox.Show("已经取消更新，是否以后忽略该版本的更新提示", "更新提示", MessageBoxButton.YesNo);
                         if (dr1 == MessageBoxResult.Yes)
                         {
-                            if(GLVersion.Length==0)
+                            if (GLVersion.Length == 0)
                             {
                                 GLVersion = "GLVersion=" + versionLast.ToString();
                             }
                             else
                             {
-                                GLVersion = "GLVersion=" +GLVersion+','+ versionLast.ToString();
+                                GLVersion = "GLVersion=" + GLVersion + ',' + versionLast.ToString();
                                 string data = "";
                                 try
                                 {
@@ -252,14 +242,14 @@ namespace 旗县端
                                         {
                                             try
                                             {
-                                               if (line.Split('=')[0] == "GLVersion")
+                                                if (line.Split('=')[0] == "GLVersion")
                                                 {
-                                                   
+
                                                 }
-                                               else
-                                               {
+                                                else
+                                                {
                                                     data += line + "\r\n";
-                                               }
+                                                }
                                             }
                                             catch
                                             { }
@@ -274,7 +264,7 @@ namespace 旗县端
                                         sw.Close();
                                     }
                                 }
-                                catch(Exception ex)
+                                catch (Exception ex)
                                 {
                                     MessageBox.Show(ex.Message);
                                 }
@@ -283,7 +273,7 @@ namespace 旗县端
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -296,13 +286,13 @@ namespace 旗县端
             string path = @"\\172.18.142.167\sevp\更新程序升级\";
             DirectoryInfo dir = new DirectoryInfo(Environment.CurrentDirectory);
             FileSystemInfo[] fileinfo = dir.GetFiles("*QX-update.exe");  //获取目录下（不包含子目录）的文件
-           if(fileinfo.Length>0)
-           {
-                if(DateTime.Compare(fileinfo[0].LastWriteTime,Convert.ToDateTime("2019-02-20"))>=0)
+            if (fileinfo.Length > 0)
+            {
+                if (DateTime.Compare(fileinfo[0].LastWriteTime, Convert.ToDateTime("2019-02-20")) >= 0)
                 {
                     return;
                 }
-           }
+            }
             CopyDirectory(path, Environment.CurrentDirectory);
         }
 
@@ -329,7 +319,7 @@ namespace 旗县端
                 }
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

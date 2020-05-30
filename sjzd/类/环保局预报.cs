@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Aspose.Words;
+using Aspose.Words.Drawing;
+using Aspose.Words.Drawing.Charts;
+using Aspose.Words.Tables;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -7,13 +11,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using Aspose.Words;
-using Aspose.Words.Drawing;
-using Aspose.Words.Drawing.Charts;
 
 namespace sjzd
 {
-    internal class 环保局预报
+    class 环保局预报
     {
         //输入数组每行内容为：旗县名称+区站号+未来三天分别的天气、风向风速、最低气温、最高气温，因此列数为2+4*3。方法将数组中的指定要素保存至发布单
         public void DCWord(DateTime date, short sc)
@@ -24,8 +25,8 @@ namespace sjzd
             try
             {
                 XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
-                 con = util.Read("OtherConfig", "xzjxhDB");
-                
+                con = util.Read("OtherConfig", "xzjxhDB");
+
 
                 using (SqlConnection mycon = new SqlConnection(con))
                 {
@@ -60,15 +61,15 @@ namespace sjzd
                     strID = strID.Substring(0, strID.Length - 1);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 return;
             }
 
-            string error="";
-            List<YBList> dataList = CLSJ(date,sc,strID,iDNames, ref error);
-            
+            string error = "";
+            List<YBList> dataList = CLSJ(date, sc, strID, iDNames, ref error);
+
             if (dataList.Count > 0)
             {
                 if (error.Trim().Length > 0)
@@ -82,7 +83,6 @@ namespace sjzd
                 string configpathPath = Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
                 try
                 {
-                    string SJMBPath = Environment.CurrentDirectory + @"\模版\空气质量精细化气象指导预报模板.docx";
                     string SJsaPath = "";
                     using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
                     {
@@ -102,12 +102,12 @@ namespace sjzd
                         Directory.CreateDirectory(SJsaPath);
                     }
 
-                    SJsaPath += date.ToString("yyyy年MM月dd日") +sc.ToString().PadLeft(2,'0')+ "时空气质量精细化气象指导预报.docx";
+                    SJsaPath += date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时空气质量精细化气象指导预报.docx";
                     Document doc = new Document();//SJMBPath
 
                     DocumentBuilder builder = new DocumentBuilder(doc);
                     //builder.InsertBreak(BreakType.SectionBreakNewPage);
-                    builder.PageSetup.Orientation= Orientation.Landscape;//更改纸张方向
+                    builder.PageSetup.Orientation = Orientation.Landscape;//更改纸张方向
                     builder.Font.Size = 30;
                     builder.Font.Bold = true;
                     builder.Font.Name = "微软雅黑";
@@ -115,13 +115,13 @@ namespace sjzd
                     builder.Write("呼和浩特市空气质量精细化\r\n气象指导预报");
                     builder.CellFormat.Borders.LineStyle = LineStyle.Single;
                     builder.CellFormat.Borders.Color = Color.Black;
-                   
+
                     //builder.MoveToBookmark("预报日期");
                     builder.Font.Size = 14;
                     builder.Font.Name = "宋体";
                     builder.Font.Bold = false;
                     builder.Write("\r\n呼和浩特市气象台                                        ");
-                    builder.Write(date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2,'0')+"时");
+                    builder.Write(date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时");
                     builder.InsertParagraph();
                     //builder.InsertParagraph();
                     //builder.MoveToBookmark("预报0");
@@ -134,15 +134,37 @@ namespace sjzd
                     stroke.LineStyle = ShapeLineStyle.ThinThick;
                     builder.InsertNode(lineShape);
                     builder.InsertParagraph();
+                    List<Table> tables = new List<Table>();
                     Shape shape = builder.InsertChart(ChartType.Line, 600, 320);
+                    builder.InsertBreak(BreakType.PageBreak);
+                    Table table = builder.StartTable();
+
                     builder.InsertParagraph();
-                    Shape shapeVis= builder.InsertChart(ChartType.Line, 600, 420);
+                    Shape shapeVis = builder.InsertChart(ChartType.Line, 600, 420);
+                    builder.InsertBreak(BreakType.PageBreak);
+                    Table tableVis = builder.StartTable();
                     builder.InsertParagraph();
                     Shape shapeErh = builder.InsertChart(ChartType.Line, 600, 420);
+                    builder.InsertBreak(BreakType.PageBreak);
+                    Table tableErh = builder.StartTable();
                     builder.InsertParagraph();
-                    Shape shapePre= builder.InsertChart(ChartType.Line, 600, 420);
+                    Shape shapePre = builder.InsertChart(ChartType.Line, 600, 420);
+                    builder.InsertBreak(BreakType.PageBreak);
+                    Table tablePre = builder.StartTable();
                     builder.InsertParagraph();
                     Shape shapeFS = builder.InsertChart(ChartType.Line, 600, 420);
+                    builder.InsertBreak(BreakType.PageBreak);
+                    Table tableFS = builder.StartTable();
+                    builder.InsertParagraph();
+                    Table tableFX = builder.StartTable();
+
+
+                    tables.Add(table);
+                    tables.Add(tableVis);
+                    tables.Add(tableErh);
+                    tables.Add(tablePre);
+                    tables.Add(tableFS);
+                    tables.Add(tableFX);
                     Chart chart = shape.Chart;
                     Chart chartVis = shapeVis.Chart;
                     Chart chartErh = shapeErh.Chart;
@@ -154,23 +176,25 @@ namespace sjzd
                     chartPre.Series.Clear();
                     chartFS.Series.Clear();
                     //chart.AxisX.TickLabelSpacing = 1;//坐标间隔
-                    chart.AxisX.Crosses = AxisCrosses.Minimum; 
+                    chart.AxisX.Crosses = AxisCrosses.Minimum;
                     chartVis.AxisX.Crosses = AxisCrosses.Minimum;
-                    chart.Title.Text = date.ToString("yyyy年MM月dd日")+ sc.ToString().PadLeft(2, '0') + "时气温变化情况";
+                    chart.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时气温变化情况";
                     chartVis.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时能见度变化情况";
                     chartErh.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时相对湿度变化情况";
                     chartPre.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时降水量变化情况";
                     chartFS.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时风速变化情况";
                     int visMin = 999999;//保存最小能见度，确定坐标轴
-                    for (int i=0;i< iDNames.Count;i++)
+                    for (int i = 0; i < iDNames.Count; i++)
                     {
+
 
                         string[] timsSZ = new string[24];
                         double[] temSZ = new double[24];
-                        double[] visSZ= new double[24];
+                        double[] visSZ = new double[24];
                         double[] erhSZ = new double[24];
                         double[] preSZ = new double[24];
                         double[] fsSZ = new double[24];
+                        string[] fxSZ = new string[24];
                         List<YBList> lists1 = dataList.FindAll(y => y.ID == iDNames[i].ID).OrderBy(y => y.SX).ToList();
                         DateTime dt1 = Convert.ToDateTime(date.ToString("yyyy-MM-dd"));
                         dt1 = dt1.AddHours(sc);
@@ -183,10 +207,11 @@ namespace sjzd
                             erhSZ[(yBList.SX / 3) - 1] = yBList.ERH;
                             preSZ[(yBList.SX / 3) - 1] = yBList.PRE;
                             fsSZ[(yBList.SX / 3) - 1] = yBList.doubleFS;
+                            fxSZ[(yBList.SX / 3) - 1] = yBList.FX;
                             if (visMin > yBList.VIS)
                                 visMin = yBList.VIS;
                         }
-                        
+
                         ChartSeries series0 = chart.Series.Add(iDNames[i].Name, timsSZ, temSZ);
                         ChartSeries series1 = chartVis.Series.Add(iDNames[i].Name, timsSZ, visSZ);
                         ChartSeries series2 = chartErh.Series.Add(iDNames[i].Name, timsSZ, erhSZ);
@@ -197,13 +222,13 @@ namespace sjzd
                         series2.Smooth = true;
                         series3.Smooth = true;
                         series4.Smooth = true;
-                        if (i==0)
+                        if (i == 0)
                         {
-                           // series0.Marker.Symbol = MarkerSymbol.Dash;
+                            // series0.Marker.Symbol = MarkerSymbol.Dash;
                             //series0.Marker.Size = 50;
-                            for (int j=0;j<24;j++)
+                            for (int j = 0; j < 24; j++)
                             {
-                                ChartDataLabel label= series0.DataLabels.Add(j);
+                                ChartDataLabel label = series0.DataLabels.Add(j);
                                 label.ShowValue = true;
                                 label.NumberFormat.FormatCode = "#,##0.0\"℃\"";
                                 ChartDataLabel labe2 = series1.DataLabels.Add(j);
@@ -212,7 +237,7 @@ namespace sjzd
                                 ChartDataLabel labe3 = series2.DataLabels.Add(j);
                                 labe3.ShowValue = true;
                                 labe3.NumberFormat.FormatCode = "#,##0.0\"%\"";
-                                if(preSZ[j]>0.04)
+                                if (preSZ[j] > 0.04)
                                 {
                                     ChartDataLabel labe4 = series3.DataLabels.Add(j);
                                     labe4.ShowValue = true;
@@ -222,11 +247,171 @@ namespace sjzd
                                 labe5.ShowValue = true;
                                 labe5.NumberFormat.FormatCode = "#,##0.0\"m/s\"";
                             }
+                            foreach (Table tableLs in tables)
+                            {
+
+                                Row row = new Row(doc);
+                                tableLs.AppendChild(row);
+                                Cell cell1 = new Cell(doc);
+                                row.AppendChild(cell1);
+                                // Add a blank paragraph to the cell.
+                                Paragraph pa = new Paragraph(doc);
+                                pa.ParagraphFormat.Style.Font.Size = 7;
+                                pa.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                cell1.AppendChild(pa);
+                                // Add the text.
+                                cell1.FirstParagraph.AppendChild(new Run(doc, "            "));
+                                cell1.CellFormat.Width = 30;
+                                cell1.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                // Create the specified number of cells for each row.
+                                foreach (string time in timsSZ)
+                                {
+                                    Cell cell = new Cell(doc);
+                                    cell.CellFormat.Width = 27;
+                                    cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                    row.AppendChild(cell);
+                                    // Add a blank paragraph to the cell.
+                                    Paragraph pa1 = new Paragraph(doc);
+                                    pa1.ParagraphFormat.Style.Font.Size = 7;
+                                    pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                    cell.AppendChild(pa1);
+
+                                    // Add the text.
+                                    cell.FirstParagraph.AppendChild(new Run(doc, time));
+                                }
+
+
+                                tableLs.AutoFit(AutoFitBehavior.FixedColumnWidths);
+                            }
+
                         }
-                        
+                        for (int j = 0; j < tables.Count; j++)
+                        {
+                            Table tableLs = tables[j];
+
+                            Row row = new Row(doc);
+                            tableLs.AppendChild(row);
+                            Cell cell1 = new Cell(doc);
+                            row.AppendChild(cell1);
+                            // Add a blank paragraph to the cell.
+                            Paragraph pa = new Paragraph(doc);
+                            pa.ParagraphFormat.Style.Font.Size = 7;
+                            pa.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                            cell1.AppendChild(pa);
+
+                            // Add the text.
+                            cell1.FirstParagraph.AppendChild(new Run(doc, iDNames[i].Name));
+                            // Create the specified number of cells for each row.
+                            switch (j)
+                            {
+                                case 0:
+                                    {
+                                        foreach (double data in temSZ)
+                                        {
+                                            Cell cell = new Cell(doc);
+                                            cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                            row.AppendChild(cell);
+                                            // Add a blank paragraph to the cell.
+                                            Paragraph pa1 = new Paragraph(doc);
+                                            pa1.ParagraphFormat.Style.Font.Size = 7;
+                                            pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                            cell.AppendChild(pa1);
+
+
+                                            // Add the text.
+                                            cell.FirstParagraph.AppendChild(new Run(doc, data.ToString()));
+                                        }
+
+                                        break;
+                                    }
+
+                                case 1:
+                                    foreach (double data in visSZ)
+                                    {
+                                        Cell cell = new Cell(doc);
+                                        cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                        row.AppendChild(cell);
+                                        // Add a blank paragraph to the cell.
+                                        Paragraph pa1 = new Paragraph(doc);
+                                        pa1.ParagraphFormat.Style.Font.Size = 7;
+                                        pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                        cell.AppendChild(pa1);
+
+                                        // Add the text.
+                                        cell.FirstParagraph.AppendChild(new Run(doc, data.ToString()));
+                                    }
+                                    break;
+                                case 2:
+                                    foreach (double data in erhSZ)
+                                    {
+                                        Cell cell = new Cell(doc);
+                                        cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                        row.AppendChild(cell);
+                                        // Add a blank paragraph to the cell.
+                                        Paragraph pa1 = new Paragraph(doc);
+                                        pa1.ParagraphFormat.Style.Font.Size = 7;
+                                        pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                        cell.AppendChild(pa1);
+
+                                        // Add the text.
+                                        cell.FirstParagraph.AppendChild(new Run(doc, data.ToString()));
+                                    }
+                                    break;
+                                case 3:
+                                    foreach (double data in preSZ)
+                                    {
+                                        Cell cell = new Cell(doc);
+                                        cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                        row.AppendChild(cell);
+                                        // Add a blank paragraph to the cell.
+                                        Paragraph pa1 = new Paragraph(doc);
+                                        pa1.ParagraphFormat.Style.Font.Size = 7;
+                                        pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                        cell.AppendChild(pa1);
+
+                                        // Add the text.
+                                        cell.FirstParagraph.AppendChild(new Run(doc, data.ToString()));
+                                    }
+                                    break;
+                                case 4:
+                                    foreach (double data in fsSZ)
+                                    {
+                                        Cell cell = new Cell(doc);
+                                        cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                        row.AppendChild(cell);
+                                        // Add a blank paragraph to the cell.
+                                        Paragraph pa1 = new Paragraph(doc);
+                                        pa1.ParagraphFormat.Style.Font.Size = 7;
+                                        pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                        cell.AppendChild(pa1);
+
+                                        // Add the text.
+                                        cell.FirstParagraph.AppendChild(new Run(doc, data.ToString("F2")));
+                                    }
+                                    break;
+                                default:
+                                    foreach (string data in fxSZ)
+                                    {
+                                        Cell cell = new Cell(doc);
+                                        cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                        row.AppendChild(cell);
+                                        // Add a blank paragraph to the cell.
+                                        Paragraph pa1 = new Paragraph(doc);
+                                        pa1.ParagraphFormat.Style.Font.Size = 7;
+                                        pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                        cell.AppendChild(pa1);
+
+                                        // Add the text.
+                                        cell.FirstParagraph.AppendChild(new Run(doc, data));
+                                    }
+                                    break;
+
+                            }
+                        }
+
                     }
                     //更改坐标轴
-                   
+
                     chartVis.AxisY.Scaling.Minimum = new AxisBound(Convert.ToDouble(Math.Floor(Convert.ToDecimal(visMin / 1000)) * 1000));
                     doc.Save(SJsaPath);
                     MessageBoxResult dr = MessageBox.Show("产品制作完成,保存路径为：\r\n" + SJsaPath + "\n是否打开？", "提示", MessageBoxButton.YesNo);
@@ -243,7 +428,7 @@ namespace sjzd
                     }
                 }
 
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }
@@ -252,10 +437,452 @@ namespace sjzd
                 MessageBox.Show("国家级智能网格数据获取失败，无法制作产品");
             }
         }
-        public void insertChart(DocumentBuilder builder,string title, string seriesName,string[] categories,double[] date)
+        public List<YBList> DCWordNew(short sc, ref string myerror, ref string error)
         {
-           
+            DateTime date = DateTime.Now;
+            List<IDName> iDNames = new List<IDName>();
+            string con = "";
+            string strID = "";
+            try
+            {
+                XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
+                con = util.Read("OtherConfig", "xzjxhDB");
+
+
+                using (SqlConnection mycon = new SqlConnection(con))
+                {
+                    mycon.Open(); //打开
+                    string sql = "select * from 社区精细化预报站点 where Station_levl='71'";
+                    SqlCommand sqlman = new SqlCommand(sql, mycon);
+                    SqlDataReader sqlreader = sqlman.ExecuteReader();
+                    while (sqlreader.Read())
+                    {
+                        try
+                        {
+                            string idLS = sqlreader.GetString(sqlreader.GetOrdinal("GJStatioID"));
+                            if (!strID.Contains(idLS))
+                            {
+                                strID += '\'' + idLS + '\'' + ',';
+                            }
+
+                            iDNames.Add(new IDName
+                            {
+                                ID = sqlreader.GetString(sqlreader.GetOrdinal("StatioID")),
+                                Name = sqlreader.GetString(sqlreader.GetOrdinal("Name")),
+                                GJID = sqlreader.GetString(sqlreader.GetOrdinal("GJStatioID"))
+                            });
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+                if (strID.Length > 2)
+                {
+                    strID = strID.Substring(0, strID.Length - 1);
+                }
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+                return new List<YBList>();
+            }
+
+            return CLSJ(date, sc, strID, iDNames, ref myerror);
+
+
+
         }
+        public string 处理环保数据(List<YBList> dataList, short sc, ref string error)
+        {
+            string con = "";
+            List<IDName> iDNames = new List<IDName>();
+            try
+            {
+                XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
+                con = util.Read("OtherConfig", "xzjxhDB");
+
+
+                using (SqlConnection mycon = new SqlConnection(con))
+                {
+                    mycon.Open(); //打开
+                    string sql = "select * from 社区精细化预报站点 where Station_levl='71'";
+                    SqlCommand sqlman = new SqlCommand(sql, mycon);
+                    SqlDataReader sqlreader = sqlman.ExecuteReader();
+                    while (sqlreader.Read())
+                    {
+                        try
+                        {
+                            iDNames.Add(new IDName
+                            {
+                                ID = sqlreader.GetString(sqlreader.GetOrdinal("StatioID")),
+                                Name = sqlreader.GetString(sqlreader.GetOrdinal("Name")),
+                                GJID = sqlreader.GetString(sqlreader.GetOrdinal("GJStatioID"))
+                            });
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+                return "";
+            }
+            DateTime date = DateTime.Now;
+            if (dataList.Count > 0)
+            {
+                string configpathPath = Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
+                try
+                {
+                    string SJsaPath = "";
+                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                    {
+                        string line = "";
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            if (line.Split('=')[0] == "空气质量精细化气象指导预报发布路径")
+                            {
+                                SJsaPath = line.Split('=')[1];
+                            }
+                        }
+                    }
+
+                    SJsaPath += date.ToString("yyyy") + "\\" + date.ToString("MM") + "月\\";
+                    if (!File.Exists(SJsaPath))
+                    {
+                        Directory.CreateDirectory(SJsaPath);
+                    }
+
+                    SJsaPath += date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时空气质量精细化气象指导预报.docx";
+                    Document doc = new Document();//SJMBPath
+
+                    DocumentBuilder builder = new DocumentBuilder(doc);
+                    //builder.InsertBreak(BreakType.SectionBreakNewPage);
+                    builder.PageSetup.Orientation = Orientation.Landscape;//更改纸张方向
+                    builder.Font.Size = 30;
+                    builder.Font.Bold = true;
+                    builder.Font.Name = "微软雅黑";
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                    builder.Write("呼和浩特市空气质量精细化\r\n气象指导预报");
+                    builder.CellFormat.Borders.LineStyle = LineStyle.Single;
+                    builder.CellFormat.Borders.Color = Color.Black;
+
+                    //builder.MoveToBookmark("预报日期");
+                    builder.Font.Size = 14;
+                    builder.Font.Name = "宋体";
+                    builder.Font.Bold = false;
+                    builder.Write("\r\n呼和浩特市气象台                                        ");
+                    builder.Write(date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时");
+                    builder.InsertParagraph();
+                    //builder.InsertParagraph();
+                    //builder.MoveToBookmark("预报0");
+                    Shape lineShape = new Shape(doc, ShapeType.Line);
+                    lineShape.Width = 620;
+                    Stroke stroke = lineShape.Stroke;
+                    stroke.On = true;
+                    stroke.Weight = 5.5;
+                    stroke.Color = Color.Red;
+                    stroke.LineStyle = ShapeLineStyle.ThinThick;
+                    builder.InsertNode(lineShape);
+                    builder.InsertParagraph();
+                    List<Table> tables = new List<Table>();
+                    Shape shape = builder.InsertChart(ChartType.Line, 600, 320);
+                    builder.InsertBreak(BreakType.PageBreak);
+                    Table table = builder.StartTable();
+
+                    builder.InsertParagraph();
+                    Shape shapeVis = builder.InsertChart(ChartType.Line, 600, 420);
+                    builder.InsertBreak(BreakType.PageBreak);
+                    Table tableVis = builder.StartTable();
+                    builder.InsertParagraph();
+                    Shape shapeErh = builder.InsertChart(ChartType.Line, 600, 420);
+                    builder.InsertBreak(BreakType.PageBreak);
+                    Table tableErh = builder.StartTable();
+                    builder.InsertParagraph();
+                    Shape shapePre = builder.InsertChart(ChartType.Line, 600, 420);
+                    builder.InsertBreak(BreakType.PageBreak);
+                    Table tablePre = builder.StartTable();
+                    builder.InsertParagraph();
+                    Shape shapeFS = builder.InsertChart(ChartType.Line, 600, 420);
+                    builder.InsertBreak(BreakType.PageBreak);
+                    Table tableFS = builder.StartTable();
+                    builder.InsertParagraph();
+                    Table tableFX = builder.StartTable();
+
+
+                    tables.Add(table);
+                    tables.Add(tableVis);
+                    tables.Add(tableErh);
+                    tables.Add(tablePre);
+                    tables.Add(tableFS);
+                    tables.Add(tableFX);
+                    Chart chart = shape.Chart;
+                    Chart chartVis = shapeVis.Chart;
+                    Chart chartErh = shapeErh.Chart;
+                    Chart chartPre = shapePre.Chart;
+                    Chart chartFS = shapeFS.Chart;
+                    chart.Series.Clear();
+                    chartVis.Series.Clear();
+                    chartErh.Series.Clear();
+                    chartPre.Series.Clear();
+                    chartFS.Series.Clear();
+                    //chart.AxisX.TickLabelSpacing = 1;//坐标间隔
+                    chart.AxisX.Crosses = AxisCrosses.Minimum;
+                    chartVis.AxisX.Crosses = AxisCrosses.Minimum;
+                    chart.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时气温变化情况";
+                    chartVis.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时能见度变化情况";
+                    chartErh.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时相对湿度变化情况";
+                    chartPre.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时降水量变化情况";
+                    chartFS.Title.Text = date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时风速变化情况";
+                    int visMin = 999999;//保存最小能见度，确定坐标轴
+                    for (int i = 0; i < iDNames.Count; i++)
+                    {
+
+
+                        string[] timsSZ = new string[24];
+                        double[] temSZ = new double[24];
+                        double[] visSZ = new double[24];
+                        double[] erhSZ = new double[24];
+                        double[] preSZ = new double[24];
+                        double[] fsSZ = new double[24];
+                        string[] fxSZ = new string[24];
+                        List<YBList> lists1 = dataList.FindAll(y => y.ID == iDNames[i].ID).OrderBy(y => y.SX).ToList();
+                        DateTime dt1 = Convert.ToDateTime(date.ToString("yyyy-MM-dd"));
+                        dt1 = dt1.AddHours(sc);
+                        foreach (YBList yBList in lists1)
+                        {
+
+                            timsSZ[(yBList.SX / 3) - 1] = dt1.AddHours(yBList.SX).ToString("dd日HH时");
+                            temSZ[(yBList.SX / 3) - 1] = yBList.TEM;
+                            visSZ[(yBList.SX / 3) - 1] = yBList.VIS;
+                            erhSZ[(yBList.SX / 3) - 1] = yBList.ERH;
+                            preSZ[(yBList.SX / 3) - 1] = yBList.PRE;
+                            fsSZ[(yBList.SX / 3) - 1] = yBList.doubleFS;
+                            fxSZ[(yBList.SX / 3) - 1] = yBList.FX;
+                            if (visMin > yBList.VIS)
+                                visMin = yBList.VIS;
+                        }
+
+                        ChartSeries series0 = chart.Series.Add(iDNames[i].Name, timsSZ, temSZ);
+                        ChartSeries series1 = chartVis.Series.Add(iDNames[i].Name, timsSZ, visSZ);
+                        ChartSeries series2 = chartErh.Series.Add(iDNames[i].Name, timsSZ, erhSZ);
+                        ChartSeries series3 = chartPre.Series.Add(iDNames[i].Name, timsSZ, preSZ);
+                        ChartSeries series4 = chartFS.Series.Add(iDNames[i].Name, timsSZ, fsSZ);
+                        series0.Smooth = true;
+                        series1.Smooth = true;
+                        series2.Smooth = true;
+                        series3.Smooth = true;
+                        series4.Smooth = true;
+                        if (i == 0)
+                        {
+                            // series0.Marker.Symbol = MarkerSymbol.Dash;
+                            //series0.Marker.Size = 50;
+                            for (int j = 0; j < 24; j++)
+                            {
+                                ChartDataLabel label = series0.DataLabels.Add(j);
+                                label.ShowValue = true;
+                                label.NumberFormat.FormatCode = "#,##0.0\"℃\"";
+                                ChartDataLabel labe2 = series1.DataLabels.Add(j);
+                                labe2.ShowValue = true;
+                                labe2.NumberFormat.FormatCode = "#,##0";
+                                ChartDataLabel labe3 = series2.DataLabels.Add(j);
+                                labe3.ShowValue = true;
+                                labe3.NumberFormat.FormatCode = "#,##0.0\"%\"";
+                                if (preSZ[j] > 0.04)
+                                {
+                                    ChartDataLabel labe4 = series3.DataLabels.Add(j);
+                                    labe4.ShowValue = true;
+                                    labe4.NumberFormat.FormatCode = "#,##0.0\"mm\"";
+                                }
+                                ChartDataLabel labe5 = series4.DataLabels.Add(j);
+                                labe5.ShowValue = true;
+                                labe5.NumberFormat.FormatCode = "#,##0.0\"m/s\"";
+                            }
+                            foreach (Table tableLs in tables)
+                            {
+
+                                Row row = new Row(doc);
+                                tableLs.AppendChild(row);
+                                Cell cell1 = new Cell(doc);
+                                row.AppendChild(cell1);
+                                // Add a blank paragraph to the cell.
+                                Paragraph pa = new Paragraph(doc);
+                                pa.ParagraphFormat.Style.Font.Size = 7;
+                                pa.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                cell1.AppendChild(pa);
+                                // Add the text.
+                                cell1.FirstParagraph.AppendChild(new Run(doc, "            "));
+                                cell1.CellFormat.Width = 30;
+                                cell1.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                // Create the specified number of cells for each row.
+                                foreach (string time in timsSZ)
+                                {
+                                    Cell cell = new Cell(doc);
+                                    cell.CellFormat.Width = 27;
+                                    cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                    row.AppendChild(cell);
+                                    // Add a blank paragraph to the cell.
+                                    Paragraph pa1 = new Paragraph(doc);
+                                    pa1.ParagraphFormat.Style.Font.Size = 7;
+                                    pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                    cell.AppendChild(pa1);
+
+                                    // Add the text.
+                                    cell.FirstParagraph.AppendChild(new Run(doc, time));
+                                }
+
+
+                                tableLs.AutoFit(AutoFitBehavior.FixedColumnWidths);
+                            }
+
+                        }
+                        for (int j = 0; j < tables.Count; j++)
+                        {
+                            Table tableLs = tables[j];
+
+                            Row row = new Row(doc);
+                            tableLs.AppendChild(row);
+                            Cell cell1 = new Cell(doc);
+                            row.AppendChild(cell1);
+                            // Add a blank paragraph to the cell.
+                            Paragraph pa = new Paragraph(doc);
+                            pa.ParagraphFormat.Style.Font.Size = 7;
+                            pa.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                            cell1.AppendChild(pa);
+
+                            // Add the text.
+                            cell1.FirstParagraph.AppendChild(new Run(doc, iDNames[i].Name));
+                            // Create the specified number of cells for each row.
+                            switch (j)
+                            {
+                                case 0:
+                                    {
+                                        foreach (double data in temSZ)
+                                        {
+                                            Cell cell = new Cell(doc);
+                                            cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                            row.AppendChild(cell);
+                                            // Add a blank paragraph to the cell.
+                                            Paragraph pa1 = new Paragraph(doc);
+                                            pa1.ParagraphFormat.Style.Font.Size = 7;
+                                            pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                            cell.AppendChild(pa1);
+
+
+                                            // Add the text.
+                                            cell.FirstParagraph.AppendChild(new Run(doc, data.ToString()));
+                                        }
+
+                                        break;
+                                    }
+
+                                case 1:
+                                    foreach (double data in visSZ)
+                                    {
+                                        Cell cell = new Cell(doc);
+                                        cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                        row.AppendChild(cell);
+                                        // Add a blank paragraph to the cell.
+                                        Paragraph pa1 = new Paragraph(doc);
+                                        pa1.ParagraphFormat.Style.Font.Size = 7;
+                                        pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                        cell.AppendChild(pa1);
+
+                                        // Add the text.
+                                        cell.FirstParagraph.AppendChild(new Run(doc, data.ToString()));
+                                    }
+                                    break;
+                                case 2:
+                                    foreach (double data in erhSZ)
+                                    {
+                                        Cell cell = new Cell(doc);
+                                        cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                        row.AppendChild(cell);
+                                        // Add a blank paragraph to the cell.
+                                        Paragraph pa1 = new Paragraph(doc);
+                                        pa1.ParagraphFormat.Style.Font.Size = 7;
+                                        pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                        cell.AppendChild(pa1);
+
+                                        // Add the text.
+                                        cell.FirstParagraph.AppendChild(new Run(doc, data.ToString()));
+                                    }
+                                    break;
+                                case 3:
+                                    foreach (double data in preSZ)
+                                    {
+                                        Cell cell = new Cell(doc);
+                                        cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                        row.AppendChild(cell);
+                                        // Add a blank paragraph to the cell.
+                                        Paragraph pa1 = new Paragraph(doc);
+                                        pa1.ParagraphFormat.Style.Font.Size = 7;
+                                        pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                        cell.AppendChild(pa1);
+
+                                        // Add the text.
+                                        cell.FirstParagraph.AppendChild(new Run(doc, data.ToString()));
+                                    }
+                                    break;
+                                case 4:
+                                    foreach (double data in fsSZ)
+                                    {
+                                        Cell cell = new Cell(doc);
+                                        cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                        row.AppendChild(cell);
+                                        // Add a blank paragraph to the cell.
+                                        Paragraph pa1 = new Paragraph(doc);
+                                        pa1.ParagraphFormat.Style.Font.Size = 7;
+                                        pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                        cell.AppendChild(pa1);
+
+                                        // Add the text.
+                                        cell.FirstParagraph.AppendChild(new Run(doc, data.ToString("F2")));
+                                    }
+                                    break;
+                                default:
+                                    foreach (string data in fxSZ)
+                                    {
+                                        Cell cell = new Cell(doc);
+                                        cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                        row.AppendChild(cell);
+                                        // Add a blank paragraph to the cell.
+                                        Paragraph pa1 = new Paragraph(doc);
+                                        pa1.ParagraphFormat.Style.Font.Size = 7;
+                                        pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                        cell.AppendChild(pa1);
+
+                                        // Add the text.
+                                        cell.FirstParagraph.AppendChild(new Run(doc, data));
+                                    }
+                                    break;
+
+                            }
+                        }
+
+                    }
+                    //更改坐标轴
+
+                    chartVis.AxisY.Scaling.Minimum = new AxisBound(Convert.ToDouble(Math.Floor(Convert.ToDecimal(visMin / 1000)) * 1000));
+                    doc.Save(SJsaPath);
+                    return SJsaPath;
+                }
+
+                catch
+                {
+                }
+            }
+            else
+            {
+                error = "国家级智能网格数据获取失败，无法制作产品";
+            }
+            return "";
+        }
+
         public string GetFXFS(double v, double u)
         {
             string fxfs = "";
@@ -465,21 +1092,21 @@ namespace sjzd
 
             double fs = Math.Sqrt(Math.Pow(u, 2) + Math.Pow(v, 2));
             int intfx = Convert.ToInt32(Math.Round(fx / 45, 0));
-          
+
 
             return fs;
         }
 
-        public List<YBList> CLSJ(DateTime date, short sc,string strID, List<IDName> iDNames,ref string error)
+        public List<YBList> CLSJ(DateTime date, short sc, string strID, List<IDName> iDNames, ref string error)
         {
             List<YBList> list = new List<YBList>();
-            
+
             try
             {
                 XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
                 string con = util.Read("OtherConfig", "xzjxhDB");
 
-                
+
 
                 con = util.Read("OtherConfig", "DB");
                 using (SqlConnection mycon = new SqlConnection(con))
@@ -494,9 +1121,9 @@ namespace sjzd
                         {
                             try
                             {
-                                double v= sqlreader.IsDBNull(sqlreader.GetOrdinal("WIV10")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2),u= sqlreader.IsDBNull(sqlreader.GetOrdinal("WIU10")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2);
-                                string fxfs = GetFXFS(v,u );
-                                
+                                double v = sqlreader.IsDBNull(sqlreader.GetOrdinal("WIV10")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2), u = sqlreader.IsDBNull(sqlreader.GetOrdinal("WIU10")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2);
+                                string fxfs = GetFXFS(v, u);
+
                                 List<IDName> ll = iDNames.FindAll(y => y.GJID == sqlreader.GetString(sqlreader.GetOrdinal("StatioID"))).ToList();
                                 for (int j = 0; j < ll.Count; j++)
                                 {
@@ -510,7 +1137,7 @@ namespace sjzd
                                         SX = sqlreader.GetInt16(sqlreader.GetOrdinal("SX")),
                                         FX = fxfs.Split(',')[0],
                                         FS = fxfs.Split(',')[1],
-                                        doubleFS=GetFS(v,u),
+                                        doubleFS = GetFS(v, u),
                                         VIS = sqlreader.IsDBNull(sqlreader.GetOrdinal("VIS")) ? -999999 : Convert.ToInt32(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("VIS")), 0)),
                                     });
                                 }
@@ -518,7 +1145,7 @@ namespace sjzd
                             }
                             catch (Exception ex1)
                             {
-                                error+=ex1.Message+"\r\n";
+                                error += ex1.Message + "\r\n";
                                 list.Clear();
                                 sqlreader.Close();
                                 DateTime dt1 = date;
@@ -552,7 +1179,7 @@ namespace sjzd
                                                     TEM = sqlreader.IsDBNull(sqlreader.GetOrdinal("TEM")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
                                                     ERH = sqlreader.IsDBNull(sqlreader.GetOrdinal("ERH")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
                                                     PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 1),
-                                                    SX = sqlreader.GetInt16(sqlreader.GetOrdinal("SX")-12),
+                                                    SX = (short)(sqlreader.GetInt16(sqlreader.GetOrdinal("SX")) - 12),
                                                     FX = fxfs.Split(',')[0],
                                                     FS = fxfs.Split(',')[1],
                                                     doubleFS = GetFS(v, u),
@@ -562,7 +1189,7 @@ namespace sjzd
                                         }
                                         catch (Exception ex)
                                         {
-                                            error+=ex.Message + "\r\n";
+                                            error += ex.Message + "\r\n";
                                         }
                                     }
                                 }
@@ -605,7 +1232,7 @@ namespace sjzd
                                             TEM = sqlreader.IsDBNull(sqlreader.GetOrdinal("TEM")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
                                             ERH = sqlreader.IsDBNull(sqlreader.GetOrdinal("ERH")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
                                             PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 1),
-                                            SX = sqlreader.GetInt16(sqlreader.GetOrdinal("SX") - 12),
+                                            SX = (short)(sqlreader.GetInt16(sqlreader.GetOrdinal("SX")) - 12),
                                             FX = fxfs.Split(',')[0],
                                             FS = fxfs.Split(',')[1],
                                             doubleFS = GetFS(v, u),
@@ -615,31 +1242,31 @@ namespace sjzd
                                 }
                                 catch (Exception ex)
                                 {
-                                    error+=ex.Message + "\r\n";
+                                    error += ex.Message + "\r\n";
                                 }
                             }
                         }
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message);
+
             }
 
             if (list.Count > 1)
             {
                 list = list.OrderBy(y => y.ID).ThenBy(y => y.SX).ToList();
-                if(iDNames.Count*24!=list.Count)
+                if (iDNames.Count * 24 != list.Count)
                 {
-                    for(short i=3;i<73;i=(short)(i+3))
+                    for (short i = 3; i < 73; i = (short)(i + 3))
                     {
-                        foreach(IDName j in iDNames)
+                        foreach (IDName j in iDNames)
                         {
-                            if(!list.Exists(y => y.ID==j.ID && y.SX==i))//如果数据遗漏
+                            if (!list.Exists(y => y.ID == j.ID && y.SX == i))//如果数据遗漏
                             {
-                                 try
-                                 {
+                                try
+                                {
                                     if (list.Exists(y => y.ID == j.ID && y.SX == i - 3))//如果前一时次的数据存在，则用前一时次的数据弥补
                                     {
                                         YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i - 3);
@@ -717,30 +1344,236 @@ namespace sjzd
                                                             doubleFS = GetFS(v, u),
                                                             VIS = sqlreader.IsDBNull(sqlreader.GetOrdinal("VIS")) ? -999999 : Convert.ToInt32(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("VIS")), 0)),
                                                         });
-                                                        error += j.Name + i + "小时数据不存在，已经用" + sc1+ "时的数据代替" + "\r\n";
+                                                        error += j.Name + i + "小时数据不存在，已经用" + sc1 + "时的数据代替" + "\r\n";
                                                     }
                                                     catch (Exception ex)
                                                     {
-                                                        error += ex.Message+"\r\n";
+                                                        error += ex.Message + "\r\n";
                                                     }
                                                 }
                                             }
                                         }
-                                        catch(Exception ex)
+                                        catch (Exception ex)
                                         {
                                             error += ex.Message + "\r\n";
                                         }
                                     }
                                 }
-                                 catch(Exception ex)
-                                 {
+                                catch (Exception ex)
+                                {
                                     error += ex.Message + "\r\n";
-                                 }
+                                }
                             }
                         }
                     }
-                    list = list.OrderBy(y => y.ID).ThenBy(y => y.SX).ToList();
+
                 }
+                for (short i = 3; i < 73; i = (short)(i + 3))
+                {
+                    foreach (IDName j in iDNames)
+                    {
+                        YBList itemLS = list.First(y => y.ID == j.ID && y.SX == i);
+                        if (Math.Abs(itemLS.TEM) > 100)//如果数据异常
+                        {
+                            try
+                            {
+                                if (list.Exists(y => y.ID == j.ID && y.SX == i - 3))//如果前一时次的数据存在，则用前一时次的数据弥补
+                                {
+                                    YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i - 3);
+                                    if (Math.Abs(ybList.TEM) < 100)
+                                    {
+                                        list.First(y => y.ID == j.ID && y.SX == i).TEM = ybList.TEM;
+                                        error += j.Name + i + "小时温度数据异常，已经用" + (i - 3) + "小时数据代替" + "\r\n";
+                                    }
+                                    else if (list.Exists(y => y.ID == j.ID && y.SX == i + 3))//如果后一时次的数据存在，则用后一时次的数据弥补
+                                    {
+                                        ybList = list.Find(y => y.ID == j.ID && y.SX == i + 3);
+                                        if (Math.Abs(ybList.TEM) < 100)
+                                        {
+                                            list.First(y => y.ID == j.ID && y.SX == i).TEM = ybList.TEM;
+                                            error += j.Name + i + "小时温度数据异常，已经用" + (i + 3) + "小时数据代替" + "\r\n";
+                                        }
+                                    }
+
+
+                                }
+                                else if (list.Exists(y => y.ID == j.ID && y.SX == i + 3))//如果后一时次的数据存在，则用后一时次的数据弥补
+                                {
+                                    YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i + 3);
+                                    if (Math.Abs(ybList.TEM) < 100)
+                                    {
+                                        list.First(y => y.ID == j.ID && y.SX == i).TEM = ybList.TEM;
+                                        error += j.Name + i + "小时温度数据异常，已经用" + (i + 3) + "小时数据代替" + "\r\n";
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                error += ex.Message + "\r\n";
+                            }
+                        }
+                        if (Math.Abs(itemLS.PRE) > 1000)//如果数据异常
+                        {
+                            try
+                            {
+                                if (list.Exists(y => y.ID == j.ID && y.SX == i - 3))//如果前一时次的数据存在，则用前一时次的数据弥补
+                                {
+                                    YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i - 3);
+                                    if (Math.Abs(ybList.PRE) < 1000)
+                                    {
+                                        list.First(y => y.ID == j.ID && y.SX == i).PRE = ybList.PRE;
+                                        error += j.Name + i + "小时降水量数据异常，已经用" + (i - 3) + "小时数据代替" + "\r\n";
+                                    }
+                                    else if (list.Exists(y => y.ID == j.ID && y.SX == i + 3))//如果后一时次的数据存在，则用后一时次的数据弥补
+                                    {
+                                        ybList = list.Find(y => y.ID == j.ID && y.SX == i + 3);
+                                        if (Math.Abs(ybList.PRE) < 1000)
+                                        {
+                                            list.First(y => y.ID == j.ID && y.SX == i).PRE = ybList.PRE;
+                                            error += j.Name + i + "小时降水量数据异常，已经用" + (i + 3) + "小时数据代替" + "\r\n";
+                                        }
+                                    }
+
+
+                                }
+                                else if (list.Exists(y => y.ID == j.ID && y.SX == i + 3))//如果后一时次的数据存在，则用后一时次的数据弥补
+                                {
+                                    YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i + 3);
+                                    if (Math.Abs(ybList.PRE) < 1000)
+                                    {
+                                        list.First(y => y.ID == j.ID && y.SX == i).PRE = ybList.PRE;
+                                        error += j.Name + i + "小时降水量数据异常，已经用" + (i + 3) + "小时数据代替" + "\r\n";
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                error += ex.Message + "\r\n";
+                            }
+                        }
+                        if (Math.Abs(itemLS.doubleFS) > 1000)//如果数据异常
+                        {
+                            try
+                            {
+                                if (list.Exists(y => y.ID == j.ID && y.SX == i - 3))//如果前一时次的数据存在，则用前一时次的数据弥补
+                                {
+                                    YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i - 3);
+                                    if (Math.Abs(ybList.doubleFS) < 1000)
+                                    {
+                                        list.First(y => y.ID == j.ID && y.SX == i).doubleFS = ybList.doubleFS;
+                                        list.First(y => y.ID == j.ID && y.SX == i).FX = ybList.FX;
+                                        error += j.Name + i + "小时风数据异常，已经用" + (i - 3) + "小时数据代替" + "\r\n";
+                                    }
+                                    else if (list.Exists(y => y.ID == j.ID && y.SX == i + 3))//如果后一时次的数据存在，则用后一时次的数据弥补
+                                    {
+                                        ybList = list.Find(y => y.ID == j.ID && y.SX == i + 3);
+                                        if (Math.Abs(ybList.doubleFS) < 1000)
+                                        {
+                                            list.First(y => y.ID == j.ID && y.SX == i).doubleFS = ybList.doubleFS;
+                                            list.First(y => y.ID == j.ID && y.SX == i).FX = ybList.FX;
+                                            error += j.Name + i + "小时风数据异常，已经用" + (i + 3) + "小时数据代替" + "\r\n";
+                                        }
+                                    }
+
+
+                                }
+                                else if (list.Exists(y => y.ID == j.ID && y.SX == i + 3))//如果后一时次的数据存在，则用后一时次的数据弥补
+                                {
+                                    YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i + 3);
+                                    if (Math.Abs(ybList.doubleFS) < 1000)
+                                    {
+                                        list.First(y => y.ID == j.ID && y.SX == i).doubleFS = ybList.doubleFS;
+                                        list.First(y => y.ID == j.ID && y.SX == i).FX = ybList.FX;
+                                        error += j.Name + i + "小时风数据异常，已经用" + (i + 3) + "小时数据代替" + "\r\n";
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                error += ex.Message + "\r\n";
+                            }
+                        }
+                        if (Math.Abs(itemLS.ERH) > 100)//如果数据异常
+                        {
+                            try
+                            {
+                                if (list.Exists(y => y.ID == j.ID && y.SX == i - 3))//如果前一时次的数据存在，则用前一时次的数据弥补
+                                {
+                                    YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i - 3);
+                                    if (Math.Abs(ybList.ERH) <= 100)
+                                    {
+                                        list.First(y => y.ID == j.ID && y.SX == i).ERH = ybList.ERH;
+                                        error += j.Name + i + "小时相对湿度数据异常，已经用" + (i - 3) + "小时数据代替" + "\r\n";
+                                    }
+                                    else if (list.Exists(y => y.ID == j.ID && y.SX == i + 3))//如果后一时次的数据存在，则用后一时次的数据弥补
+                                    {
+                                        ybList = list.Find(y => y.ID == j.ID && y.SX == i + 3);
+                                        if (Math.Abs(ybList.ERH) <= 100)
+                                        {
+                                            list.First(y => y.ID == j.ID && y.SX == i).ERH = ybList.ERH;
+                                            error += j.Name + i + "小时相对湿度数据异常，已经用" + (i + 3) + "小时数据代替" + "\r\n";
+                                        }
+                                    }
+
+
+                                }
+                                else if (list.Exists(y => y.ID == j.ID && y.SX == i + 3))//如果后一时次的数据存在，则用后一时次的数据弥补
+                                {
+                                    YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i + 3);
+                                    if (Math.Abs(ybList.ERH) <= 100)
+                                    {
+                                        list.First(y => y.ID == j.ID && y.SX == i).ERH = ybList.ERH;
+                                        error += j.Name + i + "小时相对湿度数据异常，已经用" + (i + 3) + "小时数据代替" + "\r\n";
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                error += ex.Message + "\r\n";
+                            }
+                        }
+                        if (itemLS.VIS < 0)//如果数据异常
+                        {
+                            try
+                            {
+                                if (list.Exists(y => y.ID == j.ID && y.SX == i - 3))//如果前一时次的数据存在，则用前一时次的数据弥补
+                                {
+                                    YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i - 3);
+                                    if (itemLS.VIS < 0)
+                                    {
+                                        list.First(y => y.ID == j.ID && y.SX == i).VIS = ybList.VIS;
+                                        error += j.Name + i + "小时能见度数据异常，已经用" + (i - 3) + "小时数据代替" + "\r\n";
+                                    }
+                                    else if (list.Exists(y => y.ID == j.ID && y.SX == i + 3))//如果后一时次的数据存在，则用后一时次的数据弥补
+                                    {
+                                        ybList = list.Find(y => y.ID == j.ID && y.SX == i + 3);
+                                        if (itemLS.VIS < 0)
+                                        {
+                                            list.First(y => y.ID == j.ID && y.SX == i).VIS = ybList.VIS;
+                                            error += j.Name + i + "小时能见度数据异常，已经用" + (i + 3) + "小时数据代替" + "\r\n";
+                                        }
+                                    }
+
+
+                                }
+                                else if (list.Exists(y => y.ID == j.ID && y.SX == i + 3))//如果后一时次的数据存在，则用后一时次的数据弥补
+                                {
+                                    YBList ybList = list.Find(y => y.ID == j.ID && y.SX == i + 3);
+                                    if (itemLS.VIS < 0)
+                                    {
+                                        list.First(y => y.ID == j.ID && y.SX == i).VIS = ybList.VIS;
+                                        error += j.Name + i + "小时能见度数据异常，已经用" + (i + 3) + "小时数据代替" + "\r\n";
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                error += ex.Message + "\r\n";
+                            }
+                        }
+                    }
+                }
+                list = list.OrderBy(y => y.ID).ThenBy(y => y.SX).ToList();
             }
             return list;
         }
@@ -756,7 +1589,7 @@ namespace sjzd
             public double PRE { get; set; }
             public short SX { get; set; }
             public int VIS { get; set; }
-            public double doubleFS{get;set;}
+            public double doubleFS { get; set; }
         }
 
         public class IDName

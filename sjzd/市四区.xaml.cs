@@ -1,24 +1,10 @@
-﻿using System;
+﻿using Aspose.Words;
+using cma.cimiss.client;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Aspose.Words;
-using Aspose.Words.Tables;
-using Aspose.Words.Drawing;
-using Aspose.Words.Lists;
-using Aspose.Words.Fields;
-using System.IO;
-using cma.cimiss.client;
-using cma.cimiss;
-using System.Drawing;
 
 namespace sjzd
 {
@@ -61,15 +47,15 @@ namespace sjzd
                 QFCom.DisplayMemberPath = "Value";
                 QFCom.SelectedValue = 0;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
 
-        public void SSQ(DateTime dt,ref string YBData)
+        public void SSQ(DateTime dt, ref string YBData)
         {
-            
+
             string DZTime = "15";
             try
             {
@@ -87,16 +73,16 @@ namespace sjzd
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 return;
             }
-            
+
             string strToday = dt.ToUniversalTime().ToString("yyyyMMdd") + DZTime + "0000";
             string strLS;
             DateTime dtLS = DateTime.ParseExact(strToday, "yyyyMMddHHmmss", null);
-            if (dtLS.CompareTo(DateTime.Now)>0)
+            if (dtLS.CompareTo(DateTime.Now) > 0)
             {
                 MessageBox.Show("预报时间太早了，是不是考虑晚点再做？");
                 return;
@@ -126,13 +112,13 @@ namespace sjzd
                 using (StreamReader sr1 = new StreamReader(configZDPath, Encoding.Default))
                 {
                     string line1 = "";
-                    while((line1=sr1.ReadLine())!=null)
+                    while ((line1 = sr1.ReadLine()) != null)
                     {
-                        if(line1.Split('=').Length>2)
+                        if (line1.Split('=').Length > 2)
                         {
 
                             ZDXX += line1 + '\n';
-                            if (line1.Split('=')[1].Trim()== line1.Split('=')[2].Trim())
+                            if (line1.Split('=')[1].Trim() == line1.Split('=')[2].Trim())
                             {
                                 StationID += line1.Split('=')[1].Trim() + ',';
                             }
@@ -149,9 +135,9 @@ namespace sjzd
                 MessageBox.Show(ex.Message);
                 return;
             }
-            ZDXX=ZDXX.Substring(0, ZDXX.Length - 1);
+            ZDXX = ZDXX.Substring(0, ZDXX.Length - 1);
             StationID = StationID.Substring(0, StationID.Length - 1);
-            XZID=XZID.Substring(0, XZID.Length - 1); ;
+            XZID = XZID.Substring(0, XZID.Length - 1); ;
             paramsqx.Add("staIds", StationID);//选择区站号
             paramsqx.Add("elements", "Station_Name,Cnty,Station_Id_C,TEM_Max_24h,TEM_Min_24h,PRE_24h");// 检索要素：站名，乡镇，区站号，过去24小时最高、最低温度，降水量
             String dataFormat = "tabText";
@@ -174,8 +160,6 @@ namespace sjzd
                 }
             }
             strData = strData.Substring(0, strData.Length - 1);
-            //对旗县实况排序，使得旗县的顺序与旗县名单文件中的一致，便于程序后续处理
-            int lineCount = 0;
 
             /* 1. 定义client对象 */
             DataQueryClient client2 = new DataQueryClient();
@@ -194,14 +178,14 @@ namespace sjzd
             params2.Add("staIds", XZID);//选择区站号，从乡镇名单中获取
             params2.Add("elements", "Station_Name,Cnty,Station_Id_C");// 检索要素：站号、旗县、区站号
             params2.Add("statEles", "MAX_TEM_Max,MIN_TEM_MIN,SUM_PRE_1h");// 统计要素最高温度的最大值，与最低温度的最小值以及小时降水量
-                                                                          /*   2.4 返回文件的格式 */
+            /*   2.4 返回文件的格式 */
             StringBuilder retStrXZ = new StringBuilder();//返回字符串
             client2.initResources();
             // 调用接口
             int rst2 = client2.callAPI_to_serializedStr(userId, pwd, interfaceId2, params2, dataFormat, retStrXZ);
             client.destroyResources();
             string xzData = Convert.ToString(retStrXZ);
-            
+
             string[] SZlinshi2 = xzData.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             xzData = "";
             for (int i = 0; i < SZlinshi2.Length; i++)
@@ -265,19 +249,20 @@ namespace sjzd
 
 
             classSSQSJZD zdybCL = new classSSQSJZD();
-            string Ybdata = zdybCL.readXZYBtxt();
-            string[,] YBSZ = zdybCL.ZDYBCL(Ybdata);
             string error = "";
-            string[,] ssqSZ = zdybCL.CZCL(YBSZ,strData, SKData, ref error);
-            YBData= zdybCL.DCWord(ssqSZ,ZBCom.Text,FBCom.Text,QFCom.Text, ref SJsaPath);
+            string Ybdata = zdybCL.readXZYBtxt(ref error);
+            string[,] YBSZ = zdybCL.ZDYBCL(Ybdata);
+
+            string[,] ssqSZ = zdybCL.CZCL(YBSZ, strData, SKData, ref error);
+            YBData = zdybCL.DCWord(ssqSZ, ZBCom.Text, FBCom.Text, QFCom.Text, ref SJsaPath);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string LS = "";
-            SSQ(DateTime.Now,ref LS);
+            SSQ(DateTime.Now, ref LS);
             YBtext.Text = LS;
-            
+
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
@@ -286,7 +271,7 @@ namespace sjzd
             {
                 System.Diagnostics.Process.Start(SJsaPath);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -297,7 +282,7 @@ namespace sjzd
     {
         string configpathPath = System.Environment.CurrentDirectory + @"\设置文件\市四区\市四区配置.txt";
         string configXZPath = System.Environment.CurrentDirectory + @"\设置文件\市四区\旗县乡镇.txt";
-        public string readXZYBtxt()//该方法读取城镇指导预报,返回指导预报整个内容
+        public string readXZYBtxt(ref string error)//该方法读取城镇指导预报,返回指导预报整个内容
         {
             string YBPath = "";
             string YBdata = "";
@@ -337,21 +322,55 @@ namespace sjzd
             }
             catch
             {
-                var result1 = System.Windows.MessageBox.Show("路径错误，没有找到"+ YBPath + "是否手动选择乡镇指导预报文件", "错误", MessageBoxButton.YesNo);
-                if (result1 == System.Windows.MessageBoxResult.Yes)
+                error = YBPath + "\r\n路径错误，是否手动选择乡镇指导预报文件";
+            }
+
+
+            return YBdata;
+        }
+        public string readXZYBtxtNew(ref string error)//该方法读取城镇指导预报,返回指导预报整个内容
+        {
+            string YBPath = "";
+            string YBdata = "";
+            StreamReader sr = new StreamReader(configpathPath, Encoding.Default);
+            String line;
+            //读取设置文件的路径配置文件中所有文本，寻找城镇指导预报路径
+            while ((line = sr.ReadLine()) != null)
+            {
+                string[] linShi1 = line.Split('=');
+                if (linShi1[0] == "城镇指导预报路径")
                 {
-                    var openFileDialog = new Microsoft.Win32.OpenFileDialog()
-                    {
-                        Filter = "文本 (*.txt)|*.txt"
-                    };
-                    var result = openFileDialog.ShowDialog();
-                    if (result == true)
-                    {
-                        YBPath = openFileDialog.FileName;
-                        sr = new StreamReader(YBPath, Encoding.Default);
-                        YBdata = sr.ReadToEnd().ToString();
-                    }
+                    YBPath = linShi1[1];
                 }
+            }
+            sr.Close();
+            string CZBWTime = "";
+            string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\报文保存路径.txt";
+            using (StreamReader sr1 = new StreamReader(DBconPath, Encoding.Default))
+            {
+
+                // 从文件读取并显示行，直到文件的末尾 
+                while ((line = sr1.ReadLine()) != null)
+                {
+                    if (line.Split('=')[0] == "市局读取城镇指导预报文件夹时次")
+                    {
+                        CZBWTime = line.Split('=')[1].Trim();
+                        CZBWTime = '\\' + CZBWTime + '\\';
+                    }
+
+                }
+            }
+            YBPath = YBPath + DateTime.Now.ToString("yy") + "." + DateTime.Now.ToString("MM") + CZBWTime + "呼市气象台指导预报" + DateTime.Now.ToString("MMdd") + ".txt";//文件路径为：基本路径+年后两位.月两位\06\呼市气象台指导预报+两位月两位日.txt
+            //判断城镇指导预报是否存在，如果不存在，提示是否手动选择文件
+            try
+            {
+                sr = new StreamReader(YBPath, Encoding.Default);
+                YBdata = sr.ReadToEnd().ToString();
+            }
+            catch
+            {
+                error = YBPath + "\r\n路径错误，是否手动选择乡镇指导预报文件";
+
             }
 
 
@@ -394,10 +413,16 @@ namespace sjzd
                     //linShi1 = System.Text.RegularExpressions.Regex.Split(YBDataLines[j]，);
                     if (zDYBSZ[i, 0] == linShi1[0])
                     {
-                        zDYBSZ[i, k++] = linShi1[1];
-                        zDYBSZ[i, k++] = linShi1[2];
-                        zDYBSZ[i, k++] = Convert.ToInt16(linShi1[3]).ToString();
-                        zDYBSZ[i, k++] = Convert.ToInt16(linShi1[4]).ToString();
+                        try
+                        {
+                            zDYBSZ[i, k++] = linShi1[1];
+                            zDYBSZ[i, k++] = linShi1[2];
+                            zDYBSZ[i, k++] = Convert.ToInt16(linShi1[3]).ToString();
+                            zDYBSZ[i, k++] = Convert.ToInt16(linShi1[4]).ToString();
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
                 }
             }
@@ -431,9 +456,9 @@ namespace sjzd
                 string[] linShi2 = line1.Split(':');
                 intQXGS = Convert.ToInt16(linShi2[1]);
             }
-                
+
             //读取设置文件的旗县乡镇文件中第一行，确认旗县镇数
-            
+
             //每两行第一列为旗县ID
             int lineCount = 0;
             using (StreamReader sr1 = new StreamReader(configXZPath, Encoding.Default))
@@ -449,7 +474,7 @@ namespace sjzd
 
                 }
             }
-                
+
             QXID = QXID.Substring(0, QXID.Length - 1);
             string strLS = QXSK;
             QXSK = "";
@@ -582,7 +607,7 @@ namespace sjzd
                                 {
                                     douMin = Math.Round(Convert.ToDouble((XZSK.Split('\n')[k]).Split('\t')[4]), 1);//按换行符和制表符分割乡镇实况字符串，每行第5个为最低温，第4个为最高温度
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
                                 {
                                     douMin = d1;
                                 }
@@ -683,13 +708,13 @@ namespace sjzd
             return szYB;
         }
 
-        public string DCWord(string[,] szYB,string ZBName,string FBName,string QFName,ref string SJsaPath)
+        public string DCWord(string[,] szYB, string ZBName, string FBName, string QFName, ref string SJsaPath)
         {
             string returnData = "";
             try
             {
                 string SJMBPath = Environment.CurrentDirectory + @"\模版\市四区模板.doc";
-                
+
                 using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
                 {
                     string line = "";
@@ -701,7 +726,7 @@ namespace sjzd
                         }
                     }
                 }
-                SJsaPath += DateTime.Now.ToString("yyyy-MM") + "\\" ;
+                SJsaPath += DateTime.Now.ToString("yyyy-MM") + "\\";
                 if (!File.Exists(SJsaPath))
                 {
                     Directory.CreateDirectory(SJsaPath);
@@ -716,16 +741,16 @@ namespace sjzd
                 builder.Font.Name = "宋体";
                 builder.Write(DateTime.Now.ToString("yyyy年MM月dd日"));
                 string data = "";
-                for(int i=0;i<szYB.GetLength(0);i++)
+                for (int i = 0; i < szYB.GetLength(0); i++)
                 {
-                    data += szYB[i, 0] + "：" + szYB[i, 2] + "，" + szYB[i, 3] + "，" + szYB[i, 4] + "～" + szYB[i, 5] + "℃"+"\r\n";
+                    data += szYB[i, 0] + "：" + szYB[i, 2] + "，" + szYB[i, 3] + "，" + szYB[i, 4] + "～" + szYB[i, 5] + "℃" + "\r\n";
                 }
                 data = data.Substring(0, data.Length - 2);
                 builder.MoveToBookmark("预报24");
                 builder.Font.Size = 13;
                 builder.Font.Name = "宋体";
                 builder.Write(data);
-                returnData += "24小时\r\b"+data + "\r\n";
+                returnData += "24小时\r\b" + data + "\r\n";
                 data = "";
                 for (int i = 0; i < szYB.GetLength(0); i++)
                 {
@@ -740,7 +765,7 @@ namespace sjzd
                 data = "";
                 for (int i = 0; i < szYB.GetLength(0); i++)
                 {
-                    data += szYB[i, 0] + "：" + szYB[i,10] + "，" + szYB[i, 11] + "，" + szYB[i, 12] + "～" + szYB[i, 13] + "℃" + "\r\n";
+                    data += szYB[i, 0] + "：" + szYB[i, 10] + "，" + szYB[i, 11] + "，" + szYB[i, 12] + "～" + szYB[i, 13] + "℃" + "\r\n";
                 }
                 data = data.Substring(0, data.Length - 2);
                 builder.MoveToBookmark("预报72");
@@ -800,11 +825,132 @@ namespace sjzd
 
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
                 return returnData;
             }
         }
+
+        public string DCWordNew(string[,] szYB, string ZBName, string FBName, string QFName, ref string error)
+        {
+            string SJsaPath = "";
+            try
+            {
+                string SJMBPath = Environment.CurrentDirectory + @"\模版\市四区模板.doc";
+
+                using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                {
+                    string line = "";
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        if (line.Split('=')[0] == "产品发布路径")
+                        {
+                            SJsaPath = line.Split('=')[1];
+                        }
+                    }
+                }
+                SJsaPath += DateTime.Now.ToString("yyyy-MM") + "\\";
+                if (!File.Exists(SJsaPath))
+                {
+                    Directory.CreateDirectory(SJsaPath);
+                }
+                SJsaPath += DateTime.Now.ToString("yyyyMMdd") + ".doc";
+                Document doc = new Document(SJMBPath);
+                DocumentBuilder builder = new DocumentBuilder(doc);
+                builder.CellFormat.Borders.LineStyle = LineStyle.Single;
+                builder.CellFormat.Borders.Color = System.Drawing.Color.Black;
+                builder.MoveToBookmark("日期");
+                builder.Font.Size = 12;
+                builder.Font.Name = "宋体";
+                builder.Write(DateTime.Now.ToString("yyyy年MM月dd日"));
+                string data = "";
+                for (int i = 0; i < szYB.GetLength(0); i++)
+                {
+                    data += szYB[i, 0] + "：" + szYB[i, 2] + "，" + szYB[i, 3] + "，" + szYB[i, 4] + "～" + szYB[i, 5] + "℃" + "\r\n";
+                }
+                data = data.Substring(0, data.Length - 2);
+                builder.MoveToBookmark("预报24");
+                builder.Font.Size = 13;
+                builder.Font.Name = "宋体";
+                builder.Write(data);
+                data = "";
+                for (int i = 0; i < szYB.GetLength(0); i++)
+                {
+                    data += szYB[i, 0] + "：" + szYB[i, 6] + "，" + szYB[i, 7] + "，" + szYB[i, 8] + "～" + szYB[i, 9] + "℃" + "\r\n";
+                }
+                data = data.Substring(0, data.Length - 2);
+                builder.MoveToBookmark("预报48");
+                builder.Font.Size = 13;
+                builder.Font.Name = "宋体";
+                builder.Write(data);
+                data = "";
+                for (int i = 0; i < szYB.GetLength(0); i++)
+                {
+                    data += szYB[i, 0] + "：" + szYB[i, 10] + "，" + szYB[i, 11] + "，" + szYB[i, 12] + "～" + szYB[i, 13] + "℃" + "\r\n";
+                }
+                data = data.Substring(0, data.Length - 2);
+                builder.MoveToBookmark("预报72");
+                builder.Font.Size = 13;
+                builder.Font.Name = "宋体";
+                builder.Write(data);
+                builder.MoveToBookmark("日期241");
+                builder.CellFormat.Borders.Color = System.Drawing.Color.Black;
+                builder.Font.Size = 13;
+                builder.Font.Name = "宋体";
+                builder.Write(DateTime.Now.ToString("dd"));
+                builder.MoveToBookmark("日期242");
+                builder.CellFormat.Borders.Color = System.Drawing.Color.Black;
+                builder.Font.Size = 13;
+                builder.Font.Name = "宋体";
+                builder.Write(DateTime.Now.AddDays(1).ToString("dd"));
+                builder.MoveToBookmark("日期481");
+                builder.CellFormat.Borders.Color = System.Drawing.Color.Black;
+                builder.Font.Size = 13;
+                builder.Font.Name = "宋体";
+                builder.Write(DateTime.Now.AddDays(1).ToString("dd"));
+                builder.MoveToBookmark("日期482");
+                builder.CellFormat.Borders.Color = System.Drawing.Color.Black;
+                builder.Font.Size = 13;
+                builder.Font.Name = "宋体";
+                builder.Write(DateTime.Now.AddDays(2).ToString("dd"));
+                builder.MoveToBookmark("日期721");
+                builder.CellFormat.Borders.Color = System.Drawing.Color.Black;
+                builder.Font.Size = 13;
+                builder.Font.Name = "宋体";
+                builder.Write(DateTime.Now.AddDays(2).ToString("dd"));
+                builder.MoveToBookmark("日期722");
+                builder.CellFormat.Borders.Color = System.Drawing.Color.Black;
+                builder.Font.Size = 13;
+                builder.Font.Name = "宋体";
+                builder.Write(DateTime.Now.AddDays(3).ToString("dd"));
+                builder.MoveToBookmark("主班");
+                builder.CellFormat.Borders.Color = System.Drawing.Color.Black;
+                builder.Font.Size = 13;
+                builder.Font.Name = "宋体";
+                builder.Write(ZBName);
+                builder.MoveToBookmark("副班");
+                builder.CellFormat.Borders.Color = System.Drawing.Color.Black;
+                builder.Font.Size = 13;
+                builder.Font.Name = "宋体";
+                builder.Write(FBName);
+                builder.MoveToBookmark("签发");
+                builder.CellFormat.Borders.Color = System.Drawing.Color.Black;
+                builder.Font.Size = 13;
+                builder.Font.Name = "宋体";
+                builder.Write(QFName);
+                doc.Save(SJsaPath);
+                return SJsaPath;
+
+
+            }
+
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            return SJsaPath;
+        }
     }
 
-    }
+}

@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
+using System.Data.SqlClient;
+using System.IO;
+using System.Management;
+using System.Net;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using System.Data.SqlClient;
-using System.Management;
-using System.Collections.ObjectModel;
-using System.Net;
 
 namespace 旗县端
 {
@@ -23,7 +15,7 @@ namespace 旗县端
     /// </summary>
     public partial class 管理员登陆 : Window
     {
-        bool SQLSuc=true;
+        bool SQLSuc = true;
         ObservableCollection<people> peopleList = new ObservableCollection<people>();
         int intCount = 0;//记录当前旗县人员个数
         string con;//这里是保存连接数据库的字符串
@@ -62,7 +54,7 @@ namespace 旗县端
             }
             HQUserID(ref SQLSuc);
 
-            
+
 
         }
 
@@ -138,7 +130,6 @@ namespace 旗县端
             string[,] userSZ = new string[intCount, 3];
             using (StreamReader sr = new StreamReader(idPath, Encoding.Default))
             {
-                int i = 0;
                 string line = "";
                 while ((line = sr.ReadLine()) != null)
                 {
@@ -150,17 +141,17 @@ namespace 旗县端
                             string admin = line.Split('=')[2];
                             if (passStr == passWord.Password)
                             {
-                                if(admin.Trim() == "1")
+                                if (admin.Trim() == "1")
                                 {
 
                                     QXXZConfig qXXZConfig = new QXXZConfig();
                                     qXXZConfig.Show();
-                                    string strIPMac = passStr+ userchoose.Text+ "  "+GetIP() + "  " + GetMacAddress()+"访问";
+                                    string strIPMac = passStr + userchoose.Text + "  " + GetIP() + "  " + GetMacAddress() + "访问";
                                     using (SqlConnection mycon = new SqlConnection(con))
                                     {
                                         try
                                         {
-                                            
+
                                             mycon.Open();//打开
                                             string sql = string.Format(@"insert into 旗县访问记录 values('{0}','{1}','{2}')", DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToLongTimeString(), strIPMac);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
                                             SqlCommand sqlman = new SqlCommand(sql, mycon);
@@ -168,7 +159,7 @@ namespace 旗县端
 
                                             this.Close();
                                         }
-                                        catch (Exception ex)
+                                        catch (Exception)
                                         {
 
                                         }

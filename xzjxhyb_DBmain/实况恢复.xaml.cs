@@ -1,22 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Diagnostics;
-using System.Threading;
-using cma.cimiss.client;
-using cma.cimiss;
-using System.IO;
-using System.Data.SqlClient;
-using System.Data;
 
 namespace xzjxhyb_DBmain
 {
@@ -51,7 +38,7 @@ namespace xzjxhyb_DBmain
                         con = line.Substring("sql管理员=".Length);
                     }
 
-                    else if (line.Split('=')[0]==("实况时次"))
+                    else if (line.Split('=')[0] == ("实况时次"))
                     {
                         RKTime = line.Split('=')[1];
                     }
@@ -107,12 +94,12 @@ namespace xzjxhyb_DBmain
                     Dispatcher.Invoke(updateText, System.Windows.Threading.DispatcherPriority.Background, new object[] { TextBox.TextProperty, strDate });//委托更新显示文本
                     dateLS = dateLS.AddDays(1);
                     string strfile = Save(strDate, RKTime);//
-                    SKaddDB(strfile,ref ZSLS,ref SucGSLS);
-                    ss += strDate+" 实况共计"+ZSLS.ToString()+"条，成功入库"+SucGSLS.ToString()+"条。\n";
+                    SKaddDB(strfile, ref ZSLS, ref SucGSLS);
+                    ss += strDate + " 实况共计" + ZSLS.ToString() + "条，成功入库" + SucGSLS.ToString() + "条。\n";
                     File.Delete(strfile);
                     HQSK hqRainSk = new HQSK();
                     string error = "";
-                    hqRainSk.CIMISSRain12(strDate,ref error,ref ss);
+                    hqRainSk.CIMISSRain12(strDate, ref error, ref ss);
 
                 }
                 Dispatcher.Invoke(updateText, System.Windows.Threading.DispatcherPriority.Background, new object[] { TextBox.TextProperty, "完成" });
@@ -122,8 +109,8 @@ namespace xzjxhyb_DBmain
             {
                 MessageBox.Show("请选择起止时间");
             }
-            
-            
+
+
 
         }
 
@@ -168,9 +155,9 @@ namespace xzjxhyb_DBmain
         }
 
         //将指定全路径下的文件中的实况信息保存至数据中
-        public void SKaddDB(string filepath,ref int ZS,ref int SucGS)
+        public void SKaddDB(string filepath, ref int ZS, ref int SucGS)
         {
-            ZS = 0;SucGS = 0;
+            ZS = 0; SucGS = 0;
             if ((File.Exists(filepath)))
             {
                 SqlConnection mycon = new SqlConnection(con);//创建SQL连接对象
@@ -244,7 +231,7 @@ namespace xzjxhyb_DBmain
                     {
                         myTmin = 999999;
                     }
-                    if(myTmin== myTmax)//如果最高最低温度相等，按照缺测处理
+                    if (myTmin == myTmax)//如果最高最低温度相等，按照缺测处理
                     {
                         myTmin = 999999;
                         myTmax = 999999;
@@ -263,7 +250,7 @@ namespace xzjxhyb_DBmain
 
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         // MessageBox.Show("数据库添加失败\n" + ex.Message);
                     }

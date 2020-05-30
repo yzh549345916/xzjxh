@@ -5,16 +5,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 
 namespace 旗县端
@@ -33,7 +25,7 @@ namespace 旗县端
             string configXZPath = System.Environment.CurrentDirectory + @"\设置文件\旗县乡镇.txt";
             string QXNameDZPath = Environment.CurrentDirectory + @"\设置文件\旗县名称显示对照.txt";
             Int16 intQXGS = 0;
-            
+
             try
             {
                 using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))//统计旗县个数
@@ -88,9 +80,9 @@ namespace 旗县端
                     }
                 }
                 Dictionary<int, string> mydic = new Dictionary<int, string>();
-                for (int i=0;i<=intQXGS;i++)
+                for (int i = 0; i <= intQXGS; i++)
                 {
-                    if(i==0)
+                    if (i == 0)
                     {
                         mydic.Add(i, "全市");
                     }
@@ -106,11 +98,11 @@ namespace 旗县端
                 DateTime dt = DateTime.Now;
                 sDate.SelectedDate = dt.AddDays(1 - dt.Day).AddMonths(-1);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
             //GRPFList.Sorting = MainGrid_Sorting();
             //GRPFList.Sorting += new DataGridSortingEventHandler(MainGrid_Sorting);
         }
@@ -122,7 +114,7 @@ namespace 旗县端
                 if ((!(sDate.SelectedDate.ToString().Length == 0)) && (!(eDate.SelectedDate.ToString().Length == 0)))
                 {
                     string configXZPath = System.Environment.CurrentDirectory + @"\设置文件\旗县乡镇.txt";
-                    string QXNameDZPath= Environment.CurrentDirectory + @"\设置文件\旗县名称显示对照.txt";
+                    string QXNameDZPath = Environment.CurrentDirectory + @"\设置文件\旗县名称显示对照.txt";
                     Int16 intQXGS = 0;
                     using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))//统计旗县个数
                     {
@@ -141,7 +133,7 @@ namespace 旗县端
                     string[,] TJXX = new string[intQXGS + 1, 8];//行数为旗县个数加一，最后一行市局，列数为名称、晴雨评分、高温评分、低温评分、晴雨技巧、高温技巧、低温技巧、总技巧
                     string startDate = Convert.ToDateTime(sDate.SelectedDate).ToString("yyyy-MM-dd");
                     string endDate = Convert.ToDateTime(eDate.SelectedDate).ToString("yyyy-MM-dd");
-                    BTLabel.Content = startDate + "至" + endDate +QXSelect.Text+ "个人评分";
+                    BTLabel.Content = startDate + "至" + endDate + QXSelect.Text + "个人评分";
 
                     using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))//第二行开始每两行为旗县及乡镇区站号列表
                     {
@@ -169,7 +161,7 @@ namespace 旗县端
                     using (StreamReader sr = new StreamReader(QXNameDZPath, Encoding.Default))
                     {
                         string line1 = "";
-                        while((line1=sr.ReadLine())!=null)
+                        while ((line1 = sr.ReadLine()) != null)
                         {
                             for (int i = 0; i < QXName.Length; i++)
                             {
@@ -181,22 +173,22 @@ namespace 旗县端
                         }
                     }
                     TJ tj = new TJ();
-                    
+
                     string[] PeopleListSZ = tj.PeoleListTJ(startDate, endDate);//指定时间所有旗县所有预报员ID列表
                     string[,] GRPFSZ = new string[PeopleListSZ.Length, 13];//数组保存个人评分信息
-                    for(int i=0;i< PeopleListSZ.Length;i++)
+                    for (int i = 0; i < PeopleListSZ.Length; i++)
                     {
                         GRPFSZ[i, 0] = PeopleListSZ[i];
                         string qbdate = "";
                         float[] zqlFloat = tj.GRZQL(startDate, endDate, PeopleListSZ[i], ref qbdate);//返回数组分别为三天预报的最高、最低温度、晴雨准确率以及缺报率
                         //zqlFloat数组与XSList数组的高低温晴雨准确率不一致，计算时需略作调整
-                        GRPFSZ[i,5] = Convert.ToString(Math.Round((zqlFloat[2] * 10 + zqlFloat[5] * 8 + zqlFloat[8] * 6) / 24, 2));
-                        GRPFSZ[i,6] = Convert.ToString(Math.Round((zqlFloat[0] * 10 + zqlFloat[3] * 8 + zqlFloat[6] * 6) / 24, 2));
-                        GRPFSZ[i,7] = Convert.ToString(Math.Round((zqlFloat[1] * 10 + zqlFloat[4] * 8 + zqlFloat[7] * 6) / 24, 2));
-                        GRPFSZ[i,8] = Convert.ToString(Math.Round(Convert.ToSingle(0.4 * Convert.ToDouble(GRPFSZ[i, 5]) + 0.3 * Convert.ToDouble(GRPFSZ[i, 6]) + 0.3 * Convert.ToDouble(GRPFSZ[i, 7])), 2));//总评分
+                        GRPFSZ[i, 5] = Convert.ToString(Math.Round((zqlFloat[2] * 10 + zqlFloat[5] * 8 + zqlFloat[8] * 6) / 24, 2));
+                        GRPFSZ[i, 6] = Convert.ToString(Math.Round((zqlFloat[0] * 10 + zqlFloat[3] * 8 + zqlFloat[6] * 6) / 24, 2));
+                        GRPFSZ[i, 7] = Convert.ToString(Math.Round((zqlFloat[1] * 10 + zqlFloat[4] * 8 + zqlFloat[7] * 6) / 24, 2));
+                        GRPFSZ[i, 8] = Convert.ToString(Math.Round(Convert.ToSingle(0.4 * Convert.ToDouble(GRPFSZ[i, 5]) + 0.3 * Convert.ToDouble(GRPFSZ[i, 6]) + 0.3 * Convert.ToDouble(GRPFSZ[i, 7])), 2));//总评分
                         float[] GRJDWCSZ = tj.GRJDWC(startDate, endDate, PeopleListSZ[i]);
                         float[] SJJDWCSZ = tj.GRSJJDWC(startDate, endDate, PeopleListSZ[i]);
-                        float[] SJzqlFloat = tj.GRSJZQL(startDate, endDate, PeopleListSZ[i],qbdate);//返回数组分别为三天预报的最高、最低温度、晴雨准确率以及缺报率，主要计算技巧用晴雨准确率
+                        float[] SJzqlFloat = tj.GRSJZQL(startDate, endDate, PeopleListSZ[i], qbdate);//返回数组分别为三天预报的最高、最低温度、晴雨准确率以及缺报率，主要计算技巧用晴雨准确率
                         float[] WDJQ = new float[6];//保存三天的最高、最低温度技巧
                         try
                         {
@@ -214,9 +206,9 @@ namespace 旗县端
                             }
 
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            
+
                         }
                         float[] QYJQ = new float[3];
                         try
@@ -237,12 +229,12 @@ namespace 旗县端
                                 QYJQ[j] = (float)Math.Round(QYJQ[j], 2);
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            
+
                         }
 
-                        GRPFSZ[i,  9] = Convert.ToString(Math.Round((QYJQ[0] * 10 + QYJQ[1] * 8 + QYJQ[2] * 6) / 24, 2));//晴雨技巧
+                        GRPFSZ[i, 9] = Convert.ToString(Math.Round((QYJQ[0] * 10 + QYJQ[1] * 8 + QYJQ[2] * 6) / 24, 2));//晴雨技巧
                         GRPFSZ[i, 10] = Convert.ToString(Math.Round((WDJQ[0] * 10 + WDJQ[2] * 8 + WDJQ[4] * 6) / 24, 2));//高温技巧
                         GRPFSZ[i, 11] = Convert.ToString(Math.Round((WDJQ[1] * 10 + WDJQ[3] * 8 + WDJQ[5] * 6) / 24, 2));//低温技巧
                         GRPFSZ[i, 12] = Convert.ToString(Math.Round(Convert.ToSingle(0.4 * Convert.ToDouble(GRPFSZ[i, 9]) + 0.3 * Convert.ToDouble(GRPFSZ[i, 10]) + 0.3 * Convert.ToDouble(GRPFSZ[i, 11])), 2));//总技巧
@@ -253,9 +245,9 @@ namespace 旗县端
                     {
                         Int16 ZBJS = 0;//值班基数
                         string[,] ZBSZ = tj.ZBXXTJ(startDate, endDate, QXID[i], ref ZBJS);
-                        for(int j=0;j<ZBSZ.GetLength(0);j++)
+                        for (int j = 0; j < ZBSZ.GetLength(0); j++)
                         {
-                            for(int k=0;k<PeopleListSZ.Length;k++)
+                            for (int k = 0; k < PeopleListSZ.Length; k++)
                             {
                                 if (ZBSZ[j, 0] == GRPFSZ[k, 0])
                                 {
@@ -268,16 +260,16 @@ namespace 旗县端
 
                     }
                     Int16 countInt = 0;//保存值班次数大于基数的人员的个数
-                    for(int i=0;i<PeopleListSZ.Length;i++)
+                    for (int i = 0; i < PeopleListSZ.Length; i++)
                     {
-                        if(Convert.ToInt16(GRPFSZ[i, 3]) >= Convert.ToInt16(GRPFSZ[i, 4]))//如果值班次数大于值班基数
+                        if (Convert.ToInt16(GRPFSZ[i, 3]) >= Convert.ToInt16(GRPFSZ[i, 4]))//如果值班次数大于值班基数
                         {
                             countInt++;
 
                         }
                         else//如果值班次数小于值班基数
                         {
-                            
+
                         }
                     }
                     double[] JQPJSZ = new double[countInt];
@@ -294,14 +286,14 @@ namespace 旗县端
                             GRPFSZ[i, 1] = "999";
                         }
                     }
-                     Array.Sort(JQPJSZ);
-                    for(int i=0;i<JQPJSZ.Length;i++)
+                    Array.Sort(JQPJSZ);
+                    for (int i = 0; i < JQPJSZ.Length; i++)
                     {
                         for (int j = 0; j < PeopleListSZ.Length; j++)
                         {
                             if (Convert.ToInt16(GRPFSZ[j, 3]) >= Convert.ToInt16(GRPFSZ[j, 4]))//如果值班次数大于值班基数
                             {
-                                if(JQPJSZ[i]== Convert.ToDouble(GRPFSZ[j,12]))
+                                if (JQPJSZ[i] == Convert.ToDouble(GRPFSZ[j, 12]))
                                 {
                                     GRPFSZ[j, 1] = (countInt - i).ToString();
                                 }
@@ -309,7 +301,7 @@ namespace 旗县端
                             }
                             else//如果值班次数小于值班基数排名999
                             {
-                                
+
                             }
                         }
                     }
@@ -333,22 +325,22 @@ namespace 旗县端
 
                         });
                     }
-                    
-                    if (QXSelect.Text=="全市")
+
+                    if (QXSelect.Text == "全市")
                     {
-                        var result = grpf.OrderBy(p => p.PM);//按照排名升序排列
+                        IOrderedEnumerable<GRPF> result = grpf.OrderBy(p => p.PM);//按照排名升序排列
                         ((this.FindName("GRPFList")) as DataGrid).ItemsSource = result;
                     }
                     else
                     {
-                        var result1 = grpf.OrderBy(p => p.PM);//按照排名升序排列
-                        var result= result1.Where(c => c.Name == QXSelect.Text);
+                        IOrderedEnumerable<GRPF> result1 = grpf.OrderBy(p => p.PM);//按照排名升序排列
+                        IEnumerable<GRPF> result = result1.Where(c => c.Name == QXSelect.Text);
                         ((this.FindName("GRPFList")) as DataGrid).ItemsSource = result;
                     }
-                    
-                    
-                
-                    
+
+
+
+
                 }
                 else
                 {
@@ -370,7 +362,7 @@ namespace 旗县端
                 dt = dt.AddMonths(1).AddDays(-1);
                 eDate.SelectedDate = dt;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -492,12 +484,12 @@ namespace 旗县端
 
         private void MainGrid_Sorting(object sender, DataGridSortingEventArgs e)
         {
-            
+
             string ss = e.Column.Header.ToString();
-            if(ss=="晴雨准确率")
+            if (ss == "晴雨准确率")
                 MessageBox.Show("123");
 
         }
-        
+
     }
 }

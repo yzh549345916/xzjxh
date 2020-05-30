@@ -1,20 +1,11 @@
 ﻿using Aspose.Cells;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace sjzd
 {
@@ -23,7 +14,7 @@ namespace sjzd
     /// </summary>
     public partial class 集体评分逐日查询页 : Page
     {
-       
+
         ObservableCollection<JTPF> jtpf = new ObservableCollection<JTPF>();
         CalendarDateRange dr1 = new CalendarDateRange((DateTime.Now.Date).AddDays(+1), DateTime.MaxValue), dr2 = new CalendarDateRange((DateTime.Now.Date).AddDays(+1), DateTime.MaxValue);
         public 集体评分逐日查询页()
@@ -34,7 +25,7 @@ namespace sjzd
             sDate.SelectedDate = dt.AddDays(1 - dt.Day).AddMonths(-1);
         }
 
-        
+
         private void CXButton_Click(object sender, RoutedEventArgs e)
         {
             if ((!(sDate.SelectedDate.ToString().Length == 0)) && (!(eDate.SelectedDate.ToString().Length == 0)))
@@ -62,7 +53,7 @@ namespace sjzd
                     string startDate = Convert.ToDateTime(sDate.SelectedDate).ToString("yyyy-MM-dd");
                     string endDate = Convert.ToDateTime(eDate.SelectedDate).ToString("yyyy-MM-dd");
                     BTLabel.Content = startDate + "至" + endDate + "全市各旗县集体评分";
-                    
+
                     using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))//第二行开始每两行为旗县及乡镇区站号列表
                     {
                         string line1 = "";
@@ -88,47 +79,47 @@ namespace sjzd
                     }
 
                     TJ tj = new TJ();
-                    
+
 
                     for (int i = 0; i < intQXGS + 1; i++)
                     {
                         if (i < intQXGS)
                         {
-                             float[] zqlFloat = tj.QXZQL(startDate, endDate, QXID[i]);//返回数组分别为三天预报的最高、最低温度、晴雨准确率以及缺报率
+                            float[] zqlFloat = tj.QXZQL(startDate, endDate, QXID[i]);//返回数组分别为三天预报的最高、最低温度、晴雨准确率以及缺报率
                             float[] XSList = new float[8];//保存该旗县的晴雨评分、高温评分、低温评分、综合总评分、晴雨技巧、高温技巧、低温技巧、以及技巧总评分。
                             //zqlFloat数组与XSList数组的高低温晴雨准确率不一致，计算时需略作调整
-                            XSList[0] = (float)Math.Round((zqlFloat[2] * 10 + zqlFloat[5] * 8 + zqlFloat[8] * 6) / 24,2);
-                            XSList[1] = (float)Math.Round((zqlFloat[0] * 10 + zqlFloat[3] * 8 + zqlFloat[6] * 6) / 24,2);
-                            XSList[2] = (float)Math.Round((zqlFloat[1] * 10 + zqlFloat[4] * 8 + zqlFloat[7] * 6) / 24,2);
-                            XSList[3] = (float)Math.Round(Convert.ToSingle(0.4 * XSList[0] + 0.3 * XSList[1] + 0.3 * XSList[2]),2);//总评分
+                            XSList[0] = (float)Math.Round((zqlFloat[2] * 10 + zqlFloat[5] * 8 + zqlFloat[8] * 6) / 24, 2);
+                            XSList[1] = (float)Math.Round((zqlFloat[0] * 10 + zqlFloat[3] * 8 + zqlFloat[6] * 6) / 24, 2);
+                            XSList[2] = (float)Math.Round((zqlFloat[1] * 10 + zqlFloat[4] * 8 + zqlFloat[7] * 6) / 24, 2);
+                            XSList[3] = (float)Math.Round(Convert.ToSingle(0.4 * XSList[0] + 0.3 * XSList[1] + 0.3 * XSList[2]), 2);//总评分
                             float[] QXJDWCSZ = tj.QXJDWC(startDate, endDate, QXID[i]);
                             float[] SJJDWCSZ = tj.SJJDWC(startDate, endDate, QXID[i]);
                             float[] SJzqlFloat = tj.SJZQL(startDate, endDate, QXID[i]);//返回数组分别为三天预报的最高、最低温度、晴雨准确率以及缺报率，主要计算技巧用晴雨准确率
                             float[] WDJQ = new float[6];//保存三天的最高、最低温度技巧
                             try
                             {
-                                for(int j=0;j<6;j++)
+                                for (int j = 0; j < 6; j++)
                                 {
-                                    if(SJJDWCSZ[j]==0)
+                                    if (SJJDWCSZ[j] == 0)
                                     {
                                         WDJQ[j] = 1.01F * 100;
                                     }
                                     else
                                     {
                                         WDJQ[j] = (SJJDWCSZ[j] - QXJDWCSZ[j]) / SJJDWCSZ[j];
-                                        WDJQ[j] = (float)Math.Round(WDJQ[j]*100, 2);
+                                        WDJQ[j] = (float)Math.Round(WDJQ[j] * 100, 2);
                                     }
                                 }
 
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 MessageBox.Show(ex.Message);
                             }
                             float[] QYJQ = new float[3];
                             try
                             {
-                                for(int j=0;j<3;j++)
+                                for (int j = 0; j < 3; j++)
                                 {
                                     //if(SJzqlFloat[2 + j * 3] == 100)
                                     //{
@@ -149,27 +140,27 @@ namespace sjzd
                                 MessageBox.Show(ex.Message);
                             }
 
-                            XSList[4] = (float)Math.Round((QYJQ[0] * 10 + QYJQ[1] * 8 + QYJQ[2] * 6) / 24,2);//晴雨技巧
-                            XSList[5] = (float)Math.Round((WDJQ[0] * 10 + WDJQ[2] * 8 + WDJQ[4] * 6) / 24,2);//高温技巧
-                            XSList[6] = (float)Math.Round((WDJQ[1] * 10 + WDJQ[3] * 8 + WDJQ[5] * 6) / 24,2);//低温技巧
-                            XSList[7] = (float)Math.Round(Convert.ToSingle(0.4 * XSList[4] + 0.3 * XSList[5] + 0.3 * XSList[6]),2);//总技巧
-                             jtpf.Add(new JTPF()
-                             {
-                                 Name = QXName[i],
-                                 QYPF = XSList[0],
-                                 GWPF = XSList[1],
-                                 DWPF = XSList[2],
-                                 ZHPF = XSList[3],
-                                 QYJQ = XSList[4],
-                                 GWJQ = XSList[5],
-                                 DWJQ = XSList[6],
-                                 AllJQ = XSList[7],
-                             });
+                            XSList[4] = (float)Math.Round((QYJQ[0] * 10 + QYJQ[1] * 8 + QYJQ[2] * 6) / 24, 2);//晴雨技巧
+                            XSList[5] = (float)Math.Round((WDJQ[0] * 10 + WDJQ[2] * 8 + WDJQ[4] * 6) / 24, 2);//高温技巧
+                            XSList[6] = (float)Math.Round((WDJQ[1] * 10 + WDJQ[3] * 8 + WDJQ[5] * 6) / 24, 2);//低温技巧
+                            XSList[7] = (float)Math.Round(Convert.ToSingle(0.4 * XSList[4] + 0.3 * XSList[5] + 0.3 * XSList[6]), 2);//总技巧
+                            jtpf.Add(new JTPF()
+                            {
+                                Name = QXName[i],
+                                QYPF = XSList[0],
+                                GWPF = XSList[1],
+                                DWPF = XSList[2],
+                                ZHPF = XSList[3],
+                                QYJQ = XSList[4],
+                                GWJQ = XSList[5],
+                                DWJQ = XSList[6],
+                                AllJQ = XSList[7],
+                            });
                         }
                         else
                         {
-                            
-                            
+
+
                             float[] zqlFloat = tj.SJQSZQL(startDate, endDate);
                             float[] XSList = new float[4];//保存该旗县的晴雨评分、高温评分、低温评分、综合总评分、晴雨技巧、高温技巧、低温技巧、以及技巧总评分。
                             //zqlFloat数组与XSList数组的高低温晴雨准确率不一致，计算时需略作调整
@@ -215,7 +206,7 @@ namespace sjzd
                 dt = dt.AddMonths(1).AddDays(-1);
                 eDate.SelectedDate = dt;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

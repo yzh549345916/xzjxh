@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Aspose.Cells;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using System.Collections.ObjectModel;
-using System.Data.SqlClient;
-using Aspose.Cells;
 
 namespace sjzd
 {
@@ -57,7 +48,7 @@ namespace sjzd
                 string startDate = Convert.ToDateTime(sDate.SelectedDate).ToString("yyyy-MM-dd");
                 string endDate = Convert.ToDateTime(eDate.SelectedDate).ToString("yyyy-MM-dd");
                 BTLabel.Content = startDate + "至" + endDate + "市局乡镇精细化预报准确率";
-                
+
                 using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))//第二行开始每两行为旗县及乡镇区站号列表
                 {
                     string line1 = "";
@@ -143,7 +134,7 @@ namespace sjzd
             {
                 return;
             }
-            string strPath = m_Dialog.SelectedPath + "\\" +  BTLabel.Content + ".xls";
+            string strPath = m_Dialog.SelectedPath + "\\" + BTLabel.Content + ".xls";
             TJ.ZQLTJ1[] dcsz = sjzqlTJ1.ToArray();
             try
             {
@@ -178,7 +169,7 @@ namespace sjzd
                 {
                     cellSheet.Cells[i + 1, 0].PutValue(dcsz[i].Name);
                     cellSheet.Cells[i + 1, 0].SetStyle(style1);
-                    cellSheet.Cells[i + 1, 1].PutValue(Math.Round(dcsz[i].SJ24TmaxZQL,2));
+                    cellSheet.Cells[i + 1, 1].PutValue(Math.Round(dcsz[i].SJ24TmaxZQL, 2));
                     cellSheet.Cells[i + 1, 1].SetStyle(style1);
                     cellSheet.Cells[i + 1, 2].PutValue(Math.Round(dcsz[i].SJ24TminZQL, 2));
                     cellSheet.Cells[i + 1, 2].SetStyle(style1);
@@ -238,12 +229,12 @@ namespace sjzd
                 dt = dt.AddMonths(1).AddDays(-1);
                 eDate.SelectedDate = dt;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
-        
+
     }
 
-    
+
 }

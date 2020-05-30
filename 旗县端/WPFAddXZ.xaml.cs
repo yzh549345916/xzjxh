@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using System.Data.SqlClient;
 
 namespace 旗县端
 {
@@ -32,7 +24,7 @@ namespace 旗县端
         }
         private void CSH()
         {
-            
+
             try
             {
                 string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
@@ -101,7 +93,7 @@ namespace 旗县端
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -154,7 +146,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         MessageBox.Show("新增乡镇失败");
                     }
@@ -170,7 +162,7 @@ namespace 旗县端
 
         private void QXList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           
+
         }
 
         private void GetStationWZ_Click(object sender, RoutedEventArgs e)
@@ -199,7 +191,7 @@ namespace 旗县端
                     MessageBox.Show("请先输入区站号");
                 }
             }
-            catch(Exception ex)
+            catch (Exception)
             {
 
             }

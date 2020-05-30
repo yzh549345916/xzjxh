@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="sjzd.实况查询"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:sjzd"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             Height="700" Width="1520">
+
+    <Grid Margin="0,0,0,0">
+        <Grid.Resources>
+            <Style x:Key="CustomGridViewHeaderCellStyle" TargetType="telerik:GridViewHeaderCell">
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+            </Style>
+        </Grid.Resources>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
+                    <telerik:Label Content="时次选择" HorizontalAlignment="Center" Margin="0,20,0,0"
+                                   VerticalAlignment="Top" RenderTransformOrigin="0.362,3" Height="26" />
+                    <telerik:RadDateTimePicker x:Name="SCSelect" OpenDropDownOnFocus="True" ToolTip="选择实况时次"
+                                               Height="28" InputMode="TimePicker" HorizontalAlignment="Center"
+                                               Width="130" Margin="0,10,0,0" VerticalAlignment="Top"
+                                               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                               DateTimeWatermarkContent="请选择时次" />
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,0,0">
+                    <telerik:Label x:Name="labelStartdate" Content="开始日期" Margin="0,20,0,0"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="58" />
+                    <telerik:RadDatePicker x:Name="sDate" OpenDropDownOnFocus="True" ToolTip="选择开始日期"
+                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,0,0"
+                                           Height="28" Width="130" SelectionChanged="sDate_SelectedDateChanged" />
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,0,0">
+                    <telerik:Label x:Name="labelEnddate" Content="结束日期" HorizontalAlignment="Center" Margin="0,20,0,0"
+                                   VerticalAlignment="Center" Height="26" Width="58" />
+                    <telerik:RadDatePicker x:Name="eDate" OpenDropDownOnFocus="True" HorizontalAlignment="Center"
+                                           Margin="0,10,0,0" VerticalAlignment="Center" Height="28" Width="130" />
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,0,0">
+                    <telerik:Label x:Name="labelEnddate_Copy" Content="查询" HorizontalAlignment="Center"
+                                   Margin="0,20,0,0" VerticalAlignment="Center" Height="26" Width="58" />
+                    <telerik:RadButton x:Name="CXButton" Content="查询" HorizontalAlignment="Center" Margin="0,10,0,0"
+                                       VerticalAlignment="Center" Width="110" Height="27" Click="CXButton_Click" />
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,0,0">
+                    <telerik:Label x:Name="labelEnddate_Copy1" Content="导出" HorizontalAlignment="Center"
+                                   Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="0.362,3"
+                                   Height="26" Width="58" />
+                    <telerik:RadButton x:Name="DCButton" Content="导出" HorizontalAlignment="Center" Margin="0,10,0,0"
+                                       VerticalAlignment="Center" Width="110" Height="27" Click="DCButton_Click" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Margin="0,30,0,0">
+                <telerik:Label x:Name="BTLabel" Content="" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="800"
+                               FontSize="18" FontFamily="楷体" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,5">
+                <telerik:RadGridView x:Name="GRPFList" CellLoaded="RadGridView_CellLoaded" CanUserSelect="True" SelectionMode="Extended"
+                                     HorizontalAlignment="Center" Height="361" Margin="10" MinHeight="500"
+                                     VerticalAlignment="Top" IsReadOnly="True" FontSize="16" MinWidth="1100"
+                                     AutoGenerateColumns="False">
+
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 日期}" Header="日  期"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"
+                                                    DataFormatString="{}{0:M月d日HH时}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 类型}" Header="类  型"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 值53368}" Header="53368"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 时间53368}" Header="时  间"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"
+                                                    DataFormatString="{}{0:d日HH时mm分}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 值53464}" Header="53464"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 时间53464}" Header="时  间"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"
+                                                    DataFormatString="{}{0:d日HH时mm分}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 值53466}" Header="53466"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 时间53466}" Header="时  间"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"
+                                                    DataFormatString="{}{0:d日HH时mm分}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 值53467}" Header="53467"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 时间53467}" Header="时  间"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"
+                                                    DataFormatString="{}{0:d日HH时mm分}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 值53469}" Header="53469"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 时间53469}" Header="时  间"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"
+                                                    DataFormatString="{}{0:d日HH时mm分}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 值53562}" Header="53562"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 时间53562}" Header="时  间"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"
+                                                    DataFormatString="{}{0:d日HH时mm分}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 值53463}" Header="53463"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding 时间53463}" Header="时  间"
+                                                    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"
+                                                    DataFormatString="{}{0:d日HH时mm分}" />
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </StackPanel>
+        </StackPanel>
+
+
+    </Grid>
+</UserControl>

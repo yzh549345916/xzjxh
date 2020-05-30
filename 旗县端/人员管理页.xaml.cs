@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
+using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using System.Data.SqlClient;
 
 namespace 旗县端
 {
@@ -92,7 +83,7 @@ namespace 旗县端
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -112,7 +103,7 @@ namespace 旗县端
 
                         mycon.Open(); //打开
                         string sql = string.Format(@"insert into USERID values('{0}','{1}','{2}','{3}')",
-                            DQID,ID.Text.Trim(), Name.Text.Trim(), SFAdmin); //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
+                            DQID, ID.Text.Trim(), Name.Text.Trim(), SFAdmin); //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
                         SqlCommand sqlman = new SqlCommand(sql, mycon);
                         jlCount = sqlman.ExecuteNonQuery();
                         if (jlCount <= 0)
@@ -135,7 +126,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         MessageBox.Show("新增人员失败");
                     }
@@ -149,6 +140,6 @@ namespace 旗县端
 
         }
 
-       
+
     }
 }

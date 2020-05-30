@@ -1,17 +1,13 @@
-﻿using System;
+﻿using Aspose.Words;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
-using Aspose.Words;
-using Aspose.Words.Tables;
-using Aspose.Words.Drawing;
-using Aspose.Words.Lists;
-using Aspose.Words.Fields;
-using System.IO;
 using System.Windows;
-using System.Data;
-using System.Drawing;
-using System.Data.SqlClient;
-using System.Collections.Generic;
 
 namespace sjzd
 {
@@ -110,7 +106,7 @@ namespace sjzd
                             }
                             builder.EndTable();
                         }
-                        catch (Exception exx)
+                        catch (Exception)
                         {
                         }
                     }
@@ -132,7 +128,7 @@ namespace sjzd
 
                 }
 
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -142,10 +138,125 @@ namespace sjzd
                 MessageBox.Show("国家级智能网格数据获取失败，无法制作产品");
             }
 
-           
+
+        }
+        public string DCWordNew(string ybName, string qfName, ref string error)
+        {
+            List<YBList> dataList = CLSJ();
+            if (dataList.Count > 0)
+            {
+                string configpathPath = System.Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
+                try
+                {
+                    string SJMBPath = Environment.CurrentDirectory + @"\模版\社区街道精细化预报模板.docx";
+                    string SJsaPath = "";
+                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                    {
+                        string line = "";
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            if (line.Split('=')[0] == "社区街道精细化预报发布路径")
+                            {
+                                SJsaPath = line.Split('=')[1];
+                            }
+                        }
+                    }
+                    SJsaPath += DateTime.Now.ToString("yyyy") + "\\" + DateTime.Now.ToString("MM") + "月\\";
+                    if (!File.Exists(SJsaPath))
+                    {
+                        Directory.CreateDirectory(SJsaPath);
+                    }
+                    SJsaPath += DateTime.Now.ToString("yyyy年MM月dd日") + "社区街道精细化预报.docx";
+                    Document doc = new Document(SJMBPath);
+                    DocumentBuilder builder = new DocumentBuilder(doc);
+                    builder.CellFormat.Borders.LineStyle = LineStyle.Single;
+                    builder.CellFormat.Borders.Color = Color.Black;
+                    builder.MoveToBookmark("标题日期");
+                    builder.Font.Size = 14;
+                    builder.Font.Name = "宋体";
+                    builder.Write(DateTime.Now.ToString("yyyy年MM月dd日"));
+                    builder.MoveToBookmark("预报员");
+                    builder.Write(ybName);
+                    builder.MoveToBookmark("签发");
+                    builder.Write(qfName);
+                    for (int i = 0; i < 7; i++)
+                    {
+                        try
+                        {
+                            string bq = "预报" + i * 3;
+                            builder.MoveToBookmark(bq);
+                            builder.InsertCell();
+                            builder.Font.Name = "宋体";
+                            builder.Font.Size = 11;
+                            builder.Write("名称");
+                            builder.InsertCell();
+                            builder.Write("定时气温");
+                            builder.InsertCell();
+                            builder.Write("风向");
+                            builder.InsertCell();
+                            builder.Write("风速");
+                            builder.InsertCell();
+                            builder.Write("相对湿度");
+                            builder.InsertCell();
+                            builder.Write("降水量");
+                            builder.EndRow();
+                            List<YBList> listLS = dataList.FindAll(y => y.SX == 3 * i);
+                            for (int j = 0; j < listLS.Count; j++)
+                            {
+                                builder.InsertCell();
+                                builder.Font.Name = "宋体";
+                                builder.Font.Size = 11;
+                                builder.Write(listLS[j].Name);
+                                builder.InsertCell();
+                                builder.Font.Name = "宋体";
+                                builder.Font.Size = 11;
+                                builder.Write(listLS[j].TEM.ToString());
+                                builder.InsertCell();
+                                builder.Font.Name = "宋体";
+                                builder.Font.Size = 11;
+                                builder.Write(listLS[j].FX);
+                                builder.InsertCell();
+                                builder.Font.Name = "宋体";
+                                builder.Font.Size = 11;
+                                builder.Write(listLS[j].FS);
+                                builder.InsertCell();
+                                builder.Font.Name = "宋体";
+                                builder.Font.Size = 11;
+                                builder.Write(listLS[j].ERH.ToString());
+                                builder.InsertCell();
+                                builder.Font.Name = "宋体";
+                                builder.Font.Size = 11;
+                                builder.Write(listLS[j].PRE.ToString());
+                                builder.EndRow();
+                            }
+                            builder.EndTable();
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+
+
+                    doc.Save(SJsaPath);
+                    return SJsaPath;
+
+
+                }
+
+                catch (Exception)
+                {
+
+                }
+            }
+            else
+            {
+                error = "国家级智能网格数据获取失败，无法制作产品";
+            }
+            return "";
+
         }
 
-        public string GetFXFS(double v,double u)
+        public string GetFXFS(double v, double u)
         {
             string fxfs = "";
             double fx = 999.9; //风向
@@ -230,7 +341,7 @@ namespace sjzd
             {
                 fxfs += "0级";
             }
-            else if(fs>=0.3&&fs<=1.5)
+            else if (fs >= 0.3 && fs <= 1.5)
             {
                 fxfs += "1级";
             }
@@ -278,7 +389,7 @@ namespace sjzd
             {
                 fxfs += "12级";
             }
-            else if (fs >= 37 && fs <=41.4)
+            else if (fs >= 37 && fs <= 41.4)
             {
                 fxfs += "13级";
             }
@@ -298,7 +409,7 @@ namespace sjzd
             {
                 fxfs += "17级";
             }
-            else if (fs >= 61.3 )
+            else if (fs >= 61.3)
             {
                 fxfs += "17级以上";
             }
@@ -334,12 +445,12 @@ namespace sjzd
                             {
                                 strID += '\'' + idLS + '\'' + ',';
                             }
-                            
+
                             iDNames.Add(new IDName()
                             {
-                                ID= sqlreader.GetString(sqlreader.GetOrdinal("StatioID")),
-                                Name= sqlreader.GetString(sqlreader.GetOrdinal("Name")),
-                                GJID= sqlreader.GetString(sqlreader.GetOrdinal("GJStatioID")),
+                                ID = sqlreader.GetString(sqlreader.GetOrdinal("StatioID")),
+                                Name = sqlreader.GetString(sqlreader.GetOrdinal("Name")),
+                                GJID = sqlreader.GetString(sqlreader.GetOrdinal("GJStatioID")),
 
 
                             });
@@ -350,28 +461,28 @@ namespace sjzd
                     }
                 }
 
-                if(strID.Length>2)
+                if (strID.Length > 2)
                 {
                     strID = strID.Substring(0, strID.Length - 1);
                 }
-                
+
                 con = util.Read("OtherConfig", "DB");
                 using (SqlConnection mycon = new SqlConnection(con))
                 {
                     mycon.Open();//打开
-                    string sql = String.Format("select * from 全国智能网格预报服务产品3h240 where StatioID in ({0}) and sc=20 and sx in (12,15,18,21,24,27,30,33) and date='{1}'",strID,DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"));
+                    string sql = String.Format("select * from 全国智能网格预报服务产品3h240 where StatioID in ({0}) and sc=20 and sx in (12,15,18,21,24,27,30,33) and date='{1}'", strID, DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"));
                     SqlCommand sqlman = new SqlCommand(sql, mycon);
                     SqlDataReader sqlreader = sqlman.ExecuteReader();
                     if (sqlreader.HasRows)
                     {
                         while (sqlreader.Read())
                         {
-                            
+
                             try
                             {
                                 string fxfs = GetFXFS(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIV10")), 2),
                                     Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("WIU10")), 2));
-                                List<IDName> ll=iDNames.FindAll((IDName y) =>(y.GJID == sqlreader.GetString(sqlreader.GetOrdinal("StatioID")))).ToList();
+                                List<IDName> ll = iDNames.FindAll((IDName y) => (y.GJID == sqlreader.GetString(sqlreader.GetOrdinal("StatioID")))).ToList();
                                 for (int j = 0; j < ll.Count; j++)
                                 {
                                     list.Add(new YBList()
@@ -386,10 +497,10 @@ namespace sjzd
                                         FS = fxfs.Split(',')[1],
                                     });
                                 }
-                                
-                             
+
+
                             }
-                            catch(Exception ex1)
+                            catch (Exception)
                             {
                                 list.Clear();
                                 sqlreader.Close();
@@ -422,7 +533,7 @@ namespace sjzd
                                             }
 
                                         }
-                                        catch (Exception ex)
+                                        catch (Exception)
                                         {
                                         }
                                     }
@@ -453,7 +564,7 @@ namespace sjzd
                                         list.Add(new YBList()
                                         {
                                             Name = ll[j].Name,
-                                            ID= ll[j].ID,
+                                            ID = ll[j].ID,
                                             TEM = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
                                             ERH = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
                                             PRE = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 2),
@@ -464,16 +575,16 @@ namespace sjzd
                                     }
 
                                 }
-                                catch(Exception ex)
+                                catch (Exception)
                                 {
                                 }
                             }
                         }
                     }
-                   
+
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

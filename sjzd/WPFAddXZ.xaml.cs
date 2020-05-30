@@ -1,24 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using System.Data.SqlClient;
+using Telerik.Windows.Controls;
 
 namespace sjzd
 {
     /// <summary>
     /// WPFAddQX.xaml 的交互逻辑
     /// </summary>
-    public partial class WPFAddXZ : Window
+    public partial class WPFAddXZ : RadWindow
     {
         string con = "";
 
@@ -78,7 +72,7 @@ namespace sjzd
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (QXID.Text.Trim().Length > 0 && QXName.Text.Trim().Length > 0  && LonText.Text.Trim().Length > 0 && LatText.Text.Trim().Length > 0 && HighText.Text.Trim().Length > 0)
+            if (QXID.Text.Trim().Length > 0 && QXName.Text.Trim().Length > 0 && LonText.Text.Trim().Length > 0 && LatText.Text.Trim().Length > 0 && HighText.Text.Trim().Length > 0)
             {
                 Int16 countLS1 = 0;
                 using (SqlConnection mycon = new SqlConnection(con))
@@ -97,7 +91,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -122,7 +116,7 @@ namespace sjzd
                                 MessageBox.Show("新增乡镇失败");
                             else
                             {
-                               
+
                                 try
                                 {
                                     区局智能网格 qjzn = new 区局智能网格();
@@ -140,18 +134,24 @@ namespace sjzd
                                 {
 
                                 }
-                                if (MessageBox.Show("乡镇新增成功，是否同步本地设置文件", "注意", MessageBoxButton.YesNo,
-                                        MessageBoxImage.Information) == MessageBoxResult.Yes)
+                                Dispatcher.Invoke(() =>
                                 {
-                                    ConfigClass1 configClass1 = new ConfigClass1();
-                                    //同步数据库旗县到本地文件
-                                    configClass1.TBBD();
-                                }
+                                    RadWindow.Confirm(new DialogParameters
+                                    {
+                                        Content = "乡镇新增成功，是否同步本地设置文件",
+                                        Closed = OnConfirmClosed_同步设置,
+                                        Owner = Application.Current.MainWindow,
+                                        CancelButtonContent = "否",
+                                        OkButtonContent = "是",
+                                        Header = "注意"
+                                    });
+                                });
+
 
                             }
 
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             MessageBox.Show("新增乡镇失败");
                         }
@@ -169,7 +169,22 @@ namespace sjzd
             }
 
         }
+        private void OnConfirmClosed_同步设置(object sender, WindowClosedEventArgs e)
+        {
+            try
+            {
+                if (e.DialogResult == true)
+                {
+                    ConfigClass1 configClass1 = new ConfigClass1();
+                    configClass1.TBBD();
+                }
 
+            }
+            catch
+            {
+
+            }
+        }
         private void QXList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try

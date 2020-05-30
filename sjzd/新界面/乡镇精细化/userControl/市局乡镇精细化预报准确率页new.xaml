@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="sjzd.市局乡镇精细化预报准确率页new"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:sjzd"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             Height="550" Width="1000">
+
+    <Grid Margin="0,0,0,0">
+        <Grid.Resources>
+            <Style x:Key="CustomGridViewHeaderCellStyle" TargetType="telerik:GridViewHeaderCell">
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+        </Grid.Resources>
+        <telerik:RadGridView x:Name="ZQLList"  CanUserSelect="True" SelectionMode="Extended"  HorizontalAlignment="Center" Height="361" Margin="0,167,20,0" VerticalAlignment="Top" IsReadOnly="True" FontSize="16"  AutoGenerateColumns="False">
+
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding 旗县}" Header="旗县" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJ24TmaxZQL}" Header="24小时最高&#13;温度准确率" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJ24TminZQL}" Header="24小时最低&#13;温度准确率" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJ24QYZQL}" Header="  24 小 时&#13;晴雨准确率" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJ48TmaxZQL}" Header="48小时最高&#13;温度准确率" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJ48TminZQL}" Header="48小时最低&#13;温度准确率" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJ48QYZQL}" Header="  48 小 时&#13;晴雨准确率" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJ72TmaxZQL}" Header="72小时最高&#13;温度准确率" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJ72TminZQL}" Header="72小时最低&#13;温度准确率" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJ72QYZQL}" Header="  72 小 时&#13;晴雨准确率" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+        <telerik:RadDatePicker x:Name="sDate" OpenDropDownOnFocus="True" ToolTip="选择开始日期" HorizontalAlignment="Left" Margin="134,51,0,0" VerticalAlignment="Top" Height="28" Width="130" SelectionChanged="sDate_SelectedDateChanged"/>
+        <telerik:RadDatePicker x:Name="eDate" OpenDropDownOnFocus="True" HorizontalAlignment="Left" Margin="333,51,0,0" VerticalAlignment="Top" Height="28" Width="130"/>
+        <telerik:Label x:Name="labelStartdate" Content="开始日期" HorizontalAlignment="Left" Margin="173,20,0,0" VerticalAlignment="Top" Height="26" Width="58" RenderTransformOrigin="-2.466,0.5"/>
+        <telerik:Label x:Name="labelEnddate" Content="结束日期" HorizontalAlignment="Left" Margin="363,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.362,3" Height="26" Width="58"/>
+        <telerik:Label x:Name="BTLabel" Content="" HorizontalAlignment="Center" Margin="248,116,248,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="800" FontSize="18" FontFamily="楷体"/>
+        <telerik:RadButton x:Name="CXButton" Content="查询" HorizontalAlignment="Left" Margin="553,49,0,0" VerticalAlignment="Top" Width="110" Height="27" Click="CXButton_Click"/>
+        <telerik:RadButton x:Name="DCButton" Content="导出" HorizontalAlignment="Left" Margin="750,49,0,0" VerticalAlignment="Top" Width="110" Height="27"  Click="DCButton_Click"/>
+        <telerik:Label x:Name="labelEnddate_Copy" Content="查询" HorizontalAlignment="Left" Margin="591,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.362,3" Height="26" Width="58"/>
+        <telerik:Label x:Name="labelEnddate_Copy1" Content="导出" HorizontalAlignment="Left" Margin="788,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.362,3" Height="26" Width="58"/>
+
+    </Grid>
+</UserControl>

@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
+using Telerik.Windows.Controls;
 
 namespace sjzd
 {
     /// <summary>
     /// WPFChangeQX.xaml 的交互逻辑
     /// </summary>
- 
 
-    public partial class 人员修改 : Window
+
+    public partial class 人员修改 : RadWindow
     {
         private string qxStr = "";
         private string xzStr = "";
@@ -134,7 +126,6 @@ namespace sjzd
                         {
 
                         };
-                        int ID = 1;
                         xzStr = configClass1.PeopleID(Convert.ToInt32(QXList.SelectedItem.ToString().Split(',')[1].Split(']')[0].Trim()));
                         string[] qxSZ = xzStr.Split('\n');
                         for (int i = 0; i < qxSZ.Length; i++)
@@ -155,7 +146,7 @@ namespace sjzd
 
 
                     }
-                    catch(Exception ex)
+                    catch (Exception)
                     {
 
                     }

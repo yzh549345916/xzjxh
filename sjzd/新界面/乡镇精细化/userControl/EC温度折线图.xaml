@@ -1,0 +1,143 @@
+﻿<UserControl x:Class="sjzd.EC温度折线图"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:chartView="clr-namespace:Telerik.Windows.Controls.ChartView;assembly=Telerik.Windows.Controls.Chart"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:sjzd"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             Height="420" Width="720">
+    <UserControl.Resources>
+        <telerik:ChartPalette x:Key="customPalette">
+            <telerik:ChartPalette.SeriesEntries>
+
+                <telerik:PaletteEntryCollection SeriesFamily="Spline">
+                    <telerik:PaletteEntry Fill="#FF1FAFD3" Stroke="#FF1FAFD3"/>
+                    <telerik:PaletteEntry Fill="#FFC32E0A" Stroke="White"/>
+                    <telerik:PaletteEntry Fill="#FFFA6F5E" Stroke="White"/>
+                </telerik:PaletteEntryCollection>
+                <telerik:PaletteEntryCollection SeriesFamily="Line">
+                    <telerik:PaletteEntry Fill="#FF1B9DDE" Stroke="#008FD6"/>
+                    <telerik:PaletteEntry Fill="#FF7A6CC4" Stroke="White"/>
+                    <telerik:PaletteEntry Fill="#FF1FAFD3" Stroke="White"/>
+                </telerik:PaletteEntryCollection>
+            </telerik:ChartPalette.SeriesEntries>
+
+            <telerik:ChartPalette.GlobalEntries>
+                <telerik:PaletteEntry Fill="#FF21B573" Stroke="White" />
+                <telerik:PaletteEntry Fill="#FF88CA2A" Stroke="White" />
+                <telerik:PaletteEntry Fill="#FFFF921E" Stroke="White" />
+            </telerik:ChartPalette.GlobalEntries>
+
+        </telerik:ChartPalette>
+    </UserControl.Resources>
+    <Grid Margin="0,0,0,0">
+        <Grid.Resources>
+            <Style x:Key="CustomGridViewHeaderCellStyle" TargetType="telerik:GridViewHeaderCell">
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+        </Grid.Resources>
+        <StackPanel>
+            
+           
+            <StackPanel  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="10,10" >
+                <telerik:RadCartesianChart x:Name="chart2" Palette="{StaticResource customPalette}" Margin="0,0,0,0" Width="700" Height="400">
+
+
+                    <telerik:RadCartesianChart.Resources>
+                        <DataTemplate x:Key="PointTemplate1">
+                            <Ellipse Height="6" Width="6" Fill="#FF1B9DDE" />
+                        </DataTemplate>
+                        <DataTemplate x:Key="PointTemplate2">
+                            <Ellipse Height="6" Width="6" Fill="#FF1B9DDE" />
+                        </DataTemplate>
+                        <DataTemplate x:Key="trackBallInfoTemplate">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding DataPoint.Category}" HorizontalAlignment="Center" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="温度：" />
+                                    <TextBlock Text="{Binding DataPoint.Value}" />
+                                    <TextBlock Text="℃" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:RadCartesianChart.Resources>
+                    <telerik:RadCartesianChart.TrackBallInfoStyle>
+                        <Style TargetType="telerik:TrackBallInfoControl">
+                            <Setter Property="Background" Value="#5A000000" />
+                            <Setter Property="TextElement.Foreground" Value="White" />
+                            <Setter Property="BorderBrush" Value="#5C00FFFF" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="chartView:TrackBallInfoControl">
+                                        <Grid SnapsToDevicePixels="True">
+                                            <Border  BorderBrush="#F6009AFE" BorderThickness="1" CornerRadius="7">
+                                                <Border.Effect>
+                                                    <DropShadowEffect Color="#F697D2F8" ShadowDepth="0" BlurRadius="10" />
+                                                </Border.Effect>
+
+                                            </Border>
+                                            <Grid Margin="7,5,7,3">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <ContentControl
+                                                                Name="header"
+                                                                Content="{TemplateBinding Header}"
+                                                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                                HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Stretch"
+                                                                Margin="4 0 4 4"
+                                                                FontWeight="Bold" />
+                                                <StackPanel Name="panel" Grid.Row="1" Margin="0 0 0 4" />
+                                            </Grid>
+
+
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <!--<Setter Property="Header" Value="详情" />-->
+                        </Style>
+                    </telerik:RadCartesianChart.TrackBallInfoStyle>
+                    <telerik:RadCartesianChart.TrackBallLineStyle>
+                        <Style TargetType="Polyline">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </telerik:RadCartesianChart.TrackBallLineStyle>
+                    <telerik:RadCartesianChart.Behaviors>
+                        <telerik:ChartTrackBallBehavior ShowTrackInfo="True" ShowIntersectionPoints="True"
+                                                                    SnapMode="ClosestPoint" />
+
+                    </telerik:RadCartesianChart.Behaviors>
+
+                    <telerik:RadCartesianChart.SmartLabelsStrategy>
+                        <telerik:ChartSmartLabelsStrategy />
+                    </telerik:RadCartesianChart.SmartLabelsStrategy>
+                    <telerik:RadCartesianChart.HorizontalAxis>
+                        <chartView:CategoricalAxis PlotMode="OnTicksPadded" ShowLabels="True"/>
+                    </telerik:RadCartesianChart.HorizontalAxis>
+                    <telerik:RadCartesianChart.VerticalAxis>
+                        <telerik:LinearAxis >
+
+                        </telerik:LinearAxis>
+                    </telerik:RadCartesianChart.VerticalAxis>
+                    <telerik:RadCartesianChart.Grid>
+                        <telerik:CartesianChartGrid MajorLinesVisibility="XY"/>
+                    </telerik:RadCartesianChart.Grid>
+
+                </telerik:RadCartesianChart>
+            </StackPanel>
+        </StackPanel>
+        
+        
+       
+        
+        
+       
+        
+      
+        
+    </Grid>
+</UserControl>

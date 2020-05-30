@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
-using System.IO;
 using System.Data.SqlClient;
+using System.IO;
+using System.Text;
 
 
 namespace xzjxhyb_DBmain
@@ -517,7 +516,7 @@ namespace xzjxhyb_DBmain
                             sqlman.ExecuteNonQuery();                            //执行数据库语句并返回一个int值（受影响的行数）  
                             SucGS++;
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
 
                         }
@@ -549,5 +548,5 @@ namespace xzjxhyb_DBmain
         }
 
     }
-               
+
 }

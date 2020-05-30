@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Aspose.Cells;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using System.Collections.ObjectModel;
-using System.Data.SqlClient;
-using Aspose.Cells;
 
 namespace sjzd
 {
@@ -30,7 +19,7 @@ namespace sjzd
             InitializeComponent();
             BTLabel.Content = "省级智能网格预报准确率查询";
             DateTime dt = DateTime.Now;
-            sDate.SelectedDate=  dt.AddDays(1 - dt.Day).AddMonths(-1);
+            sDate.SelectedDate = dt.AddDays(1 - dt.Day).AddMonths(-1);
         }
 
         private void CXButton_Click(object sender, RoutedEventArgs e)
@@ -89,7 +78,7 @@ namespace sjzd
                     }
                 ((this.FindName("ZQLList")) as DataGrid).ItemsSource = sjzqlTJ1;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
@@ -112,7 +101,7 @@ namespace sjzd
             {
                 return;
             }
-            string strPath = m_Dialog.SelectedPath + "\\" +  BTLabel.Content + ".xls";
+            string strPath = m_Dialog.SelectedPath + "\\" + BTLabel.Content + ".xls";
             ZQLTJ1[] dcsz = sjzqlTJ1.ToArray();
             try
             {
@@ -137,14 +126,14 @@ namespace sjzd
                 cellSheet.Cells[0, 3].PutValue("48小时最高温度准确率");
                 cellSheet.Cells[0, 4].PutValue("48小时最低温度准确率");
                 cellSheet.Cells[0, 5].PutValue("72小时最高温度准确率");
-                cellSheet.Cells[0,6].PutValue("72小时最低温度准确率");
+                cellSheet.Cells[0, 6].PutValue("72小时最低温度准确率");
 
 
                 for (int i = 0; i < dcsz.Length; i++)
                 {
                     cellSheet.Cells[i + 1, 0].PutValue(dcsz[i].Name);
                     cellSheet.Cells[i + 1, 0].SetStyle(style1);
-                    cellSheet.Cells[i + 1, 1].PutValue(Math.Round(dcsz[i].SJ24TmaxZQL,2));
+                    cellSheet.Cells[i + 1, 1].PutValue(Math.Round(dcsz[i].SJ24TmaxZQL, 2));
                     cellSheet.Cells[i + 1, 1].SetStyle(style1);
                     cellSheet.Cells[i + 1, 2].PutValue(Math.Round(dcsz[i].SJ24TminZQL, 2));
                     cellSheet.Cells[i + 1, 2].SetStyle(style1);
@@ -196,9 +185,9 @@ namespace sjzd
                 DateTime dt1 = Convert.ToDateTime(sDate.SelectedDate);
                 DateTime dt = dt1.AddDays(1 - dt1.Day);
                 dt = dt.AddMonths(1).AddDays(-1);
-                eDate.SelectedDate= dt;
+                eDate.SelectedDate = dt;
             }
-            catch(Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -216,5 +205,5 @@ namespace sjzd
 
     }
 
-    
+
 }

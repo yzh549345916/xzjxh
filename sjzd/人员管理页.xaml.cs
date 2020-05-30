@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
+using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using System.Data.SqlClient;
+using Telerik.Windows.Controls;
 
 namespace sjzd
 {
     /// <summary>
     /// WPFAddQX.xaml 的交互逻辑
     /// </summary>
-    public partial class 人员管理页 : Window
+    public partial class 人员管理页 : RadWindow
     {
         string con = "";
 
@@ -96,7 +89,7 @@ namespace sjzd
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -139,7 +132,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         MessageBox.Show("新增人员失败");
                     }
@@ -153,6 +146,6 @@ namespace sjzd
 
         }
 
-       
+
     }
 }

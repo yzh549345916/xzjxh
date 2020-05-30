@@ -1,32 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Win32;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Telerik.Windows.Controls;
 
 namespace sjzd
 {
     /// <summary>
     /// 预报人员选择.xaml 的交互逻辑
     /// </summary>
-    public partial class 科开服务窗口 : Window
+    public partial class 科开服务窗口 : RadWindow
     {
         private string StationID = "";
-
+        string bwPath = "";
         public 科开服务窗口()
         {
             InitializeComponent();
-            CalendarDateRange dr1 = new CalendarDateRange((DateTime.Now.Date).AddDays(+1), DateTime.MaxValue);
-            sDate.BlackoutDates.Add(dr1);
             sDate.SelectedDate = DateTime.Now;
             XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\科开设置.xml");
             StationID = util.Read("StationConfig").Trim();
@@ -76,31 +65,48 @@ namespace sjzd
                 XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\科开设置.xml");
                 util.Write(StationID.Trim(), "StationConfig");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
             科开服务 kk = new 科开服务();
-            if(selectWord.SelectedIndex==0)
+            if (selectWord.SelectedIndex == 0)
             {
-                kk.DCWord(Convert.ToInt16(SCCom.Text), Convert.ToDateTime(sDate.SelectedDate), StationID, Convert.ToInt16(DayCom.Text));
+                if (bwPath.Trim().Length == 0)
+                {
+                    kk.DCWord(Convert.ToInt16(SCCom.Text), Convert.ToDateTime(sDate.SelectedDate), StationID, Convert.ToInt16(DayCom.Text));
+                }
+                else
+                {
+                    kk.DCWord(Convert.ToInt16(SCCom.Text), Convert.ToDateTime(sDate.SelectedDate), StationID, Convert.ToInt16(DayCom.Text), bwPath);
+                }
+
             }
-            else if(selectWord.SelectedIndex==1)
+            else if (selectWord.SelectedIndex == 1)
             {
-                kk.DCWordbyALLDate(Convert.ToInt16(SCCom.Text), Convert.ToDateTime(sDate.SelectedDate), StationID, Convert.ToInt16(DayCom.Text));
+                if (bwPath.Trim().Length == 0)
+                {
+                    kk.DCWordbyALLDate(Convert.ToInt16(SCCom.Text), Convert.ToDateTime(sDate.SelectedDate), StationID, Convert.ToInt16(DayCom.Text));
+                }
+                else
+
+                {
+                    kk.DCWordbyALLDate(Convert.ToInt16(SCCom.Text), Convert.ToDateTime(sDate.SelectedDate), StationID, Convert.ToInt16(DayCom.Text), bwPath);
+                }
+
             }
-            
+
         }
 
         private void Z308Btu_Copy_Click(object sender, RoutedEventArgs e)
         {
-            
+
             this.Close();
         }
 
         private void S53463_Checked(object sender, RoutedEventArgs e)
         {
-            var vv = sender as CheckBox;
+            CheckBox vv = sender as CheckBox;
             string ID = vv.Name.Replace("S", "");
             string[] szls = StationID.Split(',');
             bool bs = false;
@@ -114,17 +120,17 @@ namespace sjzd
 
             if (!bs)
             {
-                if(StationID.Length>0)
+                if (StationID.Length > 0)
                     StationID = StationID + ',' + ID;
                 else
-                    StationID =  ID;
+                    StationID = ID;
 
             }
         }
 
         private void S53463_Unchecked(object sender, RoutedEventArgs e)
         {
-            var vv = sender as CheckBox;
+            CheckBox vv = sender as CheckBox;
             string ID = vv.Name.Replace("S", "");
             string[] szls = StationID.Split(',');
             StationID = "";
@@ -132,7 +138,7 @@ namespace sjzd
             {
                 if (ss != ID)
                 {
-                    StationID += ss+',';
+                    StationID += ss + ',';
                 }
             }
 
@@ -160,5 +166,19 @@ namespace sjzd
             科开服务 kk = new 科开服务();
             kk.DCZXWord(Convert.ToInt16(SCCom.Text), Convert.ToDateTime(sDate.SelectedDate), StationID, Convert.ToInt16(DayCom.Text));
         }
+
+        private void DQBD_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog pOpenShpFile = new OpenFileDialog();
+            pOpenShpFile.Multiselect = false;
+
+            if (pOpenShpFile.ShowDialog() == true)
+            {
+                if (pOpenShpFile.FileName.Length > 0)
+                {
+                    bwPath = pOpenShpFile.FileName;
+                }
+            }
+        }
     }
-    }
+}

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using System.Windows.Input;
+﻿
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace xzjxhyb_DBmain.Style
 {
@@ -32,7 +27,7 @@ namespace xzjxhyb_DBmain.Style
         // 最小化  
         private void CustomWindowBtnMinimized_Click(object sender, RoutedEventArgs e)
         {
-            
+
             Window win = (Window)((FrameworkElement)sender).TemplatedParent;
             win.WindowState = WindowState.Minimized;
         }

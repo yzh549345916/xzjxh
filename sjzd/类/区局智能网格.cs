@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace sjzd
@@ -24,10 +21,10 @@ namespace sjzd
         {
             XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
             con = util.Read("OtherConfig", "DB");
-            
+
         }
 
-        public string[,] CLZNData(string[,] YBSZ)
+        public string[,] CLZNData(string[,] YBSZ, ref string error)
         {
             bool bsBool = false;//省级智能网格是否入库
             try
@@ -66,7 +63,7 @@ namespace sjzd
                         xzID += '\'' + ss.Split(',')[0] + "\',";
                     }
 
-                    xzID = xzID.Substring(0, xzID.Length);
+                    xzID = xzID.Substring(0, xzID.Length - 1);
                     List<YSList> dataList = HQYS(strTime, sc, xzID);
 
 
@@ -92,7 +89,7 @@ namespace sjzd
                     {
                         foreach (string ss in XZIDName.Split('\n'))
                         {
-                            
+
                             strData += ss.Split(',')[1] + ',' + ss.Split(',')[0] + ',' + QXTQ24 + ',' + QXF24 + ','
                                        + -99 + ',' + -99 + ','
                                        + QXTQ48 + ',' + QXF48 + ','
@@ -102,7 +99,7 @@ namespace sjzd
 
                         }
                     }
-                    
+
 
                 }
                 strData = strData.Substring(0, strData.Length - 1);
@@ -116,13 +113,13 @@ namespace sjzd
                         szYB[i, j] = sz2[j];
                     }
                 }
-                if(!bsBool)
-                    MessageBox.Show(strTime + sc + "时省级智能网格数据获取失败，请查询数据是否入库。\r\n报文正常生成，但是乡镇报文温度为-99");
+                if (!bsBool)
+                    error = strTime + sc + "时省级智能网格数据获取失败，请查询数据是否入库。\r\n报文正常生成，但是乡镇报文温度为-99";
                 return szYB;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message+123);
+                error = ex.Message;
             }
 
             return new string[,] { };
@@ -141,7 +138,7 @@ namespace sjzd
                     SqlDataReader sqlreader = sqlman.ExecuteReader();
                     while (sqlreader.Read())
                     {
-                        Data = sqlreader.GetString(sqlreader.GetOrdinal("StatioID"))+' '+ sqlreader.GetString(sqlreader.GetOrdinal("Name")) + ' '+ sqlreader.GetDouble(sqlreader.GetOrdinal("JD")) + ' '+ sqlreader.GetDouble(sqlreader.GetOrdinal("WD")) + ' '+ sqlreader.GetDouble(sqlreader.GetOrdinal("High")) ;
+                        Data = sqlreader.GetString(sqlreader.GetOrdinal("StatioID")) + ' ' + sqlreader.GetString(sqlreader.GetOrdinal("Name")) + ' ' + sqlreader.GetDouble(sqlreader.GetOrdinal("JD")) + ' ' + sqlreader.GetDouble(sqlreader.GetOrdinal("WD")) + ' ' + sqlreader.GetDouble(sqlreader.GetOrdinal("High"));
                     }
                 }
                 catch
@@ -150,16 +147,15 @@ namespace sjzd
             }
             return Data;
         }
-        public void SaveStation(string stationID, string name,Int16 stationlevel,double Lon,double Lat,double High)
+        public void SaveStation(string stationID, string name, Int16 stationlevel, double Lon, double Lat, double High)
         {
             Stopwatch sw = new Stopwatch();
             using (SqlConnection mycon = new SqlConnection(con))
             {
-               try
+                try
                 {
                     string sql = "insert into Station(StatioID,Name,Station_levl,WD,JD,High) VALUES(@id,@name,@stationlev,@wd,@jd,@high)";
                     mycon.Open();//打开
-                    int i = 0;
                     int jlCount = 0;
                     sql = "insert into Station(StatioID,Name,Station_levl,WD,JD,High) VALUES(@id,@name,@stationlev,@wd,@jd,@high)";
                     using (SqlCommand sqlman = new SqlCommand(sql, mycon))
@@ -218,7 +214,7 @@ namespace sjzd
 
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
@@ -291,7 +287,7 @@ namespace sjzd
             return strData;
 
         }
-       
+
         public double HQYS(string strTime, Int16 sc, Int16 sx, string ysName, string stationID)
         {
             double f1 = -99;
@@ -300,19 +296,19 @@ namespace sjzd
                 try
                 {
                     mycon.Open();//打开
-                    string sql = String.Format("select * from 省级格点预报订正产品 where StatioID='{0}' and Date='{1}' and SC='{2}' and SX='{3}'",stationID,strTime,sc,sx);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
+                    string sql = String.Format("select * from 省级格点预报订正产品 where StatioID='{0}' and Date='{1}' and SC='{2}' and SX='{3}'", stationID, strTime, sc, sx);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
                     SqlCommand sqlman = new SqlCommand(sql, mycon);
                     SqlDataReader sqlreader = sqlman.ExecuteReader();
                     while (sqlreader.Read())
                     {
-                        f1= Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal(ysName)), 4);
+                        f1 = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal(ysName)), 4);
                     }
                 }
                 catch
                 {
                 }
             }
-                return f1;
+            return f1;
         }
         /// <summary>
         /// 根据时间、时次、站点号返回最高最低温度
@@ -321,7 +317,7 @@ namespace sjzd
         /// <param name="sc">待查询的时次08或者20</param>
         /// <param name="stationID">区站号字符串，以需要加单引号，以逗号分隔。例如：'53464','C4531'</param>
         /// <returns>返回List YSList，ID、时效、最高、最低气温</returns>
-        public List<YSList> HQYS(string strTime, Int16 sc,string stationID)
+        public List<YSList> HQYS(string strTime, Int16 sc, string stationID)
         {
             List<YSList> ySLists = new List<YSList>();
             try
@@ -345,12 +341,12 @@ namespace sjzd
                             });
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -428,7 +424,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -438,16 +434,16 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
             int ss = sjzqlTJ1.Count;
-            
+
             try
             {
                 int[] zs = new int[6];//保存计算准确率时候每个要素的总数，只需统计三天的最高最低晴雨，不用统计缺报，因为缺报率直接除元素总数即可
-                foreach (var sjzql in sjzqlTJ1)
+                foreach (ZQLTJ1 sjzql in sjzqlTJ1)
                 {
                     if (sjzql.SJ24TmaxZQL < 999998 && sjzql.SJ24TmaxZQL > -999999)
                     {
@@ -518,7 +514,7 @@ namespace sjzd
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -572,7 +568,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -582,7 +578,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -591,7 +587,7 @@ namespace sjzd
             try
             {
                 int[] zs = new int[6];//保存计算准确率时候每个要素的总数，只需统计三天的最高最低晴雨，不用统计缺报，因为缺报率直接除元素总数即可
-                foreach (var sjzql in sjzqlTJ1)
+                foreach (ZQLTJ1 sjzql in sjzqlTJ1)
                 {
                     if (sjzql.SJ24TmaxZQL < 999998 && sjzql.SJ24TmaxZQL > -999999)
                     {

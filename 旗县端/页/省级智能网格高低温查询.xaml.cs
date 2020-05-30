@@ -1,22 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Aspose.Cells;
 using static 旗县端.区局智能网格;
 
 namespace 旗县端
@@ -49,18 +37,18 @@ namespace 旗县端
                             break;
                         }
                     }
-                } 
-                QXIDName=configClass1.IDName(-1);
+                }
+                QXIDName = configClass1.IDName(-1);
                 string[] szls = QXIDName.Split('\n');
                 Dictionary<int, string> mydic = new Dictionary<int, string>();
                 int count = 0;
                 mydic.Add(0, "全市");
-                for (int i=0;i<szls.Length;i++)
+                for (int i = 0; i < szls.Length; i++)
                 {
-                    mydic.Add(i+1, szls[i].Split(',')[1]);
+                    mydic.Add(i + 1, szls[i].Split(',')[1]);
                     if (szls[i].Split(',')[0] == DQID)
                         count = i + 1;
-            }
+                }
                 QXSelect.ItemsSource = mydic;
                 QXSelect.SelectedValuePath = "Key";
                 QXSelect.DisplayMemberPath = "Value";
@@ -80,7 +68,6 @@ namespace 旗县端
                 ConfigClass1 configClass1 = new ConfigClass1();
                 string QXID = "";
                 string[] szls = QXIDName.Split('\n');
-                int count = 0;
                 string IDName = "";
                 for (int i = 0; i < szls.Length; i++)
                 {
@@ -90,19 +77,19 @@ namespace 旗县端
                         break;
                     }
                 }
-                
+
                 try
                 {
-                    if(QXID.Trim().Length==0)
+                    if (QXID.Trim().Length == 0)
                     {
-                        IDName= configClass1.IDName();
+                        IDName = configClass1.IDName();
                     }
                     else
                     {
                         IDName = QXID + ',' + QXName + '\n' + configClass1.IDName(Convert.ToInt32(QXID));
                     }
-                    
-                   
+
+
                     string strID = "";
                     foreach (string ss in IDName.Split('\n'))
                     {
@@ -112,7 +99,7 @@ namespace 旗县端
                     string strTime = Convert.ToDateTime(sDate.SelectedDate).ToString("yyyy-MM-dd");
                     Int16 sc = Convert.ToInt16(SCSelect.Text);
                     区局智能网格 znwg = new 区局智能网格();
-                    var dataList = znwg.HQYS(strTime, sc, strID);
+                    List<YSList> dataList = znwg.HQYS(strTime, sc, strID);
                     int intCount = 1;
                     foreach (string ss in IDName.Split('\n'))
                     {
@@ -121,11 +108,11 @@ namespace 旗县端
                         YSList q72 = dataList.Find((YSList y) => (y.ID == ss.Split(',')[0] && y.sx == 72));
                         qJZNs.Add(new QJZN()
                         {
-                            XH=intCount++,
+                            XH = intCount++,
                             StationID = ss.Split(',')[0],
                             Name = ss.Split(',')[1],
-                            GW24=q24.TMAX,
-                            DW24=q24.TMIN,
+                            GW24 = q24.TMAX,
+                            DW24 = q24.TMIN,
                             GW48 = q48.TMAX,
                             DW48 = q48.TMIN,
                             GW72 = q24.TMAX,
@@ -141,10 +128,10 @@ namespace 旗县端
                 {
 
                 }
-               
+
                 BTLabel.Content = Convert.ToDateTime((sDate.SelectedDate)).ToString("yyyy年MM月dd日") + SCSelect.Text + "时省级智能网格";
 
-              
+
             }
             else
             {
@@ -168,6 +155,6 @@ namespace 旗县端
 
 
 
-        
+
     }
 }

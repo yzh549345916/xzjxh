@@ -1,24 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Telerik.Windows.Controls;
 
 namespace sjzd
 {
     /// <summary>
     /// 预报人员选择.xaml 的交互逻辑
     /// </summary>
-    public partial class 预报人员选择2 : Window
+    public partial class 预报人员选择2 : RadWindow
     {
         public 预报人员选择2()
         {
@@ -59,6 +51,7 @@ namespace sjzd
 
         private void Z308Btu_Click(object sender, RoutedEventArgs e)
         {
+            this.DialogResult = true;
             this.Close();
         }
 
@@ -66,6 +59,7 @@ namespace sjzd
         {
             ZBCom.Text = "";
             FBCom.Text = "";
+            this.DialogResult = false;
             this.Close();
         }
     }

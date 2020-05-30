@@ -1,0 +1,314 @@
+﻿<UserControl x:Class="sjzd.城镇预报逐日评分详情"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:sjzd"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             Height="550" Width="1100">
+
+   
+    <Grid Margin="0,0,0,0">
+        <Grid.Resources>
+            <Style x:Key="CustomGridViewHeaderCellStyle" TargetType="telerik:GridViewHeaderCell">
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+
+            </Style>
+            <Style x:Key="CustomGridViewCellStyle" TargetType="telerik:GridViewCell">
+               <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+            <local:StadiumCapacityStyle x:Key="stadiumCapacityStyle">
+                <local:StadiumCapacityStyle.WrongStadiumStyle>
+                    <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                        <Setter Property="Foreground" Value="Red"/>
+                    </Style>
+                </local:StadiumCapacityStyle.WrongStadiumStyle>
+                <local:StadiumCapacityStyle.RightStadiumStyle>
+                    <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                        <Setter Property="Foreground" Value="#379DFE" />
+                    </Style>
+                </local:StadiumCapacityStyle.RightStadiumStyle>
+            </local:StadiumCapacityStyle>
+            <telerik:ConditionalStyleSelector x:Key="zdqy24">
+                <telerik:StyleRule Condition="ZDQY24= '√'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="#379DFE" />
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+                <telerik:StyleRule Condition="ZDQY24= '×'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+            </telerik:ConditionalStyleSelector>
+            <telerik:ConditionalStyleSelector x:Key="stqy24">
+                <telerik:StyleRule Condition="STQY24= '√'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="#379DFE" />
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+                <telerik:StyleRule Condition="STQY24= '×'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+            </telerik:ConditionalStyleSelector>
+            <telerik:ConditionalStyleSelector x:Key="zdqy12">
+                <telerik:StyleRule Condition="ZDQY12= '√'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="#379DFE" />
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+                <telerik:StyleRule Condition="ZDQY12= '×'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+            </telerik:ConditionalStyleSelector>
+            <telerik:ConditionalStyleSelector x:Key="stqy12">
+                <telerik:StyleRule Condition="STQY12= '√'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="#379DFE" />
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+                <telerik:StyleRule Condition="STQY12= '×'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+            </telerik:ConditionalStyleSelector>
+            <telerik:ConditionalStyleSelector x:Key="zdqy">
+                <telerik:StyleRule Condition="ZDQY= '√'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="#379DFE" />
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+                <telerik:StyleRule Condition="ZDQY= '×'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+            </telerik:ConditionalStyleSelector>
+            <telerik:ConditionalStyleSelector x:Key="stqy">
+                <telerik:StyleRule Condition="STQY= '√'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="#379DFE" />
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+                <telerik:StyleRule Condition="STQY= '×'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+            </telerik:ConditionalStyleSelector>
+            <telerik:ConditionalStyleSelector x:Key="GW1cell">
+                <telerik:StyleRule Condition="GW1= '√'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="#379DFE" />
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+                <telerik:StyleRule Condition="GW1= '×'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+            </telerik:ConditionalStyleSelector>
+            <telerik:ConditionalStyleSelector x:Key="GW2cell">
+                <telerik:StyleRule Condition="GW2= '√'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="#379DFE" />
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+                <telerik:StyleRule Condition="GW2= '×'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+            </telerik:ConditionalStyleSelector>
+            <telerik:ConditionalStyleSelector x:Key="GW3cell">
+                <telerik:StyleRule Condition="GW3= '√'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="#379DFE" />
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+                <telerik:StyleRule Condition="GW3= '×'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+            </telerik:ConditionalStyleSelector>
+            <telerik:ConditionalStyleSelector x:Key="DW1cell">
+                <telerik:StyleRule Condition="DW1= '√'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="#379DFE" />
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+                <telerik:StyleRule Condition="DW1= '×'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+            </telerik:ConditionalStyleSelector>
+            <telerik:ConditionalStyleSelector x:Key="DW2cell">
+                <telerik:StyleRule Condition="DW2= '√'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="#379DFE" />
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+                <telerik:StyleRule Condition="DW2= '×'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+            </telerik:ConditionalStyleSelector>
+            <telerik:ConditionalStyleSelector x:Key="DW3cell">
+                <telerik:StyleRule Condition="DW3= '√'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="#379DFE" />
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+                <telerik:StyleRule Condition="DW3= '×'">
+                    <telerik:StyleRule.Style>
+                        <Style TargetType="telerik:GridViewCell" BasedOn="{StaticResource CustomGridViewCellStyle}">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Style>
+                    </telerik:StyleRule.Style>
+                </telerik:StyleRule>
+            </telerik:ConditionalStyleSelector>
+        </Grid.Resources>
+        <StackPanel >
+            <StackPanel Orientation="Horizontal" Margin="50,20,0,0">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <telerik:Label x:Name="labelStartdate" Content="日期" HorizontalAlignment="Center"  VerticalAlignment="Top" Height="26" Width="58" RenderTransformOrigin="-2.466,0.5"/>
+                    <telerik:RadDatePicker x:Name="sDate"  OpenDropDownOnFocus="True" ToolTip="选择日期" HorizontalAlignment="Center" VerticalAlignment="Top" Height="28" Width="130" />
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50,0,0,0">
+                    <telerik:Label Content="时次" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.692,-0.893"/>
+                    <telerik:RadComboBox  x:Name="scchoose" SelectedIndex="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="79" FontSize="16" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="时次选择">
+                        <telerik:RadComboBoxItem Content="08" />
+                        <telerik:RadComboBoxItem Content="20"  />
+
+                    </telerik:RadComboBox>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50,0,0,0">
+                    <telerik:Label Content="岗位" HorizontalAlignment="Center"  VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.692,-0.893" />
+                    <telerik:RadComboBox x:Name="gwchoose"  HorizontalAlignment="Center"  VerticalAlignment="Top" Width="79" FontSize="16" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" ToolTip="时次选择" />
+                   
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50,0,0,0">
+                    <telerik:Label Content="时效" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" />
+                    <telerik:RadComboBox x:Name="SXSelect" HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectedIndex="0" >
+                        <telerik:RadComboBoxItem Content="24" />
+                        <telerik:RadComboBoxItem Content="48"/>
+                        <telerik:RadComboBoxItem Content="72" />
+                        <telerik:RadComboBoxItem Content="96" />
+                        <telerik:RadComboBoxItem Content="120" />
+                    </telerik:RadComboBox>
+                   
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50,0,0,0">
+                    <telerik:Label Content="查询" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" />
+                    <telerik:RadButton x:Name="CXButton" Content="查询" HorizontalAlignment="Left" FontSize="16" VerticalAlignment="Top" Width="110" Click="CXButton_Click" />
+
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50,0,0,0">
+                    <telerik:Label Content="导出" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" />
+                    <telerik:RadButton x:Name="DCButton" Content="导出" HorizontalAlignment="Left" FontSize="16"  VerticalAlignment="Top" Width="110" Click="DCButton_Click"/>
+
+                </StackPanel>
+               
+                
+            </StackPanel>
+            <telerik:Label x:Name="BTLabel" Content="" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="659" FontSize="20" FontFamily="楷体"/>
+            <telerik:RadGridView x:Name="GRPFList"  CanUserSelect="True" SelectionMode="Extended"  HorizontalAlignment="Center" Height="361" Margin="10,20,10,10" VerticalAlignment="Top" IsReadOnly="True" FontSize="16"  AutoGenerateColumns="False">
+
+                <telerik:RadGridView.Columns >
+                    <telerik:GridViewDataColumn Header="旗县" DataMemberBinding="{Binding QXName}" CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}" Width="80" />
+                    <telerik:GridViewDataColumn Header="ID" DataMemberBinding="{Binding ID}" Width="80" CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="市台&#13;高温" DataMemberBinding="{Binding STGW}"  CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}" />
+                    <telerik:GridViewDataColumn Header="实况&#13;高温" DataMemberBinding="{Binding SKGW}"   CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="指导&#13;高温" DataMemberBinding="{Binding ZDGW}"    CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="高温&#13; ≤1" DataMemberBinding="{Binding GW1}"  CellStyleSelector="{StaticResource GW1cell}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="高温&#13;正确" DataMemberBinding="{Binding GW2}"   CellStyleSelector="{StaticResource GW2cell}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="高温&#13;错误" DataMemberBinding="{Binding GW3}"   CellStyleSelector="{StaticResource GW3cell}"    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="市台&#13;低温" DataMemberBinding="{Binding STDW}"  CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="实况&#13;低温" DataMemberBinding="{Binding SKDW}"   CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="指导&#13;低温" DataMemberBinding="{Binding ZDDW}"    CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="低温&#13; ≤1" DataMemberBinding="{Binding DW1}"   CellStyleSelector="{StaticResource DW1cell}"    HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="低温&#13;正确" DataMemberBinding="{Binding DW2}"  CellStyleSelector="{StaticResource DW2cell}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="低温&#13;错误" DataMemberBinding="{Binding DW3}"   CellStyleSelector="{StaticResource DW3cell}"  HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="市台&#13;天气" DataMemberBinding="{Binding STTQ}"    CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="市台&#13;晴雨" DataMemberBinding="{Binding STQY}" CellStyleSelector="{StaticResource stqy}"  HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="实   况&#13;降水量" DataMemberBinding="{Binding SKJS}"   CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="指导&#13;晴雨" DataMemberBinding="{Binding ZDQY}"   CellStyleSelector="{StaticResource zdqy}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="指导&#13;天气" DataMemberBinding="{Binding ZDTQ}"   CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="市台天&#13;气0012" DataMemberBinding="{Binding STTQ12}"   CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="市台晴&#13;雨0012" DataMemberBinding="{Binding STQY12}"   CellStyleSelector="{StaticResource stqy12}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="实 况 降&#13;水量0012" DataMemberBinding="{Binding SKJS12}"  CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="指导晴&#13;雨0012" DataMemberBinding="{Binding ZDQY12}" CellStyleSelector="{StaticResource stadiumCapacityStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="指导天&#13;气0012" DataMemberBinding="{Binding ZDTQ12}"  CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="市台天&#13;气1224" DataMemberBinding="{Binding STTQ24}"   CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="市台晴&#13;雨1224" DataMemberBinding="{Binding STQY24}"   CellStyleSelector="{StaticResource stqy24}" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="实 况 降&#13;水量1224" DataMemberBinding="{Binding SKJS24}"  CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                    <telerik:GridViewDataColumn Header="指导晴&#13;雨1224" DataMemberBinding="{Binding ZDQY24}" CellStyleSelector="{StaticResource zdqy24}" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}">
+                        
+                    </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn Header="指导天&#13;气1224" DataMemberBinding="{Binding ZDTQ24}"   CellStyle="{StaticResource CustomGridViewCellStyle}"   HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                </telerik:RadGridView.Columns>
+
+            </telerik:RadGridView>
+
+        </StackPanel>
+        
+       
+        
+
+    </Grid>
+</UserControl>

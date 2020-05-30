@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace 旗县端
@@ -23,7 +21,7 @@ namespace 旗县端
         {
             XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
             con = util.Read("OtherConfig", "DB");
-            
+
         }
 
         public float[] SJZQL(string StartDate, string EndDate, String QXID)//返回指定区站号、指定时间段市局三天预报的最高、最低、晴雨准确率以及缺报率
@@ -80,7 +78,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -90,7 +88,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -99,7 +97,7 @@ namespace 旗县端
             try
             {
                 int[] zs = new int[6];//保存计算准确率时候每个要素的总数，只需统计三天的最高最低晴雨，不用统计缺报，因为缺报率直接除元素总数即可
-                foreach (var sjzql in sjzqlTJ1)
+                foreach (ZQLTJ1 sjzql in sjzqlTJ1)
                 {
                     if (sjzql.SJ24TmaxZQL < 999998 && sjzql.SJ24TmaxZQL > -999999)
                     {
@@ -224,7 +222,7 @@ namespace 旗县端
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -234,7 +232,7 @@ namespace 旗县端
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -243,7 +241,7 @@ namespace 旗县端
             try
             {
                 int[] zs = new int[6];//保存计算准确率时候每个要素的总数，只需统计三天的最高最低晴雨，不用统计缺报，因为缺报率直接除元素总数即可
-                foreach (var sjzql in sjzqlTJ1)
+                foreach (ZQLTJ1 sjzql in sjzqlTJ1)
                 {
                     if (sjzql.SJ24TmaxZQL < 999998 && sjzql.SJ24TmaxZQL > -999999)
                     {
@@ -329,19 +327,19 @@ namespace 旗县端
                 try
                 {
                     mycon.Open();//打开
-                    string sql = String.Format("select * from 省级格点预报订正产品 where StatioID='{0}' and Date='{1}' and SC='{2}' and SX='{3}'",stationID,strTime,sc,sx);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
+                    string sql = String.Format("select * from 省级格点预报订正产品 where StatioID='{0}' and Date='{1}' and SC='{2}' and SX='{3}'", stationID, strTime, sc, sx);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
                     SqlCommand sqlman = new SqlCommand(sql, mycon);
                     SqlDataReader sqlreader = sqlman.ExecuteReader();
                     while (sqlreader.Read())
                     {
-                        f1= Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal(ysName)), 4);
+                        f1 = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal(ysName)), 4);
                     }
                 }
                 catch
                 {
                 }
             }
-                return f1;
+            return f1;
         }
         /// <summary>
         /// 根据时间、时次、站点号返回最高最低温度
@@ -350,7 +348,7 @@ namespace 旗县端
         /// <param name="sc">待查询的时次08或者20</param>
         /// <param name="stationID">区站号字符串，以需要加单引号，以逗号分隔。例如：'53464','C4531'</param>
         /// <returns>返回List YSList，ID、时效、最高、最低气温</returns>
-        public List<YSList> HQYS(string strTime, Int16 sc,string stationID)
+        public List<YSList> HQYS(string strTime, Int16 sc, string stationID)
         {
             List<YSList> ySLists = new List<YSList>();
             try
@@ -374,12 +372,12 @@ namespace 旗县端
                             });
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -388,7 +386,7 @@ namespace 旗县端
 
             return ySLists;
         }
-         public string HQStationByID(string stationID)
+        public string HQStationByID(string stationID)
         {
             string Data = "";
             using (SqlConnection mycon = new SqlConnection(con))
@@ -401,7 +399,7 @@ namespace 旗县端
                     SqlDataReader sqlreader = sqlman.ExecuteReader();
                     while (sqlreader.Read())
                     {
-                        Data = sqlreader.GetString(sqlreader.GetOrdinal("StatioID"))+' '+ sqlreader.GetString(sqlreader.GetOrdinal("Name")) + ' '+ sqlreader.GetDouble(sqlreader.GetOrdinal("JD")) + ' '+ sqlreader.GetDouble(sqlreader.GetOrdinal("WD")) + ' '+ sqlreader.GetDouble(sqlreader.GetOrdinal("High")) ;
+                        Data = sqlreader.GetString(sqlreader.GetOrdinal("StatioID")) + ' ' + sqlreader.GetString(sqlreader.GetOrdinal("Name")) + ' ' + sqlreader.GetDouble(sqlreader.GetOrdinal("JD")) + ' ' + sqlreader.GetDouble(sqlreader.GetOrdinal("WD")) + ' ' + sqlreader.GetDouble(sqlreader.GetOrdinal("High"));
                     }
                 }
                 catch
@@ -410,16 +408,15 @@ namespace 旗县端
             }
             return Data;
         }
-        public void SaveStation(string stationID, string name,Int16 stationlevel,double Lon,double Lat,double High)
+        public void SaveStation(string stationID, string name, Int16 stationlevel, double Lon, double Lat, double High)
         {
             Stopwatch sw = new Stopwatch();
             using (SqlConnection mycon = new SqlConnection(con))
             {
-               try
+                try
                 {
                     string sql = "insert into Station(StatioID,Name,Station_levl,WD,JD,High) VALUES(@id,@name,@stationlev,@wd,@jd,@high)";
                     mycon.Open();//打开
-                    int i = 0;
                     int jlCount = 0;
                     sql = "insert into Station(StatioID,Name,Station_levl,WD,JD,High) VALUES(@id,@name,@stationlev,@wd,@jd,@high)";
                     using (SqlCommand sqlman = new SqlCommand(sql, mycon))
@@ -478,7 +475,7 @@ namespace 旗县端
 
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }

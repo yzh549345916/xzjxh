@@ -1,0 +1,245 @@
+﻿<telerik:RadRadialMenu x:Class="sjzd.乡镇精细化右键菜单"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             StaysOpenOnShow="True"
+              x:Name="rrm"  Height="100" Width="100" IsOpen="True" StartAngle="0" InnerNavigationRadiusFactor="0.9" InnerRadiusFactor="0.2" OuterRadiusFactor="1.0"
+    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+    <telerik:RadRadialMenu.Resources>
+        <Style TargetType="telerik:RadialMenuButton">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Image Source="/sjzd;component/新界面/Image/图标/菜单.png" Height="30" Width="30" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            
+        </Style>
+        <Style x:Key="RadAlertStyle" TargetType="telerik:RadAlert">
+          <Setter Property="MinWidth" Value="300"/>
+            <Setter Property="MaxHeight" Value="600"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+          </Style>
+    </telerik:RadRadialMenu.Resources>
+    <telerik:RadRadialMenuItem Header="乡镇预报产品" GroupName="乡镇精细化" ToolTipContent="乡镇精细化预报产品制作"  Click="RadRadialMenuItem_Click">
+            <telerik:RadRadialMenuItem.IconContent>
+            <Image Source="/sjzd;component/新界面/Image/图标/制作文件.png" Height="30" Width="30" />
+        </telerik:RadRadialMenuItem.IconContent>
+        <telerik:RadRadialMenuItem x:Name="实况订正指导预报" Header="实况订正指导预报" Click="实况订正指导预报_Click" ToolTipContent="实况订正指导预报"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/修改.png" Height="30" Width="30" />
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="省级智能网格计算" Header="省级智能网格计算" ToolTipContent="省级智能网格计算乡镇精细化预报" Click="省级智能网格计算_Click" GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/处理.png" Height="30" Width="30"/>
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="制作发布单" Header="制作发布单" ToolTipContent="制作乡镇精细化预报发布单" Click="制作发布单_Click"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/发布.png" Height="35" Width="35" />
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
+    </telerik:RadRadialMenuItem>
+    <telerik:RadRadialMenuItem Header="预报产品制作" GroupName="乡镇精细化" ToolTipContent="预报产品制作"  Click="RadRadialMenuItem_Click">
+        <telerik:RadRadialMenuItem.IconContent>
+            <Image Source="/sjzd;component/新界面/Image/图标/1/文档.png" Height="30" Width="30" />
+        </telerik:RadRadialMenuItem.IconContent>
+        <telerik:RadRadialMenuItem x:Name="日常Ⅰ" Header="日常Ⅰ" Click="RadRadialMenuItem_Click" ToolTipContent="日常预报产品制作Ⅰ"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/闹钟.png" Height="30" Width="30" />
+            </telerik:RadRadialMenuItem.IconContent>
+            <telerik:RadRadialMenuItem x:Name="制作社区预报" Header="社区预报" ToolTipContent="制作社区精细化预报" Click="制作社区预报_Click" GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/地标/101大楼.png" Height="50" Width="50" />
+                </telerik:RadRadialMenuItem.IconContent>
+            </telerik:RadRadialMenuItem>
+            <telerik:RadRadialMenuItem x:Name="制作市四区预报" Header="市四区预报" Click="制作市四区预报_Click" ToolTipContent="制作市四区精细化预报"  GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/地标/埃菲尔铁塔.png" Height="50" Width="50" />
+                </telerik:RadRadialMenuItem.IconContent>
+            </telerik:RadRadialMenuItem>
+            <telerik:RadRadialMenuItem x:Name="制作短时预报" Header="短时预报" ToolTipContent="制作短时精细化预报" Click="RadRadialMenuItem_Click"  GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/地标/比萨斜塔.png" Height="50" Width="50" />
+                </telerik:RadRadialMenuItem.IconContent>
+                <telerik:RadRadialMenuItem x:Name="短时08" Header="短时08" ToolTipContent="制作08时短时精细化预报" Click="短时08_Click" GroupName="乡镇精细化">
+                    <telerik:RadRadialMenuItem.IconContent>
+                        <Image Source="/sjzd;component/新界面/Image/图标/地标/东方明珠.png" Height="50" Width="50" />
+                    </telerik:RadRadialMenuItem.IconContent>
+                </telerik:RadRadialMenuItem>
+                <telerik:RadRadialMenuItem x:Name="短时14" Header="短时14" ToolTipContent="制作14时短时精细化预报" Click="短时14_Click" GroupName="乡镇精细化">
+                    <telerik:RadRadialMenuItem.IconContent>
+                        <Image Source="/sjzd;component/新界面/Image/图标/地标/俄罗斯红场.png" Height="50" Width="50" />
+                    </telerik:RadRadialMenuItem.IconContent>
+                </telerik:RadRadialMenuItem>
+                <telerik:RadRadialMenuItem x:Name="短时20" Header="短时20" ToolTipContent="制作20时短时精细化预报" Click="短时20_Click" GroupName="乡镇精细化">
+                    <telerik:RadRadialMenuItem.IconContent>
+                        <Image Source="/sjzd;component/新界面/Image/图标/地标/富士山.png" Height="50" Width="50" />
+                    </telerik:RadRadialMenuItem.IconContent>
+                </telerik:RadRadialMenuItem>
+            </telerik:RadRadialMenuItem>
+            <telerik:RadRadialMenuItem x:Name="制作逐3小时预报" Header="逐3小时预报" ToolTipContent="制作逐3小时精细化预报" Click="RadRadialMenuItem_Click"   GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/地标/埃及金字塔.png" Height="50" Width="50" />
+                </telerik:RadRadialMenuItem.IconContent>
+                <telerik:RadRadialMenuItem x:Name="逐3小时08" Header="逐3小时08" ToolTipContent="制作逐3小时08时短时精细化预报" Click="逐3小时08_Click" GroupName="乡镇精细化">
+                    <telerik:RadRadialMenuItem.IconContent>
+                        <Image Source="/sjzd;component/新界面/Image/图标/地标/广州塔.png" Height="50" Width="50" />
+                    </telerik:RadRadialMenuItem.IconContent>
+                </telerik:RadRadialMenuItem>
+                <telerik:RadRadialMenuItem x:Name="逐3小时20" Header="逐3小时20" ToolTipContent="制作逐3小时20时精细化预报" Click="逐3小时20_Click" GroupName="乡镇精细化">
+                    <telerik:RadRadialMenuItem.IconContent>
+                        <Image Source="/sjzd;component/新界面/Image/图标/地标/荷兰风车.png" Height="50" Width="50" />
+                    </telerik:RadRadialMenuItem.IconContent>
+                </telerik:RadRadialMenuItem>
+            </telerik:RadRadialMenuItem>
+            <telerik:RadRadialMenuItem x:Name="制作短期预报" Header="短期预报" ToolTipContent="制作短期精细化预报" Click="RadRadialMenuItem_Click"   GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/地标/大本钟.png" Height="50" Width="50" />
+                </telerik:RadRadialMenuItem.IconContent>
+                <telerik:RadRadialMenuItem x:Name="短期预报08" Header="短期预报08" ToolTipContent="制作08时短期精细化预报" Click="短期预报08_Click" GroupName="乡镇精细化">
+                    <telerik:RadRadialMenuItem.IconContent>
+                        <Image Source="/sjzd;component/新界面/Image/图标/地标/凯旋门.png" Height="50" Width="50" />
+                    </telerik:RadRadialMenuItem.IconContent>
+                </telerik:RadRadialMenuItem>
+                <telerik:RadRadialMenuItem x:Name="短期预报20" Header="短期预报20" ToolTipContent="制作20时短期精细化预报" Click="短期预报20_Click" GroupName="乡镇精细化">
+                    <telerik:RadRadialMenuItem.IconContent>
+                        <Image Source="/sjzd;component/新界面/Image/图标/地标/里约热内卢基督像.png" Height="50" Width="50" />
+                    </telerik:RadRadialMenuItem.IconContent>
+                </telerik:RadRadialMenuItem>
+            </telerik:RadRadialMenuItem>
+            <telerik:RadRadialMenuItem x:Name="制作中期逐日预报" Header="中期逐日预报" ToolTipContent="制作中期逐日精细化预报" Click="制作中期逐日预报_Click"  GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/地标/迪拜帆船酒店.png" Height="50" Width="50" />
+                </telerik:RadRadialMenuItem.IconContent>
+            </telerik:RadRadialMenuItem>
+        </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="日常Ⅱ" Header="日常Ⅱ" ToolTipContent="日常预报产品制作Ⅱ" Click="RadRadialMenuItem_Click" GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/闹钟2.png" Height="30" Width="30"/>
+            </telerik:RadRadialMenuItem.IconContent>
+            <telerik:RadRadialMenuItem x:Name="制作防凌预报" Header="防凌预报" ToolTipContent="制作防凌预报精细化预报" Click="制作防凌预报_Click"  GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/地标/泰姬陵.png" Height="50" Width="50" />
+                </telerik:RadRadialMenuItem.IconContent>
+            </telerik:RadRadialMenuItem>
+            <telerik:RadRadialMenuItem x:Name="制作花粉预报" Header="花粉预报" ToolTipContent="制作花粉精细化预报产品" Click="制作花粉预报_Click"  GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/花朵.png" Height="40" Width="40" />
+                </telerik:RadRadialMenuItem.IconContent>
+            </telerik:RadRadialMenuItem>
+        </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="非日常" Header="非日常" ToolTipContent="非日常预报产品制作" Click="RadRadialMenuItem_Click"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/日历.png" Height="30" Width="30" />
+            </telerik:RadRadialMenuItem.IconContent>
+            <telerik:RadRadialMenuItem x:Name="制作环保局专报" Header="环保局专报" ToolTipContent="制作环保局精细化预报" Click="RadRadialMenuItem_Click"   GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/地标/罗马角斗场.png" Height="50" Width="50" />
+                </telerik:RadRadialMenuItem.IconContent>
+                <telerik:RadRadialMenuItem x:Name="环保局08" Header="环保局08" ToolTipContent="制作08时环保局精细化预报" Click="环保局08_Click" GroupName="乡镇精细化">
+                    <telerik:RadRadialMenuItem.IconContent>
+                        <Image Source="/sjzd;component/新界面/Image/图标/地标/伦敦桥.png" Height="50" Width="50" />
+                    </telerik:RadRadialMenuItem.IconContent>
+                </telerik:RadRadialMenuItem>
+                <telerik:RadRadialMenuItem x:Name="环保局20" Header="环保局20" ToolTipContent="制作20时环保局精细化预报" Click="环保局20_Click" GroupName="乡镇精细化">
+                    <telerik:RadRadialMenuItem.IconContent>
+                        <Image Source="/sjzd;component/新界面/Image/图标/地标/伦敦眼.png" Height="50" Width="50" />
+                    </telerik:RadRadialMenuItem.IconContent>
+                </telerik:RadRadialMenuItem>
+            </telerik:RadRadialMenuItem>
+        </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="其他" Header="其他" ToolTipContent="其他预报产品制作" Click="RadRadialMenuItem_Click"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/其他精选.png" Height="30" Width="30" />
+            </telerik:RadRadialMenuItem.IconContent>
+            <telerik:RadRadialMenuItem x:Name="生态与农业" Header="生态" ToolTipContent="制作生态与农业气象信息专项预报" Click="生态与农业_Click" GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/作物.png" Height="50" Width="50" />
+                </telerik:RadRadialMenuItem.IconContent>
+            </telerik:RadRadialMenuItem>
+            <telerik:RadRadialMenuItem x:Name="科开预报导出" Header="科开预报" ToolTipContent="灾害防御中心预报导出" Click="科开预报导出_Click" GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/科学.png" Height="50" Width="50" />
+                </telerik:RadRadialMenuItem.IconContent>
+            </telerik:RadRadialMenuItem>
+            <telerik:RadRadialMenuItem x:Name="赛罕" Header="赛罕" ToolTipContent="赛罕预报产品制作" Click="RadRadialMenuItem_Click" GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/地标/天安门.png" Height="30" Width="30"/>
+                </telerik:RadRadialMenuItem.IconContent>
+                <telerik:RadRadialMenuItem x:Name="赛罕智能网格" Header="周末郊游" ToolTipContent="制作周末郊游气象预报产品" Click="赛罕智能网格_Click" GroupName="乡镇精细化">
+                    <telerik:RadRadialMenuItem.IconContent>
+                        <Image Source="/sjzd;component/新界面/Image/图标/天气/qing-.png" Height="50" Width="50" />
+                    </telerik:RadRadialMenuItem.IconContent>
+                </telerik:RadRadialMenuItem>
+            </telerik:RadRadialMenuItem>
+        </telerik:RadRadialMenuItem>
+    </telerik:RadRadialMenuItem>
+    
+    <telerik:RadRadialMenuItem Header="检验计算" GroupName="乡镇精细化" ToolTipContent="检验计算"  Click="测试_Click">
+        <telerik:RadRadialMenuItem.IconContent>
+            <Image Source="/sjzd;component/新界面/Image/图标/计算.png" Height="30" Width="30" />
+        </telerik:RadRadialMenuItem.IconContent>
+       
+    </telerik:RadRadialMenuItem>
+    <telerik:RadRadialMenuItem Header="设置" GroupName="乡镇精细化" ToolTipContent="旗县乡镇设置"  Click="RadRadialMenuItem_Click">
+        <telerik:RadRadialMenuItem.IconContent>
+            <Image Source="/sjzd;component/新界面/Image/图标/1/设置.png" Height="30" Width="30" />
+        </telerik:RadRadialMenuItem.IconContent>
+        <telerik:RadRadialMenuItem x:Name="增加旗县" Header="增加旗县" Click="增加旗县_Click" ToolTipContent="增加旗县"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/1/test(1).png" Height="30" Width="30"/>
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="修改旗县" Header="修改旗县" ToolTipContent="修改旗县" Click="修改旗县_Click"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/1/draw.png" Height="30" Width="30"/>
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="增加乡镇" Header="增加乡镇" ToolTipContent="增加乡镇" Click="增加乡镇_Click"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/1/notebook(1).png" Height="30" Width="30"/>
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="修改乡镇" Header="修改乡镇" ToolTipContent="修改乡镇" Click="修改乡镇_Click"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/1/monitor.png" Height="30" Width="30"/>
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="人员新增" Header="人员新增" ToolTipContent="人员新增" Click="人员新增_Click"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/1/checklist.png" Height="30" Width="30"/>
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="人员修改" Header="人员修改" ToolTipContent="人员修改" Click="人员修改_Click"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/1/bookmark.png" Height="30" Width="30"/>
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="设置同步" Header="设置同步" ToolTipContent="设置同步" Click="设置同步_Click"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/1/print.png" Height="30" Width="30"/>
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="其他设置" Header="其他设置" ToolTipContent="其他设置" Click="其他设置_Click"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/1/setup.png" Height="30" Width="30"/>
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
+    </telerik:RadRadialMenuItem>
+    <telerik:RadRadialMenuItem Header="查询统计" GroupName="乡镇精细化" ToolTipContent="查询统计"  Click="查询统计_Click">
+        <telerik:RadRadialMenuItem.IconContent>
+            <Image Source="/sjzd;component/新界面/Image/图标/查询.png" Height="30" Width="30" />
+        </telerik:RadRadialMenuItem.IconContent>
+        
+        
+    </telerik:RadRadialMenuItem>
+
+
+
+</telerik:RadRadialMenu>
+

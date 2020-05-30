@@ -85,6 +85,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConfigClass1.cs" />
+    <Compile Include="Ftp操作类备胎支持断点上传下载.cs" />
+    <Compile Include="ftp操作类.cs" />
     <Compile Include="QXXZConfig.xaml.cs">
       <DependentUpon>QXXZConfig.xaml</DependentUpon>
     </Compile>
@@ -116,6 +118,7 @@
       <DependentUpon>WPFChangeXZ.xaml</DependentUpon>
     </Compile>
     <Compile Include="XmlConfig.cs" />
+    <Compile Include="统计信息入库.cs" />
     <Compile Include="一级统计信息入库.cs" />
     <Compile Include="人员修改.xaml.cs">
       <DependentUpon>人员修改.xaml</DependentUpon>

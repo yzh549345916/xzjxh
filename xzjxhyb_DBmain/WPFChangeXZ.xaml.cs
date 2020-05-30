@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
 
 namespace xzjxhyb_DBmain
 {
     /// <summary>
     /// WPFChangeQX.xaml 的交互逻辑
     /// </summary>
- 
+
 
     public partial class WPFChangeXZ : Window
     {
@@ -128,7 +119,6 @@ namespace xzjxhyb_DBmain
                         {
 
                         };
-                        int ID = 1;
                         xzStr = configClass1.IDName(Convert.ToInt32(QXList.SelectedItem.ToString().Split(',')[1].Split(']')[0].Trim())); ;
                         string[] qxSZ = xzStr.Split('\n');
                         for (int i = 0; i < qxSZ.Length; i++)
@@ -153,7 +143,7 @@ namespace xzjxhyb_DBmain
 
 
                     }
-                    catch(Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -183,7 +173,6 @@ namespace xzjxhyb_DBmain
                             {
 
                             };
-                            int ID = 1;
                             configClass1 = new ConfigClass1();
                             xzStr = configClass1.IDName(Convert.ToInt32(QXList.SelectedItem.ToString().Split(',')[1].Split(']')[0].Trim()));
                             string[] qxSZ = xzStr.Split('\n');

@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Collections.ObjectModel;
 
 namespace 旗县端
 {
@@ -22,7 +15,7 @@ namespace 旗县端
     /// </summary>
     public partial class 登录窗口 : Window
     {
-        bool SQLSuc=true;
+        bool SQLSuc = true;
         ObservableCollection<people> peopleList = new ObservableCollection<people>();
         int intCount = 0;//记录当前旗县人员个数
         string con;//这里是保存连接数据库的字符串
@@ -60,11 +53,11 @@ namespace 旗县端
                 }
             }
             HQUserID(ref SQLSuc);
-            if(SQLSuc)
+            if (SQLSuc)
             {
                 HQDL();
             }
-            
+
 
         }
 
@@ -139,7 +132,6 @@ namespace 旗县端
             string[,] userSZ = new string[intCount, 3];
             using (StreamReader sr = new StreamReader(idPath, Encoding.Default))
             {
-                int i = 0;
                 string line = "";
                 while ((line = sr.ReadLine()) != null)
                 {
@@ -162,7 +154,7 @@ namespace 旗县端
                                         jlCount = sqlman.ExecuteNonQuery();
 
                                     }
-                                    catch (Exception ex)
+                                    catch (Exception)
                                     {
 
                                     }
@@ -195,17 +187,17 @@ namespace 旗县端
                                                     }
                                                 }
                                                 pathLS += DQID + DateTime.Now.ToString("yyyyMMdd") + "登陆.txt";
-                                               
-                                                    string ss = "";
-                                                    ss += DQID + '=' + passStr + '\n';
-                                                    using (FileStream fs = new FileStream(pathLS, FileMode.Create))
-                                                    {
-                                                        StreamWriter sw = new StreamWriter(fs, Encoding.Default);
-                                                        sw.Write(ss);
-                                                        sw.Flush();
-                                                        sw.Close();
-                                                    }
-                                                
+
+                                                string ss = "";
+                                                ss += DQID + '=' + passStr + '\n';
+                                                using (FileStream fs = new FileStream(pathLS, FileMode.Create))
+                                                {
+                                                    StreamWriter sw = new StreamWriter(fs, Encoding.Default);
+                                                    sw.Write(ss);
+                                                    sw.Flush();
+                                                    sw.Close();
+                                                }
+
 
                                             }
                                         }
@@ -232,7 +224,6 @@ namespace 旗县端
 
         private void HQDL()
         {
-            string ss = "";
             DateTime d1 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);//本月第一天
             string sd1 = d1.ToString("yyyy-MM-dd");
             string sd2 = DateTime.Now.ToString("yyyy-MM-dd");
@@ -258,7 +249,7 @@ namespace 旗县端
 
                 }
 
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -294,11 +285,11 @@ namespace 旗县端
             else
             {
                 MessageBox.Show("发报软件路径有误，请设置发报软件路径");
-                var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+                Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog()
                 {
                     Filter = "可执行文件|*"
                 };
-                var result = openFileDialog.ShowDialog();
+                bool? result = openFileDialog.ShowDialog();
                 if (result == true)
                 {
                     using (FileStream fs = new FileStream(pathConfig, FileMode.Create))
@@ -437,15 +428,15 @@ namespace 旗县端
                 string YBDate = dt.ToString("yyyyMMdd");
                 mycon.Open();
                 string myDate = YBDate.Substring(0, 4) + '-' + YBDate.Substring(4, 2) + '-' + YBDate.Substring(6, 2);
-                string sql = string.Format(@"select * from QXYB where StationID='{0}' and Date='{1}'", DQID,YBDate);
+                string sql = string.Format(@"select * from QXYB where StationID='{0}' and Date='{1}'", DQID, YBDate);
                 SqlCommand sqlman = new SqlCommand(sql, mycon);
                 SqlDataReader sqlreader = sqlman.ExecuteReader();
                 if (sqlreader.HasRows)
-                    fhStr = DQID + dt.ToString("yyyy年MM月dd日")+"乡镇精细化预报已入库";
+                    fhStr = DQID + dt.ToString("yyyy年MM月dd日") + "乡镇精细化预报已入库";
                 else
-                    fhStr= DQID + dt.ToString("yyyy年MM月dd日") + "旗县乡镇精细化预报没有入库";
+                    fhStr = DQID + dt.ToString("yyyy年MM月dd日") + "旗县乡镇精细化预报没有入库";
             }
-                return fhStr;
+            return fhStr;
         }
 
         string BWRK(DateTime dt)
@@ -480,7 +471,7 @@ namespace 旗县端
             }
             string fh = "";
             int JLGS = 0, SucGS = 0;//统计应该入库的记录总个数与成功入库的个数.
-            string YBDate=dt.ToString("yyyyMMdd");
+            string YBDate = dt.ToString("yyyyMMdd");
             int intCount = 0;//记录该旗县乡镇个数
             string strParPath = "*" + bwid + "*" + YBDate + "*";
             string[] fileNameList = Directory.GetFiles(YBpath, strParPath);
@@ -960,7 +951,7 @@ namespace 旗县端
                             sqlman.ExecuteNonQuery();                            //执行数据库语句并返回一个int值（受影响的行数）  
                             SucGS++;
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
 
                         }
@@ -981,14 +972,14 @@ namespace 旗县端
                 cutToPath[j] = YBpath + @"已入库\" + szLS[szLS.Length - 1];
                 File.Move(fileNameList[j], cutToPath[j]);
             }
-            fh= string.Format("共计{0}条记录，成功入库{1}条记录。", JLGS, SucGS);
+            fh = string.Format("共计{0}条记录，成功入库{1}条记录。", JLGS, SucGS);
             fh = DateTime.Now.ToString() + "保存" + YBDate + "旗县预报至数据库：" + fh;
             return fh;
         }
 
         private void BWRKBtu_Click(object sender, RoutedEventArgs e)
         {
-           RKZTTxt.Text= BWRK(DateTime.Now);
+            RKZTTxt.Text = BWRK(DateTime.Now);
         }
     }
 }

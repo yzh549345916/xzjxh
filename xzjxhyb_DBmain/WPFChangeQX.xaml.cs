@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
 
 namespace xzjxhyb_DBmain
 {
     /// <summary>
     /// WPFChangeQX.xaml 的交互逻辑
     /// </summary>
- 
+
 
     public partial class WPFChangeQX : Window
     {
@@ -34,7 +25,6 @@ namespace xzjxhyb_DBmain
                 {
 
                 };
-                int ID = 1;
                 ConfigClass1 configClass1 = new ConfigClass1();
                 qxStr = configClass1.IDName(-1);
                 bsStr = configClass1.HQBS();
@@ -80,7 +70,7 @@ namespace xzjxhyb_DBmain
                 }
             }
 
-            qxSZ = bsStr.Split(new char[] {'\r','\n'},StringSplitOptions.RemoveEmptyEntries);
+            qxSZ = bsStr.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string ss in qxSZ)
             {
                 if (stationID.Text.Trim() == ss.Split('=')[0])
@@ -98,7 +88,7 @@ namespace xzjxhyb_DBmain
             {
                 ConfigClass1 configClass1 = new ConfigClass1();
                 if (configClass1.XGQXXZ(Convert.ToInt32(CStationID_Copy.Text.Trim()), CStationID.Text.Trim(), "-1",
-                    CStationName.Text, stationID.Text,XGBS.Text.Trim()))
+                    CStationName.Text, stationID.Text, XGBS.Text.Trim()))
                 {
                     try
                     {
@@ -108,7 +98,6 @@ namespace xzjxhyb_DBmain
                         {
 
                         };
-                        int ID = 1;
                         qxStr = configClass1.IDName(-1);
                         string[] qxSZ = qxStr.Split('\n');
                         for (int i = 0; i < qxSZ.Length; i++)
@@ -136,7 +125,7 @@ namespace xzjxhyb_DBmain
 
 
                     }
-                    catch(Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -152,7 +141,7 @@ namespace xzjxhyb_DBmain
             {
                 ConfigClass1 configClass1 = new ConfigClass1();
                 //同步数据库旗县到本地文件
-                
+
                 if (configClass1.DeleteQX(stationID.Text.Trim()))
                 {
                     try
@@ -164,7 +153,6 @@ namespace xzjxhyb_DBmain
                         {
 
                         };
-                        int ID = 1;
                         configClass1 = new ConfigClass1();
                         qxStr = configClass1.IDName(-1);
                         string[] qxSZ = qxStr.Split('\n');

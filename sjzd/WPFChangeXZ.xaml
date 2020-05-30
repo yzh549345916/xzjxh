@@ -1,46 +1,53 @@
-﻿<Window x:Class="sjzd.WPFChangeXZ"
+﻿<telerik:RadWindow x:Class="sjzd.WPFChangeXZ"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sjzd"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+         navigation:RadWindowInteropHelper.Title="旗县修改" 
+        Header="旗县修改"
+        navigation:RadWindowInteropHelper.ShowInTaskbar="True"
+    navigation:RadWindowInteropHelper.AllowTransparency="True"
+    navigation:RadWindowInteropHelper.Icon="/ico/tb.ico"
+       xmlns:navigation="clr-namespace:Telerik.Windows.Controls.Navigation;assembly=Telerik.Windows.Controls.Navigation"
         mc:Ignorable="d"
-        Title="旗县修改" Height="473.976" Width="1048.919" WindowStartupLocation="CenterScreen">
+        Height="473.976" Width="1048.919" WindowStartupLocation="CenterScreen">
     <Viewbox>
         <Grid Margin="0,0,5.6,0.4" >
 
-            <ComboBox x:Name="QXList" HorizontalAlignment="Left" Margin="21,72,0,0" VerticalAlignment="Top" Width="93" Height="23"  SelectionChanged="QXList_SelectionChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <telerik:RadComboBox  x:Name="QXList" HorizontalAlignment="Left" Margin="21,72,0,0" VerticalAlignment="Top" Width="93"   SelectionChanged="QXList_SelectionChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
 
-            </ComboBox>
-            <Label Content="旗县区站号" HorizontalAlignment="Left" Margin="32,41,0,0" VerticalAlignment="Top" Height="26" Width="70"/>
-            <Label Content="当前区站号" HorizontalAlignment="Left" Margin="378,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.343,0.615" Height="26" Width="70"/>
-            <Button Content="保存" Background="#FF9ED7F6" HorizontalAlignment="Left" Margin="399,226,0,0" VerticalAlignment="Top" Width="103" Click="Button_Click" Height="36" FontSize="18"/>
-            <TextBox x:Name="CStationName" HorizontalAlignment="Left" Height="23" Margin="137,154,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <TextBox x:Name="CStationID" HorizontalAlignment="Left" Height="23" Margin="366,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Content="修改后的站名" HorizontalAlignment="Left" Margin="145,122,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.225,0" Height="26" Width="82"/>
-            <Label Content="修改后的区站号" HorizontalAlignment="Left" Margin="365,122,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.225,0" Height="26" Width="94"/>
-            <TextBox x:Name="stationID"  HorizontalAlignment="Left" Height="23" Margin="366,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
-            <Button x:Name="DeleteBtu" Background="#FF9ED7F6" Content="删除" HorizontalAlignment="Left" Margin="181,226,0,0" VerticalAlignment="Top" Width="103" Height="36" Click="DeleteBtu_Click" RenderTransformOrigin="-1.893,1.516" FontSize="18"/>
-            <Button x:Name="QuitBtu" Background="#FF9ED7F6" Content="退出" HorizontalAlignment="Left" Margin="630,226,0,0" VerticalAlignment="Top" Width="104" Height="36" Click="QuitBtu_Click" FontSize="18"/>
-            <Label Content="当前序号" HorizontalAlignment="Left" Margin="256,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.343,0.615" Height="26" Width="79" HorizontalContentAlignment="Center"/>
-            <TextBox x:Name="CStationID_Copy" HorizontalAlignment="Left" Height="23" Margin="265,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="62" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Content="修改后的序号" HorizontalAlignment="Left" Margin="252,122,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.225,0" Height="26" Width="94" HorizontalContentAlignment="Center"/>
-            <TextBox x:Name="stationID_Copy"  HorizontalAlignment="Left" Height="23" Margin="265,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="62" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
-            <ComboBox x:Name="XZlist" HorizontalAlignment="Left" Margin="137,72,0,0" VerticalAlignment="Top" Width="93" Height="23"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="XZList_SelectionChanged"/>
-            <Label Content="请选择乡镇" HorizontalAlignment="Left" Margin="148,41,0,0" VerticalAlignment="Top" Height="26" Width="70"/>
-            <Label Content="当前纬度" HorizontalAlignment="Left" Margin="645,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.75,0.471" Height="26" Width="74"/>
-            <TextBox x:Name="DQLat"  HorizontalAlignment="Left" Height="23" Margin="626,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
-            <Label Content="当前经度" HorizontalAlignment="Left" Margin="528,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.584,0.471" Height="26" Width="75"/>
-            <TextBox x:Name="DQLon"  HorizontalAlignment="Left" Height="23" Margin="510,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
-            <Label Content="当前高度" HorizontalAlignment="Left" Margin="766,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.343,0.615" Height="26" Width="71"/>
-            <TextBox x:Name="DQHigh"  HorizontalAlignment="Left" Height="23" Margin="744,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
-            <Label Content="修改后的纬度" HorizontalAlignment="Left" Margin="630,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.75,0.471" Height="26" Width="93"/>
-            <TextBox x:Name="XGLat"  HorizontalAlignment="Left" Height="23" Margin="626,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-            <Label Content="修改后的经度" Margin="508,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.584,0.471" Height="26" HorizontalAlignment="Left" Width="89"/>
-            <TextBox x:Name="XGLon"  HorizontalAlignment="Left" Height="23" Margin="510,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-            <Label Content="修改后的高度" HorizontalAlignment="Left" Margin="750,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.343,0.615" Height="26" Width="93"/>
-            <TextBox x:Name="XGHigh"  HorizontalAlignment="Left" Height="23" Margin="744,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            </telerik:RadComboBox>
+            <telerik:Label Content="旗县区站号" HorizontalAlignment="Left" Margin="32,41,0,0" VerticalAlignment="Top"  Width="70"/>
+            <telerik:Label Content="当前区站号" HorizontalAlignment="Left" Margin="378,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.343,0.615"  Width="70"/>
+            <telerik:RadButton Content="保存"  HorizontalAlignment="Left" Margin="399,226,0,0" VerticalAlignment="Top" Width="103" Click="Button_Click"   FontSize="18"/>
+            <TextBox x:Name="CStationName" HorizontalAlignment="Left"  Margin="137,154,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox x:Name="CStationID" HorizontalAlignment="Left"  Margin="366,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <telerik:Label Content="修改后的站名" HorizontalAlignment="Left" Margin="145,122,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.225,0"  Width="82"/>
+            <telerik:Label Content="修改后的区站号" HorizontalAlignment="Left" Margin="365,122,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.225,0"  Width="94"/>
+            <TextBox x:Name="stationID"  HorizontalAlignment="Left"  Margin="366,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <telerik:RadButton x:Name="DeleteBtu"  Content="删除" HorizontalAlignment="Left" Margin="181,226,0,0" VerticalAlignment="Top" Width="103"   Click="DeleteBtu_Click" RenderTransformOrigin="-1.893,1.516" FontSize="18"/>
+            <telerik:RadButton x:Name="QuitBtu"  Content="退出" HorizontalAlignment="Left" Margin="630,226,0,0" VerticalAlignment="Top" Width="104"   Click="QuitBtu_Click" FontSize="18"/>
+            <telerik:Label Content="当前序号" HorizontalAlignment="Left" Margin="256,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.343,0.615"  Width="79" HorizontalContentAlignment="Center"/>
+            <TextBox x:Name="CStationID_Copy" HorizontalAlignment="Left"  Margin="265,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="62" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <telerik:Label Content="修改后的序号" HorizontalAlignment="Left" Margin="252,122,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.225,0"  Width="94" HorizontalContentAlignment="Center"/>
+            <TextBox x:Name="stationID_Copy"  HorizontalAlignment="Left"  Margin="265,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="62" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <telerik:RadComboBox  x:Name="XZlist" HorizontalAlignment="Left" Margin="137,72,0,0" VerticalAlignment="Top" Width="93"   HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="XZList_SelectionChanged"/>
+            <telerik:Label Content="请选择乡镇" HorizontalAlignment="Left" Margin="148,41,0,0" VerticalAlignment="Top"  Width="70"/>
+            <telerik:Label Content="当前纬度" HorizontalAlignment="Left" Margin="645,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.75,0.471"  Width="74"/>
+            <TextBox x:Name="DQLat"  HorizontalAlignment="Left"  Margin="626,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <telerik:Label Content="当前经度" HorizontalAlignment="Left" Margin="528,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.584,0.471"  Width="75"/>
+            <TextBox x:Name="DQLon"  HorizontalAlignment="Left"  Margin="510,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <telerik:Label Content="当前高度" HorizontalAlignment="Left" Margin="766,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.343,0.615"  Width="71"/>
+            <TextBox x:Name="DQHigh"  HorizontalAlignment="Left"  Margin="744,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <telerik:Label Content="修改后的纬度" HorizontalAlignment="Left" Margin="630,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.75,0.471"  Width="93"/>
+            <TextBox x:Name="XGLat"  HorizontalAlignment="Left"  Margin="626,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            <telerik:Label Content="修改后的经度" Margin="508,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.584,0.471"  HorizontalAlignment="Left" Width="89"/>
+            <TextBox x:Name="XGLon"  HorizontalAlignment="Left"  Margin="510,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            <telerik:Label Content="修改后的高度" HorizontalAlignment="Left" Margin="750,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.343,0.615"  Width="93"/>
+            <TextBox x:Name="XGHigh"  HorizontalAlignment="Left"  Margin="744,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" RenderTransformOrigin="0.325,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
         </Grid>
     </Viewbox>
-</Window>
+</telerik:RadWindow>

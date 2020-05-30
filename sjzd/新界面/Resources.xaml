@@ -1,0 +1,207 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                    xmlns:mat="clr-namespace:Telerik.Windows.Controls.MaterialControls;assembly=Telerik.Windows.Controls"
+                    xmlns:telerikNavigation="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Navigation"
+                    xmlns:telerik1="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
+                    xmlns:gridfc="clr-namespace:sjzd"
+                    xmlns:example="clr-namespace:sjzd">
+
+    <DataTemplate x:Key="ContentTemplate">
+        <ScrollViewer>
+            <Grid Margin="20 20 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Title}" FontSize="116" Foreground="#0099BC" FontWeight="Medium"/>
+
+                <Grid Margin="0 15 0 0" Grid.Row="1" VerticalAlignment="Top" MinWidth="870"
+                  HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="{Binding ImagePaths[0]}" Width="690" Height="460" Grid.RowSpan="2" HorizontalAlignment="Left"/>
+                    <Image Grid.Column="1" Source="{Binding ImagePaths[1]}" Width="170" Height="225" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    <Image Grid.Column="1" Grid.Row="1" Source="{Binding ImagePaths[2]}" Width="170" Height="225" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </DataTemplate>
+    <DataTemplate x:Key="ConfigContentTemplate">
+        <ScrollViewer>
+            <Grid Margin="20 20 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Title}" FontSize="116" Foreground="#0099BC" FontWeight="Medium"/>
+
+                <Grid Margin="0 15 0 0" Grid.Row="1" VerticalAlignment="Top" MinWidth="870"
+                  HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <ItemsControl ItemsSource="{Binding ImagePaths}" Grid.Row="2">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="5"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <example:设置菜单/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </DataTemplate>
+    <DataTemplate x:Key="XZJXHContentTemplate">
+        <Viewbox Stretch="Fill">
+            <Grid Margin="0,0,0,0">
+                <Grid.Background>
+                    <ImageBrush ImageSource="Image/2.jpg" Opacity="0.5" Stretch="Fill"/>
+                </Grid.Background>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Title}" Grid.Row="0" FontSize="35"  FontWeight="Medium" />
+
+                <Grid Margin="0,5,0,0" Grid.Row="1"  
+                  HorizontalAlignment="Center">
+                    <ItemsControl ItemsSource="{Binding ImagePaths}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <gridfc:乡镇精细化主界面 />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+
+                </Grid>
+            </Grid>
+        </Viewbox>
+    </DataTemplate>
+    <DataTemplate x:Key="Property1ContentTemplate">
+        <Viewbox Stretch="Uniform">
+            <Grid Margin="0,0,0,0">
+                <Grid.Background>
+                    <ImageBrush ImageSource="Image/2.jpg" Opacity="0.5" Stretch="Fill"/>
+                </Grid.Background>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Title}" Grid.Row="0" FontSize="35"  FontWeight="Medium" />
+
+                <Grid Margin="0 15 0 0" Grid.Row="1"  
+                  HorizontalAlignment="Center">
+                    <ItemsControl ItemsSource="{Binding ImagePaths}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <gridfc:Example />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+
+                </Grid>
+            </Grid>
+        </Viewbox>
+    </DataTemplate>
+    <DataTemplate x:Key="MapContentTemplate">
+        <ScrollViewer>
+            <Grid Margin="20 20 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Title}" FontSize="30"  FontWeight="Medium"/>
+
+                <Grid Margin="0 15 0 0" Grid.Row="1" VerticalAlignment="Top" MinWidth="870"
+                  HorizontalAlignment="Left">
+                    <ItemsControl ItemsSource="{Binding ImagePaths}" Grid.Row="1" >
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <example:mapUsercontrol/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </DataTemplate>
+    <DataTemplate x:Key="ContentTemplateAlternative">
+        <ScrollViewer>
+            <Grid Margin="20 20 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Title}" FontSize="16" Foreground="#0099BC" FontWeight="Medium"/>
+                <TextBlock Text="{Binding Text}" Grid.Row="1" Margin="0 15 0 0" TextWrapping="Wrap"/>
+
+                <ItemsControl ItemsSource="{Binding ImagePaths}" Grid.Row="2">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="5"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding }" Margin="0 0 5 0" Width="170" Height="225"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </ScrollViewer>
+    </DataTemplate>
+
+    <example:NavigationContentTemplateSelector x:Key="NavigationContentTemplateSelector" 
+                                                       Template="{StaticResource ContentTemplate}"
+                                                       ConfigContentTemplate="{StaticResource ConfigContentTemplate}" 
+                                                       TemplateAlternative="{StaticResource ContentTemplateAlternative}" 
+                                                       MapContentTemplate="{StaticResource MapContentTemplate}"
+                                                       Property1ContentTemplate="{StaticResource Property1ContentTemplate}"
+                                                       XZJXHContentTemplate="{StaticResource XZJXHContentTemplate}" />
+
+    <telerik:StringToGlyphConverter x:Key="StringToGlyphConverter" />
+    <Style TargetType="telerik:RadNavigationViewItem" >
+        <Setter Property="Content" Value="{Binding Title}" />
+        <Setter Property="Icon" Value="{Binding IconGlyph}" />
+        <Setter Property="IconTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <telerik:RadGlyph Glyph="{Binding Converter={StaticResource StringToGlyphConverter}}"
+                                      HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

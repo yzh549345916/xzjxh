@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using System.Diagnostics;
 
 namespace QX_update
 {
@@ -29,29 +19,29 @@ namespace QX_update
         {
             InitializeComponent();
 
-                Process[] processList = Process.GetProcesses();
-                foreach (Process process in processList)
+            Process[] processList = Process.GetProcesses();
+            foreach (Process process in processList)
+            {
+                //如果程序启动了，则杀死
+                if (process.ProcessName == "旗县端")
                 {
-                    //如果程序启动了，则杀死
-                    if (process.ProcessName == "旗县端")
-                    {
-                        process.Kill();
-                    }
+                    process.Kill();
                 }
-           
+            }
+
             using (StreamReader sr = new StreamReader(pathConfig, Encoding.Default))
             {
                 string line = "";
-                while((line=sr.ReadLine())!=null)
+                while ((line = sr.ReadLine()) != null)
                 {
-                    if(line.Split('=')[0]== "升级文件路径")
+                    if (line.Split('=')[0] == "升级文件路径")
                     {
                         updatePath = line.Split('=')[1];
                     }
                 }
             }
             string versionPath = System.Environment.CurrentDirectory + @"\设置文件\version.txt";//改
-            
+
             using (StreamReader sr = new StreamReader(versionPath, Encoding.Default))
             {
                 string line;
@@ -70,7 +60,7 @@ namespace QX_update
 
             if (backup())
             {
-                if(newUpdate())
+                if (newUpdate())
                 {
                     string data = "";
                     try
@@ -110,15 +100,15 @@ namespace QX_update
                 }
             }
             this.Close();
-            
+
         }
         public bool newUpdate()
         {
-           try
-           {
-                
+            try
+            {
+
                 string updatePathLocal = updatePath + myLastVersion + "\\";
-            if (Directory.Exists(updatePathLocal))
+                if (Directory.Exists(updatePathLocal))
                 {
                     try
                     {
@@ -148,11 +138,11 @@ namespace QX_update
                     }
                     catch (Exception ex)
                     {
-                        
+
                         MessageBox.Show(ex.Message);
                         return false;
                     }
-                   
+
                 }
                 else
                 {
@@ -161,12 +151,12 @@ namespace QX_update
                     this.Close();
 
                 }
-                
+
             }
-           catch
-           {
+            catch
+            {
                 return false;
-           }
+            }
         }
 
         public void oldUpdate()
@@ -221,7 +211,7 @@ namespace QX_update
             try
             {
                 string srcPath = Environment.CurrentDirectory;
-                string destPath = Environment.CurrentDirectory + @"\备份\"+ myVersion;
+                string destPath = Environment.CurrentDirectory + @"\备份\" + myVersion;
                 if (Directory.Exists(destPath))
                 {
                     Directory.Delete(destPath, true);
@@ -256,8 +246,8 @@ namespace QX_update
                 {
                     if (i is DirectoryInfo)     //判断是否文件夹
                     {
-                       if(i.Name!= "备份")//过滤备份文件夹
-                       {
+                        if (i.Name != "备份")//过滤备份文件夹
+                        {
                             if (!Directory.Exists(destPath + "\\" + i.Name))
                             {
                                 Directory.CreateDirectory(destPath + "\\" + i.Name);   //目标目录下不存在此文件夹即创建子文件夹
@@ -272,7 +262,7 @@ namespace QX_update
                 }
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

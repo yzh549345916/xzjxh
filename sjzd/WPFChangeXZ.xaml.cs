@@ -1,25 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
+using Telerik.Windows.Controls;
 
 namespace sjzd
 {
     /// <summary>
     /// WPFChangeQX.xaml 的交互逻辑
     /// </summary>
- 
 
-    public partial class WPFChangeXZ : Window
+
+    public partial class WPFChangeXZ : RadWindow
     {
         private string qxStr = "";
         private string xzStr = "";
@@ -144,7 +137,6 @@ namespace sjzd
                         {
 
                         };
-                        int ID = 1;
                         xzStr = configClass1.IDName(Convert.ToInt32(QXList.SelectedItem.ToString().Split(',')[1].Split(']')[0].Trim())); ;
                         string[] qxSZ = xzStr.Split('\n');
                         for (int i = 0; i < qxSZ.Length; i++)
@@ -167,15 +159,22 @@ namespace sjzd
                         XGLat.Text = "";
                         XGLon.Text = "";
                         CStationID.Text = "";
-                        if (MessageBox.Show("保存成功，是否同步本地文件", "注意", MessageBoxButton.YesNo,
-                                MessageBoxImage.Information) == MessageBoxResult.Yes)
-                        {
-                            configClass1.TBBD();
-                        }
 
+                        Dispatcher.Invoke(() =>
+                        {
+                            RadWindow.Confirm(new DialogParameters
+                            {
+                                Content = "保存成功，是否同步本地文件",
+                                Closed = OnConfirmClosed_同步设置,
+                                Owner = Application.Current.MainWindow,
+                                CancelButtonContent = "否",
+                                OkButtonContent = "是",
+                                Header = "注意"
+                            });
+                        });
 
                     }
-                    catch(Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -205,7 +204,6 @@ namespace sjzd
                             {
 
                             };
-                            int ID = 1;
                             configClass1 = new ConfigClass1();
                             xzStr = configClass1.IDName(Convert.ToInt32(QXList.SelectedItem.ToString().Split(',')[1].Split(']')[0].Trim()));
                             string[] qxSZ = xzStr.Split('\n');
@@ -236,17 +234,39 @@ namespace sjzd
                         {
 
                         }
-                        if (MessageBox.Show("乡镇删除成功，是否同步本地设置文件", "注意", MessageBoxButton.YesNo,
-                                MessageBoxImage.Information) == MessageBoxResult.Yes)
+                        Dispatcher.Invoke(() =>
                         {
-                            //同步数据库旗县到本地文件
-                            configClass1.TBBD();
-                        }
+                            RadWindow.Confirm(new DialogParameters
+                            {
+                                Content = "乡镇删除成功，是否同步本地设置文件",
+                                Closed = OnConfirmClosed_同步设置,
+                                Owner = Application.Current.MainWindow,
+                                CancelButtonContent = "否",
+                                OkButtonContent = "是",
+                                Header = "注意"
+                            });
+                        });
+
                     }
                 }
             }
         }
+        private void OnConfirmClosed_同步设置(object sender, WindowClosedEventArgs e)
+        {
+            try
+            {
+                if (e.DialogResult == true)
+                {
+                    ConfigClass1 configClass1 = new ConfigClass1();
+                    configClass1.TBBD();
+                }
 
+            }
+            catch
+            {
+
+            }
+        }
         private void QuitBtu_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

@@ -7,16 +7,10 @@
         
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="市四区" Height="361.695" Width="662.258">
-    <Window.Background>
-        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#FF0992D3" Offset="0"/>
-            <GradientStop Color="#FFB5DFF3" Offset="1"/>
-        </LinearGradientBrush>
-    </Window.Background>
+
 
     <Grid Margin="10,10,2,1">
-        <Image Margin="282,10,26,10" Source="duola-a-meng_07.png" Stretch="Fill" Opacity="0.3"/>
-        <ComboBox x:Name="ZBCom" HorizontalAlignment="Left" Margin="2,105,0,0" VerticalAlignment="Top" Width="76" Height="27" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+       <ComboBox x:Name="ZBCom" HorizontalAlignment="Left" Margin="2,105,0,0" VerticalAlignment="Top" Width="76" Height="27" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <ComboBox x:Name="FBCom" HorizontalAlignment="Left" Margin="102,105,0,0" VerticalAlignment="Top" Width="76" Height="27" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <ComboBox x:Name="QFCom" HorizontalAlignment="Left" Margin="201,105,0,0" VerticalAlignment="Top" Width="76" Height="27" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Button Content="制作与发布" Focusable="False" Template="{DynamicResource ButtonControlTemplate1}" Foreground="White" FontFamily="楷体" HorizontalAlignment="Left" Margin="26,171,0,0" VerticalAlignment="Top" Width="91" Click="Button_Click" Height="33" FontSize="14"/>

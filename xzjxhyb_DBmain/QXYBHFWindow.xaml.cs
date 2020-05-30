@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
 
 namespace xzjxhyb_DBmain
 {
@@ -28,7 +20,7 @@ namespace xzjxhyb_DBmain
             sDate.BlackoutDates.Add(new CalendarDateRange((DateTime.Now.Date).AddDays(+1), DateTime.MaxValue));//开始时间不可选的范围，当前日期以后
             eDate.BlackoutDates.Add(dr2);//结束时间不可选的范围
             progressBar1.Maximum = 100;//进度条最大值为100
-            
+
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
             {
@@ -42,7 +34,7 @@ namespace xzjxhyb_DBmain
                         con = line.Substring("sql管理员=".Length);
                     }
 
-                   
+
                 }
             }
         }
@@ -72,11 +64,11 @@ namespace xzjxhyb_DBmain
                     Dispatcher.Invoke(updateText, System.Windows.Threading.DispatcherPriority.Background, new object[] { TextBox.TextProperty, strDate });//委托更新显示文本
                     dateLS = dateLS.AddDays(1);
                     saveQXYB saveqxyb = new saveQXYB();
-                    ss += saveqxyb.saveQXCS(strDate)+'\n';
+                    ss += saveqxyb.saveQXCS(strDate) + '\n';
 
                 }
                 Dispatcher.Invoke(updateText, System.Windows.Threading.DispatcherPriority.Background, new object[] { TextBox.TextProperty, "完成" });
-                tHistory.Text=ss;
+                tHistory.Text = ss;
             }
             else
             {

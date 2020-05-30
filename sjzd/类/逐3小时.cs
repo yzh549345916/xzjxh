@@ -1,17 +1,14 @@
-﻿using System;
+﻿using Aspose.Words;
+using Aspose.Words.Tables;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
-using Aspose.Words;
-using Aspose.Words.Tables;
-using Aspose.Words.Drawing;
-using Aspose.Words.Lists;
-using Aspose.Words.Fields;
-using System.IO;
 using System.Windows;
-using System.Data;
-using System.Drawing;
-using System.Data.SqlClient;
-using System.Collections.Generic;
 
 namespace sjzd
 {
@@ -20,16 +17,16 @@ namespace sjzd
 
         //输入数组每行内容为：旗县名称+区站号+未来三天分别的天气、风向风速、最低气温、最高气温，因此列数为2+4*3。方法将数组中的指定要素保存至发布单
 
-        public void DCWord(Int16 sc,string ybName,string qfName)
+        public void DCWord(Int16 sc, string ybName, string qfName)
         {
             List<YBList> dataList = CLSJ(sc);
-            if (dataList.Count>0)
+            if (dataList.Count > 0)
             {
                 string configpathPath = System.Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
                 try
                 {
                     string SJMBPath = "";
-                    
+
                     string SJsaPath = "";
                     using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
                     {
@@ -50,14 +47,14 @@ namespace sjzd
                     if (sc == 8)
                     {
                         SJMBPath = Environment.CurrentDirectory + @"\模版\呼和浩特3小时精细化预报模板08.doc";
-                        SJsaPath += "呼和浩特3小时精细化预报10时"+DateTime.Now.ToString("yyyyMMdd")+".doc";
+                        SJsaPath += "呼和浩特3小时精细化预报10时" + DateTime.Now.ToString("yyyyMMdd") + ".doc";
                     }
                     else
                     {
                         SJMBPath = Environment.CurrentDirectory + @"\模版\呼和浩特3小时精细化预报模板20.doc";
                         SJsaPath += "呼和浩特3小时精细化预报17时" + DateTime.Now.ToString("yyyyMMdd") + ".doc";
                     }
-                    
+
                     Document doc = new Document(SJMBPath);
                     DocumentBuilder builder = new DocumentBuilder(doc);
                     builder.CellFormat.Borders.LineStyle = LineStyle.Single;
@@ -73,27 +70,27 @@ namespace sjzd
                     builder.Write(qfName);
                     builder.MoveToBookmark("table"); //开始添加值
                     Table table = builder.StartTable();
-                    
+
                     builder.RowFormat.HeadingFormat = true;
                     builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
                     builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;//垂直居中对齐
                     for (Int16 i = 81; i <= 85; i++)
                     {
                         builder.InsertCell();// 添加一个单元格
-                        if(i==81)
+                        if (i == 81)
                             table.PreferredWidth = PreferredWidth.FromPercent(101.25);
                         builder.Font.Color = System.Drawing.Color.Red;
                         builder.Font.Size = 14;
                         builder.CellFormat.Orientation = TextOrientation.Horizontal;
                         builder.CellFormat.Width = 30;
                         builder.CellFormat.WrapText = true;
-                      
-                        builder.CellFormat.VerticalMerge =CellMerge.First;
-                        
+
+                        builder.CellFormat.VerticalMerge = CellMerge.First;
+
                         switch (i)
                         {
                             case 81:
-                                
+
                                 builder.Write("呼和浩特市四区");
                                 break;
                             case 82:
@@ -111,16 +108,16 @@ namespace sjzd
                         }
 
                         builder.Font.Color = System.Drawing.Color.Black;
-                       
+
                         builder.Font.Size = 12;
-                        List<YBList> listLS1 = dataList.FindAll(y => y.LB ==  i).OrderBy(y => y.ID).ThenBy(y => y.SX).ToList();
+                        List<YBList> listLS1 = dataList.FindAll(y => y.LB == i).OrderBy(y => y.ID).ThenBy(y => y.SX).ToList();
                         string IDStr = "";
                         double temLast = 0;
                         for (int j = 0; j < listLS1.Count; j++)
                         {
-                            
-                           
-                            
+
+
+
                             if (IDStr != listLS1[j].ID)
                             {
                                 if (j > 0)
@@ -134,9 +131,9 @@ namespace sjzd
 
                                 temLast = listLS1[j].TEM;
                                 IDStr = listLS1[j].ID;
-                               
+
                                 builder.InsertCell();// 添加一个单元格
-                                builder.CellFormat.Width =55;
+                                builder.CellFormat.Width = 55;
                                 builder.CellFormat.Orientation = TextOrientation.Horizontal;
                                 builder.CellFormat.VerticalMerge = CellMerge.None;
                                 builder.Write(listLS1[j].Name);
@@ -146,7 +143,7 @@ namespace sjzd
                                 builder.InsertCell();// 添加一个单元格
                                 builder.CellFormat.Width = 55;
                                 builder.CellFormat.VerticalMerge = CellMerge.None;
-                                builder.Write(listLS1[j].TQ+"\r\n");
+                                builder.Write(listLS1[j].TQ + "\r\n");
                                 string imageName = Environment.CurrentDirectory + @"\模版\天气图标\";
                                 if (sc == 8)
                                 {
@@ -157,7 +154,7 @@ namespace sjzd
 
                                 if (listLS1[j].TQ.Contains("雨"))
                                 {
-                                    if (listLS1[j].TQ == "小雨"|| listLS1[j].TQ == "冻雨")
+                                    if (listLS1[j].TQ == "小雨" || listLS1[j].TQ == "冻雨")
                                     {
                                         imageName += "小雨.png";
                                     }
@@ -172,7 +169,7 @@ namespace sjzd
                                 }
                                 else if (listLS1[j].TQ.Contains("雪"))
                                 {
-                                    if (listLS1[j].TQ == "小雪" )
+                                    if (listLS1[j].TQ == "小雪")
                                     {
                                         imageName += "小雪.png";
                                     }
@@ -185,7 +182,7 @@ namespace sjzd
                                         imageName += "大雪.png";
                                     }
                                 }
-                                else if(listLS1[j].TQ=="晴")
+                                else if (listLS1[j].TQ == "晴")
                                 {
                                     imageName += "晴.png";
                                 }
@@ -199,13 +196,13 @@ namespace sjzd
                                 }
                                 builder.InsertImage(imageName, 30, 30);
                                 builder.InsertCell();// 添加一个单元格
-                              
+
                                 builder.CellFormat.Width = 55;
-                              
+
                                 builder.CellFormat.VerticalMerge = CellMerge.None;
                                 builder.Write(temLast.ToString());
                                 builder.InsertCell();// 添加一个单元格
-                               
+
                                 builder.CellFormat.Width = 55;
                                 builder.CellFormat.VerticalMerge = CellMerge.None;
                                 builder.Write(listLS1[j].TEM.ToString());
@@ -217,7 +214,7 @@ namespace sjzd
                         builder.EndRow();
                     }
                     builder.EndTable();
-                  
+
 
 
 
@@ -238,7 +235,7 @@ namespace sjzd
 
                 }
 
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -250,8 +247,224 @@ namespace sjzd
 
 
         }
+        public string DCWordNew(Int16 sc, string ybName, string qfName, ref string error)
+        {
+            List<YBList> dataList = CLSJ(sc);
+            if (dataList.Count > 0)
+            {
+                string configpathPath = System.Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
+                try
+                {
+                    string SJMBPath = "";
 
-        public string GetTQ(double ect, double pre,int pph)
+                    string SJsaPath = "";
+                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                    {
+                        string line = "";
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            if (line.Split('=')[0] == "呼和浩特3小时精细化预报发布路径")
+                            {
+                                SJsaPath = line.Split('=')[1];
+                            }
+                        }
+                    }
+                    SJsaPath += DateTime.Now.ToString("yyyy") + "\\" + DateTime.Now.ToString("yyyy.MM") + "\\";
+                    if (!File.Exists(SJsaPath))
+                    {
+                        Directory.CreateDirectory(SJsaPath);
+                    }
+                    if (sc == 8)
+                    {
+                        SJMBPath = Environment.CurrentDirectory + @"\模版\呼和浩特3小时精细化预报模板08.doc";
+                        SJsaPath += "呼和浩特3小时精细化预报10时" + DateTime.Now.ToString("yyyyMMdd") + ".doc";
+                    }
+                    else
+                    {
+                        SJMBPath = Environment.CurrentDirectory + @"\模版\呼和浩特3小时精细化预报模板20.doc";
+                        SJsaPath += "呼和浩特3小时精细化预报17时" + DateTime.Now.ToString("yyyyMMdd") + ".doc";
+                    }
+
+                    Document doc = new Document(SJMBPath);
+                    DocumentBuilder builder = new DocumentBuilder(doc);
+                    builder.CellFormat.Borders.LineStyle = LineStyle.Single;
+                    builder.CellFormat.Borders.Color = Color.Black;
+                    builder.CellFormat.FitText = false;
+                    builder.MoveToBookmark("标题日期");
+                    builder.Font.Size = 14;
+                    builder.Font.Name = "宋体";
+                    builder.Write(DateTime.Now.ToString("yyyy年MM月dd日"));
+                    builder.MoveToBookmark("预报员");
+                    builder.Write(ybName);
+                    builder.MoveToBookmark("签发");
+                    builder.Write(qfName);
+                    builder.MoveToBookmark("table"); //开始添加值
+                    Table table = builder.StartTable();
+
+                    builder.RowFormat.HeadingFormat = true;
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                    builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;//垂直居中对齐
+                    for (Int16 i = 81; i <= 85; i++)
+                    {
+                        builder.InsertCell();// 添加一个单元格
+                        if (i == 81)
+                            table.PreferredWidth = PreferredWidth.FromPercent(101.25);
+                        builder.Font.Color = System.Drawing.Color.Red;
+                        builder.Font.Size = 14;
+                        builder.CellFormat.Orientation = TextOrientation.Horizontal;
+                        builder.CellFormat.Width = 30;
+                        builder.CellFormat.WrapText = true;
+
+                        builder.CellFormat.VerticalMerge = CellMerge.First;
+
+                        switch (i)
+                        {
+                            case 81:
+
+                                builder.Write("呼和浩特市四区");
+                                break;
+                            case 82:
+                                builder.Write("旗县");
+                                break;
+                            case 83:
+                                builder.Write("旅游景区");
+                                break;
+                            case 84:
+                                builder.Write("工业园区");
+                                break;
+                            default:
+                                builder.Write("农业园区");
+                                break;
+                        }
+
+                        builder.Font.Color = System.Drawing.Color.Black;
+
+                        builder.Font.Size = 12;
+                        List<YBList> listLS1 = dataList.FindAll(y => y.LB == i).OrderBy(y => y.ID).ThenBy(y => y.SX).ToList();
+                        string IDStr = "";
+                        double temLast = 0;
+                        for (int j = 0; j < listLS1.Count; j++)
+                        {
+
+
+
+                            if (IDStr != listLS1[j].ID)
+                            {
+                                if (j > 0)
+                                {
+                                    builder.EndRow();
+                                    builder.InsertCell();// 添加一个单元格
+                                    builder.CellFormat.Width = 30;
+                                    builder.CellFormat.VerticalMerge = CellMerge.Previous;
+
+                                }
+
+                                temLast = listLS1[j].TEM;
+                                IDStr = listLS1[j].ID;
+
+                                builder.InsertCell();// 添加一个单元格
+                                builder.CellFormat.Width = 55;
+                                builder.CellFormat.Orientation = TextOrientation.Horizontal;
+                                builder.CellFormat.VerticalMerge = CellMerge.None;
+                                builder.Write(listLS1[j].Name);
+                            }
+                            else
+                            {
+                                builder.InsertCell();// 添加一个单元格
+                                builder.CellFormat.Width = 55;
+                                builder.CellFormat.VerticalMerge = CellMerge.None;
+                                builder.Write(listLS1[j].TQ + "\r\n");
+                                string imageName = Environment.CurrentDirectory + @"\模版\天气图标\";
+                                if (sc == 8)
+                                {
+                                    imageName += @"白天\";
+                                }
+                                else
+                                    imageName += @"夜晚\";
+
+                                if (listLS1[j].TQ.Contains("雨"))
+                                {
+                                    if (listLS1[j].TQ == "小雨" || listLS1[j].TQ == "冻雨")
+                                    {
+                                        imageName += "小雨.png";
+                                    }
+                                    else if (listLS1[j].TQ == "雨夹雪")
+                                    {
+                                        imageName += "雨夹雪.png";
+                                    }
+                                    else
+                                    {
+                                        imageName += "大雨.png";
+                                    }
+                                }
+                                else if (listLS1[j].TQ.Contains("雪"))
+                                {
+                                    if (listLS1[j].TQ == "小雪")
+                                    {
+                                        imageName += "小雪.png";
+                                    }
+                                    else if (listLS1[j].TQ == "雨夹雪")
+                                    {
+                                        imageName += "雨夹雪.png";
+                                    }
+                                    else
+                                    {
+                                        imageName += "大雪.png";
+                                    }
+                                }
+                                else if (listLS1[j].TQ == "晴")
+                                {
+                                    imageName += "晴.png";
+                                }
+                                else if (listLS1[j].TQ == "多云")
+                                {
+                                    imageName += "多云.png";
+                                }
+                                else
+                                {
+                                    imageName += "阴.png";
+                                }
+                                builder.InsertImage(imageName, 30, 30);
+                                builder.InsertCell();// 添加一个单元格
+
+                                builder.CellFormat.Width = 55;
+
+                                builder.CellFormat.VerticalMerge = CellMerge.None;
+                                builder.Write(temLast.ToString());
+                                builder.InsertCell();// 添加一个单元格
+
+                                builder.CellFormat.Width = 55;
+                                builder.CellFormat.VerticalMerge = CellMerge.None;
+                                builder.Write(listLS1[j].TEM.ToString());
+                                temLast = listLS1[j].TEM;
+
+                            }
+
+                        }
+                        builder.EndRow();
+                    }
+                    builder.EndTable();
+
+                    doc.Save(SJsaPath);
+                    return SJsaPath;
+
+
+                }
+
+                catch (Exception)
+                {
+
+                }
+            }
+            else
+            {
+                error = "国家级智能网格数据获取失败，无法制作产品";
+            }
+
+            return "";
+        }
+
+        public string GetTQ(double ect, double pre, int pph)
         {
             string tq = "";
             if (pre > 0)
@@ -259,10 +472,10 @@ namespace sjzd
                 if (pph == 3)
                 {
                     if (pre < 1)
-                        tq= "小雪";
+                        tq = "小雪";
                     else if (pre >= 1 && pre < 3)
                         tq = "中雪";
-                    else if (pre >= 3 && pre <6)
+                    else if (pre >= 3 && pre < 6)
                         tq = "大雪";
                     else if (pre >= 6 && pre < 12)
                         tq = "暴雪";
@@ -283,7 +496,7 @@ namespace sjzd
                 {
                     if (pre < 5)
                         tq = "小雨";
-                    else if(pre>=5&&pre<15)
+                    else if (pre >= 5 && pre < 15)
                         tq = "中雨";
                     else if (pre >= 15 && pre < 30)
                         tq = "大雨";
@@ -291,7 +504,7 @@ namespace sjzd
                         tq = "暴雨";
                     else if (pre >= 70 && pre < 140)
                         tq = "大暴雨";
-                    else if (pre >= 140 )
+                    else if (pre >= 140)
                         tq = "特大暴雨";
                 }
             }
@@ -327,8 +540,8 @@ namespace sjzd
                     {
                         try
                         {
-                            
-                           string idLS = sqlreader.GetString(sqlreader.GetOrdinal("GJStatioID"));
+
+                            string idLS = sqlreader.GetString(sqlreader.GetOrdinal("GJStatioID"));
                             if (!strID.Contains(idLS))
                             {
                                 strID += '\'' + idLS + '\'' + ',';
@@ -341,7 +554,7 @@ namespace sjzd
                                 GJID = sqlreader.GetString(sqlreader.GetOrdinal("GJStatioID")),
                             });
                         }
-                        catch(Exception ex)
+                        catch (Exception)
                         {
                         }
                     }
@@ -361,7 +574,7 @@ namespace sjzd
                     string sql = "";
                     if (sc == 8)
                     {
-                        sql = String.Format("select * from 全国智能网格预报服务产品3h240 where StatioID in ({0}) and sc=20 and sx in (12,15,18,21,24) and date='{1}'", strID,DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"));
+                        sql = String.Format("select * from 全国智能网格预报服务产品3h240 where StatioID in ({0}) and sc=20 and sx in (12,15,18,21,24) and date='{1}'", strID, DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"));
                     }
                     else
                     {
@@ -375,13 +588,13 @@ namespace sjzd
                         int pph = 0;
                         while (sqlreader.Read())
                         {
-                            
+
 
                             try
                             {
                                 pre = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 2);
-                                ect= Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ECT")), 2);
-                                pph= Convert.ToInt32(sqlreader.GetFloat(sqlreader.GetOrdinal("PPH")));
+                                ect = Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ECT")), 2);
+                                pph = Convert.ToInt32(sqlreader.GetFloat(sqlreader.GetOrdinal("PPH")));
                                 //IDName ls=iDNames.Find((IDName y) =>(y.ID == sqlreader.GetString(sqlreader.GetOrdinal("StatioID"))));
                                 List<IDName> ll = iDNames.FindAll((IDName y) => (y.GJID == sqlreader.GetString(sqlreader.GetOrdinal("StatioID")))).ToList();
                                 for (int j = 0; j < ll.Count; j++)
@@ -398,7 +611,7 @@ namespace sjzd
                                 }
 
                             }
-                            catch (Exception ex1)
+                            catch (Exception)
                             {
                                 list.Clear();
                                 //预报取上一时次的预报
@@ -439,7 +652,7 @@ namespace sjzd
                                             }
 
                                         }
-                                        catch (Exception ex)
+                                        catch (Exception)
                                         {
                                         }
                                     }
@@ -489,7 +702,7 @@ namespace sjzd
                                     }
 
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
                                 {
                                 }
                             }
@@ -498,14 +711,15 @@ namespace sjzd
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message);
+
             }
             if (list.Count > 1)
                 list = list.OrderBy(y => y.ID).ToList();
             return list;
         }
+
         public class YBList
         {
             public string Name { get; set; }

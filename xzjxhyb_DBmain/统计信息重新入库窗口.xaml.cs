@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
 
 namespace xzjxhyb_DBmain
 {
@@ -50,7 +42,6 @@ namespace xzjxhyb_DBmain
         {
             if ((!(sDate.SelectedDate.ToString().Length == 0)) && (!(eDate.SelectedDate.ToString().Length == 0)))
             {
-                string strError = "";
                 string ss = "";
                 double douLS;//赋值保存进度条的进度数
                 UpdateProgressBarDelegate updatePbDelegate = new UpdateProgressBarDelegate(progressBar1.SetValue);
@@ -73,10 +64,10 @@ namespace xzjxhyb_DBmain
                     try
                     {
                         TJAddDB tjAddDB = new TJAddDB();
-                        
+
 
                         ss += strDate + "统计信息入库" + '\n';
-                        ss += tjAddDB.FirstTJ( dateLS);
+                        ss += tjAddDB.FirstTJ(dateLS);
                     }
                     catch (Exception ex)
                     {

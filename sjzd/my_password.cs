@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace sjzd
 {
@@ -29,9 +27,9 @@ namespace sjzd
                 {
                     sb.Append(retVal[i].ToString("x2"));
                 }
-                tmp_md5= sb.ToString();
+                tmp_md5 = sb.ToString();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //throw new Exception("GetMD5HashFromFile() fail,error:" + ex.Message);
             }
@@ -73,7 +71,7 @@ namespace sjzd
                 else
                     return "";
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 return "";
             }
@@ -113,11 +111,11 @@ namespace sjzd
                 byte[] data = Convert.FromBase64String(decryptStr);
                 byte[] result = DecryptData(key, data);
                 if (result != null)
-                    return Encoding.Default.GetString(result, 0, result.Length).Replace("\0","");
+                    return Encoding.Default.GetString(result, 0, result.Length).Replace("\0", "");
                 else
                     return "";
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 return "";
             }

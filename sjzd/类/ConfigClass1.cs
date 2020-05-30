@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace sjzd
@@ -57,7 +54,7 @@ namespace sjzd
 
                 if (menulist1.Count > 0)
                 {
-                    foreach (var v1 in menulist1)
+                    foreach (menuList v1 in menulist1)
                     {
                         strFH += v1.id + ',' + v1.name + ',' + v1.xh + '\n';
                     }
@@ -95,26 +92,25 @@ namespace sjzd
 
                 if (menulist1.Count > 0)
                 {
-                        string idls = "";
-                        for (int i = 1; i < 99; i++)
+                    for (int i = 1; i < 99; i++)
+                    {
+                        bool bs1 = false;
+                        foreach (menuList m in menulist1)
                         {
-                            bool bs1 = false;
-                            foreach (var m in menulist1)
+                            if (m.xh == i)
                             {
-                                if (m.xh == i)
-                                {
-                                    bs1 = true;
-                                    break;
-                                }
-                            }
-
-                            if (!bs1)
-                            {
-                                XHFH = i;
+                                bs1 = true;
                                 break;
                             }
                         }
-                    
+
+                        if (!bs1)
+                        {
+                            XHFH = i;
+                            break;
+                        }
+                    }
+
                 }
                 else
                 {
@@ -135,7 +131,7 @@ namespace sjzd
         /// <param name="FID">上级区站号，如果为旗县，上级为-1</param>
         /// <param name="Name">站点名称</param>
         /// <param name="原来的区站号">站点名称</param>
-        public bool XGQXXZ(int XH,string ID,string FID,string Name,string CSID,string BS)
+        public bool XGQXXZ(int XH, string ID, string FID, string Name, string CSID, string BS)
         {
             bool bsBool = false;
             try
@@ -143,7 +139,7 @@ namespace sjzd
                 using (SqlConnection mycon = new SqlConnection(_con))
                 {
                     mycon.Open();//打开
-                    string sql = string.Format(@"update QX set xh='{0}',id='{1}',FatherID='{2}',name='{3}' where ID = '{4}'", XH,ID,FID,Name,CSID);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
+                    string sql = string.Format(@"update QX set xh='{0}',id='{1}',FatherID='{2}',name='{3}' where ID = '{4}'", XH, ID, FID, Name, CSID);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
                     SqlCommand sqlman = new SqlCommand(sql, mycon);
                     try
                     {
@@ -164,7 +160,7 @@ namespace sjzd
                     {
                         mycon.Open(); //打开
                         string sql = string.Format(@"update QXBS set BS='{0}',id='{1}' where ID = '{2}'", BS,
-                            ID,CSID); //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
+                            ID, CSID); //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
                         SqlCommand sqlman = new SqlCommand(sql, mycon);
                         try
                         {
@@ -179,7 +175,7 @@ namespace sjzd
 
 
             }
-            catch(Exception ex)
+            catch (Exception)
             {
             }
 
@@ -210,14 +206,14 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
             return bsBool;
         }
 
-        public bool XGPeople(string QXID, string ID, string Name,string Admin, string CSID)
+        public bool XGPeople(string QXID, string ID, string Name, string Admin, string CSID)
         {
             bool bsBool = false;
             try
@@ -242,7 +238,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
@@ -265,7 +261,7 @@ namespace sjzd
                     {
                         menulist1.Add(new menuList()
                         {
-                            xh= sqlreader.GetInt32(sqlreader.GetOrdinal("xh")),
+                            xh = sqlreader.GetInt32(sqlreader.GetOrdinal("xh")),
                             id = sqlreader.GetString(sqlreader.GetOrdinal("ID")),
                             name = sqlreader.GetString(sqlreader.GetOrdinal("name")),
                         });
@@ -274,7 +270,7 @@ namespace sjzd
 
                 if (menulist1.Count > 0)
                 {
-                    foreach (var v1 in menulist1)
+                    foreach (menuList v1 in menulist1)
                     {
                         strFH += v1.id + ',' + v1.name + ',' + v1.xh + '\n';
                     }
@@ -312,7 +308,7 @@ namespace sjzd
 
                 if (menulist1.Count > 0)
                 {
-                    foreach (var v1 in menulist1)
+                    foreach (menuList v1 in menulist1)
                     {
                         strFH += v1.id + ',';
                     }
@@ -352,7 +348,7 @@ namespace sjzd
 
                 if (menulist1.Count > 0)
                 {
-                    foreach (var v1 in menulist1)
+                    foreach (PeopleL v1 in menulist1)
                     {
                         strFH += v1.id + ',' + v1.name + ',' + v1.admin + '\n';
                     }
@@ -385,8 +381,8 @@ namespace sjzd
                         menulist1.Add(new menuList()
                         {
                             xh = sqlreader.GetInt32(sqlreader.GetOrdinal("XH")),
-                            name=sqlreader.GetString(sqlreader.GetOrdinal("name")),
-                            id=sqlreader.GetString(sqlreader.GetOrdinal("ID")),
+                            name = sqlreader.GetString(sqlreader.GetOrdinal("name")),
+                            id = sqlreader.GetString(sqlreader.GetOrdinal("ID")),
                         });
                     }
                 }
@@ -394,22 +390,22 @@ namespace sjzd
                 FBRJBD(menulist1);
                 QXGS = menulist1.Count;
                 string strData = "旗县个数:" + QXGS.ToString() + "\r\n";
-                foreach (var mm in menulist1)
+                foreach (menuList mm in menulist1)
                 {
-                    string str1 = mm.name+ ",", str2 =mm.id+ ",";
+                    string str1 = mm.name + ",", str2 = mm.id + ",";
                     using (SqlConnection mycon = new SqlConnection(_con))
                     {
                         mycon.Open();//打开
-                        string sql = string.Format(@"select * from QX where FatherID = '{0}' order by XH",mm.id);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
+                        string sql = string.Format(@"select * from QX where FatherID = '{0}' order by XH", mm.id);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
                         SqlCommand sqlman = new SqlCommand(sql, mycon);
                         SqlDataReader sqlreader = sqlman.ExecuteReader();
                         while (sqlreader.Read())
                         {
-                            str1 += sqlreader.GetString(sqlreader.GetOrdinal("name"))+',';
+                            str1 += sqlreader.GetString(sqlreader.GetOrdinal("name")) + ',';
                             str2 += sqlreader.GetString(sqlreader.GetOrdinal("ID")) + ',';
                         }
 
-                        str1 = str1.Substring(0,str1.Length-1);
+                        str1 = str1.Substring(0, str1.Length - 1);
                         str2 = str2.Substring(0, str2.Length - 1);
                         strData += str1 + "\r\n" + str2 + "\r\n";
                     }
@@ -460,7 +456,7 @@ namespace sjzd
                 using (SqlConnection mycon = new SqlConnection(_con))
                 {
                     mycon.Open();//打开
-                    string sql = string.Format(@"update OtherConfig set data='{0}' where name = '{1}'",content,name);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
+                    string sql = string.Format(@"update OtherConfig set data='{0}' where name = '{1}'", content, name);  //SQL查询语句 (Name,StationID,Date)。按照数据库中的表的字段顺序保存
                     SqlCommand sqlman = new SqlCommand(sql, mycon);
                     try
                     {
@@ -477,7 +473,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
@@ -497,8 +493,8 @@ namespace sjzd
                     DZBPath = sr.ReadToEnd();
                 }
 
-                string[] SZDZ = DZBPath.Split(new char[] {'\r','\n'}, StringSplitOptions.RemoveEmptyEntries);
-                 string configpathPath = System.Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
+                string[] SZDZ = DZBPath.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string configpathPath = System.Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
                 using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
                 {
                     string line = "";
@@ -522,18 +518,18 @@ namespace sjzd
                     {
                         string[] SzData1 = sr.ReadToEnd().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                         string DQID = "";
-                        string DQQX=SzData1[4].Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)[1].Split('=')[1];
+                        string DQQX = SzData1[4].Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)[1].Split('=')[1];
                         string[] SzLS1 = SzData1[3].Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string ssls in SzLS1)
                         {
-                            if ((!ssls.Contains("=="))&&ssls.Contains(DQQX))
+                            if ((!ssls.Contains("==")) && ssls.Contains(DQQX))
                             {
                                 if (DQQX == "呼和浩特市")
                                 {
 
                                 }
                                 DQID = ssls.Split('&')[2];
-                                
+
                                 break;
                             }
                         }
@@ -543,7 +539,7 @@ namespace sjzd
                             {
                                 if (sls.Split('=')[0] == menulist1[i].id)
                                 {
-                                    strLS1 += menulist1[i].name + '=' + Convert.ToChar('A' + i) + '&'+sls.Split('=')[1] + '&' + menulist1[i].id+"\r\n";
+                                    strLS1 += menulist1[i].name + '=' + Convert.ToChar('A' + i) + '&' + sls.Split('=')[1] + '&' + menulist1[i].id + "\r\n";
                                     break;
                                 }
                             }
@@ -552,18 +548,18 @@ namespace sjzd
                         {
                             if (sls.Split('=')[0] == "市本级")
                             {
-                                strLS1 += "呼和浩特市" + '=' +  "O&" + sls.Split('=')[1] + '&'  + "53466\r\n";
+                                strLS1 += "呼和浩特市" + '=' + "O&" + sls.Split('=')[1] + '&' + "53466\r\n";
                                 break;
                             }
                         }
 
-                        SzData1[3] = SzLS1[0] +"\r\n"+ strLS1 + SzLS1[SzLS1.Length - 1] + "\r\n";
+                        SzData1[3] = SzLS1[0] + "\r\n" + strLS1 + SzLS1[SzLS1.Length - 1] + "\r\n";
                         string s1 = "", s2 = "[呼和浩特市]\r\n";
                         string s3 = "";
-                        foreach (var mm in menulist1)
+                        foreach (menuList mm in menulist1)
                         {
-                            s3= string.Format("{0}={1} 4108 11147 0 0 0 15900\r\n", mm.name, mm.id);
-                            s1 += string.Format("[{0}]\r\n", mm.name)+s3;
+                            s3 = string.Format("{0}={1} 4108 11147 0 0 0 15900\r\n", mm.name, mm.id);
+                            s1 += string.Format("[{0}]\r\n", mm.name) + s3;
                             s2 += s3;
                             using (SqlConnection mycon = new SqlConnection(_con))
                             {
@@ -593,22 +589,22 @@ namespace sjzd
                                 {
                                     SzData1[4] = SzData1[4].Replace(DQQX, mm.name);
                                 }
-                                
-                                
+
+
                             }
                         }
 
                         SzLS1 = SzData1[SzData1.Length - 1]
-                            .Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-                        SzData1[SzData1.Length - 1] = SzLS1[0]+"\r\n" + s1 + s2 + "\r\n" + SzLS1[SzLS1.Length - 2] + "\r\n" + SzLS1[SzLS1.Length - 1];
+                            .Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                        SzData1[SzData1.Length - 1] = SzLS1[0] + "\r\n" + s1 + s2 + "\r\n" + SzLS1[SzLS1.Length - 2] + "\r\n" + SzLS1[SzLS1.Length - 1];
                         foreach (string ss in SzData1)
                         {
                             strData += ss + ';';
                         }
 
-                        strData = strData.Substring(0, strData.Length-1);
+                        strData = strData.Substring(0, strData.Length - 1);
                     }
-                    
+
                     using (StreamWriter sw = new StreamWriter(FBPath, false, Encoding.Default))
                     {
                         sw.Write(strData);
@@ -616,7 +612,7 @@ namespace sjzd
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -641,7 +637,7 @@ namespace sjzd
 
                 }
 
-                BSStr = BSStr.Substring(0, BSStr.Length-2);
+                BSStr = BSStr.Substring(0, BSStr.Length - 2);
             }
 
             return BSStr;
@@ -662,7 +658,7 @@ namespace sjzd
                         FHbool = true;
                         bs2 = "\r\n删除该旗县所属乡镇成功";
                     }
-                        
+
                     else
                         bs2 = "\r\n删除该旗县所属乡镇失败，该旗县没有乡镇";
 
@@ -679,7 +675,7 @@ namespace sjzd
                     }
                     else
                         bs1 = "\r\n删除该旗县失败，没有该区站号";
-                    MessageBox.Show(bs1+bs2);
+                    MessageBox.Show(bs1 + bs2);
 
 
                 }
@@ -698,13 +694,13 @@ namespace sjzd
 
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception)
             {
             }
 
@@ -717,7 +713,7 @@ namespace sjzd
             try
             {
                 string bs1 = "";
-                
+
                 using (SqlConnection mycon = new SqlConnection(_con))
                 {
                     mycon.Open();//打开
@@ -736,7 +732,7 @@ namespace sjzd
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
@@ -748,7 +744,7 @@ namespace sjzd
             try
             {
                 string bs1 = "";
-               
+
                 using (SqlConnection mycon = new SqlConnection(_con))
                 {
                     mycon.Open();//打开
@@ -766,7 +762,7 @@ namespace sjzd
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 

@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
+using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using System.Data.SqlClient;
-using System.Threading;
+using Telerik.Windows.Controls;
 
 namespace sjzd
 {
     /// <summary>
     /// WPFAddQX.xaml 的交互逻辑
     /// </summary>
-    public partial class 其他设置 : Window
+    public partial class 其他设置 : RadWindow
     {
         string con = "";
         string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
@@ -273,7 +267,7 @@ namespace sjzd
                 else if (strName.Trim() == "CITYFORECAST路径")
                 {
 
-                    TBBD("CITYFORECAST路径",ContentText.Text, PathConfigPath);
+                    TBBD("CITYFORECAST路径", ContentText.Text, PathConfigPath);
                     MessageBox.Show("配置信息修改成功");
                 }
                 else
@@ -288,7 +282,7 @@ namespace sjzd
                             {
                                 MessageBox.Show("配置信息修改成功");
                             }
-                            TBBD(strName, ContentText.Text, System.Environment.CurrentDirectory + @"\设置文件\" +szls[3].Trim()+ ".txt");
+                            TBBD(strName, ContentText.Text, System.Environment.CurrentDirectory + @"\设置文件\" + szls[3].Trim() + ".txt");
                             break;
                         }
                     }
@@ -331,7 +325,7 @@ namespace sjzd
         /// <param name="name">属性名称</param>
         /// <param name="sx">修改后的属性内容</param>
         /// <param name="path">文件路径</param>
-        public void TBBD(string name,string sx, string path)
+        public void TBBD(string name, string sx, string path)
         {
             try
             {
@@ -391,7 +385,7 @@ namespace sjzd
                     {
                         string name = sqlreader.GetString(sqlreader.GetOrdinal("name"));
                         string data = sqlreader.GetString(sqlreader.GetOrdinal("data"));
-                        string filename=sqlreader.GetString(sqlreader.GetOrdinal("filename")) ;
+                        string filename = sqlreader.GetString(sqlreader.GetOrdinal("filename"));
                         TBBD(name, data, Environment.CurrentDirectory + @"\设置文件\" + filename.Trim() + ".txt");
                         Thread.Sleep(500);
                     }
@@ -399,13 +393,12 @@ namespace sjzd
 
 
                 }
-
-                MessageBox.Show("保存成功");
+                Alert("保存成功");
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("同步失败，原因为\n"+ex.Message);
+                Alert("同步失败，原因为\n" + ex.Message);
             }
         }
     }

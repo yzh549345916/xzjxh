@@ -1,13 +1,15 @@
-﻿using System;
+﻿using cma.cimiss.client;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
-using System.IO;
-using cma.cimiss.client;
-using System.Data.SqlClient;
+using FtpLib;
+using ManagementProject;
 using MessageBox = System.Windows.MessageBox;
-using System.Drawing;
 
 namespace xzjxhyb_DBmain
 {
@@ -18,16 +20,17 @@ namespace xzjxhyb_DBmain
     {
         private NotifyIcon _notifyIcon = null;
         string con;//= "Server=172.18.142.151;Database=xzjxhyb_DB;user id=sa;password=134679;"; //这里是保存连接数据库的字符串172.18.142.151 id=sa;password=134679;
-        Int16 RKMM = 0, RKH = 0,QXRKH=0,QXRKM=0,SJRKH=0,SJRKM=0;//实况入库的分钟和小时,窗口初始化程序中会重新给该值从配置文件中赋值
+        Int16 RKMM = 0, RKH = 0, QXRKH = 0, QXRKM = 0, SJRKH = 0, SJRKM = 0;//实况入库的分钟和小时,窗口初始化程序中会重新给该值从配置文件中赋值
         string RKTime = "20";//实况入库的时次,窗口初始化程序中会重新给该值从配置文件中赋值
         Int16 SFJG = 0;
         System.Timers.Timer t = new System.Timers.Timer(60000);
+        
         public MainWindow()
         {
             InitializeComponent();
-            t1.Text = DateTime.Now.ToString()+ "  启动";
+            t1.Text = DateTime.Now.ToString() + "  启动";
             //实例化timer，使得间隔为1000ms  
-            
+
             t.Elapsed += new System.Timers.ElapsedEventHandler(refreshTime);
             t.AutoReset = true;//设置是执行一次（false）还是一直执行(true)；  
             t.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件；  
@@ -52,7 +55,7 @@ namespace xzjxhyb_DBmain
                     {
                         RKMM = Convert.ToInt16(line.Substring("实况入库分钟=".Length));
                     }
-                    else if(line.Split('=')[0]=="实况时次")
+                    else if (line.Split('=')[0] == "实况时次")
                     {
                         RKTime = line.Split('=')[1];
                     }
@@ -64,7 +67,7 @@ namespace xzjxhyb_DBmain
                     {
                         QXRKM = Convert.ToInt16(line.Substring("旗县预报入库分钟=".Length));
                     }
-                    else if(line.Split('=')[0]== "市局预报入库小时")
+                    else if (line.Split('=')[0] == "市局预报入库小时")
                     {
                         SJRKH = Convert.ToInt16(line.Split('=')[1]);
                     }
@@ -79,15 +82,48 @@ namespace xzjxhyb_DBmain
                         {
                             SFJG = Convert.ToInt16(line.Split('=')[1]);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             MessageBox.Show(ex.Message);
                         }
-                        
+
                     }
                 }
             }
-           // InitialTray(); //最小化至托盘
+            // InitialTray(); //最小化至托盘
+            //FtpHelper ftpHelper = new FtpHelper("172.18.142.167","21", "qxt", "qxt123");
+            FtpWeb ftpHelper = new FtpWeb("172.18.142.167", "6小时指导预报", "qxt", "qxt123");
+           var ss32= ftpHelper.GetFileList("");
+
+            ftpHelper.Download(@"E:", @"测试2.txt");
+              FTPHelper fTPHelper = new FTPHelper();
+            fTPHelper.GotoDirectory("6小时指导预报", true);
+            var b1= fTPHelper.DirectoryExist("Backup");
+            var b2 = fTPHelper.DirectoryExist("Backup2");
+            var ss=FTPHelper.GetDirectoryList();
+            var ss2 = FTPHelper.GetFilesDetailList();
+            var ss3 = FTPHelper.GetFileList("");
+            Action<int, int> updateProgress = null;
+            FTPHelper.FtpDownload("6小时指导预报/Z_SEVP_C_BABJ_20200528051246_P_RFFC_SCMOC6H_202005281200_02406.TXT", @"D:\测试2.txt", true, updateProgress);
+            var ssss= FTPHelper.FtpUploadFile(@"D:\测试2.txt", updateProgress);
+            fTPHelper.GotoDirectory("", true);
+            var ss4 = FTPHelper.GetDirectoryList();
+            var ss5 = FTPHelper.GetFilesDetailList();
+            var ss6 = FTPHelper.GetFileList("");
+        }
+        public static string utf8_gb2312(string text)
+        {
+            //声明字符集   
+            System.Text.Encoding utf8, gb2312;
+            //utf8   
+            utf8 = System.Text.Encoding.GetEncoding("utf-8");
+            //gb2312   
+            gb2312 = System.Text.Encoding.GetEncoding("gb2312");
+            byte[] utf;
+            utf = utf8.GetBytes(text);
+            utf = System.Text.Encoding.Convert(utf8, gb2312, utf);
+            //返回转换后的字符   
+            return gb2312.GetString(utf);
         }
         #region 最小化系统托盘
         public void InitialTray()
@@ -98,11 +134,11 @@ namespace xzjxhyb_DBmain
                 //隐藏主窗体
                 this.Visibility = Visibility.Hidden;
                 //设置托盘的各个属性
-                
+
                 _notifyIcon.BalloonTipText = "呼和浩特市乡镇精细化预报数据库服务运行中...";//托盘气泡显示内容
                 _notifyIcon.Text = "呼和浩特市乡镇精细化预报数据库";
                 _notifyIcon.Visible = true;//托盘按钮是否可见
-                _notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);;//托盘中显示的图标
+                _notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath); ;//托盘中显示的图标
                 _notifyIcon.ShowBalloonTip(2000);//托盘气泡显示时间
                 _notifyIcon.MouseDoubleClick += notifyIcon_MouseDoubleClick;
                 //窗体状态改变时触发
@@ -112,7 +148,7 @@ namespace xzjxhyb_DBmain
             {
                 this.WindowState = WindowState.Minimized;
             }
-            
+
         }
         #endregion
 
@@ -144,9 +180,73 @@ namespace xzjxhyb_DBmain
         }
         #endregion
 
+        private void 处理防凌预报()
+        {
+            try
+            {
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void 处理月统计信息()
+        {
+            try
+            {
+                DateTime monthTJDate = DateTime.Now.AddMonths(-1);
+                统计信息 tjxx = new 统计信息();
+
+                string ss = "";
+                if (tjxx.月检验结果入库(monthTJDate))
+                    ss = DateTime.Now + "成功保存" + monthTJDate.ToString("yyyy年MM月") + "统计信息。" + '\n';
+                else
+                    ss = DateTime.Now + "保存" + monthTJDate.ToString("yyyy年MM月") + "统计信息失败。" + '\n';
+                this.t1.Dispatcher.Invoke(
+                              new Action(
+                                  delegate
+                                  {
+                                      t1.AppendText(ss);
+                                      //将光标移至文本框最后
+                                      t1.Focus();
+                                      t1.CaretIndex = (t1.Text.Length);
+                                  }
+                              ));
+                SaveJL(ss);
+                monthTJDate = DateTime.Now.AddMonths(-2);
+                tjxx.月检验结果入库(monthTJDate);
+
+            }
+            catch
+            {
+            }
+        }
         private void SJYBHFBu_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                DeleteFile();
+                for (int i = -1; i > -7; i--)
+                {
+                    saveSJYB savesjyb = new saveSJYB();
+                    string ss = savesjyb.saveSJCS("20200319");
+                    this.t1.Dispatcher.Invoke(
+                        new Action(
+                            delegate
+                            {
+                                t1.AppendText(ss);
+                                        //将光标移至文本框最后
+                                        t1.Focus();
+                                t1.CaretIndex = (t1.Text.Length);
+                            }
+                        ));
+                    SaveJL(ss);
+                }
+            }
+            catch
+            {
+            }
             SJYBHFWindow SJHF = new SJYBHFWindow();
             SJHF.Show();
         }
@@ -169,13 +269,15 @@ namespace xzjxhyb_DBmain
 
         private void TJHFBu_Click(object sender, RoutedEventArgs e)
         {
+            Thread thread = new Thread(处理防凌预报);
+            thread.Start();
             统计信息重新入库窗口 TJHF = new 统计信息重新入库窗口();
             TJHF.Show();
         }
 
         private void Config_Click(object sender, RoutedEventArgs e)
         {
-          
+
             QXXZConfig qXXZConfig = new QXXZConfig();
             qXXZConfig.Show();
 
@@ -183,13 +285,26 @@ namespace xzjxhyb_DBmain
 
         public void refreshTime(object source, System.Timers.ElapsedEventArgs e)
         {
-           
+
             try
             {
                 t.Enabled = false;
                 string errorQJZN = "";
+                DateTime dateTime = DateTime.Now;
                 if (DateTime.Now.Hour == RKH && DateTime.Now.Minute == RKMM) //如果当前时间是10点30分
                 {
+                    try
+                    {
+                        if (DateTime.Now.Day == 4 || DateTime.Now.Day == 5 || DateTime.Now.Day == 14 || DateTime.Now.Day == 24)
+                        {
+                            Thread thread = new Thread(处理月统计信息);
+                            thread.Start();
+                        }
+                    }
+                    catch
+                    {
+                    }
+
                     try
                     {
                         区局智能网格 qjzn = new 区局智能网格();
@@ -298,6 +413,7 @@ namespace xzjxhyb_DBmain
                     catch
                     {
                     }
+
                 }
 
                 if (DateTime.Now.Hour == QXRKH && DateTime.Now.Minute == QXRKM)
@@ -356,6 +472,12 @@ namespace xzjxhyb_DBmain
                     }
                 }
 
+                if (dateTime.Hour == 10 && dateTime.Minute == 0)
+                {
+                    Thread thread = new Thread(处理防凌预报);
+                    thread.Start();
+                }
+
             }
             catch
             {
@@ -372,8 +494,8 @@ namespace xzjxhyb_DBmain
             string strError = "";
             string strSK = "";
             int rst1 = 0, rst2 = 0;
-            string strSKPath = System.Environment.CurrentDirectory+ @"\";//实况临时保存路径
-            
+            string strSKPath = System.Environment.CurrentDirectory + @"\";//实况临时保存路径
+
             string strFile = strSKPath + strDate + strTime + "实况.txt";
             try
             {
@@ -413,6 +535,8 @@ namespace xzjxhyb_DBmain
             return strFile;
         }
 
+
+
         private void HistoryBu_Click(object sender, RoutedEventArgs e)
         {
 
@@ -426,8 +550,8 @@ namespace xzjxhyb_DBmain
         }
         public int SKaddDB(string filepath)
         {
-            
-            int SKRKGS = 0; 
+
+            int SKRKGS = 0;
             if ((File.Exists(filepath)))
             {
                 SqlConnection mycon = new SqlConnection(con);//创建SQL连接对象
@@ -440,7 +564,7 @@ namespace xzjxhyb_DBmain
                 {
                     string[] szLS1 = line.Split(' ');
                     //定义从文本文件得到的每行的实况各要素 此处增加风要素
-                    string myName = szLS1[0], myStationID = szLS1[2];                                   
+                    string myName = szLS1[0], myStationID = szLS1[2];
                     float myTmax, myTmin, myRain;
                     string configXZPath = System.Environment.CurrentDirectory + @"\设置文件\旗县乡镇.txt";
                     /*以下程序功能为：根据设置文件夹下的旗县乡镇设置文件获取旗县台站号*/
@@ -514,11 +638,11 @@ namespace xzjxhyb_DBmain
                     {
                         SqlCommand sqlman = new SqlCommand(sql, mycon);
                         SKRKGS += sqlman.ExecuteNonQuery();                            //执行数据库语句并返回一个int值（受影响的行数）     
-                        
+
 
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         // MessageBox.Show("数据库添加失败\n" + ex.Message);
                     }
@@ -814,7 +938,7 @@ namespace xzjxhyb_DBmain
         {
             string strTime = "20";
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
-            string  con = "";
+            string con = "";
             string line = "";
             using (StreamReader sr2 = new StreamReader(DBconPath, Encoding.Default))
             {
@@ -828,7 +952,7 @@ namespace xzjxhyb_DBmain
                         con = line.Substring("sql管理员=".Length);
                     }
 
-                    else if (line.Split ('=')[0]=="实况时次")
+                    else if (line.Split('=')[0] == "实况时次")
                     {
                         strTime = line.Split('=')[1];
                     }
@@ -944,7 +1068,7 @@ namespace xzjxhyb_DBmain
             }
             else
             {
-                strError += strDate+ "前十二小时降水量CIMISS获取出错：\n"+strData1;
+                strError += strDate + "前十二小时降水量CIMISS获取出错：\n" + strData1;
             }
 
             strLS = strData2.Split('"')[1];
@@ -994,7 +1118,7 @@ namespace xzjxhyb_DBmain
             }
             sr1.Close();
             QXID = QXID.Substring(0, QXID.Length - 1);
-            
+
             try
             {
 
@@ -1013,9 +1137,9 @@ namespace xzjxhyb_DBmain
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+
             }
             try
             {
@@ -1035,9 +1159,9 @@ namespace xzjxhyb_DBmain
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-               
+
             }
             //数据库中的日期保存格式为“yyyy-MM-DD”需加“-”
             string myDate = strDate.Substring(0, 4) + '-' + strDate.Substring(4, 2) + '-' + strDate.Substring(6, 2);
@@ -1052,13 +1176,13 @@ namespace xzjxhyb_DBmain
                     try
                     {
                         SqlCommand sqlman = new SqlCommand(sql, mycon);
-                                                    //执行数据库语句并返回一个int值（受影响的行数）  
-                        if(sqlman.ExecuteNonQuery()>0)
+                        //执行数据库语句并返回一个int值（受影响的行数）  
+                        if (sqlman.ExecuteNonQuery() > 0)
                         {
                             Q12++;
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1066,13 +1190,13 @@ namespace xzjxhyb_DBmain
                     try
                     {
                         SqlCommand sqlman = new SqlCommand(sql, mycon);
-                       //执行数据库语句并返回一个int值（受影响的行数）  
+                        //执行数据库语句并返回一个int值（受影响的行数）  
                         if (sqlman.ExecuteNonQuery() > 0)
                         {
                             H12++;
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }

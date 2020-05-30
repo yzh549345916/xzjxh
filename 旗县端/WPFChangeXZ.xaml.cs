@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
 
 namespace 旗县端
 {
     /// <summary>
     /// WPFChangeQX.xaml 的交互逻辑
     /// </summary>
- 
+
 
     public partial class WPFChangeXZ : Window
     {
@@ -167,7 +160,7 @@ namespace 旗县端
 
 
                     }
-                    catch(Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -197,7 +190,6 @@ namespace 旗县端
                             {
 
                             };
-                            int ID = 1;
                             configClass1 = new ConfigClass1();
                             xzStr = configClass1.IDName(Convert.ToInt32(DQID));
                             string[] qxSZ = xzStr.Split('\n');
@@ -224,7 +216,7 @@ namespace 旗县端
                             XZlist.SelectedIndex = -1;
                             XZlist.SelectionChanged += XZList_SelectionChanged;
                         }
-                        catch(Exception ex)
+                        catch (Exception)
                         {
 
                         }

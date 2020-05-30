@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="sjzd.逐日评分详情new"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:sjzd"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             Height="550" Width="1100">
+
+   
+    <Grid Margin="0,0,0,0">
+        <Grid.Resources>
+            <Style x:Key="CustomGridViewHeaderCellStyle" TargetType="telerik:GridViewHeaderCell">
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+        </Grid.Resources>
+        <telerik:RadGridView x:Name="GRPFList"  CanUserSelect="True" SelectionMode="Extended"  HorizontalAlignment="Center" Height="361" Margin="20,167,20,0" VerticalAlignment="Top" IsReadOnly="True" FontSize="16"  AutoGenerateColumns="False">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Name}" Header="名  称" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding StationID}" Header="区站号" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding QXGW}" Header="本台高温" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SKGW}" Header="实况高温" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJGW}" Header="市台高温" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding QXDW}" Header="本台低温" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SKDW}" Header="实况低温" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJDW}" Header="市台低温" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding QXTQ}" Header="本台天气" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding QXQY}" Header="本台晴雨" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SKJS}" Header="实况降水量" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJTQ}" Header="市台天气" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding SJQY}" Header="市台晴雨" HeaderCellStyle="{StaticResource CustomGridViewHeaderCellStyle}"/>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+        <telerik:RadDatePicker x:Name="sDate"  OpenDropDownOnFocus="True" ToolTip="选择日期" HorizontalAlignment="Left" Margin="469,42,0,0" VerticalAlignment="Top" Height="28" Width="130" />
+        <telerik:Label x:Name="labelStartdate" Content="日期" HorizontalAlignment="Left" Margin="514,10,0,0" VerticalAlignment="Top" />
+        <telerik:Label x:Name="BTLabel" Content="" HorizontalAlignment="Left" Margin="107,106,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="800" FontSize="20" FontFamily="楷体"/>
+        <telerik:RadButton x:Name="CXButton" Content="查询" HorizontalAlignment="Left" Margin="671,42,0,0" VerticalAlignment="Top" Width="110" Click="CXButton_Click" />
+        <telerik:RadButton x:Name="DCButton" Content="导出" HorizontalAlignment="Left" Margin="848,42,0,0" VerticalAlignment="Top" Width="110" Click="DCButton_Click"/>
+        <telerik:RadComboBox x:Name="QXSelect" HorizontalAlignment="Left" Margin="50,42,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        <telerik:Label x:Name="labelStartdate_Copy" Content="旗县" HorizontalAlignment="Left" Margin="77,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.466,0.5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <telerik:RadComboBox x:Name="SXSelect" HorizontalAlignment="Left" Margin="248,42,0,0" VerticalAlignment="Top" Width="110"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectedIndex="0" >
+            <ComboBoxItem Content="24" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <ComboBoxItem Content="48" HorizontalAlignment="Center"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <ComboBoxItem Content="72" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </telerik:RadComboBox>
+        <telerik:Label x:Name="labelStartdate_Copy1" Content="时效" HorizontalAlignment="Left" Margin="275,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.466,0.5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+    </Grid>
+</UserControl>

@@ -1,25 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-
+using Telerik.Windows.Controls;
 namespace sjzd
 {
     /// <summary>
     /// WPFChangeQX.xaml 的交互逻辑
     /// </summary>
- 
 
-    public partial class WPFChangeQX : Window
+
+    public partial class WPFChangeQX : RadWindow
     {
         private string qxStr = "";
         private string bsStr = "";
@@ -34,7 +25,6 @@ namespace sjzd
                 {
 
                 };
-                int ID = 1;
                 ConfigClass1 configClass1 = new ConfigClass1();
                 qxStr = configClass1.IDName(-1);
                 bsStr = configClass1.HQBS();
@@ -72,7 +62,7 @@ namespace sjzd
                         CStationID_Copy.Text = szLS[2];
                         stationID_Copy.Text = szLS[2];
                         区局智能网格 znwg = new 区局智能网格();
-                        string[] sz1=znwg.HQStationByID(stationID.Text).Split();
+                        string[] sz1 = znwg.HQStationByID(stationID.Text).Split();
                         DQLon.Text = sz1[2];
                         DQLat.Text = sz1[3];
                         DQHigh.Text = sz1[4];
@@ -88,7 +78,7 @@ namespace sjzd
                 }
             }
 
-            qxSZ = bsStr.Split(new char[] {'\r','\n'},StringSplitOptions.RemoveEmptyEntries);
+            qxSZ = bsStr.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string ss in qxSZ)
             {
                 if (stationID.Text.Trim() == ss.Split('=')[0])
@@ -108,7 +98,7 @@ namespace sjzd
                 qjzn.SaveStation(CStationID.Text.Trim(), CStationName.Text.Trim(), 13, Convert.ToDouble(XGLon.Text.Trim()), Convert.ToDouble(XGLat.Text.Trim()), Convert.ToDouble(XGHigh.Text.Trim()));
                 ConfigClass1 configClass1 = new ConfigClass1();
                 if (configClass1.XGQXXZ(Convert.ToInt32(CStationID_Copy.Text.Trim()), CStationID.Text.Trim(), "-1",
-                    CStationName.Text, stationID.Text,XGBS.Text.Trim()))
+                    CStationName.Text, stationID.Text, XGBS.Text.Trim()))
                 {
                     try
                     {
@@ -118,7 +108,6 @@ namespace sjzd
                         {
 
                         };
-                        int ID = 1;
                         qxStr = configClass1.IDName(-1);
                         string[] qxSZ = qxStr.Split('\n');
                         for (int i = 0; i < qxSZ.Length; i++)
@@ -144,15 +133,22 @@ namespace sjzd
                         CStationName.Text = "";
                         CStationID_Copy.Text = "";
                         CStationID.Text = "";
-                        if (MessageBox.Show("保存成功，是否同步本地文件", "注意", MessageBoxButton.YesNo,
-                                MessageBoxImage.Information) == MessageBoxResult.Yes)
+                        Dispatcher.Invoke(() =>
                         {
-                            configClass1.TBBD();
-                        }
+                            RadWindow.Confirm(new DialogParameters
+                            {
+                                Content = "保存成功，是否同步本地文件",
+                                Closed = OnConfirmClosed_同步设置,
+                                Owner = Application.Current.MainWindow,
+                                CancelButtonContent = "否",
+                                OkButtonContent = "是",
+                                Header = "注意"
+                            });
+                        });
 
 
                     }
-                    catch(Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -168,7 +164,7 @@ namespace sjzd
             {
                 ConfigClass1 configClass1 = new ConfigClass1();
                 //同步数据库旗县到本地文件
-                
+
                 if (configClass1.DeleteQX(stationID.Text.Trim()))
                 {
                     try
@@ -180,7 +176,6 @@ namespace sjzd
                         {
 
                         };
-                        int ID = 1;
                         configClass1 = new ConfigClass1();
                         qxStr = configClass1.IDName(-1);
                         string[] qxSZ = qxStr.Split('\n');
@@ -213,16 +208,38 @@ namespace sjzd
                     {
 
                     }
-                    if (MessageBox.Show("旗县删除成功，是否同步本地设置文件", "注意", MessageBoxButton.YesNo,
-                            MessageBoxImage.Information) == MessageBoxResult.Yes)
+                    Dispatcher.Invoke(() =>
                     {
-                        //同步数据库旗县到本地文件
-                        configClass1.TBBD();
-                    }
+                        RadWindow.Confirm(new DialogParameters
+                        {
+                            Content = "旗县删除成功，是否同步本地设置文件",
+                            Closed = OnConfirmClosed_同步设置,
+                            Owner = Application.Current.MainWindow,
+                            CancelButtonContent = "否",
+                            OkButtonContent = "是",
+                            Header = "注意"
+                        });
+                    });
+
                 }
             }
         }
+        private void OnConfirmClosed_同步设置(object sender, WindowClosedEventArgs e)
+        {
+            try
+            {
+                if (e.DialogResult == true)
+                {
+                    ConfigClass1 configClass1 = new ConfigClass1();
+                    configClass1.TBBD();
+                }
 
+            }
+            catch
+            {
+
+            }
+        }
         private void QuitBtu_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

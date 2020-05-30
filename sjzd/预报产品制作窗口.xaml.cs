@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace sjzd
 {
@@ -26,7 +15,7 @@ namespace sjzd
 
         private void SQYBBtu_Click(object sender, RoutedEventArgs e)
         {
-            
+
 
             预报人员选择 ryxz = new 预报人员选择();
             if (ryxz.ShowDialog() == false)
@@ -42,7 +31,7 @@ namespace sjzd
 
         private void Z308Btu_Click(object sender, RoutedEventArgs e)
         {
-           
+
             预报人员选择 ryxz = new 预报人员选择();
             if (ryxz.ShowDialog() == false)
             {
@@ -51,9 +40,9 @@ namespace sjzd
                     逐3小时 z3 = new 逐3小时();
                     z3.DCWord(8, ryxz.ZBCom.Text, ryxz.QFCom.Text);
                 }
-                    
+
             }
-            
+
         }
 
         private void Z320Btu_Click(object sender, RoutedEventArgs e)
@@ -61,12 +50,12 @@ namespace sjzd
             预报人员选择 ryxz = new 预报人员选择();
             if (ryxz.ShowDialog() == false)
             {
-                if (ryxz.ZBCom.Text.Trim().Length>0)
+                if (ryxz.ZBCom.Text.Trim().Length > 0)
                 {
                     逐3小时 z3 = new 逐3小时();
                     z3.DCWord(20, ryxz.ZBCom.Text, ryxz.QFCom.Text);
                 }
-                
+
             }
         }
 
@@ -81,10 +70,10 @@ namespace sjzd
             预报人员选择2 ryxz = new 预报人员选择2();
             if (ryxz.ShowDialog() == false)
             {
-                if (ryxz.ZBCom.Text.Trim().Length > 0&& ryxz.FBCom.Text.Trim().Length > 0)
+                if (ryxz.ZBCom.Text.Trim().Length > 0 && ryxz.FBCom.Text.Trim().Length > 0)
                 {
                     短期预报 dq = new 短期预报();
-                    dq.DCWord(8, ryxz.ZBCom.Text,ryxz.FBCom.Text, ryxz.QFCom.Text);
+                    dq.DCWord(8, ryxz.ZBCom.Text, ryxz.FBCom.Text, ryxz.QFCom.Text);
                 }
 
             }
@@ -162,6 +151,43 @@ namespace sjzd
         {
             生态选择1 stwin = new 生态选择1();
             stwin.Show();
+        }
+
+        private void Hbj_Click(object sender, RoutedEventArgs e)
+        {
+            环保局预报 hbj = new 环保局预报();
+            hbj.DCWord(DateTime.Now, 8);
+        }
+
+        private void Hbj20_Click(object sender, RoutedEventArgs e)
+        {
+            if (DateTime.Now.Hour >= 17)
+            {
+
+                环保局预报 hbj = new 环保局预报();
+                hbj.DCWord(DateTime.Now, 20);
+            }
+            else
+            {
+
+                环保局预报 hbj = new 环保局预报();
+                hbj.DCWord(DateTime.Now.AddDays(-1), 20);
+            }
+        }
+
+        private void hourYB06_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void hourYB20_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void hourYB08_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Windows;
-using System.IO;
 
 namespace sjzd
 {
@@ -28,18 +26,18 @@ namespace sjzd
                         }
                         else if (line.Split('=')[0] == "城镇指导预报路径")
                         {
-                            YBPath = line.Split('=')[1]+dt.ToString("yy.MM")+ "\\20\\呼市气象台指导预报"+dt.ToString("MMdd")+".txt";
+                            YBPath = line.Split('=')[1] + dt.ToString("yy.MM") + "\\20\\呼市气象台指导预报" + dt.ToString("MMdd") + ".txt";
                         }
                     }
                 }
 
-                ZQPath +=dt.ToString("yyyy") + "\\" + dt.ToString("yyyy-MM") + "\\";
+                ZQPath += dt.ToString("yyyy") + "\\" + dt.ToString("yyyy-MM") + "\\";
                 if (!File.Exists(ZQPath))
                 {
                     Directory.CreateDirectory(ZQPath);
                 }
 
-                ZQPath += "呼市气象台中期逐日预报" + dt.ToString("MMdd") + ".txt";;
+                ZQPath += "呼市气象台中期逐日预报" + dt.ToString("MMdd") + ".txt"; ;
                 string data = "";
                 if (File.Exists(YBPath))
                 {
@@ -47,7 +45,7 @@ namespace sjzd
                     {
                         bool bs = false;
                         string line = "";
-                        data = "                  呼和浩特市气象台" + dt.ToString("yyyy年MM月dd日")+"中期逐日预报" + "\r\n\r\n";
+                        data = "                  呼和浩特市气象台" + dt.ToString("yyyy年MM月dd日") + "中期逐日预报" + "\r\n\r\n";
                         while ((line = sr.ReadLine()) != null)
                         {
                             if (line.Contains("72--96小时预报"))
@@ -61,14 +59,14 @@ namespace sjzd
                 }
                 else
                 {
-                    var result1 = System.Windows.MessageBox.Show(YBPath + "路径错误，是否手动选择乡镇指导预报文件", "错误", MessageBoxButton.YesNo);
+                    MessageBoxResult result1 = System.Windows.MessageBox.Show(YBPath + "路径错误，是否手动选择乡镇指导预报文件", "错误", MessageBoxButton.YesNo);
                     if (result1 == System.Windows.MessageBoxResult.Yes)
                     {
-                        var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+                        Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog()
                         {
                             Filter = "文本 (*.txt)|*.txt"
                         };
-                        var result = openFileDialog.ShowDialog();
+                        bool? result = openFileDialog.ShowDialog();
                         if (result == true)
                         {
                             YBPath = openFileDialog.FileName;
@@ -112,7 +110,7 @@ namespace sjzd
                             }
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
                     }
@@ -122,10 +120,82 @@ namespace sjzd
 
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
+        }
+        public string SJCLNew(ref string path, ref string error)
+        {
+            DateTime dt = DateTime.Now;
+            string configpathPath = System.Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
+            try
+            {
+                string YBPath = "";
+
+                string ZQPath = "";
+                using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                {
+                    string line = "";
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        if (line.Split('=')[0] == "中期逐日预报发布路径")
+                        {
+                            ZQPath = line.Split('=')[1];
+                        }
+                        else if (line.Split('=')[0] == "城镇指导预报路径")
+                        {
+                            YBPath = line.Split('=')[1] + dt.ToString("yy.MM") + "\\20\\呼市气象台指导预报" + dt.ToString("MMdd") + ".txt";
+                        }
+                    }
+                }
+
+                ZQPath += dt.ToString("yyyy") + "\\" + dt.ToString("yyyy-MM") + "\\";
+                if (!File.Exists(ZQPath))
+                {
+                    Directory.CreateDirectory(ZQPath);
+                }
+
+                ZQPath += "呼市气象台中期逐日预报" + dt.ToString("MMdd") + ".txt";
+                path = ZQPath;
+                string data = "";
+                if (File.Exists(YBPath))
+                {
+                    using (StreamReader sr = new StreamReader(YBPath, Encoding.Default))
+                    {
+                        bool bs = false;
+                        string line = "";
+                        data = "                  呼和浩特市气象台" + dt.ToString("yyyy年MM月dd日") + "中期逐日预报" + "\r\n\r\n";
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            if (line.Contains("72--96小时预报"))
+                                bs = true;
+                            if (bs)
+                            {
+                                data += line + "\r\n";
+                            }
+                        }
+                    }
+                    return data;
+                }
+                else
+                {
+                    error = YBPath + "路径错误，是否手动选择乡镇指导预报文件";
+                    return "";
+
+                }
+
+
+
+
+
+            }
+
+            catch (Exception)
+            {
+
+            }
+            return "";
         }
     }
 }
