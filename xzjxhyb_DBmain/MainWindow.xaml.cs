@@ -92,12 +92,15 @@ namespace xzjxhyb_DBmain
             }
             // InitialTray(); //最小化至托盘
             //FtpHelper ftpHelper = new FtpHelper("172.18.142.167","21", "qxt", "qxt123");
-            FtpWeb ftpHelper = new FtpWeb("172.18.142.167", "6小时指导预报", "qxt", "qxt123");
+            FtpWeb ftpHelper = new FtpWeb("172.18.142.167", "", "qxt", "qxt123");
            var ss32= ftpHelper.GetFileList("");
-
-            ftpHelper.Download(@"E:", @"测试2.txt");
-              FTPHelper fTPHelper = new FTPHelper();
-            fTPHelper.GotoDirectory("6小时指导预报", true);
+            ftpHelper.ExistOrCreateDirectory("测试/测试1/测试3");
+            //ftpHelper.Download(@"E:", @"测试2.txt");
+            var ss33 = ftpHelper.GetFileList("");
+            ftpHelper.GotoDirectory("测试/测试1",true);
+            var ss34 = ftpHelper.GetFileList("");
+            FTPHelper fTPHelper = new FTPHelper();
+           // fTPHelper.GotoDirectory("6小时指导预报", true);
             var b1= fTPHelper.DirectoryExist("Backup");
             var b2 = fTPHelper.DirectoryExist("Backup2");
             var ss=FTPHelper.GetDirectoryList();
