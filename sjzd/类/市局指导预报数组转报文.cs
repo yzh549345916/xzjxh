@@ -2,7 +2,6 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows;
 
@@ -22,7 +21,7 @@ public class ZDSZCL
     public void ZDSZ2BW(string[,] szYB)
     {
         string line = "";
-        using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+        using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
         {
 
 
@@ -44,7 +43,7 @@ public class ZDSZCL
         string CSBWPathCon = Environment.CurrentDirectory + @"\设置文件\报文保存路径.txt";
 
         string CSBWPath = "";
-        using (StreamReader sr3 = new StreamReader(CSBWPathCon, Encoding.Default))
+        using (StreamReader sr3 = new StreamReader(CSBWPathCon, Encoding.GetEncoding("GB2312")))
         {
             while ((line = sr3.ReadLine()) != null)
             {
@@ -64,7 +63,7 @@ public class ZDSZCL
         {
             string strLS = BWData;
             string ID = szYB[i, 1];
-            using (StreamReader sr1 = new StreamReader(ZDXQConf, Encoding.Default))
+            using (StreamReader sr1 = new StreamReader(ZDXQConf, Encoding.GetEncoding("GB2312")))
             {
                 while ((line = sr1.ReadLine()) != null)
                 {
@@ -137,7 +136,7 @@ public class ZDSZCL
                         weatherLS1 = WeaSz[0];
                         weatherLS2 = WeaSz[1];
 
-                        using (StreamReader sr2 = new StreamReader(WeatherDZ, Encoding.Default))
+                        using (StreamReader sr2 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                         {
 
                             while ((line1 = sr2.ReadLine()) != null)
@@ -159,7 +158,7 @@ public class ZDSZCL
                     else if (WeaSz.Length <= 1)
                     {
                         weatherLS1 = WeaSz[0];
-                        using (StreamReader sr2 = new StreamReader(WeatherDZ, Encoding.Default))
+                        using (StreamReader sr2 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                         {
 
                             while ((line1 = sr2.ReadLine()) != null)
@@ -192,7 +191,7 @@ public class ZDSZCL
                         FSLS1 = fxfsStr[0].Split('风')[1];
                         FXLS2 = fxfsStr[1].Split('风')[0] + '风';
                         FSLS2 = fxfsStr[1].Split('风')[1];
-                        using (StreamReader sr2 = new StreamReader(FXDZ, Encoding.Default))
+                        using (StreamReader sr2 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                         {
                             while ((line1 = sr2.ReadLine()) != null)
                             {
@@ -209,7 +208,7 @@ public class ZDSZCL
 
                             }
                         }
-                        using (StreamReader sr2 = new StreamReader(FSDZ, Encoding.Default))
+                        using (StreamReader sr2 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                         {
                             while ((line1 = sr2.ReadLine()) != null)
                             {
@@ -236,7 +235,7 @@ public class ZDSZCL
                         FSLS2 = FSLS1;
                         if (fxfsStr.Length == 1)
                         {
-                            using (StreamReader sr2 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr2 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 while ((line1 = sr2.ReadLine()) != null)
                                 {
@@ -254,7 +253,7 @@ public class ZDSZCL
                         else
                         {
                             FXLS2 = fxfsStr[1];
-                            using (StreamReader sr2 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr2 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 while ((line1 = sr2.ReadLine()) != null)
                                 {
@@ -282,7 +281,7 @@ public class ZDSZCL
                         FXLS2 = FXLS1;
                         if (fxfsStr.Length == 1)
                         {
-                            using (StreamReader sr2 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr2 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 while ((line1 = sr2.ReadLine()) != null)
                                 {
@@ -300,7 +299,7 @@ public class ZDSZCL
                         else
                         {
                             FSLS2 = fxfsStr[1];
-                            using (StreamReader sr2 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr2 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 while ((line1 = sr2.ReadLine()) != null)
                                 {
@@ -326,7 +325,7 @@ public class ZDSZCL
                         string[] fxfsStr = FXFS[intLS2++].Split('转');
                         FXLS1 = fxfsStr[0];
                         FXLS2 = fxfsStr[1].Split('风')[0] + '风';
-                        using (StreamReader sr2 = new StreamReader(FXDZ, Encoding.Default))
+                        using (StreamReader sr2 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                         {
                             while ((line1 = sr2.ReadLine()) != null)
                             {
@@ -343,7 +342,7 @@ public class ZDSZCL
 
                             }
                         }
-                        using (StreamReader sr2 = new StreamReader(FSDZ, Encoding.Default))
+                        using (StreamReader sr2 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                         {
                             while ((line1 = sr2.ReadLine()) != null)
                             {
@@ -365,7 +364,7 @@ public class ZDSZCL
                         string[] fxfsStr = (FXFS[intLS2++].Split('风')[1]).Split('转');
                         FSLS1 = fxfsStr[0];
                         FSLS2 = fxfsStr[1];
-                        using (StreamReader sr2 = new StreamReader(FSDZ, Encoding.Default))
+                        using (StreamReader sr2 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                         {
                             while ((line1 = sr2.ReadLine()) != null)
                             {
@@ -382,7 +381,7 @@ public class ZDSZCL
 
                             }
                         }
-                        using (StreamReader sr2 = new StreamReader(FXDZ, Encoding.Default))
+                        using (StreamReader sr2 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                         {
                             while ((line1 = sr2.ReadLine()) != null)
                             {
@@ -399,7 +398,7 @@ public class ZDSZCL
                     {
                         FXLS1 = FXFS[intLS2].Split('风')[0] + '风';
                         FSLS1 = FXFS[intLS2++].Split('风')[1];
-                        using (StreamReader sr2 = new StreamReader(FXDZ, Encoding.Default))
+                        using (StreamReader sr2 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                         {
                             while ((line1 = sr2.ReadLine()) != null)
                             {
@@ -411,7 +410,7 @@ public class ZDSZCL
                             }
                         }
                         FXLS2 = FXLS1;
-                        using (StreamReader sr2 = new StreamReader(FSDZ, Encoding.Default))
+                        using (StreamReader sr2 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                         {
                             while ((line1 = sr2.ReadLine()) != null)
                             {
@@ -449,7 +448,7 @@ public class ZDSZCL
         {
             using (FileStream fsr = new FileStream(CSBWPath, FileMode.Create))
             {
-                StreamWriter sw = new StreamWriter(fsr, Encoding.Default);
+                StreamWriter sw = new StreamWriter(fsr, Encoding.GetEncoding("GB2312"));
                 sw.Write(BWData);
                 sw.Flush();
                 sw.Close();
@@ -469,7 +468,7 @@ public class ZDSZCL
         {
             string SJMBPath = Environment.CurrentDirectory + @"\模版\市局乡镇精细化预报模板.docx";
             string SJsaPath = "";
-            using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
             {
                 string line = "";
                 while ((line = sr.ReadLine()) != null)
@@ -643,7 +642,7 @@ public class ZDSZCL
         {
             string SJMBPath = Environment.CurrentDirectory + @"\模版\市局乡镇精细化预报模板.docx";
             string SJsaPath = "";
-            using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
             {
                 string line = "";
                 while ((line = sr.ReadLine()) != null)
@@ -804,7 +803,7 @@ public class ZDSZCL
 
         }
 
-        catch (Exception ex)
+        catch (Exception)
         {
 
         }
@@ -819,7 +818,7 @@ public class ZDSZCL
         string QXCPNamepath = System.Environment.CurrentDirectory + @"\设置文件\指导预报与产品旗县名称对照.txt";
         string YBpath = "";
         string line;
-        using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+        using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
         {
 
             // 从文件读取并显示行，直到文件的末尾 
@@ -833,7 +832,7 @@ public class ZDSZCL
             }
         }
         string sjBWID = "";
-        using (StreamReader sr = new StreamReader(DZBPath, Encoding.Default))
+        using (StreamReader sr = new StreamReader(DZBPath, Encoding.GetEncoding("GB2312")))
         {
             while ((line = sr.ReadLine()) != null)
             {
@@ -875,7 +874,7 @@ public class ZDSZCL
                     }
                 }
             }
-            using (StreamReader sr = new StreamReader(fileNameList[maxXH], Encoding.Default))
+            using (StreamReader sr = new StreamReader(fileNameList[maxXH], Encoding.GetEncoding("GB2312")))
             {
                 int lineCount = 0;
                 while ((line = sr.ReadLine()) != null)
@@ -895,7 +894,7 @@ public class ZDSZCL
             float WeatherLS = 0, FXLS = 0, FSLS = 0;//保存天气、风向、风速的编码临时信息，为了判断前12小时和后12小时的天气是否一致
             string FXDZ = System.Environment.CurrentDirectory + @"\设置文件\风向对照.txt";
             string FSDZ = System.Environment.CurrentDirectory + @"\设置文件\风速对照.txt";
-            using (StreamReader sr = new StreamReader(fileNameList[maxXH], Encoding.Default))
+            using (StreamReader sr = new StreamReader(fileNameList[maxXH], Encoding.GetEncoding("GB2312")))
             {
                 int lineCount = 0;
                 int k = 0;
@@ -921,7 +920,7 @@ public class ZDSZCL
 
                         if (WeatherLS == WeatherLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -937,7 +936,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -958,7 +957,7 @@ public class ZDSZCL
                         }
                         if (FXLS == FXLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -974,7 +973,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -995,7 +994,7 @@ public class ZDSZCL
                         }
                         if (FSLS == FSLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1011,7 +1010,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1046,7 +1045,7 @@ public class ZDSZCL
                         float WeatherLS1 = Convert.ToSingle(szLS[19]), FXLS1 = Convert.ToSingle(szLS[20]), FSLS1 = Convert.ToSingle(szLS[21]);
                         if (WeatherLS == WeatherLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1062,7 +1061,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1083,7 +1082,7 @@ public class ZDSZCL
                         }
                         if (FXLS == FXLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1099,7 +1098,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1120,7 +1119,7 @@ public class ZDSZCL
                         }
                         if (FSLS == FSLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1136,7 +1135,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1170,7 +1169,7 @@ public class ZDSZCL
                         float WeatherLS1 = Convert.ToSingle(szLS[19]), FXLS1 = Convert.ToSingle(szLS[20]), FSLS1 = Convert.ToSingle(szLS[21]);
                         if (WeatherLS == WeatherLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1186,7 +1185,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1207,7 +1206,7 @@ public class ZDSZCL
                         }
                         if (FXLS == FXLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1223,7 +1222,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1244,7 +1243,7 @@ public class ZDSZCL
                         }
                         if (FSLS == FSLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1260,7 +1259,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1287,11 +1286,11 @@ public class ZDSZCL
             }
             //该旗县所有乡镇的预报信息已经保存，开始转换为数组
             string[,] zdybSZ = new string[intCount, 14];//每行内容为：旗县名称+区站号+未来三天分别的天气、风向风速、最低气温、最高气温，因此列数为2+4*3
-            using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
             {
                 line = sr.ReadToEnd();
             }
-            using (StreamReader sr = new StreamReader(QXCPNamepath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(QXCPNamepath, Encoding.GetEncoding("GB2312")))
             {
                 string line1 = "";
                 while ((line1 = sr.ReadLine()) != null)
@@ -1353,7 +1352,7 @@ public class ZDSZCL
         string QXCPNamepath = System.Environment.CurrentDirectory + @"\设置文件\指导预报与产品旗县名称对照.txt";
         string YBpath = "";
         string line;
-        using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+        using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
         {
 
             // 从文件读取并显示行，直到文件的末尾 
@@ -1367,7 +1366,7 @@ public class ZDSZCL
             }
         }
         string sjBWID = "";
-        using (StreamReader sr = new StreamReader(DZBPath, Encoding.Default))
+        using (StreamReader sr = new StreamReader(DZBPath, Encoding.GetEncoding("GB2312")))
         {
             while ((line = sr.ReadLine()) != null)
             {
@@ -1409,7 +1408,7 @@ public class ZDSZCL
                     }
                 }
             }
-            using (StreamReader sr = new StreamReader(fileNameList[maxXH], Encoding.Default))
+            using (StreamReader sr = new StreamReader(fileNameList[maxXH], Encoding.GetEncoding("GB2312")))
             {
                 int lineCount = 0;
                 while ((line = sr.ReadLine()) != null)
@@ -1429,7 +1428,7 @@ public class ZDSZCL
             float WeatherLS = 0, FXLS = 0, FSLS = 0;//保存天气、风向、风速的编码临时信息，为了判断前12小时和后12小时的天气是否一致
             string FXDZ = System.Environment.CurrentDirectory + @"\设置文件\风向对照.txt";
             string FSDZ = System.Environment.CurrentDirectory + @"\设置文件\风速对照.txt";
-            using (StreamReader sr = new StreamReader(fileNameList[maxXH], Encoding.Default))
+            using (StreamReader sr = new StreamReader(fileNameList[maxXH], Encoding.GetEncoding("GB2312")))
             {
                 int lineCount = 0;
                 int k = 0;
@@ -1455,7 +1454,7 @@ public class ZDSZCL
 
                         if (WeatherLS == WeatherLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1471,7 +1470,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1492,7 +1491,7 @@ public class ZDSZCL
                         }
                         if (FXLS == FXLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1508,7 +1507,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1529,7 +1528,7 @@ public class ZDSZCL
                         }
                         if (FSLS == FSLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1545,7 +1544,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1580,7 +1579,7 @@ public class ZDSZCL
                         float WeatherLS1 = Convert.ToSingle(szLS[19]), FXLS1 = Convert.ToSingle(szLS[20]), FSLS1 = Convert.ToSingle(szLS[21]);
                         if (WeatherLS == WeatherLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1596,7 +1595,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1617,7 +1616,7 @@ public class ZDSZCL
                         }
                         if (FXLS == FXLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1633,7 +1632,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1654,7 +1653,7 @@ public class ZDSZCL
                         }
                         if (FSLS == FSLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1670,7 +1669,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1704,7 +1703,7 @@ public class ZDSZCL
                         float WeatherLS1 = Convert.ToSingle(szLS[19]), FXLS1 = Convert.ToSingle(szLS[20]), FSLS1 = Convert.ToSingle(szLS[21]);
                         if (WeatherLS == WeatherLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1720,7 +1719,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1741,7 +1740,7 @@ public class ZDSZCL
                         }
                         if (FXLS == FXLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1757,7 +1756,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1778,7 +1777,7 @@ public class ZDSZCL
                         }
                         if (FSLS == FSLS1)
                         {
-                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 while ((line1 = sr1.ReadLine()) != null)
@@ -1794,7 +1793,7 @@ public class ZDSZCL
                         }
                         else
                         {
-                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                            using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                             {
                                 string line1 = "";
                                 string LS1 = "", LS2 = "";
@@ -1821,11 +1820,11 @@ public class ZDSZCL
             }
             //该旗县所有乡镇的预报信息已经保存，开始转换为数组
             string[,] zdybSZ = new string[intCount, 14];//每行内容为：旗县名称+区站号+未来三天分别的天气、风向风速、最低气温、最高气温，因此列数为2+4*3
-            using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
             {
                 line = sr.ReadToEnd();
             }
-            using (StreamReader sr = new StreamReader(QXCPNamepath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(QXCPNamepath, Encoding.GetEncoding("GB2312")))
             {
                 string line1 = "";
                 while ((line1 = sr.ReadLine()) != null)
@@ -1883,7 +1882,7 @@ public class ZDSZCL
         try
         {
             string line = "";
-            using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
             {
 
 
@@ -1899,7 +1898,7 @@ public class ZDSZCL
             }
             string DZBPath = System.Environment.CurrentDirectory + @"\设置文件\旗县ID报文缩写对照.txt";
             string sjBWID = "";
-            using (StreamReader sr = new StreamReader(DZBPath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(DZBPath, Encoding.GetEncoding("GB2312")))
             {
                 while ((line = sr.ReadLine()) != null)
                 {
@@ -1918,7 +1917,7 @@ public class ZDSZCL
             string CSBWPathCon = Environment.CurrentDirectory + @"\设置文件\报文保存路径.txt";
 
             string CSBWPath = "", ZDBWPath = "";
-            using (StreamReader sr3 = new StreamReader(CSBWPathCon, Encoding.Default))
+            using (StreamReader sr3 = new StreamReader(CSBWPathCon, Encoding.GetEncoding("GB2312")))
             {
                 while ((line = sr3.ReadLine()) != null)
                 {
@@ -1942,14 +1941,14 @@ public class ZDSZCL
             }
             ZDBWPath += ZDBWName;
             string YBData = "";
-            using (StreamReader sr = new StreamReader(CSBWPath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(CSBWPath, Encoding.GetEncoding("GB2312")))
             {
                 YBData = sr.ReadToEnd();
             }
             YBData = YBData.Replace("BABJ", sjBWID);
             YBData = YBData.Replace("SCMOC", "SPCC");
             FileStream fs = new FileStream(ZDBWPath, FileMode.Create);
-            StreamWriter sw = new StreamWriter(fs, Encoding.Default);
+            StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("GB2312"));
             sw.Write(YBData);
             sw.Flush();
             sw.Close();

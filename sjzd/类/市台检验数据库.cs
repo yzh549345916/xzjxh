@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace sjzd.类
@@ -33,7 +30,7 @@ namespace sjzd.类
                             PassWord = sqlreader.GetString(sqlreader.GetOrdinal("Password")),
                             Admin = sqlreader.GetString(sqlreader.GetOrdinal("admin")),
                         });
-                        
+
                     }
                     catch (Exception ex)
                     {
@@ -44,7 +41,7 @@ namespace sjzd.类
             return yBLists;
         }
 
-        public List<StationList> 获取赛罕智能网格站点列表(Int16 level )
+        public List<StationList> 获取赛罕智能网格站点列表(Int16 level)
         {
             List<StationList> yBLists = new List<StationList>();
             XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
@@ -64,7 +61,7 @@ namespace sjzd.类
                             ID = sqlreader.GetString(sqlreader.GetOrdinal("StatioID")),
                             Name = sqlreader.GetString(sqlreader.GetOrdinal("Name")),
                             GJID = sqlreader.GetString(sqlreader.GetOrdinal("GJStationID")),
-                            
+
                         });
 
                     }
@@ -89,7 +86,7 @@ namespace sjzd.类
             public string GW { get; set; }
             public string PassWord { get; set; }
             public string Admin { get; set; }
-           
+
         }
     }
 }

@@ -16,9 +16,9 @@ namespace 旗县端
         public MainWindow()
         {
             InitializeComponent();
-            Thread t1 = new Thread(checkUpdate);
+            Thread t1 = new Thread(CheckUpdate);
             t1.Start();
-            Thread t2 = new Thread(updateSJ);
+            Thread t2 = new Thread(UpdateSJ);
             t2.Start();
         }
 
@@ -80,7 +80,7 @@ namespace 旗县端
             }
         }
 
-        public void checkUpdate()
+        public void CheckUpdate()
         {
             try
             {
@@ -281,7 +281,7 @@ namespace 旗县端
         /// <summary>
         /// 更新升级文件，仅在需要升级更新程序时候需要
         /// </summary>
-        public void updateSJ()
+        public void UpdateSJ()
         {
             string path = @"\\172.18.142.167\sevp\更新程序升级\";
             DirectoryInfo dir = new DirectoryInfo(Environment.CurrentDirectory);

@@ -79,7 +79,7 @@ namespace sjzd
                     if (fls < 999900)
                     {
 
-                        DateTime dtls = Convert.ToDateTime($"{szls[3].Substring(0,4)}-{szls[3].Substring(4, 2)}-{szls[3].Substring(6, 2)} {szls[3].Substring(8, 2)}:{szls[3].Substring(10, 2)}:{szls[3].Substring(12, 2)}");
+                        DateTime dtls = Convert.ToDateTime($"{szls[3].Substring(0, 4)}-{szls[3].Substring(4, 2)}-{szls[3].Substring(6, 2)} {szls[3].Substring(8, 2)}:{szls[3].Substring(10, 2)}:{szls[3].Substring(12, 2)}");
 
                         if (ySs.Exists(y => y.DateTime == dtls.ToLocalTime() && y.StationID == szls[1]))
                             break;
@@ -87,8 +87,8 @@ namespace sjzd
                         {
                             StationID = szls[2],
                             DateTime = dtls.ToLocalTime(),
-                            TEM = Math.Round(fls - 273.15,2),
-                          
+                            TEM = Math.Round(fls - 273.15, 2),
+
                         });
                     }
                 }
@@ -103,7 +103,7 @@ namespace sjzd
         public DateTime 获取EC2米温度最新时间()
         {
             DateTime latestDate = DateTime.MinValue;
-            string myData = CIMISS_EC文件( "TEF0");
+            string myData = CIMISS_EC文件("TEF0");
             if (myData.Trim().Length == 0)
                 return DateTime.MinValue;
             string[] szData = myData.Split(new[]
@@ -160,7 +160,7 @@ namespace sjzd
                             StationID = szls[1],
                             DateTime = dtls.ToLocalTime(),
                             Pre = fls,
-                           
+
                         });
                     }
                 }
@@ -326,7 +326,7 @@ namespace sjzd
                 // 必选参数
                 paramsqx.Add("dataCode", "NAFP_FOR_FTM_HIGH_EC_GLB"); // 资料代码
                 //检索时间段
-                paramsqx.Add("time",  sDate.ToUniversalTime().ToString("yyyyMMddHHmm00"));
+                paramsqx.Add("time", sDate.ToUniversalTime().ToString("yyyyMMddHHmm00"));
                 paramsqx.Add("fcstEle", elements);
                 paramsqx.Add("staIds", ID);
                 paramsqx.Add("fcstLevel", "0");
@@ -449,14 +449,14 @@ namespace sjzd
             public string StationID { get; set; }
             public DateTime DateTime { get; set; }
             public float Pre { get; set; }
-         
+
         }
         public class ECTEF0
         {
             public string StationID { get; set; }
             public DateTime DateTime { get; set; }
             public double TEM { get; set; }
-          
+
         }
 
         public class FYS

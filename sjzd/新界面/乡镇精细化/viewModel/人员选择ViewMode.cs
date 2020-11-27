@@ -21,7 +21,7 @@ namespace sjzd.新界面.乡镇精细化.viewModel
                     int intCount = 0;
                     try
                     {
-                        using (StreamReader sr = new StreamReader(PeopleConfig, Encoding.Default))
+                        using (StreamReader sr = new StreamReader(PeopleConfig, Encoding.GetEncoding("GB2312")))
                         {
                             string line = "";
                             while ((line = sr.ReadLine()) != null)

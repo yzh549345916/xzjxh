@@ -81,7 +81,7 @@ namespace sjzd
                 {
                     Height = 850,
                     Width = 1550,
-                    Stretch=System.Windows.Media.Stretch.Uniform
+                    Stretch = System.Windows.Media.Stretch.Uniform
                 };
                 switch (radTabItem.Header)
                 {
@@ -97,7 +97,11 @@ namespace sjzd
                         viewbox.Child = new EC温度08表格();
                         radTabItem.Content = viewbox;
                         break;
-                    
+                    case "区台新方法温度查询":
+                        viewbox.Child = new 区台新方法表格();
+                        radTabItem.Content = viewbox;
+                        break;
+
                     default:
                         return;
                 }
@@ -105,7 +109,7 @@ namespace sjzd
                 myTabWindow.Items.Add(radTabItem);
                 myTabWindow.SelectedIndex = myTabWindow.Items.Count - 1;
             }
-            catch(Exception ex)
+            catch (Exception)
             {
 
             }
@@ -113,14 +117,41 @@ namespace sjzd
 
         }
 
-        private void EC表格08_Click(object sender, RadRoutedEventArgs e)
-        {
 
+
+        private void 呼和浩特_Click(object sender, RadRoutedEventArgs e)
+        {
+            try
+            {
+                RadRadialMenuItem myItem = sender as RadRadialMenuItem;
+                TabWindow查询统计 myTabWindow = this.TargetElement as TabWindow查询统计;
+                RadialMenuCommands.Hide.Execute(null, myTabWindow);
+                RadTabItem radTabItem = new RadTabItem();
+                radTabItem.PinButtonVisibility = Visibility.Visible;
+                radTabItem.Header = myItem.ToolTipContent;
+                //radTabItem.ToolTip= myItem.ToolTipContent;
+                Viewbox viewbox = new Viewbox()
+                {
+                    Height = 850,
+                    MinWidth = 1550,
+                    Stretch = System.Windows.Media.Stretch.Uniform
+                };
+                viewbox.Child = new 数值预报呼和浩特表格();
+                radTabItem.Content = viewbox;
+                myTabWindow.Items.Add(radTabItem);
+                myTabWindow.SelectedIndex = myTabWindow.Items.Count - 1;
+            }
+            catch (Exception ex)
+            {
+                RadWindow.Alert(new DialogParameters
+                {
+                    Content = ex.Message,
+                    Header = "警告"
+                }); ;
+
+            }
         }
 
-        private void EC表格20_Click(object sender, RadRoutedEventArgs e)
-        {
 
-        }
     }
 }

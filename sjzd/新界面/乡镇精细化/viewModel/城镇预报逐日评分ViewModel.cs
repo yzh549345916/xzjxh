@@ -44,7 +44,7 @@ namespace sjzd.新界面.乡镇精细化.viewModel
         public 城镇预报逐日评分ViewModel(string myname, string mystationID, float mysTGW, float mysTDW, float mysKGW, float mysKDW, float myzDGW,
             float myzDDW, string myqXTQ, string myqXQY, string mysKJS, string mysJTQ, string mysJQY)
         {
-            
+
         }
 
         public string QXName

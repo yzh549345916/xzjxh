@@ -1,11 +1,8 @@
-﻿using Aspose.Cells;
-using sjzd.新界面.乡镇精细化.viewModel;
+﻿using sjzd.新界面.乡镇精细化.viewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -59,8 +56,8 @@ namespace sjzd
                 BTLabel.Content = $"{Convert.ToDateTime(sDate.SelectedDate):yyyy-MM-dd}{gwchoose.Text}{scchoose.Text}时{SXSelect.Text}小时城镇预报逐日评分详情";
                 评分列表.Clear();
                 城镇预报统计类 tj = new 城镇预报统计类();
-                ObservableCollection<城镇预报逐日评分ViewModel> listls =tj.zrpftj(scchoose.Text, Convert.ToDateTime(sDate.SelectedDate), gwchoose.Text, SXSelect.Text);
-                foreach(城镇预报逐日评分ViewModel item in listls)
+                ObservableCollection<城镇预报逐日评分ViewModel> listls = tj.zrpftj(scchoose.Text, Convert.ToDateTime(sDate.SelectedDate), gwchoose.Text, SXSelect.Text);
+                foreach (城镇预报逐日评分ViewModel item in listls)
                 {
                     评分列表.Add(item);
                 }
@@ -86,10 +83,9 @@ namespace sjzd
         {
             try
             {
-                int gwchooseCount = 0;
                 Dictionary<int, string> mydic = new Dictionary<int, string>();
                 using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + @"\设置文件\城镇预报\GWList.txt",
-                    Encoding.Default))
+                    Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
 
@@ -114,14 +110,17 @@ namespace sjzd
                 }
                 gwchoose.SelectedValue = 0;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //MessageBox.Show(ex.Message);
             }
         }
         private void OnConfirmClosed_打开产品(object sender, WindowClosedEventArgs e)
         {
-            if (e.DialogResult == true) Process.Start(xlsPath);
+            if (e.DialogResult == true)
+            {
+                静态类.OpenBrowser(xlsPath);
+            }
         }
 
         private void DCButton_Click(object sender, RoutedEventArgs e)

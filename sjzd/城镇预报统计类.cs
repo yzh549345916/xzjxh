@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sjzd.新界面.乡镇精细化.viewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
@@ -8,8 +9,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
-using IceInternal;
-using sjzd.新界面.乡镇精细化.viewModel;
 
 namespace sjzd
 {
@@ -23,7 +22,7 @@ namespace sjzd
             try
             {
 
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line;
 
@@ -38,12 +37,12 @@ namespace sjzd
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+
             }
         }
-        
+
         public ObservableCollection<城镇预报逐日评分ViewModel> zrpftj(string sc, DateTime dateTime, string gw, string sx)
         {
             ObservableCollection<城镇预报逐日评分ViewModel> zrpf = new ObservableCollection<城镇预报逐日评分ViewModel>();
@@ -67,7 +66,7 @@ namespace sjzd
                     mycon.Close();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }
@@ -207,13 +206,13 @@ namespace sjzd
                                         }
                                     }
                                     floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain" + sx)));
-                                    if ((Int32)floasj == 0)
+                                    if (floasj < 0.1 && floasj > -1)
                                         stqy = "×";
-                                    else if ((Int32)floasj == 1)
+                                    else if (Math.Abs(floasj - 1) < 0.1)
                                         stqy = "√";
-                                    else if ((Int32)floasj == 999999)
+                                    else if (Math.Abs(floasj - 999999) < 0.1)
                                         stqy = "缺测";
-                                    else if ((Int32)floasj == -999999)
+                                    else if (floasj < -999998)
                                         stqy = "缺报";
                                     else
                                     {
@@ -221,13 +220,13 @@ namespace sjzd
                                     }
 
                                     floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain" + sx)));
-                                    if ((Int32)floasj == 0)
+                                    if (floasj < 0.1&& floasj>-1)
                                         zdqy = "×";
-                                    else if ((Int32)floasj == 1)
+                                    else if (Math.Abs(floasj - 1) < 0.1)
                                         zdqy = "√";
-                                    else if ((Int32)floasj == 999999)
+                                    else if (Math.Abs(floasj - 999999) < 0.1)
                                         zdqy = "缺测";
-                                    else if ((Int32)floasj == -999999)
+                                    else if (floasj < -999998)
                                         zdqy = "缺报";
                                     else
                                     {
@@ -238,13 +237,13 @@ namespace sjzd
                                     {
                                         int intSX = Convert.ToInt32(sx);
                                         floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal($"SJ_Rain{(intSX - 24).ToString().PadLeft(2, '0')}{(intSX - 12).ToString().PadLeft(2, '0')}")));
-                                        if ((Int32)floasj == 0)
+                                        if (floasj < 0.1 && floasj > -1)
                                             stqy12 = "×";
-                                        else if ((Int32)floasj == 1)
+                                        else if (Math.Abs(floasj - 1) < 0.1)
                                             stqy12 = "√";
-                                        else if ((Int32)floasj == 999999)
+                                        else if (Math.Abs(floasj - 999999) < 0.1)
                                             stqy12 = "缺测";
-                                        else if ((Int32)floasj == -999999)
+                                        else if (floasj < -999998)
                                             stqy12 = "缺报";
                                         else
                                         {
@@ -252,20 +251,20 @@ namespace sjzd
                                         }
 
                                         floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal($"ZY_Rain{(intSX - 24).ToString().PadLeft(2, '0')}{(intSX - 12).ToString().PadLeft(2, '0')}")));
-                                        if ((Int32)floasj == 0)
+                                        if (floasj < 0.1 && floasj > -1)
                                             zdqy12 = "×";
-                                        else if ((Int32)floasj == 1)
+                                        else if (Math.Abs(floasj - 1) < 0.1)
                                             zdqy12 = "√";
-                                        else if ((Int32)floasj == 999999)
+                                        else if (Math.Abs(floasj - 999999) < 0.1)
                                             zdqy12 = "缺测";
-                                        else if ((Int32)floasj == -999999)
+                                        else if (floasj < -999998)
                                             zdqy12 = "缺报";
                                         else
                                         {
                                             zdqy12 = floasj.ToString();
                                         }
                                     }
-                                    catch(Exception e)
+                                    catch (Exception)
                                     {
                                     }
 
@@ -275,13 +274,13 @@ namespace sjzd
                                     {
                                         int intSX = Convert.ToInt32(sx);
                                         floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal($"SJ_Rain{(intSX - 12).ToString().PadLeft(2, '0')}{sx}")));
-                                        if ((Int32)floasj == 0)
+                                        if (floasj < 0.1 && floasj > -1)
                                             stqy24 = "×";
-                                        else if ((Int32)floasj == 1)
+                                        else if (Math.Abs(floasj - 1) < 0.1)
                                             stqy24 = "√";
-                                        else if ((Int32)floasj == 999999)
+                                        else if (Math.Abs(floasj - 999999) < 0.1)
                                             stqy24 = "缺测";
-                                        else if ((Int32)floasj == -999999)
+                                        else if (floasj < -999998)
                                             stqy24 = "缺报";
                                         else
                                         {
@@ -289,20 +288,20 @@ namespace sjzd
                                         }
 
                                         floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal($"ZY_Rain{(intSX - 12).ToString().PadLeft(2, '0')}{sx}")));
-                                        if ((Int32)floasj == 0)
+                                        if (floasj < 0.1 && floasj > -1)
                                             zdqy24 = "×";
-                                        else if ((Int32)floasj == 1)
+                                        else if (Math.Abs(floasj - 1) < 0.1)
                                             zdqy24 = "√";
-                                        else if ((Int32)floasj == 999999)
+                                        else if (Math.Abs(floasj - 999999) < 0.1)
                                             zdqy24 = "缺测";
-                                        else if ((Int32)floasj == -999999)
+                                        else if (floasj < -999998)
                                             zdqy24 = "缺报";
                                         else
                                         {
                                             zdqy24 = floasj.ToString();
                                         }
                                     }
-                                    catch (Exception e)
+                                    catch (Exception)
                                     {
                                     }
 
@@ -366,7 +365,7 @@ namespace sjzd
                                                     {
                                                     }
 
-                                                  
+
                                                 }
                                             }
                                         }
@@ -416,7 +415,7 @@ namespace sjzd
                                         STDW = stdw,
                                         ZDDW = zddw,
                                         ZDGW = zdgw,
-                                       
+
                                         GW1 = gw1,
                                         GW2 = gw2,
                                         GW3 = gw3,
@@ -438,16 +437,16 @@ namespace sjzd
                                         ZDQY24 = zdqy24,
                                         ZDTQ24 = zdtq24,
                                         SKJS24 = skjs24.ToString(),
-                                        STQY12=stqy12,
-                                        STQY24=stqy24
+                                        STQY12 = stqy12,
+                                        STQY24 = stqy24
                                     });
                                 }
                             }
                         }
                     }
-                    catch 
+                    catch
                     {
-                        
+
                     }
                 }
             }
@@ -504,7 +503,7 @@ namespace sjzd
                     }
                     mycon.Close();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
 
                 }
@@ -556,7 +555,7 @@ namespace sjzd
                                     tmax72 = 999999,
                                     tmin72 = 999999,
                                     qy72 = 999999,
-                                    rain240012= 999999,
+                                    rain240012 = 999999,
                                      rain241224 = 999999,
                                     rain480012 = 999999,
                                      rain481224 = 999999,
@@ -588,7 +587,7 @@ namespace sjzd
                                     qy96 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain96"));
                                     tmax120 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax120"));
                                     tmin120 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin120"));
-                                    qy120= sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain120"));
+                                    qy120 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain120"));
                                     rain240012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain0012"));
                                     rain241224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain1224"));
                                     rain480012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain2436"));
@@ -600,7 +599,7 @@ namespace sjzd
                                     rain1200012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain96108"));
                                     rain1201224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain108120"));
                                 }
-                                catch (Exception e)
+                                catch (Exception)
                                 {
 
                                 }
@@ -608,7 +607,7 @@ namespace sjzd
                                 {
                                     QX24TmaxZQL = tmax24,
                                     QX24TminZQL = tmin24,
-                                    QX24QYZQL = Math.Abs(rain240012)+ Math.Abs(rain241224),
+                                    QX24QYZQL = Math.Abs(rain240012) + Math.Abs(rain241224),
                                     QX48TmaxZQL = tmax48,
                                     QX48TminZQL = tmin48,
                                     QX48QYZQL = Math.Abs(rain480012) + Math.Abs(rain481224),
@@ -623,7 +622,7 @@ namespace sjzd
                                     QX120QYZQL = Math.Abs(rain1200012) + Math.Abs(rain1201224),
                                 });
                             }
-                            catch (Exception e)
+                            catch (Exception)
                             { }
                         }
                     }
@@ -656,8 +655,8 @@ namespace sjzd
                     }
                     if (s1[i].QX24QYZQL < 999998 && s1[i].QX24QYZQL > -999999)
                     {
-                        zs[2]= zs[2]+2;
-                        
+                        zs[2] = zs[2] + 2;
+
                         tjsz[2] += s1[i].QX24QYZQL;
                     }
 
@@ -762,7 +761,7 @@ namespace sjzd
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show(e.Message);
             }
@@ -810,7 +809,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -820,7 +819,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -931,7 +930,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -941,7 +940,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1085,7 +1084,7 @@ namespace sjzd
                                         rain1200012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain96108"));
                                         rain1201224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain108120"));
                                     }
-                                    catch (Exception e)
+                                    catch (Exception)
                                     {
                                         break;
                                     }
@@ -1113,7 +1112,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1123,7 +1122,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1154,7 +1153,7 @@ namespace sjzd
                 }
                 if (s1[i].SJ24QYZQL < 999998 && s1[i].SJ24QYZQL > -999999)
                 {
-                    zs[2]+=2;
+                    zs[2] += 2;
                     tjsz[2] += s1[i].SJ24QYZQL;
                 }
 
@@ -1176,7 +1175,7 @@ namespace sjzd
                 }
                 if (s1[i].SJ48QYZQL < 999998 && s1[i].SJ48QYZQL > -999999)
                 {
-                    zs[5]+= 2;
+                    zs[5] += 2;
                     tjsz[5] += s1[i].SJ48QYZQL;
                 }
                 if (s1[i].SJ72TmaxZQL < 999998 && s1[i].SJ72TmaxZQL > -999999)
@@ -1302,7 +1301,7 @@ namespace sjzd
                                     tmin72 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin72"));
                                     qy72 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain72"));
                                 }
-                                catch (Exception e)
+                                catch (Exception)
                                 {
 
                                 }
@@ -1319,7 +1318,7 @@ namespace sjzd
                                     QX72QYZQL = qy72,
                                 });
                             }
-                            catch (Exception e)
+                            catch (Exception)
                             { }
                         }
                     }
@@ -1414,7 +1413,7 @@ namespace sjzd
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show(e.Message);
             }
@@ -1458,7 +1457,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1468,7 +1467,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1556,7 +1555,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1566,7 +1565,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1658,7 +1657,7 @@ namespace sjzd
                                         tmin72 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin72"));
                                         qy72 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain72"));
                                     }
-                                    catch (Exception e)
+                                    catch (Exception)
                                     {
 
                                     }
@@ -1680,7 +1679,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1690,7 +1689,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1818,7 +1817,7 @@ namespace sjzd
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -1869,7 +1868,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -1922,11 +1921,11 @@ namespace sjzd
     {
         public override Style SelectStyle(object item, DependencyObject container)
         {
-           // object conditionValue = this.ConditionConverter.Convert(item, null, null, null);
+            // object conditionValue = this.ConditionConverter.Convert(item, null, null, null);
             if (item is 城镇预报逐日评分ViewModel)
             {
                 城镇预报逐日评分ViewModel club = item as 城镇预报逐日评分ViewModel;
-                
+
                 if (club.ZDQY12 == "√")
                 {
                     return RightStadiumStyle;

@@ -1,0 +1,477 @@
+﻿
+
+
+
+
+<!DOCTYPE html>
+<html lang="en-us" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+<head>
+    <meta content="en-us" http-equiv="Content-Language" />
+    <meta content="text/html; charset=utf-16" http-equiv="Content-Type" />
+    <title _locid="PortabilityAnalysis0">.NET Portability Report</title>
+    
+
+<style>
+    /* Body style, for the entire document */
+    body {
+        background: #F3F3F4;
+        color: #1E1E1F;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Header1 style, used for the main title */
+    h1 {
+        padding: 10px 0px 10px 10px;
+        font-size: 21pt;
+        background-color: #E2E2E2;
+        border-bottom: 1px #C1C1C2 solid;
+        color: #201F20;
+        margin: 0;
+        font-weight: normal;
+    }
+
+    /* Header2 style, used for "Overview" and other sections */
+    h2 {
+        font-size: 18pt;
+        font-weight: normal;
+        padding: 15px 0 5px 0;
+        margin: 0;
+    }
+
+    /* Header3 style, used for sub-sections, such as project name */
+    h3 {
+        font-weight: normal;
+        font-size: 15pt;
+        margin: 0;
+        padding: 15px 0 5px 0;
+        background-color: transparent;
+    }
+
+    h4 {
+        font-weight: normal;
+        font-size: 13pt;
+        margin: 0;
+        padding: 0 0 0 0;
+        background-color: transparent;
+    }
+
+    /* Paragraph text (for longer informational messages) */
+    p {
+        font-size: 10pt;
+    }
+
+    /* Make sure abbreviations are decorated on all browsers */
+    abbr {
+        text-decoration: none;
+        border-bottom: 1px dotted;
+    }
+
+    /* Table styles */
+    table {
+        border-spacing: 0 0;
+        border-collapse: collapse;
+        font-size: 10pt;
+    }
+
+    tbody {
+        border-bottom: 5px solid #E7E7E8;
+    }
+
+    th {
+        background: #E7E7E8;
+        border: 1px solid #E7E7E8;
+        text-decoration: none;
+        font-weight: normal;
+        vertical-align: bottom;
+        padding: 3px 6px 3px 6px;
+    }
+
+    td {
+        vertical-align: top;
+        padding: 3px 6px 5px 5px;
+        margin: 0px;
+        border: 1px solid #E7E7E8;
+        background: #F7F7F8;
+    }
+
+    .CompatIssuesHeader {
+        display: inline-block;
+        margin-right: 6px;
+    }
+
+    .breakDetails {
+        min-width: 300px;
+    }
+
+    .BreakingChangeTable {
+        margin-left: 30px;
+    }
+
+    .NoBreakingChanges {
+        -moz-box-shadow: inset 0px 0px 0px 2px green;
+        -webkit-box-shadow: inset 0px 0px 0px 2px green;
+        box-shadow: inset 0px 0px 0px 2px green;
+        font-weight: bold;
+    }
+
+    .FewBreakingChanges {
+        -moz-box-shadow: inset 0px 0px 0px 2px orange;
+        -webkit-box-shadow: inset 0px 0px 0px 2px orange;
+        box-shadow: inset 0px 0px 0px 2px orange;
+        font-weight: bold;
+    }
+
+    .ManyBreakingChanges {
+        -moz-box-shadow: inset 0px 0px 0px 2px #dd0000;
+        -webkit-box-shadow: inset 0px 0px 0px 2px #dd0000;
+        box-shadow: inset 0px 0px 0px 2px #dd0000;
+        font-weight: bold;
+    }
+
+    .CompatMessage {
+        font-style: italic;
+        font-size: 10pt;
+    }
+
+    .GoodMessage {
+        color: darkgreen;
+    }
+
+    .ToggleButton {
+        font-size: 16px;
+        font-family: monospace;
+        padding: 0px 3px;
+        color: #ffffff;
+        border-radius: 4px;
+        border: 1px solid #657298;
+        background-color: #657298;
+        display: inline-block;
+    }
+
+    .ToggleButton:hover {
+        background-color: #7892c2;
+    }
+
+    .ToggledOff {
+        display: none;
+    }
+
+    .MemberNames ul {
+        list-style-type: none;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .MemberNames li {
+        padding-bottom: 4px;
+    }
+
+    /* Center text, used in the over views cells that contain message level counts */
+    .textCentered {
+        text-align: center;
+    }
+
+    /* invisible text for use in screen reader labels */
+    span.invisibleText {
+        height: 1px;
+        width: 1px;
+        position: absolute;
+        overflow: hidden;
+        top: -10px;
+    }
+
+    /*
+        Applied to the svg containing each support icon, so that element matches the icon's dimensions.
+        Breaks IE/Edge rendering when applied to the image elements as well.
+     */
+    .support-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Padding around the content after the h1 */
+    #content {
+        padding: 0px 12px 12px 12px;
+    }
+
+    .tocItem {
+        font-size: 14pt;
+    }
+
+    .compat-subheader {
+        font-weight: 700;
+        font-style: italic;
+    }
+</style>
+</head>
+<body>
+    <h1 _locid="PortabilityReport">.NET Portability Report</h1>
+    <div id="content">
+        <div id="submissionHeader" style="font-size:8pt;">
+            <p>
+                <i>
+                    Submission Id&nbsp;
+                    198c009c-4b64-40a0-a24f-045de32c58ac
+                    <br />
+                    API Catalog last updated on&nbsp;
+                    Tuesday, June 30, 2020
+
+                </i>
+            </p>
+
+            <div id="toc">
+                <h2>Contents</h2>
+                <ul>
+                        <li>
+                            <span class="tocItem"><a href="#Framework Compatibility">Framework Compatibility</a></span>
+                        </li>
+                                            <li>
+                            <span class="tocItem"><a href="#Portability Summary">Portability Summary</a></span>
+                        </li>
+                </ul>
+            </div>
+        </div>
+
+            <div id="breakingChangesReport">
+                
+
+
+
+
+<h2 id="Framework Compatibility" tabindex="0">Framework Compatibility</h2>
+<div id="summary-compat-byassembly">
+    <table>
+        <caption class="compat-subheader">Per Assembly Overview:</caption>
+        <tbody>
+            <tr>
+                <th rowspan="2">Assembly</th>
+                <th colspan="3" class="textCentered"><abbr title="Runtime compatibility issues are those that will occur simply by running code on a new .NET Framework version. These are the variety of breaking changes most likely to impact applications since they cannot be quirked away and do not depend on an application being recompiled.">Runtime Issues</abbr></th>
+                <th colspan="3" class="textCentered"><abbr title="Retargeting compatibility issues are breaking changes that only manifest when code is targeted to run on a newer .NET Framework version. These issues are less impactful than runtime compatibility issues because they can typically be worked around easily, either by using a TargetFrameworkAttribute on the assembly, using a TargetFrameworkVersion in the project file, or using older tools at build-time, depending on the particular issue. See issue details below for more information on how these breaking changes can be avoided.">Retargeting Issues</abbr></th>
+            </tr>
+            <tr>
+                <th><abbr title="Major issues are those that are likely to impact most customers using the given feature or API.">Major</abbr></th>
+                <th><abbr title="Minor issues are those that will only impact customers using the given feature in a particular way. See issue details for more information.">Minor</abbr></th>
+                <th><abbr title="Edge issues are those that will only impact a small minority of customers that use the given API in very specific ways. See issue details for more information.">Edge</abbr></th>
+                <th><abbr title="Major issues are those that are likely to impact most customers using the given feature or API.">Major</abbr></th>
+                <th><abbr title="Minor issues are those that will only impact customers using the given feature in a particular way. See issue details for more information.">Minor</abbr></th>
+                <th><abbr title="Edge issues are those that will only impact a small minority of customers that use the given API in very specific ways. See issue details for more information.">Edge</abbr></th>
+            </tr>
+
+                    <tr>
+                        <td>
+                            <strong>
+                                <a href="#Framework Compatibility">
+                                    <span class="assembly-name">sjzd</span>
+                                        <span class="assembly-tfm">(.NETFramework,Version=v4.5)</span>
+                                </a>
+                            </strong>
+                        </td>
+                        <td class="textCentered NoBreakingChanges">0</td>
+                        <td class="textCentered NoBreakingChanges">0</td>
+                        <td class="textCentered NoBreakingChanges">0</td>
+                        <td class="textCentered NoBreakingChanges">0</td>
+                        <td class="textCentered NoBreakingChanges">0</td>
+                        <td class="textCentered NoBreakingChanges">0</td>
+                    </tr>
+        </tbody>
+    </table>
+    <p>Note that simply using a potentially broken API does not mean the app will necessarily suffer from the indicated breaking change. Many breaking changes are scoped to narrow corner-cases, and apps are only affected if they use the API in a very particular way. Breaking changes below have been grouped by scope (major, minor, or edge) depending on how likely the changes are to actually break user code in cases where the given API is used. Please read the &#x27;details&#x27; column to understand the particular circumstances in which each of the listed APIs may fail.</p>
+</div>
+<div id="summary-compat-bybreakingchange">
+    <h3 class="compat-subheader">Submission Overview:</h3>
+
+    
+
+
+
+
+
+</div>
+<div id="CompatDetails">
+
+
+
+
+
+</div>
+
+            </div>
+
+            <div id="portabilityReport">
+                
+
+
+
+
+<svg visibility="hidden" width="0" height="0">
+    <image id="icon-supported" width="18px" height="18px" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABPElEQVR4Xp1Tv0vDUBi8FqeA4NpBcBLcWnQSApncOnTo4FSnjP0DsnXpH5CxiwbHDg4Zuj4oOEXiJgiC4FDcCkLWmIMc1Pfw+eMgQ77v3Xf3Pe51YKGqqisAEwCR1TIAsiAIblSo6xrdHeJR85Xle3mdmCQKb0PsfqyxxzM8K15HZADl/H5+sHpZwYfxyRjTs+kWwKBx8yoHd2mRiuzF8mkJniWH/13u3Fjrs/EdhsdDFHGB/DLXEJBDLh1MWPAhPo1BLB4WX5yQywHR+m3tVe/t97D52CB/ziG0nIgD/qDuYg8WuCcVZ2YGwlJ3YDugkpR/VNcAEx6GEKhERSr71FuO4YCM4XBdwKvecjIlkSnsO0Hyp/GxSeJAdzBKzpOtnPwyyiPdAZhpZptT04tU+zk7s8czeges//s5C5+CwqrR4/gw+AAAAABJRU5ErkJggg=="></image>
+    <image id="icon-unsupported" width="18px" height="18px" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABQElEQVR4XqWTvUoEQRCE6wYPZUA80AfwAQz23uCMjA7MDRQEIzPBVEyNTQUFIw00vcQTTMzuAh/AxEQQT8HF/3G/oGGnEUGuoNnd6qoZuqltyKEsyzVJq5I6rnUp6SjGeGhESikzzlc1eL7opfuVbrqbU1Zw9NCgtQMaZpY0eNnaaL2fHusvTK5vKu7sjSS1Y4y3QUA6K3e3Mau5UFDyMP7tYF9o8cAHZv68vipoIJg971PZIZ5HiwdvYGGvFVFHmGmZ2MxwmQYPXubPl9Up0tfoMQGetXd6mRbvhBw+boZ6WF7Mbv1+GsHRk0fQmPAH1GfmZirbCfDJ61tw3Px8/8pZsPAG4jlVhcPgZ7adwNWBB68lkRQWFiTgFlbnLY3DGGM7izIJIyT/jjIvEJw6fdJTc6krDzh6aMwMP9bvDH4ADSsa9uSWVJkAAAAASUVORK5CYII="></image>
+</svg>
+
+<table id="Portability Summary">
+    <caption>Portability Summary</caption>
+    <tbody>
+        <tr>
+            <th>Assembly</th>
+                <th>.NET Core &#x2B; Platform Extensions,Version=v3.1</th>
+        </tr>
+
+            <tr>
+                <td>
+                    <strong>
+                        <a href="#sjzd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                            <span class="assembly-name">sjzd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</span>
+                                <span class="assembly-tfm">(.NETFramework,Version=v4.5)</span>
+                        </a>
+                    </strong>
+                </td>
+                    <td class="text-center">100.00 %</td>
+            </tr>
+            </tbody>
+</table>
+<div id="details">
+    <h3>Hide rows:</h3>
+    <input type="checkbox" id="row_visibility_checkbox" onchange="ToggleRowVisibility(this)">
+    <label for="row_visibility_checkbox">Hide rows that don&#x27;t have problems</label>
+        <h3>Hide columns:</h3>
+        <form>
+                <input type="checkbox" id="checkbox1" onchange='onToggleColumnVisibility(this)'>
+                <label for="checkbox1">.NET Core &#x2B; Platform Extensions,Version=v3.1</label>
+                <input type="checkbox" id="checkbox2" onchange='onToggleColumnVisibility(this)'>
+                <label for="checkbox2">Recommended changes</label>
+        </form>
+
+</div>
+
+
+            </div>
+    </div>
+
+    
+
+
+<script>
+    function ToggleDivVisibility(caller) {
+        // extract the generated id (the guid following hide-/show-)
+        var targetId = this.id.substr(5);
+
+        // hide/show the div with that id
+        var targetDiv = document.getElementById(targetId);
+        var currentClass = targetDiv.getAttribute('class');
+        if (this.id.slice(0, 4) === 'show') { // String.prototype.startsWith unavailable in IE
+            // remove the ToggledOff class
+            var newClass = currentClass.replace(/\bToggledOff\b/, '').trim();
+            var buttonToFocus = document.getElementById('hide-' + targetId);
+        }
+        else {
+            // add the ToggledOff class
+            var newClass = currentClass === null
+                ? 'ToggledOff'
+                : currentClass.concat(' ToggledOff').trim();
+            var buttonToFocus = document.getElementById('show-' + targetId);
+        }
+        targetDiv.setAttribute('class', newClass);
+
+        // hide the clicked button
+        this.style.display = 'none';
+
+        // show, focus the other button
+        // (screen readers will read the newly-focused element)
+        buttonToFocus.style.display = 'inline-block';
+        buttonToFocus.focus();
+    }
+
+    // Hook up toggle buttons' click events
+    var toggleButtons = document.getElementsByClassName('ToggleButton');
+    for (var i = 0; i < toggleButtons.length; i++) {
+        toggleButtons[i].addEventListener('click', ToggleDivVisibility);
+    }
+
+    // Turn off any elements that should begin collapsed. Note that this is done with the extra
+    // BeginToggledOff class instead of applying ToggledOff directly to these elements because they should be
+    // visible if javascript is unavailable for some reason.
+    var beginCollapsed = document.getElementsByClassName('BeginToggledOff');
+    for (var i = 0; i < beginCollapsed.length; i++) {
+        var currentClass = beginCollapsed[i].getAttribute('class');
+        beginCollapsed[i].setAttribute('class', currentClass.concat(' ToggledOff').trim());
+    }
+
+    // Toggle the visibility of a column in the portability report detail
+    // table (id='table_portability_details')
+    function ToggleColumnVisibility(columnNumber, visible) {
+        var style = visible ? '' : 'none';
+
+        var tables = document.getElementsByClassName('table_portability_details');
+        for (var table = 0; table < tables.length; table++) {
+            var rows = tables[table].getElementsByTagName('tr');
+
+            var headers = rows[0].getElementsByTagName('th');
+            headers[columnNumber].style.display = style;
+
+            for (var row = 1; row < rows.length; row++) {
+                var cells = rows[row].getElementsByTagName('td')
+                cells[columnNumber].style.display = style;
+            }
+        }
+    }
+
+    // Event handler for checkboxes to hide columns in the portability report detail table.
+    function onToggleColumnVisibility(element) {
+        var columnId = parseInt(element.id.substr(-1));
+        var visible = !element.checked;
+        ToggleColumnVisibility(columnId, visible);
+        // Refresh the rows because showing columns could make error cells visible.
+        ToggleRowVisibility(document.getElementById('row_visibility_checkbox'));
+    }
+
+    function ToggleRowVisibility(element){
+        var style = element.checked ? 'none' : '';
+
+        var tables = document.getElementsByClassName('table_portability_details');
+        for (var table = 0; table < tables.length; table++) {
+            var rows = tables[table].getElementsByTagName('tr');
+            if (style === '') { // show all rows
+                for (var row = 0; row < rows.length; row++)
+                    if (rows[row].style.display === 'none') rows[row].style.display = style; // show previously hidden rows
+            } else {
+                var row = 1;
+                while (row < rows.length) { // work on one Target type at a time.
+                    var typeRow = rows[row];
+                    var typeOrChildVisible = false;
+                    var j = row;
+                    var cells = rows[j].getElementsByTagName('td');
+                    while (cells[0].innerHTML !== '&nbsp;') { // Types are separated by blank rows.
+                        var allCellsSuccess = true;
+                        // No need to check the first column (Target type) and the last column (Recommended changes)
+                        for (var cel = 1; cel < cells.length - 1; cel++) {
+                            var cell = cells[cel];
+                            // Keep rows that have visible errors
+                            if (cell.classList.contains('IconErrorEncoded') && cell.style.display !== 'none') {
+                                allCellsSuccess = false;
+                                typeOrChildVisible = true;
+                                break;
+                            }
+                        }
+                        // Hide all success row
+                        if (allCellsSuccess) rows[j].style.display = style;
+                        else rows[j].style.display = '';
+                        j += 1;
+                        cells = rows[j].getElementsByTagName('td');
+                    }
+                    if (typeOrChildVisible) {
+                        typeRow.style.display = ''; // make sure they are visible
+                        rows[j].style.display = '';
+                    } else {
+                        typeRow.style.display = style; // hide the type row
+                        rows[j].style.display = style;  // hide the blank separator row
+                    }
+                    row = j + 1;
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using sjzd.类;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Windows;
-using sjzd.类;
 using Telerik.Windows.Controls;
 
 namespace sjzd
@@ -55,7 +53,7 @@ namespace sjzd
                     LXCom.SelectedIndex = 0;
                     XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\新界面设置.xml");
                     string lxStr = util.Read("CPcfig", "FLYB", "LX");
-                    foreach(RadComboBoxItem item in LXCom.Items)
+                    foreach (RadComboBoxItem item in LXCom.Items)
                     {
                         if (item.Content.ToString() == lxStr)
                             LXCom.SelectedItem = item;
@@ -67,7 +65,7 @@ namespace sjzd
                     MessageBox.Show(ex.Message);
                 }
             }
-            catch(Exception e)
+            catch (Exception)
             {
             }
         }
@@ -93,7 +91,7 @@ namespace sjzd
         {
             var radComboBox = (RadComboBox)sender;
             XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\新界面设置.xml");
-            util.Write(radComboBox.Text,"CPcfig", "FLYB", "LX");
+            util.Write(radComboBox.Text, "CPcfig", "FLYB", "LX");
         }
     }
 }

@@ -1,19 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{22EC6657-2591-45EF-8738-24BED0AB299E}</ProjectGuid>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>sjzd</RootNamespace>
-    <AssemblyName>sjzd</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,756 +17,173 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\Release\</OutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ico\tb.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.Cells, Version=8.9.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Aspose.Cells for.net18.10破解版\4.0\Aspose.Cells.dll</HintPath>
+    <Reference Include="Aspose.Cells">
+      <HintPath>..\..\demo\c#\Aspose.Cells.dll</HintPath>
     </Reference>
-    <Reference Include="Aspose.Words, Version=19.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Aspose.Words.dll</HintPath>
+    <Reference Include="Aspose.Words">
+      <HintPath>..\..\demo\c#\Aspose.Words.dll</HintPath>
     </Reference>
     <Reference Include="Ice">
-      <HintPath>bin\x86\Debug\Ice.dll</HintPath>
+      <HintPath>..\..\demo\c#\Ice.dll</HintPath>
+    </Reference>
+    <Reference Include="MediaFoundation, Version=3.1.0.32450, Culture=neutral, PublicKeyToken=36fa660e1d6ebf8d, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2020.2.513.310\MediaFoundation\MediaFoundation.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="music-client-v1.6.0">
-      <HintPath>bin\x86\Debug\music-client-v1.6.0.dll</HintPath>
+      <HintPath>..\..\demo\c#\music-client-v1.6.0.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\SharpDX\SharpDX.dll</HintPath>
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCWPF\2020.2.513.310\SharpDX\SharpDX.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SharpDX.D3DCompiler, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\SharpDX\SharpDX.D3DCompiler.dll</HintPath>
+    <Reference Include="SharpDX.Direct3D9, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCWPF\2020.2.513.310\SharpDX\SharpDX.Direct3D9.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SharpDX.Direct2D1, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\SharpDX\SharpDX.Direct2D1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct3D10, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\SharpDX\SharpDX.Direct3D10.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Telerik.Windows.Controls.Chart">
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.Chart.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct3D9, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\SharpDX\SharpDX.Direct3D9.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Telerik.Windows.Controls.Data">
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.Data.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.DXGI, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\SharpDX\SharpDX.DXGI.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Telerik.Windows.Controls.DataVisualization">
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    <Reference Include="Telerik.Windows.Controls.FileDialogs">
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.FileDialogs.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Controls, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Chart, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Controls.Chart.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Data, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Controls.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.DataVisualization, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.FileDialogs, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Controls.FileDialogs.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.GridView, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Controls.GridView.dll</HintPath>
+    <Reference Include="Telerik.Windows.Controls.GridView">
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.GridView.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Controls.GridView.Export">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Controls.GridView.Export.dll</HintPath>
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.GridView.Export.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Controls.ImageEditor, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Controls.ImageEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Input, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Controls.Input.dll</HintPath>
+    <Reference Include="Telerik.Windows.Controls.Input">
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.Input.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Controls.Media">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Controls.Media.dll</HintPath>
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.Media.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Controls.Navigation, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Controls.Navigation.dll</HintPath>
+    <Reference Include="Telerik.Windows.Controls.Navigation">
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.Navigation.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Data, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Data.dll</HintPath>
+    <Reference Include="Telerik.Windows.Data">
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Data.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Documents.Core">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Documents.Core.dll</HintPath>
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Documents.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Fixed">
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Documents.Fixed.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Documents.Spreadsheet">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf">
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Xls">
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Xls.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.MediaFoundation">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.MediaFoundation.dll</HintPath>
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.MediaFoundation.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Crystal, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Crystal.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Crystal">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Crystal.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Expression_Dark, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Expression_Dark.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Expression_Dark">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Expression_Dark.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Fluent, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Fluent.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Fluent">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Fluent.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Green, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Green.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Green">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Green.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Material, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Material.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Material">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Material.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Office2013, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Office2013.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Office2013">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office2013.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Office2016, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Office2016.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Office2016">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office2016.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Office2016Touch, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Office2016Touch.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Office2016Touch">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office2016Touch.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Office_Black, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Office_Black.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Office2019">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office2019.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Office_Blue, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Office_Blue.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Office_Black">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office_Black.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Office_Silver, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Office_Silver.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Office_Blue">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office_Blue.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Summer, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Summer.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Office_Silver">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office_Silver.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Transparent, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Transparent.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Summer">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Summer.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Vista, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Vista.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Transparent">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Transparent.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.VisualStudio2013, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.VisualStudio2013.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Vista">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Vista.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.VisualStudio2019, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.VisualStudio2019.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.VisualStudio2013">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.VisualStudio2013.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Windows7, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Windows7.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.VisualStudio2019">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.VisualStudio2019.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Windows8, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Windows8.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Windows7">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Windows7.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Windows.Themes.Windows8Touch, Version=2020.1.115.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\tool\telerik\Binaries.NoXaml\WPF45\Telerik.Windows.Themes.Windows8Touch.dll</HintPath>
+    <Reference Include="Telerik.Windows.Themes.Windows8">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Windows8.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Windows8Touch">
+      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Windows8Touch.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Zip">
-      <HintPath>E:\tool\telerik\Binaries\WPF45\Telerik.Windows.Zip.dll</HintPath>
+      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="ConfigInformation.cs" />
-    <Compile Include="DecryptAndEncryptionHelper.cs" />
-    <Compile Include="GridViewResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridViewResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="城镇预报统计类.cs" />
-    <Compile Include="新界面\TabWindow查询统计.xaml.cs">
-      <DependentUpon>TabWindow查询统计.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\TabWindow检验.xaml.cs">
-      <DependentUpon>TabWindow检验.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\城镇个人评分72小时.xaml.cs">
-      <DependentUpon>城镇个人评分72小时.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\城镇个人评分120小时.xaml.cs">
-      <DependentUpon>城镇个人评分120小时.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\实况统计.xaml.cs">
-      <DependentUpon>实况统计.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\实况温度折线图.xaml.cs">
-      <DependentUpon>实况温度折线图.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\EC温度折线图_站点.xaml.cs">
-      <DependentUpon>EC温度折线图_站点.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\EC温度折线图.xaml.cs">
-      <DependentUpon>EC温度折线图.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\EC温度08表格.xaml.cs">
-      <DependentUpon>EC温度08表格.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\实况查询.xaml.cs">
-      <DependentUpon>实况查询.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\个人评分页new.xaml.cs">
-      <DependentUpon>个人评分页new.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\到报率查询页new.xaml.cs">
-      <DependentUpon>到报率查询页new.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\市局乡镇精细化预报准确率页new.xaml.cs">
-      <DependentUpon>市局乡镇精细化预报准确率页new.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\旗县乡镇精细化预报准确率页new.xaml.cs">
-      <DependentUpon>旗县乡镇精细化预报准确率页new.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\省级智能网格准确率查询页.xaml.cs">
-      <DependentUpon>省级智能网格准确率查询页.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\省级智能网格高低温查询.xaml.cs">
-      <DependentUpon>省级智能网格高低温查询.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\城镇预报逐日评分详情.xaml.cs">
-      <DependentUpon>城镇预报逐日评分详情.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\逐日评分详情new.xaml.cs">
-      <DependentUpon>逐日评分详情new.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\集体评分逐日查询页new.xaml.cs">
-      <DependentUpon>集体评分逐日查询页new.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\userControl\花粉界面.xaml.cs">
-      <DependentUpon>花粉界面.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\viewModel\城镇预报逐日评分ViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\乡镇精细化逐日评分ViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\城镇预报120小时个人评分ViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\实况查询详情ViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\实况查询ViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\乡镇精细化预报个人评分ViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\乡镇精细化预报集体评分ViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\旗县乡镇精细化预报准确率ViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\市局乡镇精细化预报准确率ViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\乡镇精细化到报率ViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\人员类.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\人员选择ViewMode.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\人员选择视图.cs" />
-    <Compile Include="新界面\乡镇精细化\进度条_实况订正.xaml.cs">
-      <DependentUpon>进度条_实况订正.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\查询统计右键菜单.xaml.cs">
-      <DependentUpon>查询统计右键菜单.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化检验右键菜单.xaml.cs">
-      <DependentUpon>乡镇精细化检验右键菜单.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化右键菜单.xaml.cs">
-      <DependentUpon>乡镇精细化右键菜单.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="类\CIMISS.cs" />
-    <Compile Include="类\OrientationBehavior.cs" />
-    <Compile Include="中期逐日.cs" />
-    <Compile Include="新界面\gettheme.cs" />
-    <Compile Include="新界面\MainViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化\viewModel\进度条ViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化\进度条.xaml.cs">
-      <DependentUpon>进度条.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\viewModel\Example.xaml.cs">
-      <DependentUpon>Example.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\乡镇精细化\viewModel\乡镇精细化首页ViewModel.cs" />
-    <Compile Include="新界面\乡镇精细化主界面.xaml.cs">
-      <DependentUpon>乡镇精细化主界面.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\mapUsercontrol.xaml.cs">
-      <DependentUpon>mapUsercontrol.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\NavigationContentTemplateSelector.cs" />
-    <Compile Include="新界面\NavigationItemModel.cs" />
-    <Compile Include="新界面\NavigationViewSettingsCommands.cs" />
-    <Compile Include="新界面\settheme.cs" />
-    <Compile Include="新界面\SettingsWindowContent.xaml.cs">
-      <DependentUpon>SettingsWindowContent.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\主页.xaml.cs">
-      <DependentUpon>主页.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="新界面\设置菜单.xaml.cs">
-      <DependentUpon>设置菜单.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="类\市台检验数据库.cs" />
-    <Compile Include="类\赛罕智能网格产品.cs" />
-    <Compile Include="类\防凌预报.cs" />
-    <Compile Include="类\短时预报.cs" />
-    <Compile Include="类\报文读取.cs" />
-    <Compile Include="类\生态与农业气象信息.cs" />
-    <Compile Include="类\科开服务.cs" />
-    <Compile Include="类\短期预报.cs" />
-    <Compile Include="类\社区精细化.cs" />
-    <Compile Include="类\ConfigClass1.cs" />
-    <Compile Include="my_password.cs" />
-    <Compile Include="QXXZConfig.xaml.cs">
-      <DependentUpon>QXXZConfig.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Style\CustomWindow.xaml.cs">
-      <DependentUpon>CustomWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="类\XmlConfig.cs" />
-    <Compile Include="其他设置.xaml.cs">
-      <DependentUpon>其他设置.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="人员修改.xaml.cs">
-      <DependentUpon>人员修改.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="人员管理页.xaml.cs">
-      <DependentUpon>人员管理页.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WPFAddXZ.xaml.cs">
-      <DependentUpon>WPFAddXZ.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WPFChangeXZ.xaml.cs">
-      <DependentUpon>WPFChangeXZ.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="空气质量监测.xaml.cs">
-      <DependentUpon>空气质量监测.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="类\区局智能网格.cs" />
-    <Compile Include="类\环保局预报.cs" />
-    <Compile Include="类\逐3小时.cs" />
-    <Compile Include="页\到报率查询页.xaml.cs">
-      <DependentUpon>到报率查询页.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="页\省级智能网格准确率查询页.xaml.cs">
-      <DependentUpon>省级智能网格准确率查询页.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="页\省级智能网格高低温查询.xaml.cs">
-      <DependentUpon>省级智能网格高低温查询.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="页\逐日评分详情.xaml.cs">
-      <DependentUpon>逐日评分详情.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="页\个人评分页.xaml.cs">
-      <DependentUpon>个人评分页.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="页\旗县乡镇精细化预报准确率页.xaml.cs">
-      <DependentUpon>旗县乡镇精细化预报准确率页.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="类\TJ.cs" />
-    <Compile Include="WPFAddQX.xaml.cs">
-      <DependentUpon>WPFAddQX.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WPFChangeQX.xaml.cs">
-      <DependentUpon>WPFChangeQX.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="市四区.xaml.cs">
-      <DependentUpon>市四区.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="页\集体评分逐日查询页.xaml.cs">
-      <DependentUpon>集体评分逐日查询页.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="页\市局乡镇精细化预报准确率页.xaml.cs">
-      <DependentUpon>市局乡镇精细化预报准确率页.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="类\市局指导预报数组转报文.cs" />
-    <Compile Include="预报产品制作窗口.xaml.cs">
-      <DependentUpon>预报产品制作窗口.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="科开服务窗口.xaml.cs">
-      <DependentUpon>科开服务窗口.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="生态选择1.xaml.cs">
-      <DependentUpon>生态选择1.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="赛罕智能网格选择.xaml.cs">
-      <DependentUpon>赛罕智能网格选择.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="预报人员选择3.xaml.cs">
-      <DependentUpon>预报人员选择3.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="预报人员选择2.xaml.cs">
-      <DependentUpon>预报人员选择2.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="预报人员选择.xaml.cs">
-      <DependentUpon>预报人员选择.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="预报检验窗口.xaml.cs">
-      <DependentUpon>预报检验窗口.xaml</DependentUpon>
-    </Compile>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="QXXZConfig.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Style\CustomWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Style\win7Button.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="新界面\TabWindow查询统计.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\TabWindow检验.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="其他设置.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="人员修改.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="人员管理页.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WPFAddXZ.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WPFAddQX.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WPFChangeXZ.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WPFChangeQX.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="新界面\乡镇精细化Resources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\城镇个人评分72小时.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\城镇个人评分120小时.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\实况统计.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\实况温度折线图.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\EC温度折线图_站点.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\EC温度折线图.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\EC温度08表格.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\实况查询.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\个人评分页new.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\到报率查询页new.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\市局乡镇精细化预报准确率页new.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\旗县乡镇精细化预报准确率页new.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\省级智能网格准确率查询页.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\省级智能网格高低温查询.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\城镇预报逐日评分详情.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\逐日评分详情new.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\集体评分逐日查询页new.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\userControl\花粉界面.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\进度条_实况订正.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\进度条.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\viewModel\StationsSampleDataSource.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化\viewModel\Example.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化主界面.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\mapUsercontrol.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\Resources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\SettingsWindowContent.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\Telerik.Windows.Controls.Navigation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\主页.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="新界面\查询统计右键菜单.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化检验右键菜单.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\乡镇精细化右键菜单.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="新界面\设置菜单.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="空气质量监测.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="页\到报率查询页.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="页\省级智能网格准确率查询页.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="页\省级智能网格高低温查询.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="页\逐日评分详情.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="页\个人评分页.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="市四区.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="页\旗县乡镇精细化预报准确率页.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="页\集体评分逐日查询页.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="页\市局乡镇精细化预报准确率页.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="预报产品制作窗口.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="科开服务窗口.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="生态选择1.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="赛罕智能网格选择.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="预报人员选择3.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="预报人员选择2.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="预报人员选择.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="预报检验窗口.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="GridViewResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>GridViewResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Licenses.licx" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="client.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ico\tubiao.png" />
@@ -821,6 +227,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="新界面\Image\snow.png" />
+    <Resource Include="新界面\Image\图标\new.png" />
+    <Resource Include="新界面\Image\图标\方法.png" />
     <Resource Include="新界面\Image\新年.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1007,10 +415,29 @@
     <Resource Include="新界面\Image\图标\统计.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="新界面\类\" />
+    <Resource Include="新界面\Image\图标\叶子.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="新界面\Image\图标\花朵.png" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="MySql.Data" Version="8.0.22" />
+    <PackageReference Include="SkiaSharp" Version="1.68.3" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Data.OleDb" Version="4.7.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Window2.xaml.cs" />
+    <None Remove="新界面\Image\图标\new.png" />
+    <None Remove="新界面\Image\图标\方法.png" />
+    <Page Remove="Window2.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="新界面\乡镇精细化\userControl\区台新方法表格 .xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
 </Project>

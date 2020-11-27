@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Aspose.Words;
+using Aspose.Words.Drawing;
+using Aspose.Words.Tables;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -7,15 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
-using Aspose.Words;
-using Aspose.Words.Drawing;
-using Aspose.Words.Tables;
 
 namespace sjzd
 {
     internal class 防凌预报
     {
-        public string DCWordNew(string zbStr,string qfStr,string shStr,string lxStr,ref string error)
+        public string DCWordNew(string zbStr, string qfStr, string shStr, string lxStr, ref string error)
         {
             报文读取 bw2 = new 报文读取();
             string strDate = DateTime.Now.ToString("yyyyMMdd");
@@ -32,7 +32,7 @@ namespace sjzd
             try
             {
                 string SJsaPath = "";
-                using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
                     while ((line = sr.ReadLine()) != null)
@@ -44,7 +44,7 @@ namespace sjzd
                     }
                 }
 
-                SJsaPath += DateTime.Now.ToString("yyyy") + "\\" + lxStr + "\\" ;
+                SJsaPath += DateTime.Now.ToString("yyyy") + "\\" + lxStr + "\\";
                 string direPath = SJsaPath;
                 if (!File.Exists(SJsaPath))
                 {
@@ -220,7 +220,7 @@ namespace sjzd
                         double dls2 = sKLists.First(y => y.ID == "53467" && y.sc == -48).Tmax;
                         string strLS = "相等";
                         dls1 = dls1 - dls2;
-                        dls2 = Math.Round(Math.Abs(dls1),2);
+                        dls2 = Math.Round(Math.Abs(dls1), 2);
                         if (dls1 > 0)
                             strLS = $"升{dls2}";
                         else if (dls1 < 0)
@@ -384,7 +384,7 @@ namespace sjzd
                 try
                 {
                     string line = "", YBpath = "";
-                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                     {
                         while ((line = sr.ReadLine()) != null)
                         {
@@ -455,7 +455,7 @@ namespace sjzd
                 builder.Write("日\r\n期");
                 builder.InsertCell();
                 builder.CellFormat.Width = 100;
-                
+
                 builder.InsertCell();
                 builder.CellFormat.Width = 150;
                 builder.Write("托县");
@@ -486,7 +486,7 @@ namespace sjzd
                     builder.InsertCell();// 添加一个单元格
                     builder.Font.Bold = false;
                     builder.CellFormat.Width = 150;
-                    builder.Write(yblists.First(y=>y.ID=="53467").TEM);
+                    builder.Write(yblists.First(y => y.ID == "53467").TEM);
                     builder.InsertCell();// 添加一个单元格
                     builder.Write(yblists.First(y => y.ID == "53562").TEM);
                     builder.EndRow();
@@ -498,7 +498,7 @@ namespace sjzd
                     builder.InsertCell(); // 添加一个单元格
                     builder.CellFormat.Width = 100;
                     builder.Write("风向风速");
-                   builder.InsertCell();// 添加一个单元格
+                    builder.InsertCell();// 添加一个单元格
                     builder.CellFormat.VerticalMerge = CellMerge.None;
                     builder.Font.Bold = false;
                     builder.CellFormat.Width = 150;
@@ -663,7 +663,7 @@ namespace sjzd
                 doc.Save(SJsaPath);
                 try
                 {
-                    System.Diagnostics.Process.Start("explorer.exe", direPath);
+                    静态类.OpenBrowser(direPath);
                 }
                 catch { }
                 return SJsaPath;

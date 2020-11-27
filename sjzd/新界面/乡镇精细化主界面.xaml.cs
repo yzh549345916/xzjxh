@@ -635,12 +635,12 @@ namespace sjzd
                     Thread.Sleep(random.Next(SleepTime));
                     Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
                    {
-                        //textBlock4.Text = SleepTime.ToString();
-                        pos = random.Next(0, (int)ActualWidth);
+                       //textBlock4.Text = SleepTime.ToString();
+                       pos = random.Next(0, (int)ActualWidth);
                        Canvas.SetLeft(ReSnowflake[i], pos);
                        Snowflake.Add(ReSnowflake[i]);
-                        //SnowflakeY.Add(GetEnd(pos));
-                        SnowflakeY.Add((int)ActualHeight);
+                       //SnowflakeY.Add(GetEnd(pos));
+                       SnowflakeY.Add((int)ActualHeight);
                        ReSnowflake.RemoveAt(i);
                    });
                 }

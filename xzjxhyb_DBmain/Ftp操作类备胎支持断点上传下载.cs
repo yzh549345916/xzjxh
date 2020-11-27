@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ManagementProject
 {
@@ -100,7 +97,7 @@ namespace ManagementProject
                 response.Close();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
                 throw;
@@ -193,7 +190,7 @@ namespace ManagementProject
                 response.Close();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
                 throw;
@@ -291,7 +288,7 @@ namespace ManagementProject
                 //更新进度
                 if (updateProgress != null)
                 {
-                    updateProgress((int)allbye, 0);//更新进度条
+                    updateProgress(allbye, 0);//更新进度条
                 }
                 int startbye = 0;
                 while (contentLen != 0)
@@ -301,7 +298,7 @@ namespace ManagementProject
                     //更新进度
                     if (updateProgress != null)
                     {
-                        updateProgress((int)allbye, (int)startbye);//更新进度条
+                        updateProgress(allbye, startbye);//更新进度条
                     }
                     contentLen = fs.Read(buff, 0, buffLength);
                 }
@@ -311,7 +308,7 @@ namespace ManagementProject
                 return true;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
                 throw;
@@ -349,7 +346,7 @@ namespace ManagementProject
             string newFileName = string.Empty;
             bool success = true;
             FileInfo fileInf = new FileInfo(localFullPath);
-            long allbye = (long)fileInf.Length;
+            long allbye = fileInf.Length;
             if (fileInf.Name.IndexOf("#") == -1)
             {
                 newFileName = RemoveSpaces(fileInf.Name);
@@ -455,13 +452,13 @@ namespace ManagementProject
             {
                 byte[] array = new byte[1];
                 array = System.Text.Encoding.ASCII.GetBytes(CEnumerator.Current.ToString());
-                int asciicode = (short)(array[0]);
+                int asciicode = array[0];
                 if (asciicode != 32)
                 {
                     a += CEnumerator.Current.ToString();
                 }
             }
-            
+
             return a.Split('.')[a.Split('.').Length - 2] + "." + a.Split('.')[a.Split('.').Length - 1];
         }
         /// <summary>
@@ -520,7 +517,6 @@ namespace ManagementProject
         /// <returns></returns>
         public static string[] GetFilesDetailList()
         {
-            string[] downloadFiles;
             try
             {
                 StringBuilder result = new StringBuilder();
@@ -546,7 +542,6 @@ namespace ManagementProject
             }
             catch (Exception ex)
             {
-                downloadFiles = null;
                 throw ex;
             }
         }
@@ -557,7 +552,6 @@ namespace ManagementProject
         /// <returns></returns>
         public static string[] GetFileList(string mask)
         {
-            string[] downloadFiles;
             StringBuilder result = new StringBuilder();
             FtpWebRequest reqFTP;
             try
@@ -598,38 +592,37 @@ namespace ManagementProject
             }
             catch (Exception ex)
             {
-                downloadFiles = null;
                 throw ex;
             }
         }
-         /// <summary>
-/// 获取编码方式
-         /// </summary>
+        /// <summary>
+        /// 获取编码方式
+        /// </summary>
         /// <param name="response"></param>
-         /// <returns></returns>
-         private static Encoding GetEncodingEncode(WebResponse response)
-         {
-             Encoding encodingTemp = Encoding.Default;
- 
-             StreamReader reader = new StreamReader(response.GetResponseStream());
- 
-             encodingTemp = reader.CurrentEncoding;
- 
-             if (encodingTemp == Encoding.UTF8)
-             {
-                 encodingTemp = Encoding.UTF8;
-             }
-             else if(encodingTemp == Encoding.Default)
-             {
-                 encodingTemp = Encoding.GetEncoding("GB2312");
-             }
-             else
-             {
-                 
-             }
- 
-             return encodingTemp;
-         }
+        /// <returns></returns>
+        private static Encoding GetEncodingEncode(WebResponse response)
+        {
+            Encoding encodingTemp = Encoding.Default;
+
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+
+            encodingTemp = reader.CurrentEncoding;
+
+            if (encodingTemp == Encoding.UTF8)
+            {
+                encodingTemp = Encoding.UTF8;
+            }
+            else if (encodingTemp == Encoding.Default)
+            {
+                encodingTemp = Encoding.GetEncoding("GB2312");
+            }
+            else
+            {
+
+            }
+
+            return encodingTemp;
+        }
         /// <summary>
         /// 获取当前目录下所有的文件夹列表(仅文件夹)
         /// </summary>

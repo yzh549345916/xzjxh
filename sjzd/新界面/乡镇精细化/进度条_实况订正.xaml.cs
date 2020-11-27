@@ -1,11 +1,11 @@
-﻿using System;
+﻿using cma.cimiss.client;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using cma.cimiss.client;
 using Telerik.Windows.Controls;
 
 namespace sjzd
@@ -97,6 +97,7 @@ namespace sjzd
                 Thread thread = new Thread(生成赛罕智能网格产品);
                 thread.Start();
             }
+
         }
 
         public void 开始实况订正()
@@ -134,7 +135,7 @@ namespace sjzd
             string[,] YBSZ = CZSJZD1.ZDYBCL(CZSJZD1.readXZYBtxt());
             try
             {
-                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + @"\设置文件\设置.txt", Encoding.Default))
+                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + @"\设置文件\设置.txt", Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
                     while ((line = sr.ReadLine()) != null)
@@ -181,13 +182,13 @@ namespace sjzd
                         int XZGS = 0, intQXGS = 0;
                         int lineCount = 0;
                         int i = 0;
-                        using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))
+                        using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
                         {
                             string line = sr.ReadLine();
                             intQXGS = Convert.ToInt32(line.Split(':')[1]);
                         }
 
-                        using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))
+                        using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
                         {
                             while (i < intQXGS)
                             {
@@ -203,7 +204,7 @@ namespace sjzd
                         }
 
                         szYB = new string[XZGS, 30]; //数组行数为旗县个数，每行内容为：旗县名称+区站号+未来七天分别的天气、风向风速、最低气温、最高气温，因此列数为2+4*7
-                        using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))
+                        using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
                         {
                             i = 0;
                             lineCount = 0;
@@ -373,7 +374,7 @@ namespace sjzd
                         if (openFileDialog.DialogResult == true)
                         {
                             string YBPath = openFileDialog.FileName;
-                            StreamReader sr = new StreamReader(YBPath, Encoding.Default);
+                            StreamReader sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312"));
                             string YBdata = sr.ReadToEnd();
                             classCZSJZD CZSJZD1 = new classCZSJZD();
                             string[,] YBSZ = CZSJZD1.ZDYBCL(YBdata);
@@ -432,7 +433,7 @@ namespace sjzd
                         if (openFileDialog.DialogResult == true)
                         {
                             string YBPath = openFileDialog.FileName;
-                            StreamReader sr = new StreamReader(YBPath, Encoding.Default);
+                            StreamReader sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312"));
                             string myYBdata = sr.ReadToEnd();
                             classCZSJZD CZSJZD1 = new classCZSJZD();
                             string[,] YBSZ = CZSJZD1.ZDYBCL(myYBdata);
@@ -486,7 +487,7 @@ namespace sjzd
                             {
                                 string YBPath = openFileDialog.FileName;
                                 string data = "";
-                                using (StreamReader sr = new StreamReader(YBPath, Encoding.Default))
+                                using (StreamReader sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312")))
                                 {
                                     bool bs = false;
                                     string line = "";
@@ -506,7 +507,7 @@ namespace sjzd
                                 {
                                     try
                                     {
-                                        StreamWriter sw2 = new StreamWriter(myPath, false, Encoding.Default);
+                                        StreamWriter sw2 = new StreamWriter(myPath, false, Encoding.GetEncoding("GB2312"));
                                         sw2.Write(data);
                                         sw2.Close();
                                     }
@@ -689,7 +690,7 @@ namespace sjzd
                     {
                         try
                         {
-                            StreamWriter sw2 = new StreamWriter(myPath, false, Encoding.Default);
+                            StreamWriter sw2 = new StreamWriter(myPath, false, Encoding.GetEncoding("GB2312"));
                             sw2.Write(data);
                             sw2.Close();
                         }
@@ -740,6 +741,38 @@ namespace sjzd
                 else
                 {
                     myPath = hbj.处理环保数据(mylists, inputInt, ref strError);
+                }
+            }
+            catch (Exception ex)
+            {
+                strError = ex.Message;
+            }
+
+            jdtView.myValue += 100;
+        }
+
+        public void 生成蒙草预报产品()
+        {
+            try
+            {
+                strError = "";
+                蒙草预报 mcyb = new 蒙草预报();
+                var lists = mcyb.获取国家智能网格(8);
+
+
+                string data = "区站号\t名称\t预报时效\t温度\t降水量\t风u\t风v\t风向\t风速\t相对湿度\t天气\t能见度\r\n";
+                foreach(var item in lists)
+                {
+                    data += $"{item.ID}\t{item.Name}\t{item.SX}\t{item.TEM}\t{item.PRE_3H}\t{item.WIU10}\t{item.WIV10}\t{item.FX}\t{item.FS}\t{item.ERH}\t{item.VIS}\r\n";
+                }
+                myPath = Environment.CurrentDirectory + @"\产品\蒙草临时\";
+                if (!Directory.Exists(myPath))
+                    Directory.CreateDirectory(myPath);
+                myPath += $"{DateTime.Now:yyyy年MM月dd日}.txt";
+                using (StreamWriter sw = new StreamWriter(myPath, false, Encoding.GetEncoding("GB2312")))
+                {
+                    sw.Write(data);
+                    sw.Flush();
                 }
             }
             catch (Exception ex)
@@ -817,7 +850,7 @@ namespace sjzd
             string DZTime = "15";
             try
             {
-                using (StreamReader sr1 = new StreamReader(SSQconPath, Encoding.Default))
+                using (StreamReader sr1 = new StreamReader(SSQconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1 = "";
 
@@ -836,7 +869,7 @@ namespace sjzd
                 MessageBox.Show(ex.Message);
                 return;
             }
-
+            DZTime = DateTime.Now.Hour.ToString();
             string strToday = dt.ToUniversalTime().ToString("yyyyMMdd") + DZTime + "0000";
             string strLS;
             DateTime dtLS = DateTime.ParseExact(strToday, "yyyyMMddHHmmss", null);
@@ -868,7 +901,7 @@ namespace sjzd
             string ZDXX = "";
             try
             {
-                using (StreamReader sr1 = new StreamReader(configZDPath, Encoding.Default))
+                using (StreamReader sr1 = new StreamReader(configZDPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1 = "";
                     while ((line1 = sr1.ReadLine()) != null)

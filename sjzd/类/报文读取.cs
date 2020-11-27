@@ -17,7 +17,7 @@ namespace sjzd
             string YBpath = "";
             try
             {
-                using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                 {
                     while ((line = sr.ReadLine()) != null)
                     {
@@ -30,7 +30,7 @@ namespace sjzd
                 }
 
                 string BWBS = "";
-                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + @"\设置文件\报文标识.txt", Encoding.Default))
+                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + @"\设置文件\报文标识.txt", Encoding.GetEncoding("GB2312")))
                 {
                     while ((line = sr.ReadLine()) != null)
                     {
@@ -46,7 +46,7 @@ namespace sjzd
                 {
                     int lineCount = 0;
                     int intCount = 0;
-                    using (StreamReader sr = new StreamReader(pathYB, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(pathYB, Encoding.GetEncoding("GB2312")))
                     {
                         while ((line = sr.ReadLine()) != null)
                         {
@@ -67,7 +67,7 @@ namespace sjzd
                     float WeatherLS = 0, FXLS = 0, FSLS = 0; //保存天气、风向、风速的编码临时信息，为了判断前12小时和后12小时的天气是否一致
                     string FXDZ = Environment.CurrentDirectory + @"\设置文件\风向对照.txt";
                     string FSDZ = Environment.CurrentDirectory + @"\设置文件\风速对照.txt";
-                    using (StreamReader sr = new StreamReader(pathYB, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(pathYB, Encoding.GetEncoding("GB2312")))
                     {
                         lineCount = 0;
                         int k = 0;
@@ -98,7 +98,7 @@ namespace sjzd
 
                                 if (WeatherLS == WeatherLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -113,7 +113,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -135,7 +135,7 @@ namespace sjzd
 
                                 if (FXLS == FXLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -150,7 +150,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -172,7 +172,7 @@ namespace sjzd
 
                                 if (FSLS == FSLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -187,7 +187,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -221,7 +221,7 @@ namespace sjzd
                                 float WeatherLS1 = Convert.ToSingle(szLS[19]), FXLS1 = Convert.ToSingle(szLS[20]), FSLS1 = Convert.ToSingle(szLS[21]);
                                 if (WeatherLS == WeatherLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -236,7 +236,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -258,7 +258,7 @@ namespace sjzd
 
                                 if (FXLS == FXLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -273,7 +273,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -295,7 +295,7 @@ namespace sjzd
 
                                 if (FSLS == FSLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -310,7 +310,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -343,7 +343,7 @@ namespace sjzd
                                 float WeatherLS1 = Convert.ToSingle(szLS[19]), FXLS1 = Convert.ToSingle(szLS[20]), FSLS1 = Convert.ToSingle(szLS[21]);
                                 if (WeatherLS == WeatherLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -358,7 +358,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -380,7 +380,7 @@ namespace sjzd
 
                                 if (FXLS == FXLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -395,7 +395,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -417,7 +417,7 @@ namespace sjzd
 
                                 if (FSLS == FSLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -432,7 +432,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -465,7 +465,7 @@ namespace sjzd
                                 float WeatherLS1 = Convert.ToSingle(szLS[19]), FXLS1 = Convert.ToSingle(szLS[20]), FSLS1 = Convert.ToSingle(szLS[21]);
                                 if (WeatherLS == WeatherLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -480,7 +480,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -502,7 +502,7 @@ namespace sjzd
 
                                 if (FXLS == FXLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -517,7 +517,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -539,7 +539,7 @@ namespace sjzd
 
                                 if (FSLS == FSLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -554,7 +554,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -587,7 +587,7 @@ namespace sjzd
                                 float WeatherLS1 = Convert.ToSingle(szLS[19]), FXLS1 = Convert.ToSingle(szLS[20]), FSLS1 = Convert.ToSingle(szLS[21]);
                                 if (WeatherLS == WeatherLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -602,7 +602,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -624,7 +624,7 @@ namespace sjzd
 
                                 if (FXLS == FXLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -639,7 +639,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -661,7 +661,7 @@ namespace sjzd
 
                                 if (FSLS == FSLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -676,7 +676,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -730,7 +730,7 @@ namespace sjzd
                 {
                     int lineCount = 0;
                     int intCount = 0;
-                    using (StreamReader sr = new StreamReader(pathYB, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(pathYB, Encoding.GetEncoding("GB2312")))
                     {
                         while ((line = sr.ReadLine()) != null)
                         {
@@ -751,7 +751,7 @@ namespace sjzd
                     float WeatherLS = 0, FXLS = 0, FSLS = 0; //保存天气、风向、风速的编码临时信息，为了判断前12小时和后12小时的天气是否一致
                     string FXDZ = Environment.CurrentDirectory + @"\设置文件\风向对照.txt";
                     string FSDZ = Environment.CurrentDirectory + @"\设置文件\风速对照.txt";
-                    using (StreamReader sr = new StreamReader(pathYB, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(pathYB, Encoding.GetEncoding("GB2312")))
                     {
                         lineCount = 0;
                         int k = 0;
@@ -782,7 +782,7 @@ namespace sjzd
 
                                 if (WeatherLS == WeatherLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -797,7 +797,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -819,7 +819,7 @@ namespace sjzd
 
                                 if (FXLS == FXLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -834,7 +834,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -856,7 +856,7 @@ namespace sjzd
 
                                 if (FSLS == FSLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -871,7 +871,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -905,7 +905,7 @@ namespace sjzd
                                 float WeatherLS1 = Convert.ToSingle(szLS[19]), FXLS1 = Convert.ToSingle(szLS[20]), FSLS1 = Convert.ToSingle(szLS[21]);
                                 if (WeatherLS == WeatherLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -920,7 +920,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -942,7 +942,7 @@ namespace sjzd
 
                                 if (FXLS == FXLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -957,7 +957,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -979,7 +979,7 @@ namespace sjzd
 
                                 if (FSLS == FSLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -994,7 +994,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -1027,7 +1027,7 @@ namespace sjzd
                                 float WeatherLS1 = Convert.ToSingle(szLS[19]), FXLS1 = Convert.ToSingle(szLS[20]), FSLS1 = Convert.ToSingle(szLS[21]);
                                 if (WeatherLS == WeatherLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -1042,7 +1042,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -1064,7 +1064,7 @@ namespace sjzd
 
                                 if (FXLS == FXLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -1079,7 +1079,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -1101,7 +1101,7 @@ namespace sjzd
 
                                 if (FSLS == FSLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -1116,7 +1116,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -1149,7 +1149,7 @@ namespace sjzd
                                 float WeatherLS1 = Convert.ToSingle(szLS[19]), FXLS1 = Convert.ToSingle(szLS[20]), FSLS1 = Convert.ToSingle(szLS[21]);
                                 if (WeatherLS == WeatherLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -1164,7 +1164,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -1186,7 +1186,7 @@ namespace sjzd
 
                                 if (FXLS == FXLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -1201,7 +1201,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -1223,7 +1223,7 @@ namespace sjzd
 
                                 if (FSLS == FSLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -1238,7 +1238,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -1271,7 +1271,7 @@ namespace sjzd
                                 float WeatherLS1 = Convert.ToSingle(szLS[19]), FXLS1 = Convert.ToSingle(szLS[20]), FSLS1 = Convert.ToSingle(szLS[21]);
                                 if (WeatherLS == WeatherLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -1286,7 +1286,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(WeatherDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -1308,7 +1308,7 @@ namespace sjzd
 
                                 if (FXLS == FXLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -1323,7 +1323,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FXDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -1345,7 +1345,7 @@ namespace sjzd
 
                                 if (FSLS == FSLS1)
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         while ((line1 = sr1.ReadLine()) != null)
@@ -1360,7 +1360,7 @@ namespace sjzd
                                 }
                                 else
                                 {
-                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.Default))
+                                    using (StreamReader sr1 = new StreamReader(FSDZ, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1 = "";
                                         string LS1 = "", LS2 = "";
@@ -1397,7 +1397,7 @@ namespace sjzd
             }
             catch (Exception)
             {
-            }                               
+            }
 
             return strFH;
         }

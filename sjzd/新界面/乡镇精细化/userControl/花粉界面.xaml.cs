@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -61,13 +60,13 @@ namespace sjzd
                 if (YdSk.Value != null && qxSelect.SelectedIndex >= 0)
                 {
                     string error = 花粉实况入库(DateTime.Now.Date, (double)YdSk.Value, qxSelect.Text);
-                    if(error.Length>0)
+                    if (error.Length > 0)
                     {
                         mystr = error;
                     }
                     else
                     {
-                        mystr= $"{qxSelect.Text}站{DateTime.Now.Date:yyyy年MM月dd日}花粉实况入库成功";
+                        mystr = $"{qxSelect.Text}站{DateTime.Now.Date:yyyy年MM月dd日}花粉实况入库成功";
                     }
                 }
             }
@@ -81,14 +80,14 @@ namespace sjzd
                     string error = 花粉预报入库(DateTime.Now.Date.AddDays(2), (double)TdYb.Value, qxSelect.Text);
                     if (error.Length > 0)
                     {
-                        mystr += "\r\n"+error;
+                        mystr += "\r\n" + error;
                     }
                     else
                     {
                         mystr += $"\r\n{qxSelect.Text}站{DateTime.Now.Date.AddDays(2):yyyy年MM月dd日}花粉预报入库成功";
                     }
                 }
-                  
+
             }
             catch
             {
@@ -136,7 +135,7 @@ namespace sjzd
             });
         }
 
-        private double 获取数据库花粉实况(string id,DateTime dateTime)
+        private double 获取数据库花粉实况(string id, DateTime dateTime)
         {
             double fhDou = -1;
             try
@@ -151,16 +150,16 @@ namespace sjzd
                         {
                             while (sqlreader.Read())
                             {
-                                fhDou= sqlreader.GetDouble(sqlreader.GetOrdinal("实况"));
+                                fhDou = sqlreader.GetDouble(sqlreader.GetOrdinal("实况"));
                             }
                         }
 
                     }
-                    
-                    
+
+
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return -1;
             }
@@ -190,7 +189,7 @@ namespace sjzd
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return -1;
             }
@@ -205,7 +204,7 @@ namespace sjzd
             {
                 try
                 {
-                    using (StreamReader sr = new StreamReader(myPath, Encoding.Default)) //统计旗县个数
+                    using (StreamReader sr = new StreamReader(myPath, Encoding.GetEncoding("GB2312"))) //统计旗县个数
                     {
                         string line1 = "";
                         while ((line1 = sr.ReadLine()) != null)
@@ -215,7 +214,7 @@ namespace sjzd
                                 try
                                 {
                                     string[] szls = line1.Split('/');
-                                    hfsk = Convert.ToDouble(szls[szls.Length-1].Trim());
+                                    hfsk = Convert.ToDouble(szls[szls.Length - 1].Trim());
                                 }
                                 catch
                                 {
@@ -236,11 +235,11 @@ namespace sjzd
         {
             if (e.DialogResult == true)
             {
-                Process.Start(skPath);
+                静态类.OpenBrowser(skPath);
             }
         }
 
-        public string 花粉实况入库(DateTime dateTime,double sk,string id)
+        public string 花粉实况入库(DateTime dateTime, double sk, string id)
         {
             try
             {
@@ -249,13 +248,13 @@ namespace sjzd
                     mycon.Open(); //打开
                     string sql = $"if not exists (select 时间,站号,实况,预报 from 花粉浓度预报 where 站号 = '{id}' and 时间 = '{dateTime:yyyy-MM-dd HH:mm:ss}') INSERT INTO 花粉浓度预报(时间,站号,实况) VALUES('{dateTime:yyyy-MM-dd HH:mm:ss}', '{id}', {sk}) else update 花粉浓度预报 set 实况 = {sk} where 站号 = '{id}' and 时间 = '{dateTime:yyyy-MM-dd HH:mm:ss}'";
                     SqlCommand sqlman = new SqlCommand(sql, mycon);
-                    if(sqlman.ExecuteNonQuery()<=0)
+                    if (sqlman.ExecuteNonQuery() <= 0)
                     {
                         return $"{id}站{dateTime}花粉实况入库失败";
                     };
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return $"{id}站{dateTime}花粉实况入库失败\r\n{ex.Message}";
             }
@@ -307,8 +306,8 @@ namespace sjzd
                 }
                 try
                 {
-                    double skD= 获取数据库花粉实况(id, DateTime.Now.Date);
-                    if(skD>=0)
+                    double skD = 获取数据库花粉实况(id, DateTime.Now.Date);
+                    if (skD >= 0)
                     {
                         switchsk.IsChecked = true;
                         sKRk.Value = skD;
@@ -381,7 +380,7 @@ namespace sjzd
                     catch
                     {
                     }
-                   
+
                 }
                 else
                 {

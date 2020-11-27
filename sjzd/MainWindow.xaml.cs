@@ -2,11 +2,9 @@
 using cma.cimiss.client;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Forms;
 using MessageBox = System.Windows.MessageBox;
 
 
@@ -18,7 +16,7 @@ namespace sjzd
     /// </summary>
     public partial class MainWindow : Window
     {
-        private NotifyIcon _notifyIcon = null;
+        //private NotifyIcon _notifyIcon = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -43,7 +41,7 @@ namespace sjzd
             string[,] YBSZ = CZSJZD1.ZDYBCL(CZSJZD1.readXZYBtxt());
             try
             {
-                using (StreamReader sr = new StreamReader(System.Environment.CurrentDirectory + @"\设置文件\设置.txt", Encoding.Default))
+                using (StreamReader sr = new StreamReader(System.Environment.CurrentDirectory + @"\设置文件\设置.txt", Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
                     while ((line = sr.ReadLine()) != null)
@@ -90,12 +88,12 @@ namespace sjzd
                         int XZGS = 0, intQXGS = 0;
                         int lineCount = 0;
                         int i = 0;
-                        using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))
+                        using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
                         {
                             string line = sr.ReadLine();
                             intQXGS = Convert.ToInt32(line.Split(':')[1]);
                         }
-                        using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))
+                        using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
                         {
                             while (i < intQXGS)
                             {
@@ -110,7 +108,7 @@ namespace sjzd
                             }
                         }
                         string[,] szYB = new string[XZGS, 30];//数组行数为旗县个数，每行内容为：旗县名称+区站号+未来七天分别的天气、风向风速、最低气温、最高气温，因此列数为2+4*7
-                        using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))
+                        using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
                         {
                             i = 0;
                             lineCount = 0;
@@ -171,7 +169,7 @@ namespace sjzd
                 {
                     string FBPath = "";
                     string configpathPath = System.Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
-                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                     {
                         string line = "";
                         while ((line = sr.ReadLine()) != null)
@@ -182,7 +180,7 @@ namespace sjzd
                             }
                         }
                     }
-                    Process p = Process.Start(FBPath);
+                    静态类.OpenBrowser(FBPath);
                     //p.WaitForExit();//关键，等待外部程序退出后才能往下执行
                 }
                 else
@@ -247,7 +245,7 @@ namespace sjzd
                     {
                         string FBPath = "";
                         string configpathPath = System.Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
-                        using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                        using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                         {
                             string line = "";
                             while ((line = sr.ReadLine()) != null)
@@ -258,7 +256,7 @@ namespace sjzd
                                 }
                             }
                         }
-                        Process p = Process.Start(FBPath);
+                        静态类.OpenBrowser(FBPath);
                         //p.WaitForExit();//关键，等待外部程序退出后才能往下执行
                     }
                     else
@@ -300,7 +298,7 @@ namespace sjzd
         {
             string YBPath = "";
             string YBdata = "";
-            StreamReader sr = new StreamReader(configpathPath, Encoding.Default);
+            StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312"));
             String line;
             //读取设置文件的路径配置文件中所有文本，寻找城镇指导预报路径
             while ((line = sr.ReadLine()) != null)
@@ -314,68 +312,7 @@ namespace sjzd
             sr.Close();
             string CZBWTime = "";
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\报文保存路径.txt";
-            using (StreamReader sr1 = new StreamReader(DBconPath, Encoding.Default))
-            {
-
-                // 从文件读取并显示行，直到文件的末尾 
-                while ((line = sr1.ReadLine()) != null)
-                {
-                    if (line.Split('=')[0] == "市局读取城镇指导预报文件夹时次")
-                    {
-                        CZBWTime = line.Split('=')[1].Trim();
-                        CZBWTime = '\\' + CZBWTime + '\\';
-                    }
-
-                }
-            }
-            YBPath = YBPath+ DateTime.Now.ToString("yyyy")+"\\" + DateTime.Now.ToString("yy") + "." + DateTime.Now.ToString("MM") + CZBWTime + "呼市气象台指导预报" + DateTime.Now.ToString("MMdd") + ".txt";//文件路径为：基本路径+年后两位.月两位\06\呼市气象台指导预报+两位月两位日.txt
-            //判断城镇指导预报是否存在，如果不存在，提示是否手动选择文件
-            try
-            {
-                sr = new StreamReader(YBPath, Encoding.Default);
-                YBdata = sr.ReadToEnd().ToString();
-            }
-            catch
-            {
-                MessageBoxResult result1 = System.Windows.MessageBox.Show(YBPath + "路径错误，是否手动选择乡镇指导预报文件", "错误", MessageBoxButton.YesNo);
-                if (result1 == System.Windows.MessageBoxResult.Yes)
-                {
-                    Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog()
-                    {
-                        Filter = "文本 (*.txt)|*.txt"
-                    };
-                    bool? result = openFileDialog.ShowDialog();
-                    if (result == true)
-                    {
-                        YBPath = openFileDialog.FileName;
-                        sr = new StreamReader(YBPath, Encoding.Default);
-                        YBdata = sr.ReadToEnd().ToString();
-                    }
-                }
-            }
-
-
-            return YBdata;
-        }
-        public string readXZYBtxtNew(ref string error)//该方法读取城镇指导预报,返回指导预报整个内容
-        {
-            string YBPath = "";
-            string YBdata = "";
-            StreamReader sr = new StreamReader(configpathPath, Encoding.Default);
-            String line;
-            //读取设置文件的路径配置文件中所有文本，寻找城镇指导预报路径
-            while ((line = sr.ReadLine()) != null)
-            {
-                string[] linShi1 = line.Split('=');
-                if (linShi1[0] == "城镇指导预报路径")
-                {
-                    YBPath = linShi1[1];
-                }
-            }
-            sr.Close();
-            string CZBWTime = "";
-            string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\报文保存路径.txt";
-            using (StreamReader sr1 = new StreamReader(DBconPath, Encoding.Default))
+            using (StreamReader sr1 = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
             {
 
                 // 从文件读取并显示行，直到文件的末尾 
@@ -393,7 +330,68 @@ namespace sjzd
             //判断城镇指导预报是否存在，如果不存在，提示是否手动选择文件
             try
             {
-                sr = new StreamReader(YBPath, Encoding.Default);
+                sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312"));
+                YBdata = sr.ReadToEnd().ToString();
+            }
+            catch
+            {
+                MessageBoxResult result1 = System.Windows.MessageBox.Show(YBPath + "路径错误，是否手动选择乡镇指导预报文件", "错误", MessageBoxButton.YesNo);
+                if (result1 == System.Windows.MessageBoxResult.Yes)
+                {
+                    Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog()
+                    {
+                        Filter = "文本 (*.txt)|*.txt"
+                    };
+                    bool? result = openFileDialog.ShowDialog();
+                    if (result == true)
+                    {
+                        YBPath = openFileDialog.FileName;
+                        sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312"));
+                        YBdata = sr.ReadToEnd().ToString();
+                    }
+                }
+            }
+
+
+            return YBdata;
+        }
+        public string readXZYBtxtNew(ref string error)//该方法读取城镇指导预报,返回指导预报整个内容
+        {
+            string YBPath = "";
+            string YBdata = "";
+            StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312"));
+            String line;
+            //读取设置文件的路径配置文件中所有文本，寻找城镇指导预报路径
+            while ((line = sr.ReadLine()) != null)
+            {
+                string[] linShi1 = line.Split('=');
+                if (linShi1[0] == "城镇指导预报路径")
+                {
+                    YBPath = linShi1[1];
+                }
+            }
+            sr.Close();
+            string CZBWTime = "";
+            string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\报文保存路径.txt";
+            using (StreamReader sr1 = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
+            {
+
+                // 从文件读取并显示行，直到文件的末尾 
+                while ((line = sr1.ReadLine()) != null)
+                {
+                    if (line.Split('=')[0] == "市局读取城镇指导预报文件夹时次")
+                    {
+                        CZBWTime = line.Split('=')[1].Trim();
+                        CZBWTime = '\\' + CZBWTime + '\\';
+                    }
+
+                }
+            }
+            YBPath = YBPath + DateTime.Now.ToString("yyyy") + "\\" + DateTime.Now.ToString("yy") + "." + DateTime.Now.ToString("MM") + CZBWTime + "呼市气象台指导预报" + DateTime.Now.ToString("MMdd") + ".txt";//文件路径为：基本路径+年后两位.月两位\06\呼市气象台指导预报+两位月两位日.txt
+            //判断城镇指导预报是否存在，如果不存在，提示是否手动选择文件
+            try
+            {
+                sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312"));
                 YBdata = sr.ReadToEnd().ToString();
             }
             catch
@@ -411,7 +409,7 @@ namespace sjzd
         {
             try
             {
-                StreamReader sr = new StreamReader(configXZPath, Encoding.Default);
+                StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
                 String line;
                 //读取设置文件的旗县乡镇文件中第一行，确认旗县镇数
                 line = sr.ReadLine();
@@ -422,7 +420,7 @@ namespace sjzd
 
                 //给每行第一列赋值，为旗县的名称
                 int lineCount = 0, i = 0;
-                sr = new StreamReader(configXZPath, Encoding.Default);
+                sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
                 while (i < intQXGS)
                 {
                     line = sr.ReadLine();
@@ -454,7 +452,7 @@ namespace sjzd
                 lineCount = 0;
                 i = 0;
 
-                sr = new StreamReader(configXZPath, Encoding.Default);
+                sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
                 while (i < intQXGS)
                 {
                     line = sr.ReadLine();
@@ -482,7 +480,7 @@ namespace sjzd
             {
                 string SJMBPath = Environment.CurrentDirectory + @"\模版\市四区模板.doc";
 
-                using (StreamReader sr = new StreamReader(myconfigpathPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(myconfigpathPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
                     while ((line = sr.ReadLine()) != null)
@@ -512,7 +510,7 @@ namespace sjzd
                 {
                     data += szYB[i, 0] + "：" + szYB[i, 2] + "，" + szYB[i, 3] + "，" + szYB[i, 4] + "～" + szYB[i, 5] + "℃" + "\r\n";
                 }
-                data = data.Substring(0, data.Length - 2);
+                data = data[0..^2];
                 builder.MoveToBookmark("预报24");
                 builder.Font.Size = 13;
                 builder.Font.Name = "宋体";
@@ -600,7 +598,7 @@ namespace sjzd
 
             double d1 = 0, d2 = 0;
             //计算所有旗县与乡镇的个数
-            StreamReader sr = new StreamReader(configXZPath, Encoding.Default);
+            StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             String line;
 
             line = sr.ReadLine();
@@ -620,7 +618,7 @@ namespace sjzd
             int XZGS = 0;
             int lineCount = 0;
             i = 0;
-            sr = new StreamReader(configXZPath, Encoding.Default);
+            sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             while (i < intQXGS)
             {
                 line = sr.ReadLine();
@@ -639,7 +637,7 @@ namespace sjzd
             lineCount = 0;
             int intLS = 0;
             i = 0;
-            sr = new StreamReader(configXZPath, Encoding.Default);
+            sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             while (i < intQXGS)
             {
                 line = sr.ReadLine();
@@ -657,7 +655,7 @@ namespace sjzd
             sr.Close();
 
 
-            sr = new StreamReader(configXZPath, Encoding.Default);
+            sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             lineCount = 0;
             i = 0;
             int intHS = 0; intLS = 1;
@@ -744,7 +742,7 @@ namespace sjzd
                                 string QXName = "";
                                 if (Math.Abs((douMin + szMin[intCount3]) - Convert.ToDouble(szYB[intQXHS, intLS])) >= 5)
                                 {
-                                    using (StreamReader sr3 = new StreamReader(configXZPath, Encoding.Default))
+                                    using (StreamReader sr3 = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1;
                                         while ((line1 = sr3.ReadLine()) != null)
@@ -765,7 +763,7 @@ namespace sjzd
                                 string QXName = "";
                                 if (Math.Abs((douMax + szMax[intCount4]) - Convert.ToDouble(szYB[intQXHS, intLS])) >= 5)
                                 {
-                                    using (StreamReader sr3 = new StreamReader(configXZPath, Encoding.Default))
+                                    using (StreamReader sr3 = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1;
                                         while ((line1 = sr3.ReadLine()) != null)
@@ -791,7 +789,7 @@ namespace sjzd
             }
             sr.Close();
             string QXNameDZ = System.Environment.CurrentDirectory + @"\设置文件\指导预报与产品旗县名称对照.txt";
-            using (StreamReader sr1 = new StreamReader(QXNameDZ, Encoding.Default))
+            using (StreamReader sr1 = new StreamReader(QXNameDZ, Encoding.GetEncoding("GB2312")))
             {
                 string strLs = "";
                 while ((strLs = sr1.ReadLine()) != null)
@@ -823,7 +821,7 @@ namespace sjzd
         public string CIMISSHQQXSK()
         {
             string DZTime = "15";
-            using (StreamReader sr1 = new StreamReader(DBconPath, Encoding.Default))
+            using (StreamReader sr1 = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
             {
                 string line1 = "";
 
@@ -862,7 +860,7 @@ namespace sjzd
             paramsqx.Add("times", strToday);
 
             /*以下程序功能为：根据设置文件夹下的旗县乡镇设置文件获取CIMISS查询需要配置的台站号*/
-            StreamReader sr = new StreamReader(configXZPath, Encoding.Default);
+            StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             String line;
             //读取设置文件的旗县乡镇文件中第一行，确认旗县镇数
             line = sr.ReadLine();
@@ -873,7 +871,7 @@ namespace sjzd
 
             //每两行第一列为旗县ID
             int lineCount = 0;
-            sr = new StreamReader(configXZPath, Encoding.Default);
+            sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             while (lineCount < intQXGS * 2 + 1)
             {
                 line = sr.ReadLine();
@@ -916,7 +914,7 @@ namespace sjzd
             lineCount = 0;
             strLS = strData;
             strData = "";
-            sr = new StreamReader(configXZPath, Encoding.Default);
+            sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             while (lineCount < intQXGS * 2 + 1)
             {
                 line = sr.ReadLine();
@@ -946,7 +944,7 @@ namespace sjzd
             string strData = "";
             string DZTime = "15";//实况订正的截至时次，一般早于预报时间
             string SKStarTime = "20";//实况订正开始的时次
-            using (StreamReader sr1 = new StreamReader(DBconPath, Encoding.Default))
+            using (StreamReader sr1 = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
             {
                 string line1 = "";
 
@@ -997,7 +995,7 @@ namespace sjzd
             paramsqx.Add("timeRange", timeRange1);
 
             /*以下程序功能为：根据设置文件夹下的旗县乡镇设置文件获取CIMISS查询需要配置的台站号*/
-            StreamReader sr = new StreamReader(configXZPath, Encoding.Default);
+            StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             String line;
             //读取设置文件的旗县乡镇文件中第一行，确认旗县镇数
             line = sr.ReadLine();
@@ -1007,7 +1005,7 @@ namespace sjzd
             string XZID = "";
             //每两行第一列为旗县ID 
             int lineCount = 0;
-            sr = new StreamReader(configXZPath, Encoding.Default);
+            sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             while (lineCount < intQXGS * 2 + 1)
             {
                 line = sr.ReadLine();
@@ -1053,7 +1051,7 @@ namespace sjzd
             }
             strData = strData.Substring(0, strData.Length - 1);
             /*以下程序检查导出的实况数据的站点是否完整*/
-            sr = new StreamReader(configXZPath, Encoding.Default);
+            sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             lineCount = 0;
             while (lineCount < intQXGS * 2 + 1)
             {
@@ -1064,7 +1062,7 @@ namespace sjzd
                     {
                         if (!strData.Contains(line.Split(',')[i]))//如果导出的实况数据中没有区站号为line.Split(',')[i]的站点
                         {
-                            StreamReader sr1 = new StreamReader(configXZPath, Encoding.Default);//新建一个流，重新遍历乡镇名单文件，找到该乡镇对应的旗县
+                            StreamReader sr1 = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));//新建一个流，重新遍历乡镇名单文件，找到该乡镇对应的旗县
                             strLS = sr1.ReadToEnd();//整个乡镇名单文本
                             string[] szLS = strLS.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);//名单按行分组
                             strLS = szLS[lineCount - 1];//区站号前一行为站名，因此Linecount-1确认站名，列数与区站号一致，

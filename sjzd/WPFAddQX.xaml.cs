@@ -18,7 +18,7 @@ namespace sjzd
             InitializeComponent();
 
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
-            using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
             {
                 string line;
 

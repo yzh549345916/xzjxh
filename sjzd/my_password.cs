@@ -41,7 +41,7 @@ namespace sjzd
         public static string Encrypt_md5(string strPwd)
         {
             MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] data = System.Text.Encoding.Default.GetBytes(strPwd);//将字符编码为一个字节序列 
+            byte[] data = System.Text.Encoding.GetEncoding("GB2312").GetBytes(strPwd);//将字符编码为一个字节序列 
             byte[] md5data = md5.ComputeHash(data);//计算data字节数组的哈希值 
             md5.Clear();
             string str = "";
@@ -64,7 +64,7 @@ namespace sjzd
         {
             try
             {
-                byte[] data = Encoding.Default.GetBytes(str);
+                byte[] data = Encoding.GetEncoding("GB2312").GetBytes(str);
                 byte[] result = EncryptData(key, data);
                 if (result != null)
                     return Convert.ToBase64String(result, 0, result.Length);
@@ -82,7 +82,7 @@ namespace sjzd
         /// <returns>返回二进制密文</returns>   
         public static byte[] EncryptData(String key, byte[] data)
         {
-            byte[] bKey = Encoding.Default.GetBytes(key.Substring(0, 8));
+            byte[] bKey = Encoding.GetEncoding("GB2312").GetBytes(key.Substring(0, 8));
             byte[] bIV = IV;
             try
             {
@@ -111,7 +111,7 @@ namespace sjzd
                 byte[] data = Convert.FromBase64String(decryptStr);
                 byte[] result = DecryptData(key, data);
                 if (result != null)
-                    return Encoding.Default.GetString(result, 0, result.Length).Replace("\0", "");
+                    return Encoding.GetEncoding("GB2312").GetString(result, 0, result.Length).Replace("\0", "");
                 else
                     return "";
             }
@@ -130,7 +130,7 @@ namespace sjzd
         {
             try
             {
-                byte[] bKey = Encoding.Default.GetBytes(key.Substring(0, 8));
+                byte[] bKey = Encoding.GetEncoding("GB2312").GetBytes(key.Substring(0, 8));
                 byte[] bIV = IV;
                 DESCryptoServiceProvider desc = new DESCryptoServiceProvider();
                 desc.Mode = CipherMode.ECB;//兼容其他语言的Des加密算法   

@@ -14,7 +14,7 @@ namespace sjzd
         public ConfigClass1()
         {
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
-            using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
             {
                 string line;
 
@@ -411,7 +411,7 @@ namespace sjzd
                     }
                 }
                 string path = Environment.CurrentDirectory + @"\设置文件\旗县乡镇.txt";
-                using (StreamWriter sw = new StreamWriter(path, false, Encoding.Default))
+                using (StreamWriter sw = new StreamWriter(path, false, Encoding.GetEncoding("GB2312")))
                 {
                     sw.Write(strData);
                     sw.Flush();
@@ -434,7 +434,7 @@ namespace sjzd
                     }
 
                     BSStr += "市本级=BFQX\r\n中央=";
-                    using (StreamWriter sw = new StreamWriter(Environment.CurrentDirectory + @"\设置文件\旗县ID报文缩写对照.txt", false, Encoding.Default))
+                    using (StreamWriter sw = new StreamWriter(Environment.CurrentDirectory + @"\设置文件\旗县ID报文缩写对照.txt", false, Encoding.GetEncoding("GB2312")))
                     {
                         sw.Write(BSStr);
                         sw.Flush();
@@ -488,14 +488,14 @@ namespace sjzd
             {
                 string FBPath = "";//发报软件配置文件路径
                 string DZBPath = System.Environment.CurrentDirectory + @"\设置文件\旗县ID报文缩写对照.txt";
-                using (StreamReader sr = new StreamReader(DZBPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DZBPath, Encoding.GetEncoding("GB2312")))
                 {
                     DZBPath = sr.ReadToEnd();
                 }
 
                 string[] SZDZ = DZBPath.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 string configpathPath = System.Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
-                using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
                     while ((line = sr.ReadLine()) != null)
@@ -514,7 +514,7 @@ namespace sjzd
                 {
                     string strLS1 = "";
                     string strData = "";
-                    using (StreamReader sr = new StreamReader(FBPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(FBPath, Encoding.GetEncoding("GB2312")))
                     {
                         string[] SzData1 = sr.ReadToEnd().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                         string DQID = "";
@@ -605,7 +605,7 @@ namespace sjzd
                         strData = strData.Substring(0, strData.Length - 1);
                     }
 
-                    using (StreamWriter sw = new StreamWriter(FBPath, false, Encoding.Default))
+                    using (StreamWriter sw = new StreamWriter(FBPath, false, Encoding.GetEncoding("GB2312")))
                     {
                         sw.Write(strData);
                         sw.Flush();

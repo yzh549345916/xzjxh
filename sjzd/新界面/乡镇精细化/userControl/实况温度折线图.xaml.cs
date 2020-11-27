@@ -1,26 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media.Animation;
-using Aspose.Cells;
-using sjzd.新界面.乡镇精细化.viewModel;
 using Telerik.Charting;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.Animation;
 using Telerik.Windows.Controls.ChartView;
-using Telerik.Windows.Controls.GridView;
-using Telerik.Windows.Controls.Navigation;
 using Telerik.Windows.Controls.SplashScreen;
-using Style = Aspose.Cells.Style;
 
 namespace sjzd
 {
@@ -45,7 +32,7 @@ namespace sjzd
         {
             InitializeComponent();
 
-           
+
             splashScreenDataContext = RadSplashScreenManager.SplashScreenDataContext as SplashScreenDataContext;
             splashScreenDataContext.IsIndeterminate = true;
             splashScreenDataContext.Content = "正在加载数据";
@@ -63,13 +50,13 @@ namespace sjzd
             }
             foreach (CIMISS.ECTEF0 item in temLists)
             {
-                if(item.TEM==tmax|| item.TEM == tmin)
+                if (item.TEM == tmax || item.TEM == tmin)
                 {
                     lineSeries2.DataPoints.Add(new CategoricalDataPoint
                     {
                         Category = item.DateTime.ToString("d日H时"),
                         Value = Math.Round(item.TEM, 2),
-                        Label= item.DateTime.ToString("d日H时：") + Math.Round(item.TEM, 2)
+                        Label = item.DateTime.ToString("d日H时：") + Math.Round(item.TEM, 2)
                     });
                 }
                 else
@@ -78,16 +65,16 @@ namespace sjzd
                     {
                         Category = item.DateTime.ToString("d日H时"),
                         Value = Math.Round(item.TEM, 2),
-                        Label = Math.Round(item.TEM, 2) 
+                        Label = Math.Round(item.TEM, 2)
                     });
                 }
-                
+
             }
             SineEase sineEase = new SineEase
             {
                 EasingMode = EasingMode.EaseIn
             };
-       
+
             lineSeries2.PointTemplate = chart2.FindResource("PointTemplate1") as DataTemplate;
             lineSeries2.SeriesAnimation = GetAnimation(new AnimationInfo("Move From Left", AnimationType.Reveal, AnimationDirection.In, Orientation.Horizontal, 1500, 100, sineEase));
             lineSeries2.TrackBallInfoTemplate = chart2.FindResource("trackBallInfoTemplate") as DataTemplate;
@@ -178,5 +165,5 @@ namespace sjzd
         }
     }
 
-   
+
 }

@@ -160,7 +160,7 @@ namespace sjzd
                 {
                     try
                     {
-                        System.Diagnostics.Process.Start(strPath);
+                        静态类.OpenBrowser(strPath);
                     }
                     catch (Exception ex)
                     {

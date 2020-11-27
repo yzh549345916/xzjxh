@@ -2,7 +2,6 @@
 using sjzd.新界面.乡镇精细化.viewModel;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -47,7 +46,7 @@ namespace sjzd
                 short intQXGS = 0;
                 try
                 {
-                    using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default)) //统计旗县个数
+                    using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"))) //统计旗县个数
                     {
                         string line1 = "";
                         while ((line1 = sr.ReadLine()) != null)
@@ -60,7 +59,7 @@ namespace sjzd
 
                     string[] QXID = new string[intQXGS];
                     string[] QXName = new string[intQXGS];
-                    using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default)) //第二行开始每两行为旗县及乡镇区站号列表
+                    using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"))) //第二行开始每两行为旗县及乡镇区站号列表
                     {
                         string line1 = "";
                         short lineCount = 0;
@@ -80,7 +79,7 @@ namespace sjzd
                         }
                     }
 
-                    using (StreamReader sr = new StreamReader(QXNameDZPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(QXNameDZPath, Encoding.GetEncoding("GB2312")))
                     {
                         string line1 = "";
                         while ((line1 = sr.ReadLine()) != null)
@@ -229,7 +228,7 @@ namespace sjzd
 
             if (e.DialogResult == true)
             {
-                Process.Start(xlsPath);
+                静态类.OpenBrowser(xlsPath);
             }
 
         }

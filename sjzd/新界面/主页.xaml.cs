@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using Telerik.Windows.Controls;
@@ -17,6 +18,12 @@ namespace sjzd
                 ResourceManager = GridViewResources.ResourceManager
             };
             InitializeComponent();
+            #region
+            //.net core3.1中不支持GB2312编码,解决办法：
+            // 1、下载安装System.Text.Encoding.CodePages。
+            //2、 使用“Encoding.RegisterProvider”方法进行注册。
+            #endregion
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             this.DataContext = new MainViewModel();
             XmlConfig xmlConfig = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\新界面设置.xml");
             string theme = xmlConfig.Read("Theme");

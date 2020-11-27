@@ -25,7 +25,7 @@
                         <telerik:RadComboBox x:Name="qxSelect" SelectionChanged="qxSelect_SelectionChanged"
                                              MinWidth="180" HorizontalAlignment="Center" FontSize="36"
                                              VerticalAlignment="Top" HorizontalContentAlignment="Center"
-                                             VerticalContentAlignment="Center">
+                                             VerticalContentAlignment="Center" DropDownWidth="Auto">
                             <telerik:RadComboBoxItem Content="53463" />
                             <telerik:RadComboBoxItem Content="53466" />
 

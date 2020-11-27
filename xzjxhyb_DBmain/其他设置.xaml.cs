@@ -17,7 +17,6 @@ namespace xzjxhyb_DBmain
         string con = "";
         string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
         string PathConfigPath = System.Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
-        string BWPath = System.Environment.CurrentDirectory + @"\设置文件\报文保存路径.txt";
         private string data = "";
         public 其他设置()
         {

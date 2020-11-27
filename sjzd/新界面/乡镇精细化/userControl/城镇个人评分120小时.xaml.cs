@@ -3,10 +3,7 @@ using sjzd.新界面.乡镇精细化.viewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using Telerik.Windows.Controls;
@@ -27,12 +24,12 @@ namespace sjzd
         {
             InitializeComponent();
             BTLabel.Content = "城镇预报120小时个人评分查询";
-            
+
 
             try
             {
-                
-                
+
+
                 DateTime dt = DateTime.Now;
                 sDate.SelectedDate = dt.AddDays(1 - dt.Day).AddMonths(-1);
             }
@@ -53,8 +50,8 @@ namespace sjzd
         private void CXButton_Click(object sender, RoutedEventArgs e)
         {
             RadSplashScreenManager.Show();
-          try
-          {
+            try
+            {
                 if ((!(sDate.SelectedDate.ToString().Length == 0)) && (!(eDate.SelectedDate.ToString().Length == 0)))
                 {
                     评分列表.Clear();
@@ -102,7 +99,7 @@ namespace sjzd
                                 }
 
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
 
                             }
@@ -137,13 +134,13 @@ namespace sjzd
                                     //QYJQ[j] = (float)Math.Round(QYJQ[j], 2);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
 
                             }
                             GRPFSZ[i, 9] = Convert.ToString(Math.Round((QYJQ[0] * 10 + QYJQ[1] * 8 + QYJQ[2] * 6 + QYJQ[3] * 2 + QYJQ[4] * 1) / 27, 2));//晴雨技巧
                             GRPFSZ[i, 10] = Convert.ToString(Math.Round((WDJQ[0] * 10 + WDJQ[2] * 8 + WDJQ[4] * 6 + WDJQ[6] * 2 + WDJQ[8] * 1) / 27, 2));//高温技巧
-                            GRPFSZ[i, 11] = Convert.ToString(Math.Round((WDJQ[1] * 10 + WDJQ[3] * 8 + WDJQ[5] * 6 + WDJQ[7] * 2 + WDJQ[9] * 1)  / 27, 2));//低温技巧
+                            GRPFSZ[i, 11] = Convert.ToString(Math.Round((WDJQ[1] * 10 + WDJQ[3] * 8 + WDJQ[5] * 6 + WDJQ[7] * 2 + WDJQ[9] * 1) / 27, 2));//低温技巧
                             GRPFSZ[i, 12] = Convert.ToString(Math.Round(Convert.ToSingle(0.2 * Convert.ToDouble(GRPFSZ[i, 9]) + 0.4 * Convert.ToDouble(GRPFSZ[i, 10]) + 0.4 * Convert.ToDouble(GRPFSZ[i, 11])), 2));//总技巧
                         }
                         Int16 ZBJS = 0;//值班基数
@@ -276,8 +273,8 @@ namespace sjzd
 
                 }
             }
-          catch(Exception ex)
-          {
+            catch (Exception ex)
+            {
                 RadWindow.Alert(new DialogParameters
                 {
                     Content = ex.Message,
@@ -285,7 +282,7 @@ namespace sjzd
                 });
             }
 
-          RadSplashScreenManager.Close();
+            RadSplashScreenManager.Close();
         }
         private void sDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -313,7 +310,11 @@ namespace sjzd
         }
         private void OnConfirmClosed_打开产品(object sender, WindowClosedEventArgs e)
         {
-            if (e.DialogResult == true) Process.Start(xlsPath);
+            if (e.DialogResult == true)
+            {
+                静态类.OpenBrowser(xlsPath);
+
+            }
         }
         private void DCButton_Click(object sender, RoutedEventArgs e)
         {

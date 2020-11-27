@@ -15,7 +15,7 @@ namespace sjzd
                 string YBPath = "";
 
                 string ZQPath = "";
-                using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
                     while ((line = sr.ReadLine()) != null)
@@ -26,7 +26,7 @@ namespace sjzd
                         }
                         else if (line.Split('=')[0] == "城镇指导预报路径")
                         {
-                            YBPath = line.Split('=')[1] + dt.ToString("yy.MM") + "\\20\\呼市气象台指导预报" + dt.ToString("MMdd") + ".txt";
+                            YBPath = line.Split('=')[1] + dt.ToString("yyyy") + "\\" + dt.ToString("yy.MM") + "\\20\\呼市气象台指导预报" + dt.ToString("MMdd") + ".txt";
                         }
                     }
                 }
@@ -41,7 +41,7 @@ namespace sjzd
                 string data = "";
                 if (File.Exists(YBPath))
                 {
-                    using (StreamReader sr = new StreamReader(YBPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312")))
                     {
                         bool bs = false;
                         string line = "";
@@ -70,7 +70,7 @@ namespace sjzd
                         if (result == true)
                         {
                             YBPath = openFileDialog.FileName;
-                            using (StreamReader sr = new StreamReader(YBPath, Encoding.Default))
+                            using (StreamReader sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312")))
                             {
                                 bool bs = false;
                                 string line = "";
@@ -91,10 +91,10 @@ namespace sjzd
 
                 if (data.Trim().Length > 0)
                 {
-                    //File.WriteAllText(ZQPath, data, Encoding.Default);
+                    //File.WriteAllText(ZQPath, data, Encoding.GetEncoding("GB2312"));
                     try
                     {
-                        StreamWriter sw2 = new StreamWriter(ZQPath, false, Encoding.Default);
+                        StreamWriter sw2 = new StreamWriter(ZQPath, false, Encoding.GetEncoding("GB2312"));
                         sw2.Write(data);
                         sw2.Close();
                         MessageBoxResult dr = MessageBox.Show("产品制作完成,保存路径为：\r\n" + ZQPath + "\n是否打开？", "提示", MessageBoxButton.YesNo);
@@ -102,7 +102,8 @@ namespace sjzd
                         {
                             try
                             {
-                                System.Diagnostics.Process.Start(ZQPath);
+                                静态类.OpenBrowser(ZQPath);
+
                             }
                             catch (Exception ex)
                             {
@@ -134,7 +135,7 @@ namespace sjzd
                 string YBPath = "";
 
                 string ZQPath = "";
-                using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
                     while ((line = sr.ReadLine()) != null)
@@ -145,7 +146,7 @@ namespace sjzd
                         }
                         else if (line.Split('=')[0] == "城镇指导预报路径")
                         {
-                            YBPath = line.Split('=')[1] + dt.ToString("yy.MM") + "\\20\\呼市气象台指导预报" + dt.ToString("MMdd") + ".txt";
+                            YBPath = line.Split('=')[1] + dt.ToString("yyyy") + "\\" + dt.ToString("yy.MM") + "\\20\\呼市气象台指导预报" + dt.ToString("MMdd") + ".txt";
                         }
                     }
                 }
@@ -161,7 +162,7 @@ namespace sjzd
                 string data = "";
                 if (File.Exists(YBPath))
                 {
-                    using (StreamReader sr = new StreamReader(YBPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312")))
                     {
                         bool bs = false;
                         string line = "";

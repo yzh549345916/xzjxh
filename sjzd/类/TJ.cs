@@ -18,7 +18,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -194,7 +194,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -370,7 +370,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -545,7 +545,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -674,7 +674,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -803,7 +803,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -931,7 +931,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -1050,7 +1050,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -1159,7 +1159,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -1343,7 +1343,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -1471,7 +1471,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -1600,7 +1600,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -1777,7 +1777,7 @@ namespace sjzd
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\DBconfig.txt";
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 
@@ -2068,7 +2068,7 @@ namespace sjzd
             string[,] dataFH = new string[QXID.Length, 6];
             try
             {
-                using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1;
 

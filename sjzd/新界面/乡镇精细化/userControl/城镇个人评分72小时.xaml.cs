@@ -3,10 +3,7 @@ using sjzd.新界面.乡镇精细化.viewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using Telerik.Windows.Controls;
@@ -27,12 +24,12 @@ namespace sjzd
         {
             InitializeComponent();
             BTLabel.Content = "城镇预报72小时个人评分查询";
-            
+
 
             try
             {
-                
-                
+
+
                 DateTime dt = DateTime.Now;
                 sDate.SelectedDate = dt.AddDays(1 - dt.Day).AddMonths(-1);
             }
@@ -53,8 +50,8 @@ namespace sjzd
         private void CXButton_Click(object sender, RoutedEventArgs e)
         {
             RadSplashScreenManager.Show();
-          try
-          {
+            try
+            {
                 if ((!(sDate.SelectedDate.ToString().Length == 0)) && (!(eDate.SelectedDate.ToString().Length == 0)))
                 {
                     评分列表.Clear();
@@ -101,7 +98,7 @@ namespace sjzd
                                 }
 
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
 
                             }
@@ -131,7 +128,7 @@ namespace sjzd
                                     QYJQ[j] = (float)Math.Round(QYJQ[j], 2);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
 
                             }
@@ -270,8 +267,8 @@ namespace sjzd
 
                 }
             }
-          catch(Exception ex)
-          {
+            catch (Exception ex)
+            {
                 RadWindow.Alert(new DialogParameters
                 {
                     Content = ex.Message,
@@ -279,7 +276,7 @@ namespace sjzd
                 });
             }
 
-          RadSplashScreenManager.Close();
+            RadSplashScreenManager.Close();
         }
         private void sDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -307,7 +304,10 @@ namespace sjzd
         }
         private void OnConfirmClosed_打开产品(object sender, WindowClosedEventArgs e)
         {
-            if (e.DialogResult == true) Process.Start(xlsPath);
+            if (e.DialogResult == true)
+            {
+                静态类.OpenBrowser(xlsPath);
+            }
         }
         private void DCButton_Click(object sender, RoutedEventArgs e)
         {
@@ -416,5 +416,5 @@ namespace sjzd
 
     }
 
-  
+
 }

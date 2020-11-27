@@ -31,7 +31,7 @@ namespace sjzd
         {
             string sqlAdmin = "", sqlQX = "", FBRJPath = "";
 
-            using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
             {
                 string line;
 
@@ -61,7 +61,7 @@ namespace sjzd
                     }
                 }
             }
-            using (StreamReader sr = new StreamReader(PathConfigPath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(PathConfigPath, Encoding.GetEncoding("GB2312")))
             {
                 string line;
 
@@ -222,7 +222,7 @@ namespace sjzd
                     XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
                     util.Write("Server=" + ContentText.Text.Trim() + ";Database=智能网格;user id=sa;password=134679;", "OtherConfig", "DB");
                     string strData = "";
-                    using (StreamReader sr = new StreamReader(DBconPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
                     {
                         string line;
 
@@ -257,7 +257,7 @@ namespace sjzd
                             }
                         }
                     }
-                    using (StreamWriter sw = new StreamWriter(DBconPath, false, Encoding.Default))
+                    using (StreamWriter sw = new StreamWriter(DBconPath, false, Encoding.GetEncoding("GB2312")))
                     {
                         sw.Write(strData);
                         sw.Flush();
@@ -332,7 +332,7 @@ namespace sjzd
                 if (!File.Exists(path))
                     File.Create(path);
                 string strData = "";
-                using (StreamReader sr = new StreamReader(path, Encoding.Default))
+                using (StreamReader sr = new StreamReader(path, Encoding.GetEncoding("GB2312")))
                 {
                     string line;
 
@@ -357,7 +357,7 @@ namespace sjzd
                 }
 
                 strData = strData.Substring(0, strData.Length - 2);
-                using (StreamWriter sw = new StreamWriter(path, false, Encoding.Default))
+                using (StreamWriter sw = new StreamWriter(path, false, Encoding.GetEncoding("GB2312")))
                 {
                     sw.Write(strData);
                     sw.Flush();

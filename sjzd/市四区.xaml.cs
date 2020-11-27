@@ -24,7 +24,7 @@ namespace sjzd
             int intCount = 0;
             try
             {
-                using (StreamReader sr = new StreamReader(PeopleConfig, Encoding.Default))
+                using (StreamReader sr = new StreamReader(PeopleConfig, Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
                     while ((line = sr.ReadLine()) != null)
@@ -59,7 +59,7 @@ namespace sjzd
             string DZTime = "15";
             try
             {
-                using (StreamReader sr1 = new StreamReader(SSQconPath, Encoding.Default))
+                using (StreamReader sr1 = new StreamReader(SSQconPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1 = "";
 
@@ -109,7 +109,7 @@ namespace sjzd
             string ZDXX = "";
             try
             {
-                using (StreamReader sr1 = new StreamReader(configZDPath, Encoding.Default))
+                using (StreamReader sr1 = new StreamReader(configZDPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1 = "";
                     while ((line1 = sr1.ReadLine()) != null)
@@ -269,7 +269,8 @@ namespace sjzd
         {
             try
             {
-                System.Diagnostics.Process.Start(SJsaPath);
+                静态类.OpenBrowser(SJsaPath);
+
             }
             catch (Exception ex)
             {
@@ -286,7 +287,7 @@ namespace sjzd
         {
             string YBPath = "";
             string YBdata = "";
-            StreamReader sr = new StreamReader(configpathPath, Encoding.Default);
+            StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312"));
             String line;
             //读取设置文件的路径配置文件中所有文本，寻找城镇指导预报路径
             while ((line = sr.ReadLine()) != null)
@@ -299,7 +300,7 @@ namespace sjzd
             }
             sr.Close();
             string CZBWTime = "";
-            using (StreamReader sr1 = new StreamReader(configpathPath, Encoding.Default))
+            using (StreamReader sr1 = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
             {
 
                 // 从文件读取并显示行，直到文件的末尾 
@@ -313,11 +314,11 @@ namespace sjzd
 
                 }
             }
-            YBPath = YBPath + DateTime.Now.ToString("yy") + "." + DateTime.Now.ToString("MM") + CZBWTime + "呼市气象台指导预报" + DateTime.Now.ToString("MMdd") + ".txt";//文件路径为：基本路径+年后两位.月两位\06\呼市气象台指导预报+两位月两位日.txt
+            YBPath = YBPath + DateTime.Now.ToString("yyyy") +"\\"+ DateTime.Now.ToString("yy") + "." + DateTime.Now.ToString("MM") + CZBWTime + "呼市气象台指导预报" + DateTime.Now.ToString("MMdd") + ".txt";//文件路径为：基本路径+年后两位.月两位\06\呼市气象台指导预报+两位月两位日.txt
             //判断城镇指导预报是否存在，如果不存在，提示是否手动选择文件
             try
             {
-                sr = new StreamReader(YBPath, Encoding.Default);
+                sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312"));
                 YBdata = sr.ReadToEnd().ToString();
             }
             catch
@@ -332,7 +333,7 @@ namespace sjzd
         {
             string YBPath = "";
             string YBdata = "";
-            StreamReader sr = new StreamReader(configpathPath, Encoding.Default);
+            StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312"));
             String line;
             //读取设置文件的路径配置文件中所有文本，寻找城镇指导预报路径
             while ((line = sr.ReadLine()) != null)
@@ -346,7 +347,7 @@ namespace sjzd
             sr.Close();
             string CZBWTime = "";
             string DBconPath = System.Environment.CurrentDirectory + @"\设置文件\报文保存路径.txt";
-            using (StreamReader sr1 = new StreamReader(DBconPath, Encoding.Default))
+            using (StreamReader sr1 = new StreamReader(DBconPath, Encoding.GetEncoding("GB2312")))
             {
 
                 // 从文件读取并显示行，直到文件的末尾 
@@ -364,7 +365,7 @@ namespace sjzd
             //判断城镇指导预报是否存在，如果不存在，提示是否手动选择文件
             try
             {
-                sr = new StreamReader(YBPath, Encoding.Default);
+                sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312"));
                 YBdata = sr.ReadToEnd().ToString();
             }
             catch
@@ -380,7 +381,7 @@ namespace sjzd
         //返回数组每行内容为：旗县区站号+未来七天分别的天气、风向风速、最低气温、最高气温，
         public string[,] ZDYBCL(string YBData)
         {
-            StreamReader sr = new StreamReader(configXZPath, Encoding.Default);
+            StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             String line;
             //读取设置文件的旗县乡镇文件中第一行，确认旗县镇数
             line = sr.ReadLine();
@@ -391,7 +392,7 @@ namespace sjzd
 
             //给每行第一列赋值，为旗县的名称
             int lineCount = 0, i = 0;
-            sr = new StreamReader(configXZPath, Encoding.Default);
+            sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             while (i < intQXGS)
             {
                 line = sr.ReadLine();
@@ -429,7 +430,7 @@ namespace sjzd
             lineCount = 0;
             i = 0;
 
-            sr = new StreamReader(configXZPath, Encoding.Default);
+            sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             while (i < intQXGS)
             {
                 line = sr.ReadLine();
@@ -449,7 +450,7 @@ namespace sjzd
         {
             string QXID = "";
             int intQXGS;
-            using (StreamReader sr1 = new StreamReader(configXZPath, Encoding.Default))
+            using (StreamReader sr1 = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
             {
                 String line1;
                 line1 = sr1.ReadLine();
@@ -461,7 +462,7 @@ namespace sjzd
 
             //每两行第一列为旗县ID
             int lineCount = 0;
-            using (StreamReader sr1 = new StreamReader(configXZPath, Encoding.Default))
+            using (StreamReader sr1 = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
             {
                 while (lineCount < intQXGS * 2 + 1)
                 {
@@ -479,7 +480,7 @@ namespace sjzd
             string strLS = QXSK;
             QXSK = "";
             lineCount = 0;
-            using (StreamReader sr1 = new StreamReader(configXZPath, Encoding.Default))
+            using (StreamReader sr1 = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
             {
                 while (lineCount < intQXGS * 2 + 1)
                 {
@@ -519,7 +520,7 @@ namespace sjzd
             int XZGS = 0;
             lineCount = 0;
             i = 0;
-            StreamReader sr = new StreamReader(configXZPath, Encoding.Default);
+            StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             while (i < intQXGS)
             {
                 string line = sr.ReadLine();
@@ -538,7 +539,7 @@ namespace sjzd
             lineCount = 0;
             int intLS = 0;
             i = 0;
-            sr = new StreamReader(configXZPath, Encoding.Default);
+            sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             while (i < intQXGS)
             {
                 string line = sr.ReadLine();
@@ -556,7 +557,7 @@ namespace sjzd
             sr.Close();
 
 
-            sr = new StreamReader(configXZPath, Encoding.Default);
+            sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312"));
             lineCount = 0;
             i = 0;
             int intHS = 0; intLS = 1;
@@ -643,7 +644,7 @@ namespace sjzd
                                 string QXName = "";
                                 if (Math.Abs((douMin + szMin[intCount3]) - Convert.ToDouble(szYB[intQXHS, intLS])) >= 5)
                                 {
-                                    using (StreamReader sr3 = new StreamReader(configXZPath, Encoding.Default))
+                                    using (StreamReader sr3 = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1;
                                         while ((line1 = sr3.ReadLine()) != null)
@@ -664,7 +665,7 @@ namespace sjzd
                                 string QXName = "";
                                 if (Math.Abs((douMax + szMax[intCount4]) - Convert.ToDouble(szYB[intQXHS, intLS])) >= 5)
                                 {
-                                    using (StreamReader sr3 = new StreamReader(configXZPath, Encoding.Default))
+                                    using (StreamReader sr3 = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))
                                     {
                                         string line1;
                                         while ((line1 = sr3.ReadLine()) != null)
@@ -690,7 +691,7 @@ namespace sjzd
             }
             sr.Close();
             string QXNameDZ = System.Environment.CurrentDirectory + @"\设置文件\市四区\指导预报与产品旗县名称对照.txt";
-            using (StreamReader sr1 = new StreamReader(QXNameDZ, Encoding.Default))
+            using (StreamReader sr1 = new StreamReader(QXNameDZ, Encoding.GetEncoding("GB2312")))
             {
                 string strLs = "";
                 while ((strLs = sr1.ReadLine()) != null)
@@ -715,7 +716,7 @@ namespace sjzd
             {
                 string SJMBPath = Environment.CurrentDirectory + @"\模版\市四区模板.doc";
 
-                using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
                     while ((line = sr.ReadLine()) != null)
@@ -838,7 +839,7 @@ namespace sjzd
             {
                 string SJMBPath = Environment.CurrentDirectory + @"\模版\市四区模板.doc";
 
-                using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
                     while ((line = sr.ReadLine()) != null)

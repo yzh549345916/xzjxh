@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Aspose.Cells;
+using sjzd.新界面.乡镇精细化.viewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Aspose.Cells;
-using sjzd.新界面.乡镇精细化.viewModel;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.GridView;
 using Telerik.Windows.Controls.Navigation;
@@ -36,7 +35,7 @@ namespace sjzd
             splashScreenDataContext.IsIndeterminate = true;
             splashScreenDataContext.Content = "正在加载数据";
             splashScreenDataContext.Footer = "Copyright © 2020 杨泽华, All rights reserved";
-            
+
         }
 
         private void CXButton_Click(object sender, RoutedEventArgs e)
@@ -52,11 +51,11 @@ namespace sjzd
                 string endDate = eDateTime.ToString("yyyy年MM月dd日");
                 int myHour = SCSelect.SelectedTime.Value.Hours;
                 BTLabel.Content = startDate + "至" + endDate + myHour + "时最高、最低气温查询";
-                
+
                 for (DateTime lsDateTime = sDateTime; lsDateTime.CompareTo(eDateTime) <= 0; lsDateTime = lsDateTime.AddDays(1))
                 {
                     CIMISS cIMISS = new CIMISS();
-                    
+
                     List<CIMISS.YS> myTem = cIMISS.获取小时温度(lsDateTime.Date.AddDays(-1).AddHours(myHour + 1), lsDateTime.AddHours(myHour), idStr);
                     mySKTem.AddRange(myTem);
                     List<SKList> sKLists = new List<SKList>();
@@ -75,14 +74,14 @@ namespace sjzd
                         }
                     }
 
-                   try
-                   {
+                    try
+                    {
                         查询列表.Add(new 实况查询ViewModel(lsDateTime.AddHours(myHour), "低温", sKLists.First(y => y.ID == "53368").Tmin, sKLists.First(y => y.ID == "53464").Tmin, sKLists.First(y => y.ID == "53466").Tmin, sKLists.First(y => y.ID == "53467").Tmin, sKLists.First(y => y.ID == "53469").Tmin, sKLists.First(y => y.ID == "53562").Tmin, sKLists.First(y => y.ID == "53463").Tmin, sKLists.First(y => y.ID == "53368").低温时间, sKLists.First(y => y.ID == "53464").低温时间, sKLists.First(y => y.ID == "53466").低温时间, sKLists.First(y => y.ID == "53467").低温时间, sKLists.First(y => y.ID == "53469").低温时间, sKLists.First(y => y.ID == "53562").低温时间, sKLists.First(y => y.ID == "53463").低温时间));
                         查询列表.Add(new 实况查询ViewModel(lsDateTime.AddHours(myHour), "高温", sKLists.First(y => y.ID == "53368").Tmax, sKLists.First(y => y.ID == "53464").Tmax, sKLists.First(y => y.ID == "53466").Tmax, sKLists.First(y => y.ID == "53467").Tmax, sKLists.First(y => y.ID == "53469").Tmax, sKLists.First(y => y.ID == "53562").Tmax, sKLists.First(y => y.ID == "53463").Tmax, sKLists.First(y => y.ID == "53368").高温时间, sKLists.First(y => y.ID == "53464").高温时间, sKLists.First(y => y.ID == "53466").高温时间, sKLists.First(y => y.ID == "53467").高温时间, sKLists.First(y => y.ID == "53469").高温时间, sKLists.First(y => y.ID == "53562").高温时间, sKLists.First(y => y.ID == "53463").高温时间));
                     }
-                   catch
-                   {
-                   }
+                    catch
+                    {
+                    }
                 }
                 RadSplashScreenManager.Close();
             }
@@ -96,7 +95,7 @@ namespace sjzd
                 });
             }
 
-           
+
         }
         private void RadGridView_CellLoaded(object sender, CellEventArgs e)
         {
@@ -127,25 +126,25 @@ namespace sjzd
                 Telerik.Windows.Controls.GridViewColumn c1 = cell.Column;
                 if (row != null && c1 != null)
                 {
-                    显示实况折线(c1.Header.ToString(), row.日期,row.类型);
+                    显示实况折线(c1.Header.ToString(), row.日期, row.类型);
                 }
             }
         }
-        private void 显示实况折线(string id, DateTime eDate,string 类型)
+        private void 显示实况折线(string id, DateTime eDate, string 类型)
         {
             if (mySKTem.Count > 0)
             {
                 List<CIMISS.YS> mysk = mySKTem.Where(y => y.DateTime.CompareTo(eDate) <= 0 && y.DateTime.CompareTo(eDate.AddDays(-1)) > 0 && y.StationID == id).ToList();
                 List<CIMISS.ECTEF0> temLists = new List<CIMISS.ECTEF0>();
-                if (类型=="高温")
+                if (类型 == "高温")
                 {
-                    foreach(var item in mysk)
+                    foreach (var item in mysk)
                     {
                         temLists.Add(new CIMISS.ECTEF0()
                         {
-                            StationID=item.StationID,
-                            DateTime=item.DateTime,
-                            TEM=item.TEM_Max
+                            StationID = item.StationID,
+                            DateTime = item.DateTime,
+                            TEM = item.TEM_Max
                         });
                     }
                 }
@@ -257,7 +256,11 @@ namespace sjzd
 
         private void OnConfirmClosed_打开产品(object sender, WindowClosedEventArgs e)
         {
-            if (e.DialogResult == true) Process.Start(xlsPath);
+            if (e.DialogResult == true)
+            {
+
+                静态类.OpenBrowser(xlsPath);
+            }
         }
 
         private void DCButton_Click(object sender, RoutedEventArgs e)
@@ -317,42 +320,42 @@ namespace sjzd
                     cellSheet.Cells[0, 8].PutValue("53463");
                     for (int i = 0; i < dcsz.Length; i++)
                     {
-                        cellSheet.Cells[i*2+1, 0].PutValue(dcsz[i].日期.ToString("M月d日H时"));
-                        cellSheet.Cells[i*2+1, 0].SetStyle(style2);
+                        cellSheet.Cells[i * 2 + 1, 0].PutValue(dcsz[i].日期.ToString("M月d日H时"));
+                        cellSheet.Cells[i * 2 + 1, 0].SetStyle(style2);
                         cellSheet.Cells[i * 2 + 2, 0].PutValue("出现时间");
                         cellSheet.Cells[i * 2 + 2, 0].SetStyle(style1);
                         cellSheet.Cells[i * 2 + 1, 1].PutValue(dcsz[i].类型);
                         cellSheet.Cells[i * 2 + 1, 1].SetStyle(style2);
                         cellSheet.Cells[i * 2 + 2, 1].PutValue(dcsz[i].类型);
                         cellSheet.Cells[i * 2 + 2, 1].SetStyle(style1);
-                        cellSheet.Cells[i*2+1, 1+1].PutValue(Math.Round(dcsz[i].值53368, 2));
-                        cellSheet.Cells[i*2+1, 1 + 1].SetStyle(style2);
-                        cellSheet.Cells[i*2+2, 1 + 1].PutValue(dcsz[i].时间53368.ToString("d日H时"));
-                        cellSheet.Cells[i*2+2, 1 + 1].SetStyle(style1);
-                        cellSheet.Cells[i*2+1, 2 + 1].PutValue(Math.Round(dcsz[i].值53464, 2));
-                        cellSheet.Cells[i*2+1, 2 + 1].SetStyle(style2);
-                        cellSheet.Cells[i*2+2, 2 + 1].PutValue(dcsz[i].时间53464.ToString("d日H时"));
-                        cellSheet.Cells[i*2+2, 2 + 1].SetStyle(style1);
-                        cellSheet.Cells[i*2+1, 3 + 1].PutValue(Math.Round(dcsz[i].值53466, 2));
-                        cellSheet.Cells[i*2+1, 3 + 1].SetStyle(style2);
-                        cellSheet.Cells[i*2+2, 3 + 1].PutValue(dcsz[i].时间53466.ToString("d日H时"));
-                        cellSheet.Cells[i*2+2, 3 + 1].SetStyle(style1);
-                        cellSheet.Cells[i*2+1, 4 + 1].PutValue(Math.Round(dcsz[i].值53467, 2));
-                        cellSheet.Cells[i*2+1, 4 + 1].SetStyle(style2);
-                        cellSheet.Cells[i*2+ 2, 4 + 1].PutValue(dcsz[i].时间53467.ToString("d日H时"));
-                        cellSheet.Cells[i*2+ 2, 4 + 1].SetStyle(style1);
-                        cellSheet.Cells[i*2+1, 5 + 1].PutValue(Math.Round(dcsz[i].值53469, 2));
-                        cellSheet.Cells[i*2+1, 5 + 1].SetStyle(style2);
-                        cellSheet.Cells[i*2+ 2, 5 + 1].PutValue(dcsz[i].时间53469.ToString("d日H时"));
-                        cellSheet.Cells[i*2+ 2, 5 + 1].SetStyle(style1);
-                        cellSheet.Cells[i*2+1, 6 + 1].PutValue(Math.Round(dcsz[i].值53562, 2));
-                        cellSheet.Cells[i*2+1, 6 + 1].SetStyle(style2);
-                        cellSheet.Cells[i*2+ 2, 6 + 1].PutValue(dcsz[i].时间53562.ToString("d日H时"));
-                        cellSheet.Cells[i*2+ 2, 6 + 1].SetStyle(style1);
-                        cellSheet.Cells[i*2+1, 7 + 1].PutValue(Math.Round(dcsz[i].值53463, 2));
-                        cellSheet.Cells[i*2+1, 7 + 1].SetStyle(style2);
-                        cellSheet.Cells[i*2+ 2, 7 + 1].PutValue(dcsz[i].时间53463.ToString("d日H时"));
-                        cellSheet.Cells[i*2+2, 7 + 1].SetStyle(style1);
+                        cellSheet.Cells[i * 2 + 1, 1 + 1].PutValue(Math.Round(dcsz[i].值53368, 2));
+                        cellSheet.Cells[i * 2 + 1, 1 + 1].SetStyle(style2);
+                        cellSheet.Cells[i * 2 + 2, 1 + 1].PutValue(dcsz[i].时间53368.ToString("d日H时"));
+                        cellSheet.Cells[i * 2 + 2, 1 + 1].SetStyle(style1);
+                        cellSheet.Cells[i * 2 + 1, 2 + 1].PutValue(Math.Round(dcsz[i].值53464, 2));
+                        cellSheet.Cells[i * 2 + 1, 2 + 1].SetStyle(style2);
+                        cellSheet.Cells[i * 2 + 2, 2 + 1].PutValue(dcsz[i].时间53464.ToString("d日H时"));
+                        cellSheet.Cells[i * 2 + 2, 2 + 1].SetStyle(style1);
+                        cellSheet.Cells[i * 2 + 1, 3 + 1].PutValue(Math.Round(dcsz[i].值53466, 2));
+                        cellSheet.Cells[i * 2 + 1, 3 + 1].SetStyle(style2);
+                        cellSheet.Cells[i * 2 + 2, 3 + 1].PutValue(dcsz[i].时间53466.ToString("d日H时"));
+                        cellSheet.Cells[i * 2 + 2, 3 + 1].SetStyle(style1);
+                        cellSheet.Cells[i * 2 + 1, 4 + 1].PutValue(Math.Round(dcsz[i].值53467, 2));
+                        cellSheet.Cells[i * 2 + 1, 4 + 1].SetStyle(style2);
+                        cellSheet.Cells[i * 2 + 2, 4 + 1].PutValue(dcsz[i].时间53467.ToString("d日H时"));
+                        cellSheet.Cells[i * 2 + 2, 4 + 1].SetStyle(style1);
+                        cellSheet.Cells[i * 2 + 1, 5 + 1].PutValue(Math.Round(dcsz[i].值53469, 2));
+                        cellSheet.Cells[i * 2 + 1, 5 + 1].SetStyle(style2);
+                        cellSheet.Cells[i * 2 + 2, 5 + 1].PutValue(dcsz[i].时间53469.ToString("d日H时"));
+                        cellSheet.Cells[i * 2 + 2, 5 + 1].SetStyle(style1);
+                        cellSheet.Cells[i * 2 + 1, 6 + 1].PutValue(Math.Round(dcsz[i].值53562, 2));
+                        cellSheet.Cells[i * 2 + 1, 6 + 1].SetStyle(style2);
+                        cellSheet.Cells[i * 2 + 2, 6 + 1].PutValue(dcsz[i].时间53562.ToString("d日H时"));
+                        cellSheet.Cells[i * 2 + 2, 6 + 1].SetStyle(style1);
+                        cellSheet.Cells[i * 2 + 1, 7 + 1].PutValue(Math.Round(dcsz[i].值53463, 2));
+                        cellSheet.Cells[i * 2 + 1, 7 + 1].SetStyle(style2);
+                        cellSheet.Cells[i * 2 + 2, 7 + 1].PutValue(dcsz[i].时间53463.ToString("d日H时"));
+                        cellSheet.Cells[i * 2 + 2, 7 + 1].SetStyle(style1);
                     }
 
                     //cellSheet.AutoFitColumns();

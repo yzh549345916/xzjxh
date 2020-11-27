@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Aspose.Words;
+using Aspose.Words.Drawing;
+using Aspose.Words.Drawing.Charts;
+using Aspose.Words.Tables;
+using sjzd.类;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using Aspose.Words;
-using Aspose.Words.Drawing;
-using Aspose.Words.Drawing.Charts;
-using Aspose.Words.Tables;
-using sjzd.类;
 using static sjzd.环保局预报;
 
 namespace sjzd
@@ -148,22 +148,22 @@ namespace sjzd
                     List<Table> tables = new List<Table>();
                     Shape shape = builder.InsertChart(ChartType.Line, 600, 320);
                     builder.InsertBreak(BreakType.PageBreak);
-                    
+
                     Shape shapeVis = builder.InsertChart(ChartType.Line, 600, 420);
                     builder.InsertBreak(BreakType.PageBreak);
-                   
+
                     Shape shapeErh = builder.InsertChart(ChartType.Line, 600, 420);
                     builder.InsertBreak(BreakType.PageBreak);
-                   
+
 
                     Shape shapePre = builder.InsertChart(ChartType.Line, 600, 420);
                     builder.InsertBreak(BreakType.PageBreak);
-                    
+
 
                     Shape shapeFS = builder.InsertChart(ChartType.Line, 600, 420);
                     builder.InsertBreak(BreakType.PageBreak);
                     builder.Write(date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时气温变化情况");
-                    
+
                     Table table = builder.StartTable();
                     builder.EndTable();
                     builder.InsertBreak(BreakType.PageBreak);
@@ -180,7 +180,7 @@ namespace sjzd
                     builder.EndTable();
                     ; builder.InsertBreak(BreakType.PageBreak);
                     builder.Write(date.ToString("yyyy年MM月dd日") + sc.ToString().PadLeft(2, '0') + "时风向风速变化情况");
-                    
+
                     Table tableFS = builder.StartTable();
                     Table tableFX = builder.StartTable();
 
@@ -249,7 +249,7 @@ namespace sjzd
                         {
                             // series0.Marker.Symbol = MarkerSymbol.Dash;
                             //series0.Marker.Size = 50;
-                           
+
 
                             foreach (Table tableLs in tables)
                             {
@@ -308,25 +308,25 @@ namespace sjzd
                             switch (j)
                             {
                                 case 0:
-                                {
-                                    foreach (double data in temSZ)
                                     {
-                                        Cell cell = new Cell(doc);
-                                        cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
-                                        row.AppendChild(cell);
-                                        // Add a blank paragraph to the cell.
-                                        Paragraph pa1 = new Paragraph(doc);
-                                        pa1.ParagraphFormat.Style.Font.Size = 7;
-                                        pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-                                        cell.AppendChild(pa1);
+                                        foreach (double data in temSZ)
+                                        {
+                                            Cell cell = new Cell(doc);
+                                            cell.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                                            row.AppendChild(cell);
+                                            // Add a blank paragraph to the cell.
+                                            Paragraph pa1 = new Paragraph(doc);
+                                            pa1.ParagraphFormat.Style.Font.Size = 7;
+                                            pa1.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                                            cell.AppendChild(pa1);
 
 
-                                        // Add the text.
-                                        cell.FirstParagraph.AppendChild(new Run(doc, data.ToString()));
+                                            // Add the text.
+                                            cell.FirstParagraph.AppendChild(new Run(doc, data.ToString()));
+                                        }
+
+                                        break;
                                     }
-
-                                    break;
-                                }
 
                                 case 1:
                                     foreach (double data in visSZ)
@@ -423,7 +423,7 @@ namespace sjzd
                     return SJsaPath;
                 }
 
-                catch (Exception e)
+                catch (Exception)
                 {
                 }
             }
@@ -730,7 +730,7 @@ namespace sjzd
                                                     TEM = sqlreader.IsDBNull(sqlreader.GetOrdinal("TEM")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
                                                     ERH = sqlreader.IsDBNull(sqlreader.GetOrdinal("ERH")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
                                                     PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 1),
-                                                    SX = (short) (sqlreader.GetInt16(sqlreader.GetOrdinal("SX")) - 12),
+                                                    SX = (short)(sqlreader.GetInt16(sqlreader.GetOrdinal("SX")) - 12),
                                                     FX = fxfs.Split(',')[0],
                                                     FS = fxfs.Split(',')[1],
                                                     doubleFS = GetFS(v, u),
@@ -785,14 +785,14 @@ namespace sjzd
                                                 TEM = sqlreader.IsDBNull(sqlreader.GetOrdinal("TEM")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("TEM")), 2),
                                                 ERH = sqlreader.IsDBNull(sqlreader.GetOrdinal("ERH")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("ERH")), 2),
                                                 PRE = sqlreader.IsDBNull(sqlreader.GetOrdinal("PRE_3H")) ? -999999 : Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("PRE_3H")), 1),
-                                                SX = (short) (sqlreader.GetInt16(sqlreader.GetOrdinal("SX")) - 12),
+                                                SX = (short)(sqlreader.GetInt16(sqlreader.GetOrdinal("SX")) - 12),
                                                 FX = fxfs.Split(',')[0],
                                                 FS = fxfs.Split(',')[1],
                                                 doubleFS = GetFS(v, u),
                                                 VIS = sqlreader.IsDBNull(sqlreader.GetOrdinal("VIS")) ? -999999 : Convert.ToInt32(Math.Round(sqlreader.GetFloat(sqlreader.GetOrdinal("VIS")), 0))
                                             });
                                         }
-                                        catch (Exception ee)
+                                        catch (Exception)
                                         {
                                         }
                                     }
@@ -815,7 +815,7 @@ namespace sjzd
                 list = list.OrderBy(y => y.ID).ThenBy(y => y.SX).ToList();
                 if (iDNames.Count * 24 != list.Count)
                 {
-                    for (short i = 3; i < 73; i = (short) (i + 3))
+                    for (short i = 3; i < 73; i = (short)(i + 3))
                     {
                         foreach (IDName j in iDNames)
                         {
@@ -924,7 +924,7 @@ namespace sjzd
                     }
                 }
 
-                for (short i = 3; i < 73; i = (short) (i + 3))
+                for (short i = 3; i < 73; i = (short)(i + 3))
                 {
                     foreach (IDName j in iDNames)
                     {

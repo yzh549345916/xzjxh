@@ -15,5 +15,6 @@
   <OtherConfig>
     <DB>Server=172.18.143.127;Database=智能网格;user id=sa;password=134679;</DB>
     <xzjxhDB>Server=172.18.143.127;Database=xzjxhyb_DB;user id=sa;password=134679;</xzjxhDB>
+    <SZDB>Server=172.18.143.127;Database=数值预报;user id=sa;password=134679;</SZDB>
   </OtherConfig>
 </XmlConfig>

@@ -1,4 +1,5 @@
 ﻿using cma.cimiss.client;
+using FtpLib;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -7,8 +8,6 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
-using FtpLib;
-using ManagementProject;
 using MessageBox = System.Windows.MessageBox;
 
 namespace xzjxhyb_DBmain
@@ -24,7 +23,7 @@ namespace xzjxhyb_DBmain
         string RKTime = "20";//实况入库的时次,窗口初始化程序中会重新给该值从配置文件中赋值
         Int16 SFJG = 0;
         System.Timers.Timer t = new System.Timers.Timer(60000);
-        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -91,28 +90,7 @@ namespace xzjxhyb_DBmain
                 }
             }
             // InitialTray(); //最小化至托盘
-            //FtpHelper ftpHelper = new FtpHelper("172.18.142.167","21", "qxt", "qxt123");
-            FtpWeb ftpHelper = new FtpWeb("172.18.142.167", "", "qxt", "qxt123");
-           var ss32= ftpHelper.GetFileList("");
-            ftpHelper.ExistOrCreateDirectory("测试/测试1/测试3");
-            //ftpHelper.Download(@"E:", @"测试2.txt");
-            var ss33 = ftpHelper.GetFileList("");
-            ftpHelper.GotoDirectory("测试/测试1",true);
-            var ss34 = ftpHelper.GetFileList("");
-            FTPHelper fTPHelper = new FTPHelper();
-           // fTPHelper.GotoDirectory("6小时指导预报", true);
-            var b1= fTPHelper.DirectoryExist("Backup");
-            var b2 = fTPHelper.DirectoryExist("Backup2");
-            var ss=FTPHelper.GetDirectoryList();
-            var ss2 = FTPHelper.GetFilesDetailList();
-            var ss3 = FTPHelper.GetFileList("");
-            Action<int, int> updateProgress = null;
-            FTPHelper.FtpDownload("6小时指导预报/Z_SEVP_C_BABJ_20200528051246_P_RFFC_SCMOC6H_202005281200_02406.TXT", @"D:\测试2.txt", true, updateProgress);
-            var ssss= FTPHelper.FtpUploadFile(@"D:\测试2.txt", updateProgress);
-            fTPHelper.GotoDirectory("", true);
-            var ss4 = FTPHelper.GetDirectoryList();
-            var ss5 = FTPHelper.GetFilesDetailList();
-            var ss6 = FTPHelper.GetFileList("");
+            DeleteFile();
         }
         public static string utf8_gb2312(string text)
         {
@@ -183,17 +161,7 @@ namespace xzjxhyb_DBmain
         }
         #endregion
 
-        private void 处理防凌预报()
-        {
-            try
-            {
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
         private void 处理月统计信息()
         {
             try
@@ -227,29 +195,29 @@ namespace xzjxhyb_DBmain
         }
         private void SJYBHFBu_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                DeleteFile();
-                for (int i = -1; i > -7; i--)
-                {
-                    saveSJYB savesjyb = new saveSJYB();
-                    string ss = savesjyb.saveSJCS("20200319");
-                    this.t1.Dispatcher.Invoke(
-                        new Action(
-                            delegate
-                            {
-                                t1.AppendText(ss);
-                                        //将光标移至文本框最后
-                                        t1.Focus();
-                                t1.CaretIndex = (t1.Text.Length);
-                            }
-                        ));
-                    SaveJL(ss);
-                }
-            }
-            catch
-            {
-            }
+            //try
+            //{
+            //    DeleteFile();
+            //    for (int i = -1; i > -7; i--)
+            //    {
+            //        saveSJYB savesjyb = new saveSJYB();
+            //        string ss = savesjyb.saveSJCS("20200319");
+            //        this.t1.Dispatcher.Invoke(
+            //            new Action(
+            //                delegate
+            //                {
+            //                    t1.AppendText(ss);
+            //                            //将光标移至文本框最后
+            //                            t1.Focus();
+            //                    t1.CaretIndex = (t1.Text.Length);
+            //                }
+            //            ));
+            //        SaveJL(ss);
+            //    }
+            //}
+            //catch
+            //{
+            //}
             SJYBHFWindow SJHF = new SJYBHFWindow();
             SJHF.Show();
         }
@@ -272,8 +240,6 @@ namespace xzjxhyb_DBmain
 
         private void TJHFBu_Click(object sender, RoutedEventArgs e)
         {
-            Thread thread = new Thread(处理防凌预报);
-            thread.Start();
             统计信息重新入库窗口 TJHF = new 统计信息重新入库窗口();
             TJHF.Show();
         }
@@ -474,13 +440,6 @@ namespace xzjxhyb_DBmain
                     {
                     }
                 }
-
-                if (dateTime.Hour == 10 && dateTime.Minute == 0)
-                {
-                    Thread thread = new Thread(处理防凌预报);
-                    thread.Start();
-                }
-
             }
             catch
             {
@@ -696,8 +655,24 @@ namespace xzjxhyb_DBmain
                         }
                     }
                 }
-
+                #region ftp处理
+                try
+                {
+                    Ftp自己处理 myftp = new Ftp自己处理();
+                    FtpWeb ftpWeb = myftp.共享路径处理为ftp类(YBpath);
+                    ftpWeb.GetDirectoryList();
+                    string[] fileListSz = ftpWeb.GetFileList(".ENN");
+                    foreach (string fileName in fileListSz)
+                    {
+                        ftpWeb.Delete(fileName);
+                    }
+                }
+                catch
+                {
+                }
+                #endregion
                 string strParPath = "*.ENN";
+
                 string[] fileNameList = Directory.GetFiles(YBpath, strParPath);
                 foreach (string f in fileNameList)
                 {

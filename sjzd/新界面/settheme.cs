@@ -152,7 +152,7 @@ namespace sjzd
             //"Telerik.Windows.Controls.FixedDocumentViewersUI",
             //"Telerik.Windows.Controls.GanttView",
             "Telerik.Windows.Controls.GridView",
-            "Telerik.Windows.Controls.ImageEditor",
+            //"Telerik.Windows.Controls.ImageEditor",
             "Telerik.Windows.Controls.Input",
         };
     }

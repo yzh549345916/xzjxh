@@ -1,9 +1,7 @@
-﻿using System;
+﻿using sjzd.类;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Windows;
-using sjzd.类;
 using Telerik.Windows.Controls;
 
 namespace sjzd
@@ -25,16 +23,16 @@ namespace sjzd
                     RadComboBoxItem comboBoxItem = new RadComboBoxItem
                     {
                         Content = item.Name,
-                        
-                        
+
+
                     };
                     ZBCom.Items.Add(comboBoxItem);
                 }
-              
+
 
                 try
                 {
-                    if(DateTime.Now.Hour<=18&& DateTime.Now.Hour >= 7)
+                    if (DateTime.Now.Hour <= 18 && DateTime.Now.Hour >= 7)
                         LXCom.SelectedIndex = 0;
                     else
                         LXCom.SelectedIndex = 0;
@@ -45,7 +43,7 @@ namespace sjzd
                     MessageBox.Show(ex.Message);
                 }
             }
-            catch(Exception e)
+            catch (Exception)
             {
             }
         }
@@ -69,7 +67,7 @@ namespace sjzd
         {
             var radComboBox = (RadComboBox)sender;
             XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\新界面设置.xml");
-            util.Write(radComboBox.Text,"CPcfig", "FLYB", "LX");
+            util.Write(radComboBox.Text, "CPcfig", "FLYB", "LX");
         }
     }
 }

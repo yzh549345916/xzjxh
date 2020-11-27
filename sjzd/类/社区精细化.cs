@@ -25,7 +25,7 @@ namespace sjzd
                 {
                     string SJMBPath = Environment.CurrentDirectory + @"\模版\社区街道精细化预报模板.docx";
                     string SJsaPath = "";
-                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                     {
                         string line = "";
                         while ((line = sr.ReadLine()) != null)
@@ -118,7 +118,7 @@ namespace sjzd
                     {
                         try
                         {
-                            System.Diagnostics.Process.Start(SJsaPath);
+                            静态类.OpenBrowser(SJsaPath);
                         }
                         catch (Exception ex)
                         {
@@ -150,7 +150,7 @@ namespace sjzd
                 {
                     string SJMBPath = Environment.CurrentDirectory + @"\模版\社区街道精细化预报模板.docx";
                     string SJsaPath = "";
-                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                     {
                         string line = "";
                         while ((line = sr.ReadLine()) != null)

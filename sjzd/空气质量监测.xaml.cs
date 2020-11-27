@@ -44,7 +44,7 @@ namespace sjzd
             string cityStr = "";
             try
             {
-                using (StreamReader sr = new StreamReader(configPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(configPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
                     while ((line = sr.ReadLine()) != null)

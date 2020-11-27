@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Net;
-using System.Windows.Forms;
-using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace FtpLib
 {
@@ -16,7 +14,7 @@ namespace FtpLib
         string ftpUserID;
         string ftpPassword;
         string ftpURI;
-       Encoding myEncoding= Encoding.UTF8;
+        Encoding myEncoding = Encoding.UTF8;
 
         /// <summary>
         /// 连接FTP
@@ -50,8 +48,11 @@ namespace FtpLib
             ftpRemotePath = FtpRemotePath;
             ftpUserID = FtpUserID;
             ftpPassword = FtpPassword;
-            ftpURI = "ftp://" + ftpServerIP + "/" + ftpRemotePath + "/";
-            myEncoding=FtpEncoding;
+            if (ftpRemotePath == null || ftpRemotePath.Trim() == "")
+                ftpURI = "ftp://" + ftpServerIP + "/";
+            else
+                ftpURI = "ftp://" + ftpServerIP + "/" + ftpRemotePath + "/";
+            myEncoding = FtpEncoding;
         }
 
         #region 文件上传
@@ -62,6 +63,8 @@ namespace FtpLib
         /// /// <returns>是否上传成功</returns>
         public bool Upload(string localPath)
         {
+            if (!File.Exists(localPath))
+                return false;
             FileInfo fileInf = new FileInfo(localPath);
             string uri = ftpURI + fileInf.Name;
             FtpWebRequest reqFTP;
@@ -110,6 +113,8 @@ namespace FtpLib
         /// <returns>是否上传成功</returns>
         public bool Upload(string localPath, string remoteFileName)
         {
+            if (!File.Exists(localPath))
+                return false;
             FileInfo fileInf = new FileInfo(localPath);
             string uri = ftpURI + remoteFileName;
             FtpWebRequest reqFTP;
@@ -158,10 +163,12 @@ namespace FtpLib
         /// <returns>是否上传成功</returns>
         public bool FtpUploadBroken(string localPath)
         {
+            if (!File.Exists(localPath))
+                return false;
             string newFileName = string.Empty;
             bool success = true;
             FileInfo fileInf = new FileInfo(localPath);
-            long allbye = (long)fileInf.Length;
+            long allbye = fileInf.Length;
             if (fileInf.Name.IndexOf("#") == -1)
             {
                 newFileName = RemoveSpaces(fileInf.Name);
@@ -256,7 +263,7 @@ namespace FtpLib
             FileStream outputStream = null;
             try
             {
-                outputStream = new FileStream(localFileName , FileMode.Create);
+                outputStream = new FileStream(localFileName, FileMode.Create);
 
                 reqFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpURI + remoteFileName));
                 reqFTP.Method = WebRequestMethods.Ftp.DownloadFile;
@@ -344,7 +351,7 @@ namespace FtpLib
                 response.Close();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
                 throw;
@@ -475,8 +482,9 @@ namespace FtpLib
         }
 
         /// <summary>
-        /// 获取当前目录下文件列表(仅文件)
+        /// 获取当前目录下文件列表(文件和文件夹)
         /// </summary>
+        /// <param name="mask">筛选的正则表达式，如果查询全部则输入""</param>
         /// <returns></returns>
         public string[] GetFileList(string mask)
         {
@@ -495,11 +503,12 @@ namespace FtpLib
                 string line = reader.ReadLine();
                 while (line != null)
                 {
-                    if (mask.Trim() != string.Empty && mask.Trim() != "*.*")
+                    if (mask.Trim() != string.Empty && mask.Trim() != "*.*" && mask.Trim() != "")
                     {
 
-                        string mask_ = mask.Substring(0, mask.IndexOf("*"));
-                        if (line.Substring(0, mask_.Length) == mask_)
+                        //string mask_ = mask.Substring(0, mask.IndexOf("*"));
+                        ;
+                        if (Regex.IsMatch(line, mask))
                         {
                             result.Append(line);
                             result.Append("\n");
@@ -704,32 +713,40 @@ namespace FtpLib
             }
             else
             {
-                if(DirectoryName.Trim() != "")
+                if (DirectoryName.Trim() != "")
+                {
+                    if (!(DirectoryName.StartsWith("/") || (ftpRemotePath.Trim() != "" && ftpRemotePath.EndsWith("/"))))
+                    {
+                        DirectoryName = "/" + DirectoryName;
+                    }
                     ftpRemotePath += DirectoryName + "/";
+                }
+
+
             }
             if (ftpRemotePath == null || ftpRemotePath.Trim() == "")
                 ftpURI = "ftp://" + ftpServerIP + "/";
             else
-             ftpURI = "ftp://" + ftpServerIP + "/" + ftpRemotePath + "/";
+                ftpURI = "ftp://" + ftpServerIP + "/" + ftpRemotePath + "/";
         }
         /// <summary>
         /// 判断给定的ftp目录是否存在，不存在则新建
         /// </summary>
         /// <param name="DirectoryPath">需要查询（新建）的目录，前后不含“/”</param>
+        /// <param name="isBack">查询（新建）目录后是否返回原目录</param>
         /// <returns>是否查询成功</returns>
-        public bool ExistOrCreateDirectory(string DirectoryPath)
+        public bool ExistOrCreateDirectory(string DirectoryPath, bool isBack)
         {
             string myftpRemotePath = ftpRemotePath;
             try
             {
-               string[] pathSZ = DirectoryPath.Split('/');
-                string uriLS= "ftp://" + ftpServerIP + "/" + DirectoryPath + "/";
-               foreach(string myMl in pathSZ)
-               {
+                string[] pathSZ = DirectoryPath.Split('/');
+                foreach (string myMl in pathSZ)
+                {
                     if (!DirectoryExist(myMl))
                         CreateDirectory(myMl);
                     GotoDirectory(myMl, false);
-               }
+                }
                 return true;
             }
             catch
@@ -738,7 +755,8 @@ namespace FtpLib
             }
             finally
             {
-                GotoDirectory(myftpRemotePath, true);
+                if (isBack)
+                    GotoDirectory(myftpRemotePath, true);
             }
         }
         #region 其他
@@ -755,7 +773,7 @@ namespace FtpLib
             {
                 byte[] array = new byte[1];
                 array = System.Text.Encoding.ASCII.GetBytes(CEnumerator.Current.ToString());
-                int asciicode = (short)(array[0]);
+                int asciicode = array[0];
                 if (asciicode != 32)
                 {
                     a += CEnumerator.Current.ToString();
@@ -824,7 +842,24 @@ namespace FtpLib
         #endregion
     }
 
-
+    public class Ftp自己处理
+    {
+        public FtpWeb 共享路径处理为ftp类(string GXPath)
+        {
+            string[] sz = GXPath.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+            string remotePath = "";
+            if (sz.Length > 1)
+            {
+                for (int i = 1; i < sz.Length; i++)
+                {
+                    remotePath += sz[i] + "/";
+                }
+                remotePath = remotePath.Substring(0, remotePath.Length - 1);
+            }
+            FtpWeb ftpHelper = new FtpWeb(sz[0], remotePath, "qxt", "qxt123", Encoding.Default);
+            return ftpHelper;
+        }
+    }
     public class Insert_Standard_ErrorLog
     {
         public static void Insert(string x, string y)

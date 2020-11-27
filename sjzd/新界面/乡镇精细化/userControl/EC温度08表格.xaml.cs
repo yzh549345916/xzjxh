@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Aspose.Cells;
+using sjzd.新界面.乡镇精细化.viewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -10,8 +11,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Aspose.Cells;
-using sjzd.新界面.乡镇精细化.viewModel;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.GridView;
 using Telerik.Windows.Controls.Navigation;
@@ -69,9 +68,9 @@ namespace sjzd
             {
                 CIMISS cIMISS = new CIMISS();
                 DateTime dateTime = cIMISS.获取EC2米温度最新时间();
-                TimeSpan timeSpan=DateTime.Now.Date.AddHours(8)- DateTime.Now.Date;
-                if(DateTime.Now.Hour>12)
-                    timeSpan= DateTime.Now.Date.AddHours(20) - DateTime.Now.Date;
+                TimeSpan timeSpan = DateTime.Now.Date.AddHours(8) - DateTime.Now.Date;
+                if (DateTime.Now.Hour > 12)
+                    timeSpan = DateTime.Now.Date.AddHours(20) - DateTime.Now.Date;
                 if (dateTime.CompareTo(DateTime.Now.AddDays(-2)) > 0)
                 {
                     Dispatcher.Invoke(() =>
@@ -137,13 +136,13 @@ namespace sjzd
                             strData += $"{item.DateTime}\t{item.StationID}\t{item.TEM}\r\n";
                         }
 
-                        using (StreamWriter sw = new StreamWriter(LSPath, false, Encoding.Default))
+                        using (StreamWriter sw = new StreamWriter(LSPath, false, Encoding.GetEncoding("GB2312")))
                         {
                             sw.Write(strData);
                         }
                     }
 
-                    using (StreamReader sr = new StreamReader(LSPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(LSPath, Encoding.GetEncoding("GB2312")))
                     {
                         string line = "";
                         while ((line = sr.ReadLine()) != null)
@@ -180,7 +179,7 @@ namespace sjzd
                                         sKLists.Add(sKList);
                                     }
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
                                 {
                                 }
                             }
@@ -234,7 +233,7 @@ namespace sjzd
                         return;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
 
@@ -375,7 +374,10 @@ namespace sjzd
 
         private void OnConfirmClosed_打开产品(object sender, WindowClosedEventArgs e)
         {
-            if (e.DialogResult == true) Process.Start(xlsPath);
+            if (e.DialogResult == true)
+            {
+                静态类.OpenBrowser(xlsPath);
+            }
         }
 
         private void DCButton_Click(object sender, RoutedEventArgs e)
@@ -624,13 +626,13 @@ namespace sjzd
                             strData += $"{item.DateTime}\t{item.StationID}\t{item.TEM}\r\n";
                         }
 
-                        using (StreamWriter sw = new StreamWriter(LSPath, false, Encoding.Default))
+                        using (StreamWriter sw = new StreamWriter(LSPath, false, Encoding.GetEncoding("GB2312")))
                         {
                             sw.Write(strData);
                         }
                     }
 
-                    using (StreamReader sr = new StreamReader(LSPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(LSPath, Encoding.GetEncoding("GB2312")))
                     {
                         string line = "";
                         while ((line = sr.ReadLine()) != null)
@@ -667,7 +669,7 @@ namespace sjzd
                                         sKLists.Add(sKList);
                                     }
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
                                 {
                                 }
                             }
@@ -684,12 +686,12 @@ namespace sjzd
                             });
                         }
                         List<CIMISS.YS> mySK = cIMISS.获取小时温度(sDateTime, DateTime.Now, idStr);
-                        EC温度折线图_站点 zx = new EC温度折线图_站点(myTem, mySK, idStr,sc);
+                        EC温度折线图_站点 zx = new EC温度折线图_站点(myTem, mySK, idStr, sc);
                         RadWindow radWindow2 = new RadWindow
                         {
                             Content = zx,
                             Header = sDateTime.AddHours(myHour).ToString("M月d日H时起报EC温度变化曲线"),
-                            WindowStartupLocation=WindowStartupLocation.CenterScreen
+                            WindowStartupLocation = WindowStartupLocation.CenterScreen
                         };
                         RadWindowInteropHelper.SetShowInTaskbar(radWindow2, true);
                         radWindow2.Show();
@@ -734,7 +736,7 @@ namespace sjzd
                         return;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
 

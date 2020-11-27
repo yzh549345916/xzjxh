@@ -15,7 +15,6 @@ namespace 旗县端
     public partial class WPFChangeXZ : Window
     {
         string DQID = "";
-        private string qxStr = "";
         private string xzStr = "";
         public WPFChangeXZ()
         {

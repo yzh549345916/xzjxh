@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -193,7 +192,7 @@ namespace sjzd
             {
                 string FBPath = "";
                 string configpathPath = System.Environment.CurrentDirectory + @"\设置文件\路径设置.txt";
-                using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line = "";
                     while ((line = sr.ReadLine()) != null)
@@ -204,7 +203,7 @@ namespace sjzd
                         }
                     }
                 }
-                Process p = Process.Start(FBPath);
+                静态类.OpenBrowser(FBPath);
                 //p.WaitForExit();//关键，等待外部程序退出后才能往下执行
             }
             else
@@ -218,9 +217,7 @@ namespace sjzd
 
             if (e.DialogResult == true)
             {
-
-                Process.Start(_path);
-
+                静态类.OpenBrowser(_path);
             }
 
         }
@@ -867,9 +864,9 @@ namespace sjzd
                     }
                 }
 
-                        
+
             }
-            catch(Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -893,7 +890,7 @@ namespace sjzd
                         Dispatcher.Invoke(() =>
                         {
                             RadWindow settingsDialog = new RadWindow();
-                            settingsDialog.Content = new 进度条_实况订正("生成赛罕智能网格产品") { inputStr1 = ryxz.ZBCom.Text,  inputInt = Convert.ToInt16(ryxz.LXCom.Text) };
+                            settingsDialog.Content = new 进度条_实况订正("生成赛罕智能网格产品") { inputStr1 = ryxz.ZBCom.Text, inputInt = Convert.ToInt16(ryxz.LXCom.Text) };
                             settingsDialog.Closed += 产品生成窗口关闭;
                             settingsDialog.ResizeMode = ResizeMode.CanResize;
                             settingsDialog.Header = "正在处理数据";
@@ -909,7 +906,7 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -924,9 +921,17 @@ namespace sjzd
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
+        }
+
+        private void 蒙草预报服务_OnClick(object sender, RadRoutedEventArgs e)
+        {
+            蒙草预报产品 mymc = new 蒙草预报产品();
+            mymc.Show();
+
+
         }
     }
 }

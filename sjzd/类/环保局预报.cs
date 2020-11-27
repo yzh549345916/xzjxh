@@ -5,7 +5,6 @@ using Aspose.Words.Tables;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -84,7 +83,7 @@ namespace sjzd
                 try
                 {
                     string SJsaPath = "";
-                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                     {
                         string line = "";
                         while ((line = sr.ReadLine()) != null)
@@ -419,7 +418,7 @@ namespace sjzd
                     {
                         try
                         {
-                            Process.Start(SJsaPath);
+                            静态类.OpenBrowser(SJsaPath);
                         }
                         catch (Exception ex)
                         {
@@ -539,7 +538,7 @@ namespace sjzd
                 try
                 {
                     string SJsaPath = "";
-                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(configpathPath, Encoding.GetEncoding("GB2312")))
                     {
                         string line = "";
                         while ((line = sr.ReadLine()) != null)

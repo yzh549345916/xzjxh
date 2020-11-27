@@ -34,18 +34,33 @@
             <Image Source="/sjzd;component/新界面/Image/图标/统计.png" Height="30" Width="30" />
         </telerik:RadRadialMenuItem.IconContent>
     </telerik:RadRadialMenuItem>-->
-    <telerik:RadRadialMenuItem x:Name="查询EC" Header="查询EC"  ToolTipContent="查询EC" Click="RadRadialMenuItem_Click" GroupName="乡镇精细化">
+    <telerik:RadRadialMenuItem x:Name="预报制作" Header="预报制作"  ToolTipContent="我要做预报" Click="RadRadialMenuItem_Click" GroupName="乡镇精细化">
         <telerik:RadRadialMenuItem.IconContent>
-            <Image Source="/sjzd;component/新界面/Image/图标/EC.png" Height="30" Width="30" />
+            <Image Source="/sjzd;component/新界面/Image/图标/EC表格08.png" Height="30" Width="30" />
         </telerik:RadRadialMenuItem.IconContent>
         <telerik:RadRadialMenuItem x:Name="EC温度查询" Header="EC温度查询"  ToolTipContent="EC温度查询" Click="查询实况_Click" GroupName="乡镇精细化">
             <telerik:RadRadialMenuItem.IconContent>
-                <Image Source="/sjzd;component/新界面/Image/图标/EC表格08.png" Height="30" Width="30" />
+                <Image Source="/sjzd;component/新界面/Image/图标/EC.png" Height="30" Width="30" />
             </telerik:RadRadialMenuItem.IconContent>
         </telerik:RadRadialMenuItem>
-      
+        <telerik:RadRadialMenuItem x:Name="区台新方法温度" Header="区台新方法"  ToolTipContent="区台新方法温度查询" Click="查询实况_Click" GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/方法.png" Height="40" Width="40" />
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
     </telerik:RadRadialMenuItem>
-
+    <telerik:RadRadialMenuItem x:Name="数值预报查询" Header="数值预报查询"  ToolTipContent="数值预报查询" Click="RadRadialMenuItem_Click" GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+            <Image Source="/sjzd;component/新界面/Image/图标/统计/K线图.png" Height="30" Width="30" />
+            </telerik:RadRadialMenuItem.IconContent>
+       
+        <telerik:RadRadialMenuItem x:Name="呼和浩特" Header="呼和浩特"  ToolTipContent="呼和浩特自己哒" Click="呼和浩特_Click"  GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/统计/分析.png" Height="30" Width="30" />
+                </telerik:RadRadialMenuItem.IconContent>
+            </telerik:RadRadialMenuItem>
+        
+    </telerik:RadRadialMenuItem>
 
 </telerik:RadRadialMenu>
 

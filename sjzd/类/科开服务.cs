@@ -113,7 +113,7 @@ namespace sjzd
                     {
                         try
                         {
-                            System.Diagnostics.Process.Start(SJsaPath);
+                            静态类.OpenBrowser(SJsaPath);
                         }
                         catch (Exception ex)
                         {
@@ -232,7 +232,7 @@ namespace sjzd
                     {
                         try
                         {
-                            System.Diagnostics.Process.Start(SJsaPath);
+                            静态类.OpenBrowser(SJsaPath);
                         }
                         catch (Exception ex)
                         {
@@ -416,7 +416,7 @@ namespace sjzd
                     {
                         try
                         {
-                            System.Diagnostics.Process.Start(SJsaPath);
+                            静态类.OpenBrowser(SJsaPath);
                         }
                         catch (Exception ex)
                         {
@@ -600,7 +600,7 @@ namespace sjzd
                     {
                         try
                         {
-                            System.Diagnostics.Process.Start(SJsaPath);
+                            静态类.OpenBrowser(SJsaPath);
                         }
                         catch (Exception ex)
                         {
@@ -741,7 +741,7 @@ namespace sjzd
                     {
                         try
                         {
-                            System.Diagnostics.Process.Start(SJsaPath);
+                            静态类.OpenBrowser(SJsaPath);
                         }
                         catch (Exception ex)
                         {
@@ -804,7 +804,7 @@ namespace sjzd
                 {
                     try
                     {
-                        System.Diagnostics.Process.Start(path);
+                        静态类.OpenBrowser(path);
                     }
                     catch (Exception ex)
                     {

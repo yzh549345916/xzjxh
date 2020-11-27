@@ -847,7 +847,7 @@ namespace sjzd
                             {
                                 try
                                 {
-                                    System.Diagnostics.Process.Start(fbPath);
+                                    静态类.OpenBrowser(fbPath);
                                 }
                                 catch (Exception ex)
                                 {
@@ -2235,7 +2235,7 @@ namespace sjzd
                                         if (File.Exists(pathLs))
                                         {
 
-                                            using (StreamReader sr = new StreamReader(pathLs, Encoding.Default))
+                                            using (StreamReader sr = new StreamReader(pathLs, Encoding.GetEncoding("GB2312")))
                                             {
 
                                                 string line = "";
@@ -2262,7 +2262,7 @@ namespace sjzd
                                             strls += year.ToString() + month.ToString().PadLeft(2, '0') + '\t' + sW.ID + '\t' + sW.Dxsw.ToString("F2") + "\r\n";
                                         }
                                         strls = strls.Substring(0, strls.Length - 2);
-                                        File.WriteAllText(pathLs, strls, Encoding.Default);
+                                        File.WriteAllText(pathLs, strls, Encoding.GetEncoding("GB2312"));
                                     }
 
                                     strls = "";
@@ -2273,7 +2273,7 @@ namespace sjzd
                                     pathLs = qxysPath + dateTimelastyear.ToString("yyyy") + "地下水位.txt";
                                     if (File.Exists(pathLs))
                                     {
-                                        using (StreamReader sr = new StreamReader(pathLs, Encoding.Default))
+                                        using (StreamReader sr = new StreamReader(pathLs, Encoding.GetEncoding("GB2312")))
                                         {
 
                                             string line = "";
@@ -2302,7 +2302,7 @@ namespace sjzd
                                     pathLs = qxysPath + dateTimelastmonth.ToString("yyyy") + "地下水位.txt";
                                     if (File.Exists(pathLs))
                                     {
-                                        using (StreamReader sr = new StreamReader(pathLs, Encoding.Default))
+                                        using (StreamReader sr = new StreamReader(pathLs, Encoding.GetEncoding("GB2312")))
                                         {
 
                                             string line = "";
@@ -2578,7 +2578,7 @@ namespace sjzd
                             {
                                 try
                                 {
-                                    System.Diagnostics.Process.Start(fbPath);
+                                    静态类.OpenBrowser(fbPath);
                                 }
                                 catch (Exception ex)
                                 {

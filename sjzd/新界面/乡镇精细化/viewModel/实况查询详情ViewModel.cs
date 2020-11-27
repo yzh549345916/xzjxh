@@ -13,12 +13,12 @@ namespace sjzd.新界面.乡镇精细化.viewModel
         private double _值53469;
         private double _值53562;
         private double _值53463;
-       
 
-        public 实况查询详情ViewModel(DateTime my日期,  double my53368, double my53464, double my53466, double my53467, double my53469, double my53562, double my53463)
+
+        public 实况查询详情ViewModel(DateTime my日期, double my53368, double my53464, double my53466, double my53467, double my53469, double my53562, double my53463)
         {
             _日期 = my日期;
-           
+
             _值53368 = my53368;
             _值53464 = my53464;
             _值53466 = my53466;
@@ -26,7 +26,7 @@ namespace sjzd.新界面.乡镇精细化.viewModel
             _值53469 = my53469;
             _值53562 = my53562;
             _值53463 = my53463;
-           
+
 
         }
 
@@ -42,7 +42,7 @@ namespace sjzd.新界面.乡镇精细化.viewModel
                 }
             }
         }
-       
+
         public double 值53368
         {
             get => _值53368;
@@ -127,7 +127,7 @@ namespace sjzd.新界面.乡镇精细化.viewModel
                 }
             }
         }
-       
+
 
 
         public event PropertyChangedEventHandler PropertyChanged;

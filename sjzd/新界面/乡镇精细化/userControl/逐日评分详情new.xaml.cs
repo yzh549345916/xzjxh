@@ -3,7 +3,6 @@ using sjzd.新界面.乡镇精细化.viewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,7 +32,7 @@ namespace sjzd
 
             try
             {
-                using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))//统计旗县个数
+                using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))//统计旗县个数
                 {
                     string line1 = "";
                     while ((line1 = sr.ReadLine()) != null)
@@ -47,7 +46,7 @@ namespace sjzd
                 }
                 string[] QXID = new string[intQXGS];
                 string[] QXName = new string[intQXGS];
-                using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))//第二行开始每两行为旗县及乡镇区站号列表
+                using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))//第二行开始每两行为旗县及乡镇区站号列表
                 {
                     string line1 = "";
                     Int16 lineCount = 0;
@@ -70,7 +69,7 @@ namespace sjzd
                         lineCount++;
                     }
                 }
-                using (StreamReader sr = new StreamReader(QXNameDZPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(QXNameDZPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1 = "";
                     while ((line1 = sr.ReadLine()) != null)
@@ -117,7 +116,7 @@ namespace sjzd
                 string configXZPath = System.Environment.CurrentDirectory + @"\设置文件\旗县乡镇.txt";
                 string QXNameDZPath = Environment.CurrentDirectory + @"\设置文件\旗县名称显示对照.txt";
                 Int16 intQXGS = 0;
-                using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))//统计旗县个数
+                using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))//统计旗县个数
                 {
                     string line1 = "";
                     while ((line1 = sr.ReadLine()) != null)
@@ -135,7 +134,7 @@ namespace sjzd
                 string startDate = Convert.ToDateTime(sDate.SelectedDate).ToString("yyyy-MM-dd");//查询日期
                 BTLabel.Content = Convert.ToDateTime((sDate.SelectedDate)).ToString("yyyy年MM月dd日") + SXSelect.Text + "小时乡镇精细化预报逐日评分详情";
 
-                using (StreamReader sr = new StreamReader(configXZPath, Encoding.Default))//第二行开始每两行为旗县及乡镇区站号列表
+                using (StreamReader sr = new StreamReader(configXZPath, Encoding.GetEncoding("GB2312")))//第二行开始每两行为旗县及乡镇区站号列表
                 {
                     string line1 = "";
                     Int16 lineCount = 0;
@@ -158,7 +157,7 @@ namespace sjzd
                         lineCount++;
                     }
                 }
-                using (StreamReader sr = new StreamReader(QXNameDZPath, Encoding.Default))
+                using (StreamReader sr = new StreamReader(QXNameDZPath, Encoding.GetEncoding("GB2312")))
                 {
                     string line1 = "";
                     while ((line1 = sr.ReadLine()) != null)
@@ -222,7 +221,10 @@ namespace sjzd
 
         private void OnConfirmClosed_打开产品(object sender, WindowClosedEventArgs e)
         {
-            if (e.DialogResult == true) Process.Start(xlsPath);
+            if (e.DialogResult == true)
+            {
+                静态类.OpenBrowser(xlsPath);
+            }
         }
 
         private void DCButton_Click(object sender, RoutedEventArgs e)

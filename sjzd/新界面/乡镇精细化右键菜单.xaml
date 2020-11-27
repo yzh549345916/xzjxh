@@ -152,6 +152,7 @@
                     </telerik:RadRadialMenuItem.IconContent>
                 </telerik:RadRadialMenuItem>
             </telerik:RadRadialMenuItem>
+
         </telerik:RadRadialMenuItem>
         <telerik:RadRadialMenuItem x:Name="其他" Header="其他" ToolTipContent="其他预报产品制作" Click="RadRadialMenuItem_Click"  GroupName="乡镇精细化">
             <telerik:RadRadialMenuItem.IconContent>
@@ -165,6 +166,11 @@
             <telerik:RadRadialMenuItem x:Name="科开预报导出" Header="科开预报" ToolTipContent="灾害防御中心预报导出" Click="科开预报导出_Click" GroupName="乡镇精细化">
                 <telerik:RadRadialMenuItem.IconContent>
                     <Image Source="/sjzd;component/新界面/Image/图标/科学.png" Height="50" Width="50" />
+                </telerik:RadRadialMenuItem.IconContent>
+            </telerik:RadRadialMenuItem>
+            <telerik:RadRadialMenuItem x:Name="蒙草预报服务" Header="蒙草预报服务" ToolTipContent="蒙草预报制作" Click="蒙草预报服务_OnClick"  GroupName="乡镇精细化">
+                <telerik:RadRadialMenuItem.IconContent>
+                    <Image Source="/sjzd;component/新界面/Image/图标/叶子.png" Height="50" Width="50" />
                 </telerik:RadRadialMenuItem.IconContent>
             </telerik:RadRadialMenuItem>
             <telerik:RadRadialMenuItem x:Name="赛罕" Header="赛罕" ToolTipContent="赛罕预报产品制作" Click="RadRadialMenuItem_Click" GroupName="乡镇精细化">
