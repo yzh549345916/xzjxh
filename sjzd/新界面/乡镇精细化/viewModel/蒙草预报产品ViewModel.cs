@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace sjzd.新界面.乡镇精细化.viewModel
@@ -16,9 +15,9 @@ namespace sjzd.新界面.乡镇精细化.viewModel
         private string _风力;
         private string _ID;
         private bool _IsExpanded;
-        
 
-       
+
+
         public bool IsExpanded
         {
             get => _IsExpanded;

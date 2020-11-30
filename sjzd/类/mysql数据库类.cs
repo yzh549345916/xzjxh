@@ -1,12 +1,10 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Windows;
 
 namespace sjzd.类
 {
-    class mysql数据库类
+    public class mysql数据库类
     {
         String connetStr = "";
         public mysql数据库类()
@@ -59,9 +57,9 @@ namespace sjzd.类
                             dateTime = DateTime.MinValue;
                         }
                     }
-                   
+
                 }
-                catch(Exception ee)
+                catch (Exception ee)
                 {
 
                 }
@@ -69,7 +67,7 @@ namespace sjzd.类
             return dateTime;
         }
 
-        public List<区台温度> 根据区站号起报时间获取区台新方法温度(String ids,DateTime qbDatetime)
+        public List<区台温度> 根据区站号起报时间获取区台新方法温度(String ids, DateTime qbDatetime)
         {
             List<区台温度> myData = new List<区台温度>();
             try
@@ -78,7 +76,7 @@ namespace sjzd.类
                 String myIds = "";
                 foreach (string id in ids.Split(','))
                 {
-                    myIds = myIds+ "'" + id + "',";
+                    myIds = myIds + "'" + id + "',";
                 }
                 myIds = myIds.Substring(0, myIds.Length - 1);
                 using (MySqlConnection conn = new MySqlConnection(connetStr))
@@ -94,11 +92,11 @@ namespace sjzd.类
                             int sx = reader.GetInt32("SX");
                             myData.Add(new 区台温度
                             {
-                                StationID= reader.GetString("ID"),
+                                StationID = reader.GetString("ID"),
                                 TEM = reader.GetDouble("TEM"),
                                 TMAX = reader.GetDouble("TMAX"),
-                                TMIN= reader.GetDouble("TMIN"),
-                                SX= sx,
+                                TMIN = reader.GetDouble("TMIN"),
+                                SX = sx,
                                 MyDate = reader.GetDateTime("MyDate").AddHours(sx),
                             });
 

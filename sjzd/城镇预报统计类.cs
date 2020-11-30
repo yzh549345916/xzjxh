@@ -220,7 +220,7 @@ namespace sjzd
                                     }
 
                                     floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain" + sx)));
-                                    if (floasj < 0.1&& floasj>-1)
+                                    if (floasj < 0.1 && floasj > -1)
                                         zdqy = "×";
                                     else if (Math.Abs(floasj - 1) < 0.1)
                                         zdqy = "√";

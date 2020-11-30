@@ -18,7 +18,7 @@ namespace sjzd.新界面.乡镇精细化.viewModel
         private bool _IsExpanded;
         private List<实况查询详情ViewModel> _详情;
 
-        public 区台新方法温度预报表ViewModel(DateTime my日期, string my类型, double my53368, double my53464, double my53466, double my53467, double my53469, double my53562, double my53463 )
+        public 区台新方法温度预报表ViewModel(DateTime my日期, string my类型, double my53368, double my53464, double my53466, double my53467, double my53469, double my53562, double my53463)
         {
             _日期 = my日期;
             _类型 = my类型;
@@ -151,7 +151,7 @@ namespace sjzd.新界面.乡镇精细化.viewModel
                 }
             }
         }
-        
+
 
         public List<实况查询详情ViewModel> 详情
         {

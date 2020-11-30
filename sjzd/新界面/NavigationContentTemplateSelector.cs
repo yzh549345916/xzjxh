@@ -10,6 +10,7 @@ namespace sjzd
         public DataTemplate ConfigContentTemplate { get; set; }
         public DataTemplate XZJXHContentTemplate { get; set; }
         public DataTemplate MapContentTemplate { get; set; }
+        public DataTemplate CPZZTemplate { get; set; }
         public DataTemplate Property1ContentTemplate { get; set; }
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -24,9 +25,13 @@ namespace sjzd
                 {
                     return this.MapContentTemplate;
                 }
-                else if (model.Title != "检测报告")
+                else if (model.Title == "呼和浩特市精细化")
                 {
                     return this.Property1ContentTemplate;
+                }
+                else if (model.Title == "预报产品制作发布")
+                {
+                    return this.CPZZTemplate;
                 }
                 else if (!string.IsNullOrEmpty(model.Text))
                 {

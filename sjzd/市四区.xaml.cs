@@ -314,7 +314,7 @@ namespace sjzd
 
                 }
             }
-            YBPath = YBPath + DateTime.Now.ToString("yyyy") +"\\"+ DateTime.Now.ToString("yy") + "." + DateTime.Now.ToString("MM") + CZBWTime + "呼市气象台指导预报" + DateTime.Now.ToString("MMdd") + ".txt";//文件路径为：基本路径+年后两位.月两位\06\呼市气象台指导预报+两位月两位日.txt
+            YBPath = YBPath + DateTime.Now.ToString("yyyy") + "\\" + DateTime.Now.ToString("yy") + "." + DateTime.Now.ToString("MM") + CZBWTime + "呼市气象台指导预报" + DateTime.Now.ToString("MMdd") + ".txt";//文件路径为：基本路径+年后两位.月两位\06\呼市气象台指导预报+两位月两位日.txt
             //判断城镇指导预报是否存在，如果不存在，提示是否手动选择文件
             try
             {

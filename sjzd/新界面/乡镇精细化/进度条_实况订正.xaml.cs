@@ -761,7 +761,7 @@ namespace sjzd
 
 
                 string data = "区站号\t名称\t预报时效\t温度\t降水量\t风u\t风v\t风向\t风速\t相对湿度\t天气\t能见度\r\n";
-                foreach(var item in lists)
+                foreach (var item in lists)
                 {
                     data += $"{item.ID}\t{item.Name}\t{item.SX}\t{item.TEM}\t{item.PRE_3H}\t{item.WIU10}\t{item.WIV10}\t{item.FX}\t{item.FS}\t{item.ERH}\t{item.VIS}\r\n";
                 }

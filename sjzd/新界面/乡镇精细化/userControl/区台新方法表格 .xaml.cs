@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,7 +29,7 @@ namespace sjzd
         private List<mysql数据库类.区台温度> myTem = new List<mysql数据库类.区台温度>();
         private SplashScreenDataContext splashScreenDataContext;
         private string xlsPath = "";
-        private ObservableCollection<实况查询ViewModel> 查询列表 = new My实况查询ViewModel().Clubs;
+        private ObservableCollection<区台新方法温度预报表ViewModel> 查询列表 = new My区台新方法表格ViewModel().Clubs;
         private int sc = 8;
         public 区台新方法表格()
         {
@@ -83,7 +82,79 @@ namespace sjzd
         private void CXButton_Click(object sender, RoutedEventArgs e)
         {
             RadSplashScreenManager.Show();
-           
+            try
+            {
+                查询列表.Clear();
+                myTem.Clear();
+                sc = SCSelect.SelectedTime.Value.Hours;
+
+                mysql数据库类 mysqlClass = new mysql数据库类();
+                String sxStr = sc.ToString().PadLeft(2, '0');
+                DateTime qbDate = mysqlClass.获取区台新方法最新起报时间(sc);
+                BTLabel.Content = "区台新方法" + qbDate.ToString("MM月dd日") + sxStr + "时起报最高、最低气温查询";
+                if (qbDate > DateTime.MinValue)
+                {
+                    DateTime sDate = DateTime.Now.Date.AddHours(sc);
+                    myTem = mysqlClass.根据区站号起报时间获取区台新方法温度(idStr, qbDate).Where(y => y.MyDate >= sDate).ToList();
+                    if (myTem.Count > 0)
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            DateTime myDate = sDate.AddDays(i);
+                            List<mysql数据库类.区台温度> listsLS = myTem.Where(y => y.MyDate == myDate.AddDays(1)).ToList();
+                            if (listsLS.Count == 0)
+                            {
+                                break;
+                            }
+                            List<实况查询详情ViewModel> 温度详情 = 处理区台新方法温度详情(myTem, myDate, myDate.AddDays(1));
+                            查询列表.Add(new 区台新方法温度预报表ViewModel(myDate.AddDays(1), "低温", 判断低温是否存在("53368", listsLS), 判断低温是否存在("53464", listsLS), 判断低温是否存在("53466", listsLS), 判断低温是否存在("53467", listsLS), 判断低温是否存在("53469", listsLS), 判断低温是否存在("53562", listsLS), 判断低温是否存在("53463", listsLS))
+                            {
+                                详情 = 温度详情,
+                                IsExpanded = true
+                            });
+                            查询列表.Add(new 区台新方法温度预报表ViewModel(myDate.AddDays(1), "高温", 判断高温是否存在("53368", listsLS), 判断高温是否存在("53464", listsLS), 判断高温是否存在("53466", listsLS), 判断高温是否存在("53467", listsLS), 判断高温是否存在("53469", listsLS), 判断高温是否存在("53562", listsLS), 判断高温是否存在("53463", listsLS))
+                            {
+                                IsExpanded = false
+                            });
+                        }
+                        if (qbDate.Date == DateTime.Now.Date.AddDays(-1))
+                        {
+                            RadSplashScreenManager.Close();
+                            RadWindow.Alert(new DialogParameters
+                            {
+                                Content = $"今天{sxStr}时起报的数据暂时还没有！！！\n使用昨天{sxStr}时起报的数据代替",
+                                Header = "注意"
+                            });
+                        }
+                    }
+                    else
+                    {
+                        RadSplashScreenManager.Close();
+                        RadWindow.Alert(new DialogParameters
+                        {
+                            Content = "暂无数据呦",
+                            Header = "警告"
+                        });
+                    }
+                }
+                else
+                {
+                    RadSplashScreenManager.Close();
+                    RadWindow.Alert(new DialogParameters
+                    {
+                        Content = "暂无数据呦",
+                        Header = "警告"
+                    });
+                }
+
+            }
+            catch
+            {
+            }
+            finally
+            {
+                RadSplashScreenManager.Close();
+            }
         }
 
         private void RadGridView_CellLoaded(object sender, CellEventArgs e)
@@ -113,54 +184,34 @@ namespace sjzd
 
             if (cell != null)
             {
-                var row = cell.ParentRow.Item as 实况查询ViewModel;
+                var row = cell.ParentRow.Item as 区台新方法温度预报表ViewModel;
                 GridViewColumn c1 = cell.Column;
                 if (row != null && c1 != null)
                 {
-                    显示EC折线(c1.Header.ToString(), row.日期);
+                    显示折线(c1.Header.ToString(), row.日期);
                 }
             }
         }
 
-        private void 显示EC折线(string id, DateTime eDate)
+        private void 显示折线(string id, DateTime eDate)
         {
-            
-        }
-
-        private SKList 处理EC(List<CIMISS.ECTEF0> myTem, string ID, DateTime sDate, DateTime eDate, ref List<DateTime> error)
-        {
-            try
+            if (myTem.Count > 0)
             {
-                List<CIMISS.ECTEF0> temLists = myTem.Where(y => y.DateTime.CompareTo(sDate) >= 0 && y.DateTime.CompareTo(eDate) <= 0 && y.StationID == ID).OrderBy(y => y.TEM).ToList();
-                if (temLists.Count < 5)
+                List<mysql数据库类.区台温度> temLists = myTem.Where(y => y.MyDate.CompareTo(eDate) <= 0 && y.MyDate.CompareTo(eDate.AddDays(-1)) >= 0 && y.StationID == id).ToList();
+                if (temLists.Count > 0)
                 {
-                    for (DateTime dateTimeLS = sDate; dateTimeLS.CompareTo(eDate) <= 0; dateTimeLS = dateTimeLS.AddHours(6))
+                    区台新方法温度折线 zx = new 区台新方法温度折线(temLists);
+                    RadWindow radWindow = new RadWindow
                     {
-                        if (!temLists.Exists(y => y.DateTime == dateTimeLS) && !error.Exists(y => y == dateTimeLS))
-                        {
-                            error.Add(dateTimeLS);
-                        }
-                    }
+                        Content = zx,
+                        Header = id + "站" + eDate.ToString("M月d日H时过去24小时区台新方法温度变化曲线")
+                    };
+                    RadWindowInteropHelper.SetShowInTaskbar(radWindow, true);
+                    radWindow.Show();
                 }
-
-                return new SKList
-                {
-                    ID = ID,
-                    Tmin = Math.Round(temLists[0].TEM, 1),
-                    Tmax = Math.Round(temLists[temLists.Count - 1].TEM, 1),
-                    高温时间 = temLists[temLists.Count - 1].DateTime,
-                    低温时间 = temLists[0].DateTime
-                };
             }
-            catch
-            {
-            }
-
-            return new SKList
-            {
-                ID = ""
-            };
         }
+
 
         private List<实况查询详情ViewModel> 处理区台新方法温度详情(List<mysql数据库类.区台温度> myTem, DateTime sDate, DateTime eDate)
         {
@@ -186,7 +237,7 @@ namespace sjzd
 
                 return mylists;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
             }
 
@@ -196,6 +247,14 @@ namespace sjzd
         private double 判断温度是否存在(String id, List<mysql数据库类.区台温度> temLists)
         {
             return temLists.Exists(y => y.StationID == id) ? temLists.First(y => y.StationID == id).TEM : -99999;
+        }
+        private double 判断高温是否存在(String id, List<mysql数据库类.区台温度> temLists)
+        {
+            return temLists.Exists(y => y.StationID == id) ? temLists.First(y => y.StationID == id).TMAX : -99999;
+        }
+        private double 判断低温是否存在(String id, List<mysql数据库类.区台温度> temLists)
+        {
+            return temLists.Exists(y => y.StationID == id) ? temLists.First(y => y.StationID == id).TMIN : -99999;
         }
 
         private void OnConfirmClosed_打开产品(object sender, WindowClosedEventArgs e)
@@ -237,7 +296,7 @@ namespace sjzd
             if (openFileDialog.DialogResult == true)
             {
                 string strPath = openFileDialog.FileName + "\\" + BTLabel.Content + ".xls";
-                实况查询ViewModel[] dcsz = 查询列表.ToArray();
+                区台新方法温度预报表ViewModel[] dcsz = 查询列表.ToArray();
                 try
                 {
                     Workbook workbook = new Workbook();
@@ -287,42 +346,25 @@ namespace sjzd
                     cellSheet.Cells[0, 8].PutValue("53463");
                     for (int i = 0; i < dcsz.Length; i++)
                     {
-                        cellSheet.Cells[i * 2 + 1, 0].PutValue(dcsz[i].日期.ToString("M月d日H时"));
-                        cellSheet.Cells[i * 2 + 1, 0].SetStyle(style2);
-                        cellSheet.Cells[i * 2 + 2, 0].PutValue("出现时间");
-                        cellSheet.Cells[i * 2 + 2, 0].SetStyle(style1);
-                        cellSheet.Cells[i * 2 + 1, 1].PutValue(dcsz[i].类型);
-                        cellSheet.Cells[i * 2 + 1, 1].SetStyle(style2);
-                        cellSheet.Cells[i * 2 + 2, 1].PutValue(dcsz[i].类型);
-                        cellSheet.Cells[i * 2 + 2, 1].SetStyle(style1);
-                        cellSheet.Cells[i * 2 + 1, 1 + 1].PutValue(Math.Round(dcsz[i].值53368, 2));
-                        cellSheet.Cells[i * 2 + 1, 1 + 1].SetStyle(style2);
-                        cellSheet.Cells[i * 2 + 2, 1 + 1].PutValue(dcsz[i].时间53368.ToString("d日H时"));
-                        cellSheet.Cells[i * 2 + 2, 1 + 1].SetStyle(style1);
-                        cellSheet.Cells[i * 2 + 1, 2 + 1].PutValue(Math.Round(dcsz[i].值53464, 2));
-                        cellSheet.Cells[i * 2 + 1, 2 + 1].SetStyle(style2);
-                        cellSheet.Cells[i * 2 + 2, 2 + 1].PutValue(dcsz[i].时间53464.ToString("d日H时"));
-                        cellSheet.Cells[i * 2 + 2, 2 + 1].SetStyle(style1);
-                        cellSheet.Cells[i * 2 + 1, 3 + 1].PutValue(Math.Round(dcsz[i].值53466, 2));
-                        cellSheet.Cells[i * 2 + 1, 3 + 1].SetStyle(style2);
-                        cellSheet.Cells[i * 2 + 2, 3 + 1].PutValue(dcsz[i].时间53466.ToString("d日H时"));
-                        cellSheet.Cells[i * 2 + 2, 3 + 1].SetStyle(style1);
-                        cellSheet.Cells[i * 2 + 1, 4 + 1].PutValue(Math.Round(dcsz[i].值53467, 2));
-                        cellSheet.Cells[i * 2 + 1, 4 + 1].SetStyle(style2);
-                        cellSheet.Cells[i * 2 + 2, 4 + 1].PutValue(dcsz[i].时间53467.ToString("d日H时"));
-                        cellSheet.Cells[i * 2 + 2, 4 + 1].SetStyle(style1);
-                        cellSheet.Cells[i * 2 + 1, 5 + 1].PutValue(Math.Round(dcsz[i].值53469, 2));
-                        cellSheet.Cells[i * 2 + 1, 5 + 1].SetStyle(style2);
-                        cellSheet.Cells[i * 2 + 2, 5 + 1].PutValue(dcsz[i].时间53469.ToString("d日H时"));
-                        cellSheet.Cells[i * 2 + 2, 5 + 1].SetStyle(style1);
-                        cellSheet.Cells[i * 2 + 1, 6 + 1].PutValue(Math.Round(dcsz[i].值53562, 2));
-                        cellSheet.Cells[i * 2 + 1, 6 + 1].SetStyle(style2);
-                        cellSheet.Cells[i * 2 + 2, 6 + 1].PutValue(dcsz[i].时间53562.ToString("d日H时"));
-                        cellSheet.Cells[i * 2 + 2, 6 + 1].SetStyle(style1);
-                        cellSheet.Cells[i * 2 + 1, 7 + 1].PutValue(Math.Round(dcsz[i].值53463, 2));
-                        cellSheet.Cells[i * 2 + 1, 7 + 1].SetStyle(style2);
-                        cellSheet.Cells[i * 2 + 2, 7 + 1].PutValue(dcsz[i].时间53463.ToString("d日H时"));
-                        cellSheet.Cells[i * 2 + 2, 7 + 1].SetStyle(style1);
+                        cellSheet.Cells[i + 1, 0].PutValue(dcsz[i].日期.ToString("M月d日H时"));
+                        cellSheet.Cells[i + 1, 0].SetStyle(style2);
+                        cellSheet.Cells[i + 1, 1].PutValue(dcsz[i].类型);
+                        cellSheet.Cells[i + 1, 1].SetStyle(style2);
+                        cellSheet.Cells[i + 1, 1 + 1].PutValue(Math.Round(dcsz[i].值53368, 2));
+                        cellSheet.Cells[i + 1, 1 + 1].SetStyle(style2);
+                        cellSheet.Cells[i + 1, 2 + 1].PutValue(Math.Round(dcsz[i].值53464, 2));
+                        cellSheet.Cells[i + 1, 2 + 1].SetStyle(style2);
+                        cellSheet.Cells[i + 1, 3 + 1].PutValue(Math.Round(dcsz[i].值53466, 2));
+                        cellSheet.Cells[i + 1, 3 + 1].SetStyle(style2);
+                        cellSheet.Cells[i + 1, 4 + 1].PutValue(Math.Round(dcsz[i].值53467, 2));
+                        cellSheet.Cells[i + 1, 4 + 1].SetStyle(style2);
+                        cellSheet.Cells[i + 1, 5 + 1].PutValue(Math.Round(dcsz[i].值53469, 2));
+                        cellSheet.Cells[i + 1, 5 + 1].SetStyle(style2);
+                        cellSheet.Cells[i + 1, 6 + 1].PutValue(Math.Round(dcsz[i].值53562, 2));
+                        cellSheet.Cells[i + 1, 6 + 1].SetStyle(style2);
+                        cellSheet.Cells[i + 1, 7 + 1].PutValue(Math.Round(dcsz[i].值53463, 2));
+                        cellSheet.Cells[i + 1, 7 + 1].SetStyle(style2);
+
                     }
 
                     //cellSheet.AutoFitColumns();
@@ -403,11 +445,7 @@ namespace sjzd
             }
         }
 
-        private void DCButton2_Click(object sender, RoutedEventArgs e)
-        {
-          
 
-        }
 
         public class SKList
         {
@@ -421,9 +459,9 @@ namespace sjzd
 
     public class My区台新方法表格ViewModel : ViewModelBase
     {
-        private ObservableCollection<实况查询ViewModel> clubs;
+        private ObservableCollection<区台新方法温度预报表ViewModel> clubs;
 
-        public ObservableCollection<实况查询ViewModel> Clubs
+        public ObservableCollection<区台新方法温度预报表ViewModel> Clubs
         {
             get
             {
@@ -433,9 +471,9 @@ namespace sjzd
             }
         }
 
-        private ObservableCollection<实况查询ViewModel> CreateClubs()
+        private ObservableCollection<区台新方法温度预报表ViewModel> CreateClubs()
         {
-            ObservableCollection<实况查询ViewModel> clubs = new ObservableCollection<实况查询ViewModel>();
+            ObservableCollection<区台新方法温度预报表ViewModel> clubs = new ObservableCollection<区台新方法温度预报表ViewModel>();
             return clubs;
         }
     }

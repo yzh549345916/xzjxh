@@ -436,6 +436,16 @@
     <Page Remove="Window2.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="新界面\预报产品制作\产品制作usercontrol.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="新界面\预报产品制作\预报产品制作.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="新界面\乡镇精细化\userControl\区台新方法温度折线.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="新界面\乡镇精细化\userControl\区台新方法表格 .xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

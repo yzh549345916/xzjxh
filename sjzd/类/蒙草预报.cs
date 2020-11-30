@@ -1629,10 +1629,10 @@ namespace sjzd
         {
             List<IDName> iDNames = new List<IDName>();
             try
-           {
+            {
                 XmlConfig util = new XmlConfig(Environment.CurrentDirectory + @"\设置文件\智能网格设置.xml");
                 string con = util.Read("OtherConfig", "DB");
-               
+
                 using (SqlConnection mycon = new SqlConnection(con))
                 {
                     mycon.Open(); //打开
@@ -1652,11 +1652,11 @@ namespace sjzd
                     }
                 }
             }
-           catch
-           {
-           }
+            catch
+            {
+            }
 
-           return iDNames;
+            return iDNames;
         }
         public List<ZNYBList> 获取国家智能网格(int sc)
         {

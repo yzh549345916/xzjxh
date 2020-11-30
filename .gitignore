@@ -259,3 +259,17 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/sjzd/.vshistory
+/sjzd/新界面/.vshistory
+/sjzd/新界面/乡镇精细化/userControl/.vshistory
+/sjzd/新界面/乡镇精细化/viewModel/.vshistory
+/sjzd/新界面/乡镇精细化/.vshistory/进度条_实况订正.xaml.cs
+/sjzd/Properties/.vshistory/AssemblyInfo.cs
+/QX-update/Properties/.vshistory/AssemblyInfo.cs
+/sjzd/新界面/预报产品制作/.vshistory
+/sjzd/类/.vshistory
+/xzjxhyb_DBmain/.vshistory/市局指导预报重新入库.cs
+/旗县端/.vshistory/登录窗口.xaml.cs
+/旗县端/Properties/.vshistory/AssemblyInfo.cs
+/旗县端/类/.vshistory/区局智能网格.cs
+/xzjxhyb_DBmain/Properties/.vshistory/AssemblyInfo.cs

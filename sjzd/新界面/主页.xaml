@@ -1,39 +1,34 @@
 ﻿<telerik:RadWindow x:Class="sjzd.主页"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
- Height="600" Width="1100" WindowState="Maximized" 
-        
-         
-         navigation:RadWindowInteropHelper.ClipMaskCornerRadius="50" 
-        navigation:RadWindowInteropHelper.Title="呼和浩特市中心气象台预报业务系统" 
-        navigation:RadWindowInteropHelper.ShowInTaskbar="True"
-    navigation:RadWindowInteropHelper.AllowTransparency="True"
-    navigation:RadWindowInteropHelper.Icon="/ico/tb.ico"
-        xmlns:local="clr-namespace:sjzd"
-        FontFamily="楷体"
-
-        xmlns:navigation="clr-namespace:Telerik.Windows.Controls.Navigation;assembly=Telerik.Windows.Controls.Navigation">
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                   Height="600" Width="1100" WindowState="Maximized"
+                   navigation:RadWindowInteropHelper.ClipMaskCornerRadius="50"
+                   navigation:RadWindowInteropHelper.Title="呼和浩特市中心气象台预报业务系统"
+                   navigation:RadWindowInteropHelper.ShowInTaskbar="True"
+                   navigation:RadWindowInteropHelper.AllowTransparency="True"
+                   navigation:RadWindowInteropHelper.Icon="/ico/tb.ico"
+                   xmlns:local="clr-namespace:sjzd"
+                   FontFamily="楷体"
+                   xmlns:navigation="clr-namespace:Telerik.Windows.Controls.Navigation;assembly=Telerik.Windows.Controls.Navigation">
     <telerik:RadWindow.Header>
         <TextBlock Text="呼和浩特市中心气象台预报业务系统" HorizontalAlignment="Center" Margin="0,10" FontSize="35" FontFamily="楷体" />
     </telerik:RadWindow.Header>
     <Grid>
-        
-
-        <telerik:RadNavigationView x:Name="navigationView" 
+        <telerik:RadNavigationView x:Name="navigationView"
                                    FontSize="25"
                                    ExpandedPaneWidth="300"
                                    DisplayMode="Compact"
                                    AutoChangeDisplayMode="True"
                                    PaneHeaderHeight="40"
-                                    PaneHeader="选择平台"
+                                   PaneHeader="选择平台"
                                    ItemsSource="{Binding Items}"
                                    SelectionChanged="navigationView_SelectionChanged"
                                    SelectedIndex="0">
-            <telerik:RadNavigationView.Content >
+            <telerik:RadNavigationView.Content>
                 <telerik:RadTransitionControl Content="{Binding SelectedItem, ElementName=navigationView}"
-                                              
-                                              ContentTemplateSelector="{DynamicResource NavigationContentTemplateSelector}" 
+
+                                              ContentTemplateSelector="{DynamicResource NavigationContentTemplateSelector}"
                                               Duration="0:0:0.4">
                     <telerik:RadTransitionControl.Transition>
 
@@ -42,7 +37,7 @@
                 </telerik:RadTransitionControl>
             </telerik:RadNavigationView.Content>
             <telerik:RadNavigationView.PaneFooter>
-                <telerik:RadNavigationViewItem  x:Name="s1" Content="设置" 
+                <telerik:RadNavigationViewItem x:Name="s1" Content="设置"
                                                Command="{x:Static  local:NavigationViewSettingsCommands.OpenSettingsDialogCommand}"
                                                CommandParameter="{Binding ElementName=navigationView}"
                                                IconTemplate="{x:Null}">
@@ -50,7 +45,6 @@
                         <telerik:RadGlyph Glyph="&#xe13a;" FontSize="25" />
                     </telerik:RadNavigationViewItem.Icon>
                 </telerik:RadNavigationViewItem>
-
             </telerik:RadNavigationView.PaneFooter>
         </telerik:RadNavigationView>
     </Grid>
