@@ -34,24 +34,26 @@ namespace sjzd
             生成乡镇精细化预报目录(根目录);
             生成非日常预报目录(根目录);
             生成其他预报目录(根目录);
+            生成备用产品目录(根目录);
             radTree.Items.Add(根目录);
+
         }
 
         private void 生成日常产品目录(RadTreeViewItem 根目录)
         {
             RadTreeViewItem 日常产品 = new RadTreeViewItem() { Header = "日常产品制作", IsExpanded = true };
             日常产品.Items.Add(new RadTreeViewItem() { Header = "制作社区预报",Name="社区预报"});
-            日常产品.Items.Add(new RadTreeViewItem() { Header = "制作市四区预报", Name = "制作市四区预报" });
-            RadTreeViewItem 短时预报= new RadTreeViewItem() { Header = "短时预报", IsExpanded = false };
+            日常产品.Items.Add(new RadTreeViewItem() { Header = "制作市四区预报", IsExpanded = false, Name = "市四区预报" });
+            RadTreeViewItem 短时预报= new RadTreeViewItem() { Header = "短时预报", IsExpanded = false, Name = "短时预报" };
             短时预报.Items.Add(new RadTreeViewItem() { Header = "短时08时", Name = "短时08时" });
             短时预报.Items.Add(new RadTreeViewItem() { Header = "短时14时", Name = "短时14时" });
             短时预报.Items.Add(new RadTreeViewItem() { Header = "短时20时", Name = "短时20时" });
             日常产品.Items.Add(短时预报);
-            RadTreeViewItem 逐3小时预报 = new RadTreeViewItem() { Header = "逐3小时预报", IsExpanded = false };
+            RadTreeViewItem 逐3小时预报 = new RadTreeViewItem() { Header = "逐3小时预报", IsExpanded = false,Name= "逐3小时预报" };
             逐3小时预报.Items.Add(new RadTreeViewItem() { Header = "逐3小时08时", Name = "逐3小时08时" });
             逐3小时预报.Items.Add(new RadTreeViewItem() { Header = "逐3小时20时", Name = "逐3小时20时" });
             日常产品.Items.Add(逐3小时预报);
-            RadTreeViewItem 短期预报 = new RadTreeViewItem() { Header = "短期预报", IsExpanded = false };
+            RadTreeViewItem 短期预报 = new RadTreeViewItem() { Header = "短期预报", IsExpanded = false, Name = "短期预报" };
             短期预报.Items.Add(new RadTreeViewItem() { Header = "短期预报08时", Name = "短期预报08时" });
             短期预报.Items.Add(new RadTreeViewItem() { Header = "短期预报20时", Name = "短期预报20时" });
             日常产品.Items.Add(短期预报);
@@ -63,9 +65,8 @@ namespace sjzd
 
         private void 生成乡镇精细化预报目录(RadTreeViewItem 根目录)
         {
-            RadTreeViewItem 乡镇精细化 = new RadTreeViewItem() { Header = "乡镇精细化预报制作", IsExpanded = true };
-            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "实况订正指导预报", Name = "实况订正指导预报制作乡镇精细化预报" });
-            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "省级智能网格", Name = "省级智能网格制作乡镇精细化预报" });
+            RadTreeViewItem 乡镇精细化 = new RadTreeViewItem() { Header = "乡镇精细化预报制作", IsExpanded = false , Name = "乡镇精细化预报制作",ToolTip= "默认利用区台新方法生成乡镇精细化预报" };
+            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "区台新方法", Name = "区台新方法生成乡镇精细化预报",ToolTip= "区台新方法生成乡镇精细化" });
             乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "制作发布单", Name = "制作乡镇精细化发布单" });
             根目录.Items.Add(乡镇精细化);
         }
@@ -87,19 +88,44 @@ namespace sjzd
             其他.Items.Add(new RadTreeViewItem() { Header = "赛罕智能网格", Name = "赛罕智能网格" });
             根目录.Items.Add(其他);
         }
+        private void 生成备用产品目录(RadTreeViewItem 根目录)
+        {
+            RadTreeViewItem 备用产品 = new RadTreeViewItem() { Header = "备用产品制作", IsExpanded = false };
+           
+            RadTreeViewItem 市四区 = new RadTreeViewItem() { Header = "制作市四区预报", IsExpanded = false, Name = "市四区预报" };
+            市四区.Items.Add(new RadTreeViewItem() { Header = "实况订正", Name = "实况订正制作市四区预报" });
+            市四区.Items.Add(new RadTreeViewItem() { Header = "区台新方法", Name = "区台新方法制作市四区预报" });
+            备用产品.Items.Add(市四区);
+            RadTreeViewItem 乡镇精细化 = new RadTreeViewItem() { Header = "乡镇精细化预报制作", IsExpanded = false, Name = "乡镇精细化预报制作", ToolTip = "默认利用区台新方法生成乡镇精细化预报" };
+            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "实况订正指导预报", Name = "实况订正指导预报制作乡镇精细化预报" });
+            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "省级智能网格", Name = "省级智能网格制作乡镇精细化预报" });
+            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "区台新方法", Name = "区台新方法生成乡镇精细化预报", ToolTip = "区台新方法生成乡镇精细化" });
+            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "制作发布单", Name = "制作乡镇精细化发布单" });
+            备用产品.Items.Add(乡镇精细化);
+            根目录.Items.Add(备用产品);
+        }
 
         private void RadButton_Click(object sender, RoutedEventArgs e)
         {
             RadTreeViewItem item = radTree.SelectedItem as RadTreeViewItem;
-            if (item != null && item.Items.Count == 0)
+            if (item != null)
             {
                 switch (item.Name)
                 {
                     case "社区预报":
                         制作社区预报();
                         break; 
-                    case "制作市四区预报":
+                    case "实况订正制作市四区预报":
                         制作市四区预报();
+                        break;
+                    case "市四区预报":
+                        区台新方法制作市四区预报();
+                        break;
+                    case "区台新方法制作市四区预报":
+                        区台新方法制作市四区预报();
+                        break;
+                    case "短时预报":
+                        短时智能();
                         break;
                     case "短时08时":
                         短时08时();
@@ -110,11 +136,17 @@ namespace sjzd
                     case "短时20时":
                         短时20时();
                         break;
+                    case "逐3小时预报":
+                        逐3小时预报智能();
+                        break;
                     case "逐3小时08时":
                         逐3小时08时();
                         break;
                     case "逐3小时20时":
                         逐3小时20时();
+                        break;
+                    case "短期预报":
+                        短期预报智能();
                         break;
                     case "短期预报08时":
                         短期预报08时();
@@ -136,6 +168,12 @@ namespace sjzd
                         break;
                     case "省级智能网格制作乡镇精细化预报":
                         省级智能网格制作乡镇精细化预报();
+                        break;
+                    case "区台新方法生成乡镇精细化预报":
+                        区台新方法生成乡镇精细化();
+                        break;
+                    case "乡镇精细化预报制作":
+                        区台新方法生成乡镇精细化();
                         break;
                     case "制作乡镇精细化发布单":
                         制作乡镇精细化发布单();
@@ -164,6 +202,22 @@ namespace sjzd
             }
         }
         #region 日常
+
+        private void 短时智能()
+        {
+            if (DateTime.Now < DateTime.Now.Date.AddHours(8))
+            {
+                短时08时();
+            }
+            else if (DateTime.Now.Hour >= 8 && DateTime.Now.Hour <= 17)
+            {
+                短时14时();
+            }
+            else
+            {
+                短时20时();
+            }
+        }
         private void 短时08时()
         {
             预报人员选择 ryxz = new 预报人员选择();
@@ -239,6 +293,18 @@ namespace sjzd
 
             }
         }
+
+        private void 逐3小时预报智能()
+        {
+            if (DateTime.Now.Hour <= 15)
+            {
+                逐3小时08时();
+            }
+            else
+            {
+                逐3小时20时();
+            }
+        }
         private void 逐3小时08时()
         {
             预报人员选择 ryxz = new 预报人员选择();
@@ -287,6 +353,18 @@ namespace sjzd
                     });
                 }
 
+            }
+        }
+
+        private void 短期预报智能()
+        {
+            if (DateTime.Now.Hour <= 15)
+            {
+                短期预报08时();
+            }
+            else
+            {
+                短期预报20时();
             }
         }
         private void 短期预报08时()
@@ -433,6 +511,34 @@ namespace sjzd
 
             }
         }
+        private void 区台新方法制作市四区预报()
+        {
+            预报人员选择2 ryxz = new 预报人员选择2();
+            if (ryxz.ShowDialog() == true)
+            {
+                if (ryxz.ZBCom.Text.Trim().Length > 0)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        RadWindow settingsDialog = new RadWindow();
+
+
+                        settingsDialog.Content = new 进度条_实况订正("区台新方法制作市四区预报") { inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.FBCom.Text, inputStr3 = ryxz.QFCom.Text };
+                        settingsDialog.Closed += 产品生成窗口关闭错误仍旧打开;
+                        settingsDialog.ResizeMode = ResizeMode.CanResize;
+                        settingsDialog.Header = "正在处理数据";
+                        settingsDialog.Owner = Application.Current.MainWindow;
+                        settingsDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                        settingsDialog.HideMinimizeButton = true;
+                        settingsDialog.HideMaximizeButton = true;
+                        settingsDialog.CanClose = false;
+                        settingsDialog.ShowDialog();
+                    });
+                }
+
+            }
+        }
+        
         private void 制作社区预报()
         {
             预报人员选择 ryxz = new 预报人员选择();
@@ -584,6 +690,25 @@ namespace sjzd
 
 
                 settingsDialog.Content = new 进度条_实况订正("区局智能网格生成乡镇精细化");
+                settingsDialog.ResizeMode = ResizeMode.CanResize;
+                settingsDialog.Header = "正在处理数据";
+                settingsDialog.Owner = Application.Current.MainWindow;
+                settingsDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                settingsDialog.HideMinimizeButton = true;
+                settingsDialog.HideMaximizeButton = true;
+                settingsDialog.CanClose = false;
+                settingsDialog.Closed += 区局智能网格生成乡镇精细化窗口关闭;
+                settingsDialog.ShowDialog();
+            });
+        }
+        public void 区台新方法生成乡镇精细化()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                RadWindow settingsDialog = new RadWindow();
+
+
+                settingsDialog.Content = new 进度条_实况订正("区台新方法生成乡镇精细化");
                 settingsDialog.ResizeMode = ResizeMode.CanResize;
                 settingsDialog.Header = "正在处理数据";
                 settingsDialog.Owner = Application.Current.MainWindow;

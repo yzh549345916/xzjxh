@@ -933,5 +933,23 @@ namespace sjzd
 
 
         }
+
+        private void 区台新方法温度_Click(object sender, RadRoutedEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                RadWindow settingsDialog = new RadWindow();
+                settingsDialog.Content = new 进度条_实况订正("区台新方法生成乡镇精细化");
+                settingsDialog.ResizeMode = ResizeMode.CanResize;
+                settingsDialog.Header = "正在处理数据";
+                settingsDialog.Owner = Application.Current.MainWindow;
+                settingsDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                settingsDialog.HideMinimizeButton = true;
+                settingsDialog.HideMaximizeButton = true;
+                settingsDialog.CanClose = false;
+                settingsDialog.Closed += 区局智能网格生成乡镇精细化窗口关闭;
+                settingsDialog.ShowDialog();
+            });
+        }
     }
 }

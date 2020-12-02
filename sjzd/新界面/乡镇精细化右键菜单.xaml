@@ -38,6 +38,11 @@
                 <Image Source="/sjzd;component/新界面/Image/图标/处理.png" Height="30" Width="30"/>
             </telerik:RadRadialMenuItem.IconContent>
         </telerik:RadRadialMenuItem>
+        <telerik:RadRadialMenuItem x:Name="区台新方法温度" Header="区台新方法"  ToolTipContent="区台新方法温度查询" Click="区台新方法温度_Click"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem.IconContent>
+                <Image Source="/sjzd;component/新界面/Image/图标/方法.png" Height="40" Width="40" />
+            </telerik:RadRadialMenuItem.IconContent>
+        </telerik:RadRadialMenuItem>
         <telerik:RadRadialMenuItem x:Name="制作发布单" Header="制作发布单" ToolTipContent="制作乡镇精细化预报发布单" Click="制作发布单_Click"  GroupName="乡镇精细化">
             <telerik:RadRadialMenuItem.IconContent>
                 <Image Source="/sjzd;component/新界面/Image/图标/发布.png" Height="35" Width="35" />

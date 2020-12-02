@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using sjzd.类;
 using Telerik.Windows.Controls;
 
 namespace sjzd
@@ -52,6 +53,11 @@ namespace sjzd
                 Thread thread = new Thread(区局智能网格生成乡镇精细化);
                 thread.Start();
             }
+            else if (name == "区台新方法生成乡镇精细化")
+            {
+                Thread thread = new Thread(区台新方法生成乡镇精细化);
+                thread.Start();
+            }
             else if (name == "生成社区精细化预报")
             {
                 Thread thread = new Thread(生成社区精细化预报);
@@ -60,6 +66,11 @@ namespace sjzd
             else if (name == "生成市四区精细化预报产品")
             {
                 Thread thread = new Thread(生成市四区精细化预报产品);
+                thread.Start();
+            }
+            else if (name == "区台新方法制作市四区预报")
+            {
+                Thread thread = new Thread(区台新方法生成市四区精细化预报产品);
                 thread.Start();
             }
             else if (name == "生成短期预报产品")
@@ -358,7 +369,121 @@ namespace sjzd
 
             jdtView.myValue += 100;
         }
+        public void 区台新方法生成乡镇精细化()
+        {
+            try
+            {
+                strError = "";
+                classCZSJZD CZSJZD1 = new classCZSJZD();
+                string myerror = "";
+                string myYBdata = CZSJZD1.readXZYBtxtNew(ref myerror);
+                if (myerror.Length > 0)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        RadWindow.Confirm(new DialogParameters
+                        {
+                            Content = myerror,
+                            Closed = OnConfirmClosed_区台新方法手动选择指导预报,
+                            Owner = Application.Current.MainWindow,
+                            CancelButtonContent = "否",
+                            OkButtonContent = "是"
+                        });
+                    });
+                }
+                else
+                {
+                    string[,] YBSZ = CZSJZD1.ZDYBCL(myYBdata);
+                   
+                    if (YBSZ.GetLength(0) > 0)
+                    {
+                        mysql数据库类 mysqlClass = new mysql数据库类();
+                        szYB= mysqlClass.处理乡镇精细化预报数据(YBSZ, ref strError);
+                        if (strError.Length > 0 && strError.Contains("但是乡镇报文温度为-99"))
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                RadWindow.Alert(new DialogParameters
+                                {
+                                    Content = strError,
+                                    Owner = Application.Current.MainWindow,
+                                    Header = "警告"
+                                });
+                            });
+                            strError = "";
+                        }
+                    }
+                    else
+                    {
+                        strError = "区台新方法数据获取失败";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                strError = ex.Message;
+            }
 
+            jdtView.myValue += 100;
+        }
+        private void OnConfirmClosed_区台新方法手动选择指导预报(object sender, WindowClosedEventArgs e)
+        {
+            try
+            {
+                if (e.DialogResult == true)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        RadOpenFileDialog openFileDialog = new RadOpenFileDialog();
+                        openFileDialog.Filter = "文本 (*.txt)|*.txt";
+                        openFileDialog.Owner = this;
+                        openFileDialog.ShowDialog();
+                        if (openFileDialog.DialogResult == true)
+                        {
+                            string YBPath = openFileDialog.FileName;
+                            StreamReader sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312"));
+                            string YBdata = sr.ReadToEnd();
+                            classCZSJZD CZSJZD1 = new classCZSJZD();
+                            string[,] YBSZ = CZSJZD1.ZDYBCL(YBdata);
+                            if (YBSZ.GetLength(0) > 0)
+                            {
+                                mysql数据库类 mysqlClass = new mysql数据库类();
+                                szYB = mysqlClass.处理乡镇精细化预报数据(YBSZ, ref strError);
+                                if (strError.Length > 0 && strError.Contains("但是乡镇报文温度为-99"))
+                                {
+                                    Dispatcher.Invoke(() =>
+                                    {
+                                        RadWindow.Alert(new DialogParameters
+                                        {
+                                            Content = strError,
+                                            Owner = Application.Current.MainWindow,
+                                            Header = "警告"
+                                        });
+                                    });
+                                    strError = "";
+                                }
+                            }
+                            else
+                            {
+                                strError = "区台新方法数据获取失败";
+                            }
+                        }
+                        else
+                        {
+                            strError = "指导预报获取失败";
+                        }
+                    });
+                }
+                else
+                {
+                    strError = "指导预报获取失败";
+                }
+            }
+            catch
+            {
+                strError = "指导预报获取失败";
+            }
+        }
         private void OnConfirmClosed_手动选择指导预报(object sender, WindowClosedEventArgs e)
         {
             try
@@ -627,6 +752,101 @@ namespace sjzd
             }
 
             jdtView.myValue += 100;
+        }
+        public void 区台新方法生成市四区精细化预报产品()
+        {
+            try
+            {
+                strError = "";
+                classSSQSJZD CZSJZD1 = new classSSQSJZD();
+                string myerror = "";
+                string myYBdata = CZSJZD1.readXZYBtxt(ref myerror);
+                if (myerror.Length > 0)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        RadWindow.Confirm(new DialogParameters
+                        {
+                            Content = myerror,
+                            Closed = OnConfirmClosed_区台新方法市四区手动选择指导预报,
+                            Owner = Application.Current.MainWindow,
+                            CancelButtonContent = "否",
+                            OkButtonContent = "是"
+                        });
+                    });
+                }
+                else
+                {
+                    string[,] YBSZ = CZSJZD1.ZDYBCL(myYBdata);
+                    strError = "";
+                    string[,] ssqSZ = 区台新方法处理市四区数据(YBSZ);
+
+                    if (ssqSZ.GetLength(0) > 0)
+                    {
+                        myPath = CZSJZD1.DCWordNew(ssqSZ, inputStr1, inputStr2, inputStr3, ref strError);
+                    }
+                    else
+                    {
+                        strError = "产品生成取失败";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                strError = ex.Message;
+            }
+
+            jdtView.myValue += 100;
+        }
+        private void OnConfirmClosed_区台新方法市四区手动选择指导预报(object sender, WindowClosedEventArgs e)
+        {
+            try
+            {
+                if (e.DialogResult == true)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        RadOpenFileDialog openFileDialog = new RadOpenFileDialog();
+                        openFileDialog.Filter = "文本 (*.txt)|*.txt";
+                        openFileDialog.Owner = this;
+                        openFileDialog.ShowDialog();
+                        if (openFileDialog.DialogResult == true)
+                        {
+                            string YBPath = openFileDialog.FileName;
+                            StreamReader sr = new StreamReader(YBPath, Encoding.GetEncoding("GB2312"));
+                            string myYBdata = sr.ReadToEnd();
+                            classCZSJZD CZSJZD1 = new classCZSJZD();
+                            string[,] YBSZ = CZSJZD1.ZDYBCL(myYBdata);
+                            strError = "";
+                            string strData = "", SKData = "";
+                            处理市四区数据(ref strData, ref SKData, ref strError);
+                            classSSQSJZD zdybCL = new classSSQSJZD();
+                            string[,] ssqSZ = zdybCL.CZCL(YBSZ, strData, SKData, ref strError);
+
+                            if (ssqSZ.GetLength(0) > 0)
+                            {
+                                myPath = CZSJZD1.DCWordNew(ssqSZ, inputStr1, inputStr2, inputStr3, ref strError);
+                            }
+                            else
+                            {
+                                strError = "产品生成取失败";
+                            }
+                        }
+                        else
+                        {
+                            strError = "指导预报获取失败";
+                        }
+                    });
+                }
+                else
+                {
+                    strError = "指导预报获取失败";
+                }
+            }
+            catch
+            {
+                strError = "指导预报获取失败";
+            }
         }
 
         public void 生成短期预报产品()
@@ -1045,6 +1265,101 @@ namespace sjzd
             {
                 myerror = ex.Message;
             }
+        }
+        public string[,] 区台新方法处理市四区数据(string[,] YBSZ)
+        {
+            DateTime dt = DateTime.Now;
+            string SSQconPath = Environment.CurrentDirectory + @"\设置文件\市四区\市四区配置.txt";
+            string configZDPath = Environment.CurrentDirectory + @"\设置文件\市四区\市四区站点.txt";
+
+            string StationID = "";
+            string ZDXX = "";
+            string XZID = "";
+            try
+            {
+                using (StreamReader sr1 = new StreamReader(configZDPath, Encoding.GetEncoding("GB2312")))
+                {
+                    string line1 = "";
+                    while ((line1 = sr1.ReadLine()) != null)
+                    {
+                        if (line1.Split('=').Length > 2)
+                        {
+                            ZDXX += line1 + '\n';
+                            if (line1.Split('=')[1].Trim() == line1.Split('=')[2].Trim())
+                            {
+                                StationID += line1.Split('=')[1].Trim() + ',';
+                            }
+                            else
+                            {
+                                XZID += line1.Split('=')[1].Trim() + ',';
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new string[0,0];
+            }
+
+            ZDXX = ZDXX.Substring(0, ZDXX.Length - 1);
+            StationID = StationID.Substring(0, StationID.Length - 1);
+            XZID = XZID.Substring(0, XZID.Length - 1);
+            mysql数据库类 mysqlClass = new mysql数据库类();
+            List<mysql数据库类.区台温度> dataLists= mysqlClass.根据区站号起报时间获取区台新方法温度(XZID, DateTime.Now.Date.AddHours(8));
+            string[,] szYB = new string[XZID.Split(',').Length+1, 30];
+            string[] xxSZ = ZDXX.Split('\n');
+            for(int i=0;i< xxSZ.Length;i++)
+            {
+                string[] lssz=xxSZ[i].Split('=');
+                if (!lssz[1].StartsWith('C'))
+                {
+                    szYB[i,0] = lssz[0];
+                    for (int j = 0; j < YBSZ.GetLength(1); j++)
+                    {
+                        szYB[i, j + 1] = YBSZ[0, j];
+                    }
+                }
+                else
+                {
+                    List<mysql数据库类.区台温度> mydatas = dataLists.FindAll(y => y.StationID == lssz[1] && y.SX % 24 == 0);
+                    szYB[i, 0] = lssz[0];
+                    szYB[i, 1] = lssz[1];
+                    for (int j = 2; j < 30; j++)
+                    {
+                        if (j == 4)
+                        {
+                            szYB[i, j] = Math.Round(mydatas.Find(y => y.SX == 24).TMIN,0).ToString();
+                        }
+                        else if (j == 5)
+                        {
+                            szYB[i, j] = Math.Round(mydatas.Find(y => y.SX == 24).TMAX, 0).ToString();
+                        }
+                        else if (j == 8)
+                        {
+                            szYB[i, j] = Math.Round(mydatas.Find(y => y.SX == 48).TMIN, 0).ToString();
+                        }
+                        else if (j == 9)
+                        {
+                            szYB[i, j] = Math.Round(mydatas.Find(y => y.SX == 48).TMAX, 0).ToString();
+                        }
+                        else if (j == 12)
+                        {
+                            szYB[i, j] = Math.Round(mydatas.Find(y => y.SX == 72).TMIN, 0).ToString();
+                        }
+                        else if (j == 13)
+                        {
+                            szYB[i, j] = Math.Round(mydatas.Find(y => y.SX == 72).TMAX, 0).ToString();
+                        }
+                        else
+                        {
+                            szYB[i, j ] = YBSZ[0, j-1];
+                        }
+                    }
+                }
+            }
+
+            return szYB;
         }
     }
 }
