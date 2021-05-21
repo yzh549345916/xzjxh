@@ -11,7 +11,7 @@
                    navigation:RadWindowInteropHelper.AllowTransparency="True"
                    navigation:RadWindowInteropHelper.Icon="/ico/tb.ico"
 
-                   Header="蒙草预报"
+                   Header="牧草预报"
                    Height="900" Width="1520">
 
     <Grid Margin="0,0,0,0">
@@ -73,10 +73,10 @@
                        </telerik:RadGridView.Columns>
                 </telerik:RadGridView>
                 <StackPanel x:Name="sp1"   HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <telerik:Label x:Name="label1" FontSize="20" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">蒙草清水河项目区</telerik:Label>
-                    <TextBox x:Name="蒙草清水河项目区" FontSize="20" TextWrapping="WrapWithOverflow" Width="300" Height="300" Margin="20,10,20,40"></TextBox>
-                    <telerik:Label x:Name="label2" FontSize="20" HorizontalContentAlignment="Center">蒙草武川项目区</telerik:Label>
-                    <TextBox x:Name="蒙草武川项目区" FontSize="20" Width="300" Height="300" Margin="20,10,20,0" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow"></TextBox>
+                    <telerik:Label x:Name="label1" FontSize="20" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">牧草伊利项目区</telerik:Label>
+                    <TextBox x:Name="牧草伊利项目区" FontSize="20" TextWrapping="WrapWithOverflow" Width="300" Height="300" Margin="20,10,20,40"></TextBox>
+                    <telerik:Label x:Name="label2" FontSize="20" HorizontalContentAlignment="Center">牧草蒙牛项目区</telerik:Label>
+                    <TextBox x:Name="牧草蒙牛项目区" FontSize="20" Width="300" Height="300" Margin="20,10,20,0" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow"></TextBox>
                 </StackPanel>
                 
             </StackPanel>

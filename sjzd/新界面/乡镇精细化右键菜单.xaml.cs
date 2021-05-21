@@ -931,7 +931,6 @@ namespace sjzd
             蒙草预报产品 mymc = new 蒙草预报产品();
             mymc.Show();
 
-
         }
 
         private void 区台新方法温度_Click(object sender, RadRoutedEventArgs e)

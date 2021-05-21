@@ -104,7 +104,7 @@ namespace sjzd
                 builder.Font.Bold = false;
                 builder.ParagraphFormat.FirstLineIndent = 30;
                 builder.ParagraphFormat.LineSpacing = 18;
-                builder.Write(" ");
+                builder.Write($"据呼和浩特市水务局凌情信息显示，截止{DateTime.Now:yyyy年M月d日}，");
                 builder.InsertParagraph();
                 builder.Write("高分四号卫星黄河凌汛遥感监测图如下：");
                 builder.InsertParagraph();
@@ -399,7 +399,7 @@ namespace sjzd
                     if (YBpath.Length > 0)
                     {
                         DateTime date = DateTime.Now;
-                        YBpath += $"{date:yyyy}\\{date:yyyy-MM}\\{date:yyyyMMdd}10.doc";
+                        YBpath += $"{date:yyyy}\\{date:yyyy-MM}\\{date:yyyyMMdd}17.doc";
                     }
 
                     if (File.Exists(YBpath))

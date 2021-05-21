@@ -108,7 +108,17 @@ namespace sjzd
                 Thread thread = new Thread(生成赛罕智能网格产品);
                 thread.Start();
             }
-
+            else if (name == "制作气象条件与空气质量预报")
+            {
+                Thread thread = new Thread(制作气象条件与空气质量预报);
+                thread.Start();
+            }
+            else if (name == "生成书记短信")
+            {
+                Thread thread = new Thread(生成书记短信);
+                thread.Start();
+            }
+            
         }
 
         public void 开始实况订正()
@@ -856,12 +866,26 @@ namespace sjzd
             myPath = dq.DCWordNew(inputInt, inputStr1, inputStr2, inputStr3, ref strError);
             jdtView.myValue += 100;
         }
-
+        
+        public void 制作气象条件与空气质量预报()
+        {
+            strError = "";
+            气象条件与空气质量预报 dq = new 气象条件与空气质量预报();
+            myPath = dq.DCWord( inputStr1, inputStr2, inputStr3, ref strError);
+            jdtView.myValue += 100;
+        }
         public void 生成防凌预报产品()
         {
             strError = "";
             防凌预报 DS = new 防凌预报();
             myPath = DS.DCWordNew(inputStr1, inputStr2, inputStr3, inputStr4, ref strError);
+            jdtView.myValue += 100;
+        }
+        public void 生成书记短信()
+        {
+            strError = "";
+            气象台产品制作new DS = new 气象台产品制作new();
+            myPath = DS.书记短信制作( ref strError);
             jdtView.myValue += 100;
         }
 
@@ -1089,8 +1113,8 @@ namespace sjzd
                 MessageBox.Show(ex.Message);
                 return;
             }
-            DZTime = DateTime.Now.Hour.ToString();
-            string strToday = dt.ToUniversalTime().ToString("yyyyMMdd") + DZTime + "0000";
+            //DZTime = DateTime.Now.Hour.ToString();
+            string strToday = dt.ToUniversalTime().ToString("yyyyMMdd") + DZTime.PadLeft(2,'0') + "0000";
             string strLS;
             DateTime dtLS = DateTime.ParseExact(strToday, "yyyyMMddHHmmss", null);
             if (dtLS.CompareTo(DateTime.Now) > 0)

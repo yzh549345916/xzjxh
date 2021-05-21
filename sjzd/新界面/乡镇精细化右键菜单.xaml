@@ -173,7 +173,7 @@
                     <Image Source="/sjzd;component/新界面/Image/图标/科学.png" Height="50" Width="50" />
                 </telerik:RadRadialMenuItem.IconContent>
             </telerik:RadRadialMenuItem>
-            <telerik:RadRadialMenuItem x:Name="蒙草预报服务" Header="蒙草预报服务" ToolTipContent="蒙草预报制作" Click="蒙草预报服务_OnClick"  GroupName="乡镇精细化">
+            <telerik:RadRadialMenuItem x:Name="蒙草预报服务" Header="牧草预报服务" ToolTipContent="牧草预报服务" Click="蒙草预报服务_OnClick"  GroupName="乡镇精细化">
                 <telerik:RadRadialMenuItem.IconContent>
                     <Image Source="/sjzd;component/新界面/Image/图标/叶子.png" Height="50" Width="50" />
                 </telerik:RadRadialMenuItem.IconContent>

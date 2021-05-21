@@ -20,6 +20,7 @@ namespace sjzd
     {
         string strTheme = "";
         string _path = "";
+
         public 预报产品制作()
         {
             InitializeComponent();
@@ -28,7 +29,7 @@ namespace sjzd
 
         private void 生成窗体()
         {
-            RadTreeViewItem 根目录 =new RadTreeViewItem() { Header = "预报产品制作" };
+            RadTreeViewItem 根目录 = new RadTreeViewItem() {Header = "预报产品制作"};
             根目录.IsExpanded = true;
             生成日常产品目录(根目录);
             生成乡镇精细化预报目录(根目录);
@@ -36,71 +37,78 @@ namespace sjzd
             生成其他预报目录(根目录);
             生成备用产品目录(根目录);
             radTree.Items.Add(根目录);
-
         }
 
         private void 生成日常产品目录(RadTreeViewItem 根目录)
         {
-            RadTreeViewItem 日常产品 = new RadTreeViewItem() { Header = "日常产品制作", IsExpanded = true };
-            日常产品.Items.Add(new RadTreeViewItem() { Header = "制作社区预报",Name="社区预报"});
-            日常产品.Items.Add(new RadTreeViewItem() { Header = "制作市四区预报", IsExpanded = false, Name = "市四区预报" });
-            RadTreeViewItem 短时预报= new RadTreeViewItem() { Header = "短时预报", IsExpanded = false, Name = "短时预报" };
-            短时预报.Items.Add(new RadTreeViewItem() { Header = "短时08时", Name = "短时08时" });
-            短时预报.Items.Add(new RadTreeViewItem() { Header = "短时14时", Name = "短时14时" });
-            短时预报.Items.Add(new RadTreeViewItem() { Header = "短时20时", Name = "短时20时" });
+            RadTreeViewItem 日常产品 = new RadTreeViewItem() {Header = "日常产品制作", IsExpanded = true};
+            日常产品.Items.Add(new RadTreeViewItem() {Header = "制作社区预报", Name = "社区预报"});
+            日常产品.Items.Add(new RadTreeViewItem() {Header = "制作市四区预报", IsExpanded = false, Name = "市四区预报"});
+            RadTreeViewItem 短时预报 = new RadTreeViewItem() {Header = "短时预报", IsExpanded = false, Name = "短时预报"};
+            短时预报.Items.Add(new RadTreeViewItem() {Header = "短时08时", Name = "短时08时"});
+            短时预报.Items.Add(new RadTreeViewItem() {Header = "短时14时", Name = "短时14时"});
+            短时预报.Items.Add(new RadTreeViewItem() {Header = "短时20时", Name = "短时20时"});
             日常产品.Items.Add(短时预报);
-            RadTreeViewItem 逐3小时预报 = new RadTreeViewItem() { Header = "逐3小时预报", IsExpanded = false,Name= "逐3小时预报" };
-            逐3小时预报.Items.Add(new RadTreeViewItem() { Header = "逐3小时08时", Name = "逐3小时08时" });
-            逐3小时预报.Items.Add(new RadTreeViewItem() { Header = "逐3小时20时", Name = "逐3小时20时" });
+            RadTreeViewItem 逐3小时预报 = new RadTreeViewItem() {Header = "逐3小时预报", IsExpanded = false, Name = "逐3小时预报"};
+            逐3小时预报.Items.Add(new RadTreeViewItem() {Header = "逐3小时08时", Name = "逐3小时08时"});
+            逐3小时预报.Items.Add(new RadTreeViewItem() {Header = "逐3小时20时", Name = "逐3小时20时"});
             日常产品.Items.Add(逐3小时预报);
-            RadTreeViewItem 短期预报 = new RadTreeViewItem() { Header = "短期预报", IsExpanded = false, Name = "短期预报" };
-            短期预报.Items.Add(new RadTreeViewItem() { Header = "短期预报08时", Name = "短期预报08时" });
-            短期预报.Items.Add(new RadTreeViewItem() { Header = "短期预报20时", Name = "短期预报20时" });
+            RadTreeViewItem 短期预报 = new RadTreeViewItem() {Header = "短期预报", IsExpanded = false, Name = "短期预报"};
+            短期预报.Items.Add(new RadTreeViewItem() {Header = "短期预报08时", Name = "短期预报08时"});
+            短期预报.Items.Add(new RadTreeViewItem() {Header = "短期预报20时", Name = "短期预报20时"});
             日常产品.Items.Add(短期预报);
-            日常产品.Items.Add(new RadTreeViewItem() { Header = "制作中期逐日预报", Name = "制作中期逐日预报" });
-            日常产品.Items.Add(new RadTreeViewItem() { Header = "制作防凌预报", Name = "制作防凌预报" });
-            日常产品.Items.Add(new RadTreeViewItem() { Header = "制作花粉预报", Name = "制作花粉预报" });
+            日常产品.Items.Add(new RadTreeViewItem() {Header = "制作中期逐日预报", Name = "制作中期逐日预报"});
+            日常产品.Items.Add(new RadTreeViewItem() {Header = "制作气象条件与空气质量预报", Name = "制作气象条件与空气质量预报"});
+            日常产品.Items.Add(new RadTreeViewItem() {Header = "制作书记短信", Name = "制作书记短信"});
+            日常产品.Items.Add(new RadTreeViewItem() {Header = "制作防凌预报", Name = "制作防凌预报"});
+            日常产品.Items.Add(new RadTreeViewItem() {Header = "制作花粉预报", Name = "制作花粉预报"});
             根目录.Items.Add(日常产品);
         }
 
         private void 生成乡镇精细化预报目录(RadTreeViewItem 根目录)
         {
-            RadTreeViewItem 乡镇精细化 = new RadTreeViewItem() { Header = "乡镇精细化预报制作", IsExpanded = false , Name = "乡镇精细化预报制作",ToolTip= "默认利用区台新方法生成乡镇精细化预报" };
-            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "区台新方法", Name = "区台新方法生成乡镇精细化预报",ToolTip= "区台新方法生成乡镇精细化" });
-            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "制作发布单", Name = "制作乡镇精细化发布单" });
+            RadTreeViewItem 乡镇精细化 = new RadTreeViewItem()
+                {Header = "乡镇精细化预报制作", IsExpanded = false, Name = "乡镇精细化预报制作", ToolTip = "默认利用区台新方法生成乡镇精细化预报"};
+            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "实况订正指导预报", Name = "实况订正指导预报制作乡镇精细化预报" });
+            乡镇精细化.Items.Add(new RadTreeViewItem() {Header = "制作发布单", Name = "制作乡镇精细化发布单"});
             根目录.Items.Add(乡镇精细化);
         }
+
         private void 生成非日常预报目录(RadTreeViewItem 根目录)
         {
-            RadTreeViewItem 非日常 = new RadTreeViewItem() { Header = "非日常预报制作", IsExpanded = false };
-            RadTreeViewItem 环保局专报 = new RadTreeViewItem() { Header = "环保局专报", IsExpanded = false };
-            环保局专报.Items.Add(new RadTreeViewItem() { Header = "环保局专报08时", Name = "环保局专报08时" });
-            环保局专报.Items.Add(new RadTreeViewItem() { Header = "环保局专报20时", Name = "环保局专报20时" });
+            RadTreeViewItem 非日常 = new RadTreeViewItem() {Header = "非日常预报制作", IsExpanded = false};
+            RadTreeViewItem 环保局专报 = new RadTreeViewItem() {Header = "环保局专报", IsExpanded = false};
+            环保局专报.Items.Add(new RadTreeViewItem() {Header = "环保局专报08时", Name = "环保局专报08时"});
+            环保局专报.Items.Add(new RadTreeViewItem() {Header = "环保局专报20时", Name = "环保局专报20时"});
             非日常.Items.Add(环保局专报);
-            非日常.Items.Add(new RadTreeViewItem() { Header = "蒙草预报服务", Name = "蒙草预报服务" });
+            非日常.Items.Add(new RadTreeViewItem() {Header = "蒙草预报服务", Name = "蒙草预报服务"});
             根目录.Items.Add(非日常);
         }
+
         private void 生成其他预报目录(RadTreeViewItem 根目录)
         {
-            RadTreeViewItem 其他 = new RadTreeViewItem() { Header = "其他", IsExpanded = false };
-            其他.Items.Add(new RadTreeViewItem() { Header = "生态与农业", Name = "生态与农业" });
-            其他.Items.Add(new RadTreeViewItem() { Header = "科开预报导出", Name = "科开预报导出" });
-            其他.Items.Add(new RadTreeViewItem() { Header = "赛罕智能网格", Name = "赛罕智能网格" });
+            RadTreeViewItem 其他 = new RadTreeViewItem() {Header = "其他", IsExpanded = false};
+            其他.Items.Add(new RadTreeViewItem() {Header = "生态与农业", Name = "生态与农业"});
+            其他.Items.Add(new RadTreeViewItem() {Header = "科开预报导出", Name = "科开预报导出"});
+            其他.Items.Add(new RadTreeViewItem() {Header = "赛罕智能网格", Name = "赛罕智能网格"});
             根目录.Items.Add(其他);
         }
+
         private void 生成备用产品目录(RadTreeViewItem 根目录)
         {
-            RadTreeViewItem 备用产品 = new RadTreeViewItem() { Header = "备用产品制作", IsExpanded = false };
-           
-            RadTreeViewItem 市四区 = new RadTreeViewItem() { Header = "制作市四区预报", IsExpanded = false, Name = "市四区预报" };
-            市四区.Items.Add(new RadTreeViewItem() { Header = "实况订正", Name = "实况订正制作市四区预报" });
-            市四区.Items.Add(new RadTreeViewItem() { Header = "区台新方法", Name = "区台新方法制作市四区预报" });
+            RadTreeViewItem 备用产品 = new RadTreeViewItem() {Header = "备用产品制作", IsExpanded = false};
+
+            RadTreeViewItem 市四区 = new RadTreeViewItem() {Header = "制作市四区预报", IsExpanded = false, Name = "市四区预报"};
+            市四区.Items.Add(new RadTreeViewItem() {Header = "实况订正", Name = "实况订正制作市四区预报"});
+            市四区.Items.Add(new RadTreeViewItem() {Header = "区台新方法", Name = "区台新方法制作市四区预报"});
             备用产品.Items.Add(市四区);
-            RadTreeViewItem 乡镇精细化 = new RadTreeViewItem() { Header = "乡镇精细化预报制作", IsExpanded = false, Name = "乡镇精细化预报制作", ToolTip = "默认利用区台新方法生成乡镇精细化预报" };
-            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "实况订正指导预报", Name = "实况订正指导预报制作乡镇精细化预报" });
-            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "省级智能网格", Name = "省级智能网格制作乡镇精细化预报" });
-            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "区台新方法", Name = "区台新方法生成乡镇精细化预报", ToolTip = "区台新方法生成乡镇精细化" });
-            乡镇精细化.Items.Add(new RadTreeViewItem() { Header = "制作发布单", Name = "制作乡镇精细化发布单" });
+            RadTreeViewItem 乡镇精细化 = new RadTreeViewItem()
+                {Header = "乡镇精细化预报制作", IsExpanded = false, Name = "乡镇精细化预报制作", ToolTip = "默认利用区台新方法生成乡镇精细化预报"};
+            乡镇精细化.Items.Add(new RadTreeViewItem() {Header = "实况订正指导预报", Name = "实况订正指导预报制作乡镇精细化预报"});
+            乡镇精细化.Items.Add(new RadTreeViewItem() {Header = "省级智能网格", Name = "省级智能网格制作乡镇精细化预报"});
+            乡镇精细化.Items.Add(new RadTreeViewItem()
+                {Header = "区台新方法", Name = "区台新方法生成乡镇精细化预报", ToolTip = "区台新方法生成乡镇精细化"});
+            乡镇精细化.Items.Add(new RadTreeViewItem() {Header = "制作发布单", Name = "制作乡镇精细化发布单"});
             备用产品.Items.Add(乡镇精细化);
             根目录.Items.Add(备用产品);
         }
@@ -114,7 +122,7 @@ namespace sjzd
                 {
                     case "社区预报":
                         制作社区预报();
-                        break; 
+                        break;
                     case "实况订正制作市四区预报":
                         制作市四区预报();
                         break;
@@ -160,6 +168,12 @@ namespace sjzd
                     case "制作防凌预报":
                         制作防凌预报();
                         break;
+                    case "制作气象条件与空气质量预报":
+                        制作气象条件与空气质量预报();
+                        break;
+                    case "制作书记短信":
+                        制作书记短信();
+                        break;
                     case "制作花粉预报":
                         制作花粉预报();
                         break;
@@ -201,6 +215,7 @@ namespace sjzd
                 }
             }
         }
+
         #region 日常
 
         private void 短时智能()
@@ -218,6 +233,7 @@ namespace sjzd
                 短时20时();
             }
         }
+
         private void 短时08时()
         {
             预报人员选择 ryxz = new 预报人员选择();
@@ -228,7 +244,8 @@ namespace sjzd
                     Dispatcher.Invoke(() =>
                     {
                         RadWindow settingsDialog = new RadWindow();
-                        settingsDialog.Content = new 进度条_实况订正("生成短时预报产品") { inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text, inputInt = 8 };
+                        settingsDialog.Content = new 进度条_实况订正("生成短时预报产品")
+                            {inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text, inputInt = 8};
                         settingsDialog.Closed += 产品生成窗口关闭;
                         settingsDialog.ResizeMode = ResizeMode.CanResize;
                         settingsDialog.Header = "正在处理数据";
@@ -240,9 +257,9 @@ namespace sjzd
                         settingsDialog.ShowDialog();
                     });
                 }
-
             }
         }
+
         private void 短时14时()
         {
             预报人员选择 ryxz = new 预报人员选择();
@@ -253,7 +270,8 @@ namespace sjzd
                     Dispatcher.Invoke(() =>
                     {
                         RadWindow settingsDialog = new RadWindow();
-                        settingsDialog.Content = new 进度条_实况订正("生成短时预报产品") { inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text, inputInt = 14 };
+                        settingsDialog.Content = new 进度条_实况订正("生成短时预报产品")
+                            {inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text, inputInt = 14};
                         settingsDialog.Closed += 产品生成窗口关闭;
                         settingsDialog.ResizeMode = ResizeMode.CanResize;
                         settingsDialog.Header = "正在处理数据";
@@ -265,9 +283,9 @@ namespace sjzd
                         settingsDialog.ShowDialog();
                     });
                 }
-
             }
         }
+
         private void 短时20时()
         {
             预报人员选择 ryxz = new 预报人员选择();
@@ -278,7 +296,8 @@ namespace sjzd
                     Dispatcher.Invoke(() =>
                     {
                         RadWindow settingsDialog = new RadWindow();
-                        settingsDialog.Content = new 进度条_实况订正("生成短时预报产品") { inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text, inputInt = 20 };
+                        settingsDialog.Content = new 进度条_实况订正("生成短时预报产品")
+                            {inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text, inputInt = 20};
                         settingsDialog.Closed += 产品生成窗口关闭;
                         settingsDialog.ResizeMode = ResizeMode.CanResize;
                         settingsDialog.Header = "正在处理数据";
@@ -290,7 +309,6 @@ namespace sjzd
                         settingsDialog.ShowDialog();
                     });
                 }
-
             }
         }
 
@@ -305,6 +323,7 @@ namespace sjzd
                 逐3小时20时();
             }
         }
+
         private void 逐3小时08时()
         {
             预报人员选择 ryxz = new 预报人员选择();
@@ -315,7 +334,8 @@ namespace sjzd
                     Dispatcher.Invoke(() =>
                     {
                         RadWindow settingsDialog = new RadWindow();
-                        settingsDialog.Content = new 进度条_实况订正("生成逐3小时预报产品") { inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text, inputInt = 8 };
+                        settingsDialog.Content = new 进度条_实况订正("生成逐3小时预报产品")
+                            {inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text, inputInt = 8};
                         settingsDialog.Closed += 产品生成窗口关闭;
                         settingsDialog.ResizeMode = ResizeMode.CanResize;
                         settingsDialog.Header = "正在处理数据";
@@ -327,9 +347,9 @@ namespace sjzd
                         settingsDialog.ShowDialog();
                     });
                 }
-
             }
         }
+
         private void 逐3小时20时()
         {
             预报人员选择 ryxz = new 预报人员选择();
@@ -340,7 +360,8 @@ namespace sjzd
                     Dispatcher.Invoke(() =>
                     {
                         RadWindow settingsDialog = new RadWindow();
-                        settingsDialog.Content = new 进度条_实况订正("生成逐3小时预报产品") { inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text, inputInt = 20 };
+                        settingsDialog.Content = new 进度条_实况订正("生成逐3小时预报产品")
+                            {inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text, inputInt = 20};
                         settingsDialog.Closed += 产品生成窗口关闭;
                         settingsDialog.ResizeMode = ResizeMode.CanResize;
                         settingsDialog.Header = "正在处理数据";
@@ -352,7 +373,6 @@ namespace sjzd
                         settingsDialog.ShowDialog();
                     });
                 }
-
             }
         }
 
@@ -367,6 +387,42 @@ namespace sjzd
                 短期预报20时();
             }
         }
+
+        private void 制作气象条件与空气质量预报()
+        {
+            预报人员选择空气质量 ryxz = new 预报人员选择空气质量();
+            if (ryxz.ShowDialog() == true)
+            {
+                if (ryxz.ZBCom.Text.Trim().Length > 0)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        RadWindow settingsDialog = new RadWindow();
+                        settingsDialog.Content = new 进度条_实况订正("制作气象条件与空气质量预报")
+                        {
+                            inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.SHCom.Text, inputStr3 = ryxz.QFCom.Text,
+                            inputInt = 8
+                        };
+                        settingsDialog.Closed += 产品生成窗口关闭;
+                        settingsDialog.ResizeMode = ResizeMode.CanResize;
+                        settingsDialog.Header = "正在处理数据";
+                        settingsDialog.Owner = Application.Current.MainWindow;
+                        settingsDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                        settingsDialog.HideMinimizeButton = true;
+                        settingsDialog.HideMaximizeButton = true;
+                        settingsDialog.CanClose = false;
+                        settingsDialog.ShowDialog();
+                    });
+                }
+            }
+        }
+
+        private void 制作书记短信()
+        {
+            书记短信制作界面 ryxz = new 书记短信制作界面();
+            ryxz.Show();
+        }
+
         private void 短期预报08时()
         {
             预报人员选择2 ryxz = new 预报人员选择2();
@@ -377,7 +433,11 @@ namespace sjzd
                     Dispatcher.Invoke(() =>
                     {
                         RadWindow settingsDialog = new RadWindow();
-                        settingsDialog.Content = new 进度条_实况订正("生成短期预报产品") { inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.FBCom.Text, inputStr3 = ryxz.QFCom.Text, inputInt = 8 };
+                        settingsDialog.Content = new 进度条_实况订正("生成短期预报产品")
+                        {
+                            inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.FBCom.Text, inputStr3 = ryxz.QFCom.Text,
+                            inputInt = 8
+                        };
                         settingsDialog.Closed += 产品生成窗口关闭;
                         settingsDialog.ResizeMode = ResizeMode.CanResize;
                         settingsDialog.Header = "正在处理数据";
@@ -389,9 +449,9 @@ namespace sjzd
                         settingsDialog.ShowDialog();
                     });
                 }
-
             }
         }
+
         private void 短期预报20时()
         {
             预报人员选择2 ryxz = new 预报人员选择2();
@@ -402,7 +462,11 @@ namespace sjzd
                     Dispatcher.Invoke(() =>
                     {
                         RadWindow settingsDialog = new RadWindow();
-                        settingsDialog.Content = new 进度条_实况订正("生成短期预报产品") { inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.FBCom.Text, inputStr3 = ryxz.QFCom.Text, inputInt = 20 };
+                        settingsDialog.Content = new 进度条_实况订正("生成短期预报产品")
+                        {
+                            inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.FBCom.Text, inputStr3 = ryxz.QFCom.Text,
+                            inputInt = 20
+                        };
                         settingsDialog.Closed += 产品生成窗口关闭;
                         settingsDialog.ResizeMode = ResizeMode.CanResize;
                         settingsDialog.Header = "正在处理数据";
@@ -414,9 +478,9 @@ namespace sjzd
                         settingsDialog.ShowDialog();
                     });
                 }
-
             }
         }
+
         private void 制作防凌预报()
         {
             try
@@ -430,7 +494,11 @@ namespace sjzd
                         Dispatcher.Invoke(() =>
                         {
                             RadWindow settingsDialog = new RadWindow();
-                            settingsDialog.Content = new 进度条_实况订正("生成防凌预报产品") { inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text, inputStr3 = ryxz.SHCom.Text, inputStr4 = ryxz.LXCom.Text };
+                            settingsDialog.Content = new 进度条_实况订正("生成防凌预报产品")
+                            {
+                                inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text, inputStr3 = ryxz.SHCom.Text,
+                                inputStr4 = ryxz.LXCom.Text
+                            };
                             settingsDialog.Closed += 产品生成窗口关闭;
                             settingsDialog.ResizeMode = ResizeMode.CanResize;
                             settingsDialog.Header = "正在处理数据";
@@ -443,14 +511,12 @@ namespace sjzd
                         });
                     }
                 }
-
-
             }
             catch (Exception)
             {
             }
-
         }
+
         private void 制作中期逐日预报()
         {
             Dispatcher.Invoke(() =>
@@ -470,6 +536,7 @@ namespace sjzd
                 settingsDialog.ShowDialog();
             });
         }
+
         private void 制作花粉预报()
         {
             try
@@ -477,13 +544,12 @@ namespace sjzd
                 //后续新增人员选择窗口
                 花粉预报 ryxz = new 花粉预报();
                 ryxz.Show();
-
-
             }
             catch (Exception)
             {
             }
         }
+
         private void 制作市四区预报()
         {
             预报人员选择2 ryxz = new 预报人员选择2();
@@ -496,7 +562,8 @@ namespace sjzd
                         RadWindow settingsDialog = new RadWindow();
 
 
-                        settingsDialog.Content = new 进度条_实况订正("生成市四区精细化预报产品") { inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.FBCom.Text, inputStr3 = ryxz.QFCom.Text };
+                        settingsDialog.Content = new 进度条_实况订正("生成市四区精细化预报产品")
+                            {inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.FBCom.Text, inputStr3 = ryxz.QFCom.Text};
                         settingsDialog.Closed += 产品生成窗口关闭错误仍旧打开;
                         settingsDialog.ResizeMode = ResizeMode.CanResize;
                         settingsDialog.Header = "正在处理数据";
@@ -508,9 +575,9 @@ namespace sjzd
                         settingsDialog.ShowDialog();
                     });
                 }
-
             }
         }
+
         private void 区台新方法制作市四区预报()
         {
             预报人员选择2 ryxz = new 预报人员选择2();
@@ -523,7 +590,8 @@ namespace sjzd
                         RadWindow settingsDialog = new RadWindow();
 
 
-                        settingsDialog.Content = new 进度条_实况订正("区台新方法制作市四区预报") { inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.FBCom.Text, inputStr3 = ryxz.QFCom.Text };
+                        settingsDialog.Content = new 进度条_实况订正("区台新方法制作市四区预报")
+                            {inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.FBCom.Text, inputStr3 = ryxz.QFCom.Text};
                         settingsDialog.Closed += 产品生成窗口关闭错误仍旧打开;
                         settingsDialog.ResizeMode = ResizeMode.CanResize;
                         settingsDialog.Header = "正在处理数据";
@@ -535,10 +603,9 @@ namespace sjzd
                         settingsDialog.ShowDialog();
                     });
                 }
-
             }
         }
-        
+
         private void 制作社区预报()
         {
             预报人员选择 ryxz = new 预报人员选择();
@@ -551,7 +618,8 @@ namespace sjzd
                         RadWindow settingsDialog = new RadWindow();
 
 
-                        settingsDialog.Content = new 进度条_实况订正("生成社区精细化预报") { inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text };
+                        settingsDialog.Content = new 进度条_实况订正("生成社区精细化预报")
+                            {inputStr1 = ryxz.ZBCom.Text, inputStr2 = ryxz.QFCom.Text};
                         settingsDialog.Closed += 产品生成窗口关闭;
                         settingsDialog.ResizeMode = ResizeMode.CanResize;
                         settingsDialog.Header = "正在处理数据";
@@ -563,9 +631,9 @@ namespace sjzd
                         settingsDialog.ShowDialog();
                     });
                 }
-
             }
         }
+
         private void 产品生成窗口关闭(object sender, EventArgs e)
         {
             try
@@ -583,6 +651,7 @@ namespace sjzd
                     });
                     return;
                 }
+
                 if (_path.Length == 0)
                 {
                     RadWindow.Alert(new DialogParameters
@@ -594,6 +663,7 @@ namespace sjzd
                     });
                     return;
                 }
+
                 RadWindow.Confirm(new DialogParameters
                 {
                     Content = "产品发布完成, 保存路径为：\r\n" + _path + "\r\n是否需要打开产品？",
@@ -603,8 +673,6 @@ namespace sjzd
                     OkButtonContent = "是",
                     Header = "提示"
                 });
-
-
             }
             catch (Exception ex)
             {
@@ -616,6 +684,7 @@ namespace sjzd
                 });
             }
         }
+
         private void 产品生成窗口关闭错误仍旧打开(object sender, EventArgs e)
         {
             try
@@ -632,6 +701,7 @@ namespace sjzd
                         Header = "警告"
                     });
                 }
+
                 if (_path.Length == 0)
                 {
                     RadWindow.Alert(new DialogParameters
@@ -643,6 +713,7 @@ namespace sjzd
                     });
                     return;
                 }
+
                 RadWindow.Confirm(new DialogParameters
                 {
                     Content = "产品发布完成, 保存路径为：\r\n" + _path + "\r\n是否需要打开产品？",
@@ -652,8 +723,6 @@ namespace sjzd
                     OkButtonContent = "是",
                     Header = "提示"
                 });
-
-
             }
             catch (Exception ex)
             {
@@ -665,23 +734,29 @@ namespace sjzd
                 });
             }
         }
+
         #endregion
+
         #region 乡镇精细化
+
         private void 实况订正指导预报制作乡镇精细化预报()
         {
             Thread thread = new Thread(实况订正new);
             thread.Start();
         }
+
         private void 省级智能网格制作乡镇精细化预报()
         {
             Thread thread = new Thread(区局智能网格生成乡镇精细化);
             thread.Start();
         }
+
         private void 制作乡镇精细化发布单()
         {
             Thread thread = new Thread(生成乡镇精细化预报产品);
             thread.Start();
         }
+
         public void 区局智能网格生成乡镇精细化()
         {
             Dispatcher.Invoke(() =>
@@ -701,6 +776,7 @@ namespace sjzd
                 settingsDialog.ShowDialog();
             });
         }
+
         public void 区台新方法生成乡镇精细化()
         {
             Dispatcher.Invoke(() =>
@@ -720,6 +796,7 @@ namespace sjzd
                 settingsDialog.ShowDialog();
             });
         }
+
         private void 区局智能网格生成乡镇精细化窗口关闭(object sender, EventArgs e)
         {
             try
@@ -759,9 +836,6 @@ namespace sjzd
                         OkButtonContent = "是"
                     });
                 }
-
-
-
             }
             catch (Exception ex)
             {
@@ -773,6 +847,7 @@ namespace sjzd
                 });
             }
         }
+
         public void 实况订正new()
         {
             Dispatcher.Invoke(() =>
@@ -791,8 +866,8 @@ namespace sjzd
                 settingsDialog.Closed += 实况订正进度条窗口关闭;
                 settingsDialog.ShowDialog();
             });
-
         }
+
         private void 实况订正进度条窗口关闭(object sender, EventArgs e)
         {
             try
@@ -816,6 +891,7 @@ namespace sjzd
                     RadWindowInteropHelper.SetShowInTaskbar(radWindow, true);
                     radWindow.Show();
                 }
+
                 ZDSZCL zdszcl = new ZDSZCL();
                 zdszcl.ZDSZ2BW(szYB);
                 RadWindow.Confirm(new DialogParameters
@@ -827,8 +903,6 @@ namespace sjzd
                     Header = "提示",
                     OkButtonContent = "是"
                 });
-
-
             }
             catch (Exception ex)
             {
@@ -843,7 +917,6 @@ namespace sjzd
 
         private void OnConfirmClosed_生成乡镇精细化产品(object sender, WindowClosedEventArgs e)
         {
-
             if (e.DialogResult == true)
             {
                 string FBPath = "";
@@ -859,6 +932,7 @@ namespace sjzd
                         }
                     }
                 }
+
                 静态类.OpenBrowser(FBPath);
                 //p.WaitForExit();//关键，等待外部程序退出后才能往下执行
             }
@@ -868,15 +942,15 @@ namespace sjzd
                 thread.Start();
             }
         }
+
         private void OnConfirmClosed_打开乡镇精细化产品(object sender, WindowClosedEventArgs e)
         {
-
             if (e.DialogResult == true)
             {
                 静态类.OpenBrowser(_path);
             }
-
         }
+
         public void 生成乡镇精细化预报产品()
         {
             Dispatcher.Invoke(() =>
@@ -896,6 +970,7 @@ namespace sjzd
                 settingsDialog.ShowDialog();
             });
         }
+
         private void 乡镇精细化预报产品生成窗口关闭(object sender, EventArgs e)
         {
             try
@@ -913,6 +988,7 @@ namespace sjzd
                     });
                     return;
                 }
+
                 RadWindow.Confirm(new DialogParameters
                 {
                     Content = "产品发布完成, 保存路径为：\r\n" + _path + "\r\n是否需要打开产品？",
@@ -922,8 +998,6 @@ namespace sjzd
                     Header = "提示",
                     OkButtonContent = "是"
                 });
-
-
             }
             catch (Exception ex)
             {
@@ -941,14 +1015,17 @@ namespace sjzd
             Thread thread = new Thread(生成乡镇精细化预报产品);
             thread.Start();
         }
+
         #endregion
+
         #region 非日常产品
+
         private void 环保局专报08时()
         {
             Dispatcher.Invoke(() =>
             {
                 RadWindow settingsDialog = new RadWindow();
-                settingsDialog.Content = new 进度条_实况订正("生成环保局预报产品") { inputInt = 8 };
+                settingsDialog.Content = new 进度条_实况订正("生成环保局预报产品") {inputInt = 8};
                 settingsDialog.Closed += 产品生成窗口关闭;
                 settingsDialog.ResizeMode = ResizeMode.CanResize;
                 settingsDialog.Header = "正在处理数据";
@@ -960,6 +1037,7 @@ namespace sjzd
                 settingsDialog.ShowDialog();
             });
         }
+
         private void 环保局专报20时()
         {
             Dispatcher.Invoke(() =>
@@ -967,7 +1045,7 @@ namespace sjzd
                 RadWindow settingsDialog = new RadWindow();
 
 
-                settingsDialog.Content = new 进度条_实况订正("生成环保局预报产品") { inputInt = 20 };
+                settingsDialog.Content = new 进度条_实况订正("生成环保局预报产品") {inputInt = 20};
                 settingsDialog.Closed += 产品生成窗口关闭;
                 settingsDialog.ResizeMode = ResizeMode.CanResize;
                 settingsDialog.Header = "正在处理数据";
@@ -979,23 +1057,29 @@ namespace sjzd
                 settingsDialog.ShowDialog();
             });
         }
+
         private void 蒙草预报服务()
         {
             蒙草预报产品 mymc = new 蒙草预报产品();
             mymc.Show();
         }
+
         #endregion
+
         #region 其他产品
+
         private void 生态与农业()
         {
             生态选择1 stwin = new 生态选择1();
             stwin.Show();
         }
+
         private void 科开预报导出()
         {
             科开服务窗口 ZQ = new 科开服务窗口();
             ZQ.Show();
         }
+
         private void 赛罕智能网格()
         {
             try
@@ -1009,7 +1093,8 @@ namespace sjzd
                         Dispatcher.Invoke(() =>
                         {
                             RadWindow settingsDialog = new RadWindow();
-                            settingsDialog.Content = new 进度条_实况订正("生成赛罕智能网格产品") { inputStr1 = ryxz.ZBCom.Text, inputInt = Convert.ToInt16(ryxz.LXCom.Text) };
+                            settingsDialog.Content = new 进度条_实况订正("生成赛罕智能网格产品")
+                                {inputStr1 = ryxz.ZBCom.Text, inputInt = Convert.ToInt16(ryxz.LXCom.Text)};
                             settingsDialog.Closed += 产品生成窗口关闭;
                             settingsDialog.ResizeMode = ResizeMode.CanResize;
                             settingsDialog.Header = "正在处理数据";
@@ -1022,14 +1107,12 @@ namespace sjzd
                         });
                     }
                 }
-
-
             }
             catch (Exception)
             {
             }
         }
+
         #endregion
     }
 }
-

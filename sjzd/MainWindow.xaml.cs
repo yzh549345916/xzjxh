@@ -902,7 +902,8 @@ namespace sjzd
             string[] SZlinshi = strData.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             strData = "";
             /*删掉CIMISS返回数据第一行的返回信息以及第二行的列标题，只保留数据*/
-            for (int i = 0; i < SZlinshi.Length; i++)
+            for (
+                int i = 0; i < SZlinshi.Length; i++)
             {
                 if (i > 1)
                 {

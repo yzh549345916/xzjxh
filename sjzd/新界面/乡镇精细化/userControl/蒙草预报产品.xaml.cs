@@ -149,10 +149,10 @@ namespace sjzd
 
         private void DCButton_Click(object sender, RoutedEventArgs e)
         {
-            string strPath = Environment.CurrentDirectory + $@"\产品\蒙草临时\{DateTime.Now:yyyy年MM月}\";
+            string strPath = Environment.CurrentDirectory + $@"\产品\牧草\{DateTime.Now:yyyy年MM月}\";
             if (!Directory.Exists(strPath))
                 Directory.CreateDirectory(strPath);
-            strPath += $"{DateTime.Now:yyyy年MM月dd日}蒙草预报服务产品.xls";
+            strPath += $"{DateTime.Now:yyyy年MM月dd日}牧草预报服务产品.xls";
             List<蒙草导出数据> mcMB = new List<蒙草导出数据>();
             蒙草预报 mcyb = new 蒙草预报();
             List<蒙草预报.IDName> idNames = mcyb.获取蒙草站点信息();

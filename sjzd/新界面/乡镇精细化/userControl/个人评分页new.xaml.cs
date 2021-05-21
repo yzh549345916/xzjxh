@@ -327,9 +327,9 @@ namespace sjzd
                 }
                 foreach (var t in lisLS)
                 {
-                    if (t.DWJQ < 0 || t.GWJQ < 0 || t.QYJQ < 0 || t.AllJQ < 0)
+                    if (t.PM<999&&(t.DWJQ < 0 || t.GWJQ < 0 || t.QYJQ < 0 || t.AllJQ < 0))
                     {
-                        t.PM = 999;
+                        t.PM = 998;
                     }
                 }
 
@@ -340,7 +340,14 @@ namespace sjzd
                     Int16 myPM = 1;
                     foreach (var item in lisLS)
                     {
-                        if (item.PM < 999)
+                        if (item.PM < 900)
+                        {
+                            item.PM = myPM++;
+                        }
+                    }
+                    foreach (var item in lisLS)
+                    {
+                        if (item.PM == 998)
                         {
                             item.PM = myPM++;
                         }
@@ -353,7 +360,14 @@ namespace sjzd
                     Int16 myPM = 1;
                     foreach (var item in lisLS)
                     {
-                        if (item.PM < 999)
+                        if (item.PM < 900)
+                        {
+                            item.PM = myPM++;
+                        }
+                    }
+                    foreach (var item in lisLS)
+                    {
+                        if (item.PM == 998)
                         {
                             item.PM = myPM++;
                         }

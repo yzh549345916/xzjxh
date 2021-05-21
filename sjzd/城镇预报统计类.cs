@@ -525,6 +525,741 @@ namespace sjzd
             public float QX120TminJDWC { get; set; }
         }
         #region 五天统计相关
+        public float[] QXZQL120(DateTime sdt, DateTime edt, String QXID) //返回指定指定时间段个人五天预报的最高、最低、晴雨准确率以及缺报率
+        {
+            ObservableCollection<PFZR> pfzrtj1 = new ObservableCollection<PFZR>();
+            float[] tjsz = new float[16];
+            try
+            {
+                using (SqlConnection mycon1 = new SqlConnection(con)) //创建SQL连接对象)
+                {
+                    mycon1.Open(); //打开
+                    string sql =
+                        string.Format(
+                            @"select * from TJ where StationID='{0}' AND Date>='{1:yyyy-MM-dd}' AND Date<='{2:yyyy-MM-dd}'",
+                            QXID, sdt, edt);
+                    SqlCommand sqlman = new SqlCommand(sql, mycon1);
+                    SqlDataReader sqlreader = sqlman.ExecuteReader();
+                    if (sqlreader.HasRows)
+                    {
+                        while (sqlreader.Read())
+                        {
+                            try
+                            {
+                                float tmax24 = 999999,
+                                    tmin24 = 999999,
+                                    qy24 = 999999,
+                                    tmax48 = 999999,
+                                    tmin48 = 999999,
+                                    qy48 = 999999,
+                                    tmax72 = 999999,
+                                    tmin72 = 999999,
+                                    qy72 = 999999,
+                                    rain240012 = 999999,
+                                     rain241224 = 999999,
+                                    rain480012 = 999999,
+                                     rain481224 = 999999,
+                                    rain720012 = 999999,
+                                     rain721224 = 999999,
+                                    rain960012 = 999999,
+                                     rain961224 = 999999,
+                                    rain1200012 = 999999,
+                                     rain1201224 = 999999,
+                                tmax96 = 999999,
+                                    tmin96 = 999999,
+                                    qy96 = 999999,
+                                tmax120 = 999999,
+                                    tmin120 = 999999,
+                                    qy120 = 999999;
+                                try
+                                {
+                                    tmax24 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax24"));
+                                    tmin24 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin24"));
+                                    qy24 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain24"));
+                                    tmax48 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax48"));
+                                    tmin48 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin48"));
+                                    qy48 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain48"));
+                                    tmax72 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax72"));
+                                    tmin72 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin72"));
+                                    qy72 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain72"));
+                                    tmax96 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax96"));
+                                    tmin96 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin96"));
+                                    qy96 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain96"));
+                                    tmax120 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax120"));
+                                    tmin120 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin120"));
+                                    qy120 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain120"));
+                                    rain240012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain0012"));
+                                    rain241224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain1224"));
+                                    rain480012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain2436"));
+                                    rain481224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain3648"));
+                                    rain720012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain4860"));
+                                    rain721224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain6072"));
+                                    rain960012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain7284"));
+                                    rain961224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain8496"));
+                                    rain1200012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain96108"));
+                                    rain1201224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain108120"));
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                                pfzrtj1.Add(new PFZR()
+                                {
+                                    QX24TmaxZQL = tmax24,
+                                    QX24TminZQL = tmin24,
+                                    QX24QYZQL = Math.Abs(rain240012) + Math.Abs(rain241224),
+                                    QX48TmaxZQL = tmax48,
+                                    QX48TminZQL = tmin48,
+                                    QX48QYZQL = Math.Abs(rain480012) + Math.Abs(rain481224),
+                                    QX72TmaxZQL = tmax72,
+                                    QX72TminZQL = tmin72,
+                                    QX72QYZQL = Math.Abs(rain720012) + Math.Abs(rain721224),
+                                    QX96TmaxZQL = tmax96,
+                                    QX96TminZQL = tmin96,
+                                    QX96QYZQL = Math.Abs(rain960012) + Math.Abs(rain961224),
+                                    QX120TmaxZQL = tmax120,
+                                    QX120TminZQL = tmin120,
+                                    QX120QYZQL = Math.Abs(rain1200012) + Math.Abs(rain1201224),
+                                });
+                            }
+                            catch (Exception)
+                            { }
+                        }
+                    }
+                    mycon1.Close();
+                }
+                int ss = pfzrtj1.Count;
+                PFZR[] s1 = pfzrtj1.ToArray();
+                int[] zs = new int[15]; //保存计算准确率时候每个要素的总数，只需统计三天的最高最低晴雨，不用统计缺报，因为缺报率直接除元素总数即可
+                for (int i = 0; i < s1.Length; i++)
+                {
+                    if (s1[i].QX24TmaxZQL < 999998 && s1[i].QX24TmaxZQL > -999999)
+                    {
+                        zs[0]++;
+                        if (Math.Abs(s1[i].QX24TmaxZQL) <= 2)
+                        {
+                            tjsz[0]++;
+                        }
+                    }
+                    else if (s1[i].QX24TmaxZQL == -999999)
+                    {
+                        tjsz[15]++;
+                    }
+                    if (s1[i].QX24TminZQL < 999998 && s1[i].QX24TminZQL > -999999)
+                    {
+                        zs[1]++;
+                        if (Math.Abs(s1[i].QX24TminZQL) <= 2)
+                        {
+                            tjsz[1]++;
+                        }
+                    }
+                    if (s1[i].QX24QYZQL < 999998 && s1[i].QX24QYZQL > -999999)
+                    {
+                        zs[2] = zs[2] + 2;
+
+                        tjsz[2] += s1[i].QX24QYZQL;
+                    }
+
+                    if (s1[i].QX48TmaxZQL < 999998 && s1[i].QX48TmaxZQL > -999999)
+                    {
+                        zs[3]++;
+                        if (Math.Abs(s1[i].QX48TmaxZQL) <= 2)
+                        {
+                            tjsz[3]++;
+                        }
+                    }
+                    if (s1[i].QX48TminZQL < 999998 && s1[i].QX48TminZQL > -999999)
+                    {
+                        zs[4]++;
+                        if (Math.Abs(s1[i].QX48TminZQL) <= 2)
+                        {
+                            tjsz[4]++;
+                        }
+                    }
+                    if (s1[i].QX48QYZQL < 999998 && s1[i].QX48QYZQL > -999999)
+                    {
+                        zs[5] = zs[5] + 2;
+                        tjsz[5] += s1[i].QX48QYZQL;
+                    }
+                    if (s1[i].QX72TmaxZQL < 999998 && s1[i].QX72TmaxZQL > -999999)
+                    {
+                        zs[6]++;
+                        if (Math.Abs(s1[i].QX72TmaxZQL) <= 2)
+                        {
+                            tjsz[6]++;
+                        }
+                    }
+                    if (s1[i].QX72TminZQL < 999998 && s1[i].QX72TminZQL > -999999)
+                    {
+                        zs[7]++;
+                        if (Math.Abs(s1[i].QX72TminZQL) <= 2)
+                        {
+                            tjsz[7]++;
+                        }
+                    }
+                    if (s1[i].QX72QYZQL < 999998 && s1[i].QX72QYZQL > -999999)
+                    {
+                        zs[8] = zs[8] + 2;
+                        tjsz[8] += s1[i].QX72QYZQL;
+                    }
+
+                    if (s1[i].QX96TmaxZQL < 999998 && s1[i].QX96TmaxZQL > -999999)
+                    {
+                        zs[9]++;
+                        if (Math.Abs(s1[i].QX96TmaxZQL) <= 2)
+                        {
+                            tjsz[9]++;
+                        }
+                    }
+                    if (s1[i].QX96TminZQL < 999998 && s1[i].QX96TminZQL > -999999)
+                    {
+                        zs[10]++;
+                        if (Math.Abs(s1[i].QX96TminZQL) <= 2)
+                        {
+                            tjsz[10]++;
+                        }
+                    }
+                    if (s1[i].QX96QYZQL < 999998 && s1[i].QX96QYZQL > -999999)
+                    {
+                        zs[11] = zs[11] + 2;
+                        tjsz[11] += s1[i].QX96QYZQL;
+                    }
+                    if (s1[i].QX120TmaxZQL < 999998 && s1[i].QX120TmaxZQL > -999999)
+                    {
+                        zs[12]++;
+                        if (Math.Abs(s1[i].QX120TmaxZQL) <= 2)
+                        {
+                            tjsz[12]++;
+                        }
+                    }
+                    if (s1[i].QX120TminZQL < 999998 && s1[i].QX120TminZQL > -999999)
+                    {
+                        zs[13]++;
+                        if (Math.Abs(s1[i].QX120TminZQL) <= 2)
+                        {
+                            tjsz[13]++;
+                        }
+                    }
+                    if (s1[i].QX120QYZQL < 999998 && s1[i].QX120QYZQL > -999999)
+                    {
+                        zs[14] = zs[14] + 2;
+                        tjsz[14] += s1[i].QX120QYZQL;
+                    }
+
+                }
+                for (int i = 0; i < tjsz.Length; i++)
+                {
+                    if (i < tjsz.Length - 1)
+                    {
+                        tjsz[i] = tjsz[i] / zs[i];
+                        tjsz[i] = (float)Math.Round(tjsz[i] * 100, 2);
+                    }
+                    else
+                    {
+                        tjsz[i] = tjsz[i] / s1.Length;
+                        tjsz[i] = (float)Math.Round(tjsz[i] * 100, 2);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                //MessageBox.Show(e.Message);
+            }
+            return tjsz;
+        }
+        public float[] QXJDWC120(DateTime sdt, DateTime edt, String QXID)//返回指定区站号、指定时间段个人五天预报的最高、最低气温与实况的平均绝对误差
+        {
+            ObservableCollection<PJWCList> pfzrtj1 = new ObservableCollection<PJWCList>();
+            float[] tjsz = new float[10];
+            try
+            {
+
+                using (SqlConnection mycon1 = new SqlConnection(con))//创建SQL连接对象)
+                {
+                    mycon1.Open();//打开
+                    string sql = string.Format(@"select * from TJ where StationID='{0}' AND Date>='{1:yyyy-MM-dd}' AND Date<='{2:yyyy-MM-dd}'", QXID, sdt, edt);
+
+                    try
+                    {
+                        using (SqlCommand sqlman = new SqlCommand(sql, mycon1))
+                        {
+                            using (SqlDataReader sqlreader = sqlman.ExecuteReader())
+                            {
+                                while (sqlreader.Read())
+                                {
+                                    if (sqlreader.HasRows)
+                                    {
+                                        pfzrtj1.Add(new PJWCList()
+                                        {
+                                            QX24TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax24")),
+                                            QX24TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin24")),
+                                            QX48TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax48")),
+                                            QX48TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin48")),
+                                            QX72TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax72")),
+                                            QX72TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin72")),
+                                            QX96TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax96")),
+                                            QX96TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin96")),
+                                            QX120TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax120")),
+                                            QX120TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin120")),
+                                        });
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    mycon1.Close();
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+            int ss = pfzrtj1.Count;
+            PJWCList[] s1 = pfzrtj1.ToArray();
+            int[] zs = new int[10];//保存计算平均绝对误差时候每个要素的个数总数
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s1[i].QX24TmaxJDWC < 999998 && s1[i].QX24TmaxJDWC > -999999)
+                {
+                    zs[0]++;
+                    tjsz[0] += Math.Abs(s1[i].QX24TmaxJDWC);
+
+                }
+                if (s1[i].QX24TminJDWC < 999998 && s1[i].QX24TminJDWC > -999999)
+                {
+                    zs[1]++;
+                    tjsz[1] += Math.Abs(s1[i].QX24TminJDWC);
+                }
+
+                if (s1[i].QX48TmaxJDWC < 999998 && s1[i].QX48TmaxJDWC > -999999)
+                {
+                    zs[2]++;
+                    tjsz[2] += Math.Abs(s1[i].QX48TmaxJDWC);
+                }
+                if (s1[i].QX48TminJDWC < 999998 && s1[i].QX48TminJDWC > -999999)
+                {
+                    zs[3]++;
+                    tjsz[3] += Math.Abs(s1[i].QX48TminJDWC);
+                }
+                if (s1[i].QX72TmaxJDWC < 999998 && s1[i].QX72TmaxJDWC > -999999)
+                {
+                    zs[4]++;
+                    tjsz[4] += Math.Abs(s1[i].QX72TmaxJDWC);
+                }
+                if (s1[i].QX72TminJDWC < 999998 && s1[i].QX72TminJDWC > -999999)
+                {
+                    zs[5]++;
+                    tjsz[5] += Math.Abs(s1[i].QX72TminJDWC);
+                }
+                if (s1[i].QX96TmaxJDWC < 999998 && s1[i].QX96TmaxJDWC > -999999)
+                {
+                    zs[6]++;
+                    tjsz[6] += Math.Abs(s1[i].QX96TmaxJDWC);
+                }
+                if (s1[i].QX96TminJDWC < 999998 && s1[i].QX96TminJDWC > -999999)
+                {
+                    zs[7]++;
+                    tjsz[7] += Math.Abs(s1[i].QX96TminJDWC);
+                }
+                if (s1[i].QX120TmaxJDWC < 999998 && s1[i].QX120TmaxJDWC > -999999)
+                {
+                    zs[8]++;
+                    tjsz[8] += Math.Abs(s1[i].QX120TmaxJDWC);
+                }
+                if (s1[i].QX120TminJDWC < 999998 && s1[i].QX120TminJDWC > -999999)
+                {
+                    zs[9]++;
+                    tjsz[9] += Math.Abs(s1[i].QX120TminJDWC);
+                }
+
+            }
+            for (int i = 0; i < tjsz.Length; i++)
+            {
+                tjsz[i] = tjsz[i] / zs[i];
+                tjsz[i] = (float)Math.Round(tjsz[i], 3);
+            }
+            return tjsz;
+        }
+        public float[] QXZDJDWC120(DateTime sdt, DateTime edt, String QXID)//返回指定人员、指定时间段中央指导五天预报的最高、最低气温与实况的平均绝对误差
+        {
+            ObservableCollection<PJWCList> pfzrtj1 = new ObservableCollection<PJWCList>();
+            float[] tjsz = new float[10];
+            try
+            {
+
+                using (SqlConnection mycon1 = new SqlConnection(con))//创建SQL连接对象)
+                {
+                    mycon1.Open();//打开
+                    string sql = string.Format(@"select * from TJ where StationID='{0}' AND Date>='{1:yyyy-MM-dd}' AND Date<='{2:yyyy-MM-dd}'", QXID, sdt, edt);
+
+                    try
+                    {
+                        using (SqlCommand sqlman = new SqlCommand(sql, mycon1))
+                        {
+                            using (SqlDataReader sqlreader = sqlman.ExecuteReader())
+                            {
+                                while (sqlreader.Read())
+                                {
+
+
+                                    pfzrtj1.Add(new PJWCList()
+                                    {
+                                        QX24TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax24")),
+                                        QX24TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin24")),
+                                        QX48TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax48")),
+                                        QX48TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin48")),
+                                        QX72TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax72")),
+                                        QX72TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin72")),
+                                        QX96TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax96")),
+                                        QX96TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin96")),
+                                        QX120TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax120")),
+                                        QX120TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin120")),
+                                    });
+                                }
+
+                            }
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    mycon1.Close();
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+            int ss = pfzrtj1.Count;
+            PJWCList[] s1 = pfzrtj1.ToArray();
+            int[] zs = new int[10];//保存计算平均绝对误差时候每个要素的个数总数
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s1[i].QX24TmaxJDWC < 999998 && s1[i].QX24TmaxJDWC > -999999)
+                {
+                    zs[0]++;
+                    tjsz[0] += Math.Abs(s1[i].QX24TmaxJDWC);
+
+                }
+                if (s1[i].QX24TminJDWC < 999998 && s1[i].QX24TminJDWC > -999999)
+                {
+                    zs[1]++;
+                    tjsz[1] += Math.Abs(s1[i].QX24TminJDWC);
+                }
+
+                if (s1[i].QX48TmaxJDWC < 999998 && s1[i].QX48TmaxJDWC > -999999)
+                {
+                    zs[2]++;
+                    tjsz[2] += Math.Abs(s1[i].QX48TmaxJDWC);
+                }
+                if (s1[i].QX48TminJDWC < 999998 && s1[i].QX48TminJDWC > -999999)
+                {
+                    zs[3]++;
+                    tjsz[3] += Math.Abs(s1[i].QX48TminJDWC);
+                }
+                if (s1[i].QX72TmaxJDWC < 999998 && s1[i].QX72TmaxJDWC > -999999)
+                {
+                    zs[4]++;
+                    tjsz[4] += Math.Abs(s1[i].QX72TmaxJDWC);
+                }
+                if (s1[i].QX72TminJDWC < 999998 && s1[i].QX72TminJDWC > -999999)
+                {
+                    zs[5]++;
+                    tjsz[5] += Math.Abs(s1[i].QX72TminJDWC);
+                }
+                if (s1[i].QX96TmaxJDWC < 999998 && s1[i].QX96TmaxJDWC > -999999)
+                {
+                    zs[6]++;
+                    tjsz[6] += Math.Abs(s1[i].QX96TmaxJDWC);
+                }
+                if (s1[i].QX96TminJDWC < 999998 && s1[i].QX96TminJDWC > -999999)
+                {
+                    zs[7]++;
+                    tjsz[7] += Math.Abs(s1[i].QX96TminJDWC);
+                }
+                if (s1[i].QX120TmaxJDWC < 999998 && s1[i].QX120TmaxJDWC > -999999)
+                {
+                    zs[8]++;
+                    tjsz[8] += Math.Abs(s1[i].QX120TmaxJDWC);
+                }
+                if (s1[i].QX120TminJDWC < 999998 && s1[i].QX120TminJDWC > -999999)
+                {
+                    zs[9]++;
+                    tjsz[9] += Math.Abs(s1[i].QX120TminJDWC);
+                }
+
+            }
+            for (int i = 0; i < tjsz.Length; i++)
+            {
+                tjsz[i] = tjsz[i] / zs[i];
+                tjsz[i] = (float)Math.Round(tjsz[i], 3);
+            }
+            return tjsz;
+        }
+        public float[] QXZYZQL120(DateTime sdt, DateTime edt, String QXID)//返回指定区站号、指定时间段中央指导五天预报的最高、最低、晴雨准确率以及缺报率
+        {
+            ObservableCollection<ZQLTJ1> sjzqlTJ1 = new ObservableCollection<ZQLTJ1>();
+            float[] tjsz = new float[16];
+            try
+            {
+
+                using (SqlConnection mycon1 = new SqlConnection(con))//创建SQL连接对象)
+                {
+                    mycon1.Open();//打开
+                    string sql = string.Format(@"select * from TJ where StationID='{0}' AND Date>='{1:yyyy-MM-dd}' AND Date<='{2:yyyy-MM-dd}'", QXID, sdt, edt);
+
+                    try
+                    {
+                        using (SqlCommand sqlman = new SqlCommand(sql, mycon1))
+                        {
+                            using (SqlDataReader sqlreader = sqlman.ExecuteReader())
+                            {
+                                while (sqlreader.Read())
+                                {
+
+                                    float tmax24 = 999999,
+                                        tmin24 = 999999,
+                                        qy24 = 999999,
+                                        tmax48 = 999999,
+                                        tmin48 = 999999,
+                                        qy48 = 999999,
+                                        tmax72 = 999999,
+                                        tmin72 = 999999,
+                                        qy72 = 999999,
+                                         rain240012 = 999999,
+                                     rain241224 = 999999,
+                                    rain480012 = 999999,
+                                     rain481224 = 999999,
+                                    rain720012 = 999999,
+                                     rain721224 = 999999,
+                                    rain960012 = 999999,
+                                     rain961224 = 999999,
+                                    rain1200012 = 999999,
+                                     rain1201224 = 999999,
+                                         tmax96 = 999999,
+                                    tmin96 = 999999,
+                                    qy96 = 999999,
+                                tmax120 = 999999,
+                                    tmin120 = 999999,
+                                    qy120 = 999999;
+                                    try
+                                    {
+                                        tmax24 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax24"));
+                                        tmin24 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin24"));
+                                        qy24 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain24"));
+                                        tmax48 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax48"));
+                                        tmin48 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin48"));
+                                        qy48 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain48"));
+                                        tmax72 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax72"));
+                                        tmin72 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin72"));
+                                        qy72 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain72"));
+                                        tmax96 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax96"));
+                                        tmin96 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin96"));
+                                        qy96 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain96"));
+                                        tmax120 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax120"));
+                                        tmin120 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin120"));
+                                        qy120 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain120"));
+                                        rain240012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain0012"));
+                                        rain241224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain1224"));
+                                        rain480012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain2436"));
+                                        rain481224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain3648"));
+                                        rain720012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain4860"));
+                                        rain721224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain6072"));
+                                        rain960012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain7284"));
+                                        rain961224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain8496"));
+                                        rain1200012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain96108"));
+                                        rain1201224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain108120"));
+                                    }
+                                    catch (Exception)
+                                    {
+                                        break;
+                                    }
+                                    sjzqlTJ1.Add(new ZQLTJ1()
+                                    {
+                                        SJ24TmaxZQL = tmax24,
+                                        SJ24TminZQL = tmin24,
+                                        SJ24QYZQL = Math.Abs(rain240012) + Math.Abs(rain241224),
+                                        SJ48TmaxZQL = tmax48,
+                                        SJ48TminZQL = tmin48,
+                                        SJ48QYZQL = Math.Abs(rain480012) + Math.Abs(rain481224),
+                                        SJ72TmaxZQL = tmax72,
+                                        SJ72TminZQL = tmin72,
+                                        SJ72QYZQL = Math.Abs(rain720012) + Math.Abs(rain721224),
+                                        SJ96TmaxZQL = tmax96,
+                                        SJ96TminZQL = tmin96,
+                                        SJ96QYZQL = Math.Abs(rain960012) + Math.Abs(rain961224),
+                                        SJ120TmaxZQL = tmax120,
+                                        SJ120TminZQL = tmin120,
+                                        SJ120QYZQL = Math.Abs(rain1200012) + Math.Abs(rain1201224),
+                                    });
+                                }
+
+                            }
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    mycon1.Close();
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+            int ss = sjzqlTJ1.Count;
+            ZQLTJ1[] s1 = sjzqlTJ1.ToArray();
+            int[] zs = new int[15];//保存计算准确率时候每个要素的总数，只需统计三天的最高最低晴雨，不用统计缺报，因为缺报率直接除元素总数即可
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s1[i].SJ24TmaxZQL < 999998 && s1[i].SJ24TmaxZQL > -999999)
+                {
+                    zs[0]++;
+                    if (Math.Abs(s1[i].SJ24TmaxZQL) <= 2)
+                    {
+                        tjsz[0]++;
+                    }
+                }
+                else if (s1[i].SJ24TmaxZQL == -999999)
+                {
+                    tjsz[15]++;
+                }
+                if (s1[i].SJ24TminZQL < 999998 && s1[i].SJ24TminZQL > -999999)
+                {
+                    zs[1]++;
+                    if (Math.Abs(s1[i].SJ24TminZQL) <= 2)
+                    {
+                        tjsz[1]++;
+                    }
+                }
+                if (s1[i].SJ24QYZQL < 999998 && s1[i].SJ24QYZQL > -999999)
+                {
+                    zs[2] += 2;
+                    tjsz[2] += s1[i].SJ24QYZQL;
+                }
+
+                if (s1[i].SJ48TmaxZQL < 999998 && s1[i].SJ48TmaxZQL > -999999)
+                {
+                    zs[3]++;
+                    if (Math.Abs(s1[i].SJ48TmaxZQL) <= 2)
+                    {
+                        tjsz[3]++;
+                    }
+                }
+                if (s1[i].SJ48TminZQL < 999998 && s1[i].SJ48TminZQL > -999999)
+                {
+                    zs[4]++;
+                    if (Math.Abs(s1[i].SJ48TminZQL) <= 2)
+                    {
+                        tjsz[4]++;
+                    }
+                }
+                if (s1[i].SJ48QYZQL < 999998 && s1[i].SJ48QYZQL > -999999)
+                {
+                    zs[5] += 2;
+                    tjsz[5] += s1[i].SJ48QYZQL;
+                }
+                if (s1[i].SJ72TmaxZQL < 999998 && s1[i].SJ72TmaxZQL > -999999)
+                {
+                    zs[6]++;
+                    if (Math.Abs(s1[i].SJ72TmaxZQL) <= 2)
+                    {
+                        tjsz[6]++;
+                    }
+                }
+                if (s1[i].SJ72TminZQL < 999998 && s1[i].SJ72TminZQL > -999999)
+                {
+                    zs[7]++;
+                    if (Math.Abs(s1[i].SJ72TminZQL) <= 2)
+                    {
+                        tjsz[7]++;
+                    }
+                }
+                if (s1[i].SJ72QYZQL < 999998 && s1[i].SJ72QYZQL > -999999)
+                {
+                    zs[8] += 2;
+                    tjsz[8] += s1[i].SJ72QYZQL;
+                }
+                if (s1[i].SJ96TmaxZQL < 999998 && s1[i].SJ96TmaxZQL > -999999)
+                {
+                    zs[9]++;
+                    if (Math.Abs(s1[i].SJ96TmaxZQL) <= 2)
+                    {
+                        tjsz[9]++;
+                    }
+                }
+                if (s1[i].SJ96TminZQL < 999998 && s1[i].SJ96TminZQL > -999999)
+                {
+                    zs[10]++;
+                    if (Math.Abs(s1[i].SJ96TminZQL) <= 2)
+                    {
+                        tjsz[10]++;
+                    }
+                }
+                if (s1[i].SJ96QYZQL < 999998 && s1[i].SJ96QYZQL > -999999)
+                {
+                    zs[11] += 2;
+                    tjsz[11] += s1[i].SJ96QYZQL;
+                }
+                if (s1[i].SJ120TmaxZQL < 999998 && s1[i].SJ120TmaxZQL > -999999)
+                {
+                    zs[12]++;
+                    if (Math.Abs(s1[i].SJ120TmaxZQL) <= 2)
+                    {
+                        tjsz[12]++;
+                    }
+                }
+                if (s1[i].SJ120TminZQL < 999998 && s1[i].SJ120TminZQL > -999999)
+                {
+                    zs[13]++;
+                    if (Math.Abs(s1[i].SJ120TminZQL) <= 2)
+                    {
+                        tjsz[13]++;
+                    }
+                }
+                if (s1[i].SJ120QYZQL < 999998 && s1[i].SJ120QYZQL > -999999)
+                {
+                    zs[14] += 2;
+                    tjsz[14] += s1[i].SJ120QYZQL;
+                }
+
+            }
+            for (int i = 0; i < tjsz.Length; i++)
+            {
+                if (i < tjsz.Length - 1)
+                {
+                    tjsz[i] = tjsz[i] / zs[i];
+                    tjsz[i] = (float)Math.Round(tjsz[i] * 100, 2);
+                }
+                else
+                {
+                    tjsz[i] = tjsz[i] / s1.Length;
+                    tjsz[i] = (float)Math.Round(tjsz[i] * 100, 2);
+                }
+            }
+            return tjsz;
+        }
+
+
         public float[] GRZQL120(DateTime sdt, DateTime edt, String userID) //返回指定指定时间段个人五天预报的最高、最低、晴雨准确率以及缺报率
         {
             ObservableCollection<PFZR> pfzrtj1 = new ObservableCollection<PFZR>();
@@ -1021,6 +1756,1477 @@ namespace sjzd
                 {
                     mycon1.Open();//打开
                     string sql = string.Format(@"select * from TJ where PeopleID='{0}' AND Date>='{1:yyyy-MM-dd}' AND Date<='{2:yyyy-MM-dd}'", userID, sdt, edt);
+
+                    try
+                    {
+                        using (SqlCommand sqlman = new SqlCommand(sql, mycon1))
+                        {
+                            using (SqlDataReader sqlreader = sqlman.ExecuteReader())
+                            {
+                                while (sqlreader.Read())
+                                {
+
+                                    float tmax24 = 999999,
+                                        tmin24 = 999999,
+                                        qy24 = 999999,
+                                        tmax48 = 999999,
+                                        tmin48 = 999999,
+                                        qy48 = 999999,
+                                        tmax72 = 999999,
+                                        tmin72 = 999999,
+                                        qy72 = 999999,
+                                         rain240012 = 999999,
+                                     rain241224 = 999999,
+                                    rain480012 = 999999,
+                                     rain481224 = 999999,
+                                    rain720012 = 999999,
+                                     rain721224 = 999999,
+                                    rain960012 = 999999,
+                                     rain961224 = 999999,
+                                    rain1200012 = 999999,
+                                     rain1201224 = 999999,
+                                         tmax96 = 999999,
+                                    tmin96 = 999999,
+                                    qy96 = 999999,
+                                tmax120 = 999999,
+                                    tmin120 = 999999,
+                                    qy120 = 999999;
+                                    try
+                                    {
+                                        tmax24 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax24"));
+                                        tmin24 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin24"));
+                                        qy24 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain24"));
+                                        tmax48 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax48"));
+                                        tmin48 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin48"));
+                                        qy48 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain48"));
+                                        tmax72 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax72"));
+                                        tmin72 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin72"));
+                                        qy72 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain72"));
+                                        tmax96 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax96"));
+                                        tmin96 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin96"));
+                                        qy96 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain96"));
+                                        tmax120 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax120"));
+                                        tmin120 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin120"));
+                                        qy120 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain120"));
+                                        rain240012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain0012"));
+                                        rain241224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain1224"));
+                                        rain480012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain2436"));
+                                        rain481224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain3648"));
+                                        rain720012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain4860"));
+                                        rain721224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain6072"));
+                                        rain960012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain7284"));
+                                        rain961224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain8496"));
+                                        rain1200012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain96108"));
+                                        rain1201224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain108120"));
+                                    }
+                                    catch (Exception)
+                                    {
+                                        break;
+                                    }
+                                    sjzqlTJ1.Add(new ZQLTJ1()
+                                    {
+                                        SJ24TmaxZQL = tmax24,
+                                        SJ24TminZQL = tmin24,
+                                        SJ24QYZQL = Math.Abs(rain240012) + Math.Abs(rain241224),
+                                        SJ48TmaxZQL = tmax48,
+                                        SJ48TminZQL = tmin48,
+                                        SJ48QYZQL = Math.Abs(rain480012) + Math.Abs(rain481224),
+                                        SJ72TmaxZQL = tmax72,
+                                        SJ72TminZQL = tmin72,
+                                        SJ72QYZQL = Math.Abs(rain720012) + Math.Abs(rain721224),
+                                        SJ96TmaxZQL = tmax96,
+                                        SJ96TminZQL = tmin96,
+                                        SJ96QYZQL = Math.Abs(rain960012) + Math.Abs(rain961224),
+                                        SJ120TmaxZQL = tmax120,
+                                        SJ120TminZQL = tmin120,
+                                        SJ120QYZQL = Math.Abs(rain1200012) + Math.Abs(rain1201224),
+                                    });
+                                }
+
+                            }
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    mycon1.Close();
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+            int ss = sjzqlTJ1.Count;
+            ZQLTJ1[] s1 = sjzqlTJ1.ToArray();
+            int[] zs = new int[15];//保存计算准确率时候每个要素的总数，只需统计三天的最高最低晴雨，不用统计缺报，因为缺报率直接除元素总数即可
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s1[i].SJ24TmaxZQL < 999998 && s1[i].SJ24TmaxZQL > -999999)
+                {
+                    zs[0]++;
+                    if (Math.Abs(s1[i].SJ24TmaxZQL) <= 2)
+                    {
+                        tjsz[0]++;
+                    }
+                }
+                else if (s1[i].SJ24TmaxZQL == -999999)
+                {
+                    tjsz[15]++;
+                }
+                if (s1[i].SJ24TminZQL < 999998 && s1[i].SJ24TminZQL > -999999)
+                {
+                    zs[1]++;
+                    if (Math.Abs(s1[i].SJ24TminZQL) <= 2)
+                    {
+                        tjsz[1]++;
+                    }
+                }
+                if (s1[i].SJ24QYZQL < 999998 && s1[i].SJ24QYZQL > -999999)
+                {
+                    zs[2] += 2;
+                    tjsz[2] += s1[i].SJ24QYZQL;
+                }
+
+                if (s1[i].SJ48TmaxZQL < 999998 && s1[i].SJ48TmaxZQL > -999999)
+                {
+                    zs[3]++;
+                    if (Math.Abs(s1[i].SJ48TmaxZQL) <= 2)
+                    {
+                        tjsz[3]++;
+                    }
+                }
+                if (s1[i].SJ48TminZQL < 999998 && s1[i].SJ48TminZQL > -999999)
+                {
+                    zs[4]++;
+                    if (Math.Abs(s1[i].SJ48TminZQL) <= 2)
+                    {
+                        tjsz[4]++;
+                    }
+                }
+                if (s1[i].SJ48QYZQL < 999998 && s1[i].SJ48QYZQL > -999999)
+                {
+                    zs[5] += 2;
+                    tjsz[5] += s1[i].SJ48QYZQL;
+                }
+                if (s1[i].SJ72TmaxZQL < 999998 && s1[i].SJ72TmaxZQL > -999999)
+                {
+                    zs[6]++;
+                    if (Math.Abs(s1[i].SJ72TmaxZQL) <= 2)
+                    {
+                        tjsz[6]++;
+                    }
+                }
+                if (s1[i].SJ72TminZQL < 999998 && s1[i].SJ72TminZQL > -999999)
+                {
+                    zs[7]++;
+                    if (Math.Abs(s1[i].SJ72TminZQL) <= 2)
+                    {
+                        tjsz[7]++;
+                    }
+                }
+                if (s1[i].SJ72QYZQL < 999998 && s1[i].SJ72QYZQL > -999999)
+                {
+                    zs[8] += 2;
+                    tjsz[8] += s1[i].SJ72QYZQL;
+                }
+                if (s1[i].SJ96TmaxZQL < 999998 && s1[i].SJ96TmaxZQL > -999999)
+                {
+                    zs[9]++;
+                    if (Math.Abs(s1[i].SJ96TmaxZQL) <= 2)
+                    {
+                        tjsz[9]++;
+                    }
+                }
+                if (s1[i].SJ96TminZQL < 999998 && s1[i].SJ96TminZQL > -999999)
+                {
+                    zs[10]++;
+                    if (Math.Abs(s1[i].SJ96TminZQL) <= 2)
+                    {
+                        tjsz[10]++;
+                    }
+                }
+                if (s1[i].SJ96QYZQL < 999998 && s1[i].SJ96QYZQL > -999999)
+                {
+                    zs[11] += 2;
+                    tjsz[11] += s1[i].SJ96QYZQL;
+                }
+                if (s1[i].SJ120TmaxZQL < 999998 && s1[i].SJ120TmaxZQL > -999999)
+                {
+                    zs[12]++;
+                    if (Math.Abs(s1[i].SJ120TmaxZQL) <= 2)
+                    {
+                        tjsz[12]++;
+                    }
+                }
+                if (s1[i].SJ120TminZQL < 999998 && s1[i].SJ120TminZQL > -999999)
+                {
+                    zs[13]++;
+                    if (Math.Abs(s1[i].SJ120TminZQL) <= 2)
+                    {
+                        tjsz[13]++;
+                    }
+                }
+                if (s1[i].SJ120QYZQL < 999998 && s1[i].SJ120QYZQL > -999999)
+                {
+                    zs[14] += 2;
+                    tjsz[14] += s1[i].SJ120QYZQL;
+                }
+
+            }
+            for (int i = 0; i < tjsz.Length; i++)
+            {
+                if (i < tjsz.Length - 1)
+                {
+                    tjsz[i] = tjsz[i] / zs[i];
+                    tjsz[i] = (float)Math.Round(tjsz[i] * 100, 2);
+                }
+                else
+                {
+                    tjsz[i] = tjsz[i] / s1.Length;
+                    tjsz[i] = (float)Math.Round(tjsz[i] * 100, 2);
+                }
+            }
+            return tjsz;
+        }
+        #endregion
+        #region 岗位统计
+        public float[] GWQXZQL120(DateTime sdt, DateTime edt, String QXID,String GW,String sc) //返回指定指定时间段个人五天预报的最高、最低、晴雨准确率以及缺报率
+        {
+            ObservableCollection<PFZR> pfzrtj1 = new ObservableCollection<PFZR>();
+            float[] tjsz = new float[16];
+            try
+            {
+                using (SqlConnection mycon1 = new SqlConnection(con)) //创建SQL连接对象)
+                {
+                    mycon1.Open(); //打开
+                    string sql =
+                        $@"select * from TJ where StationID='{QXID}' AND Date>='{sdt:yyyy-MM-dd}' AND Date<='{edt:yyyy-MM-dd}' AND GW='{GW}' AND SC='{sc}'";
+                    SqlCommand sqlman = new SqlCommand(sql, mycon1);
+                    SqlDataReader sqlreader = sqlman.ExecuteReader();
+                    if (sqlreader.HasRows)
+                    {
+                        while (sqlreader.Read())
+                        {
+                            try
+                            {
+                                float tmax24 = 999999,
+                                    tmin24 = 999999,
+                                    qy24 = 999999,
+                                    tmax48 = 999999,
+                                    tmin48 = 999999,
+                                    qy48 = 999999,
+                                    tmax72 = 999999,
+                                    tmin72 = 999999,
+                                    qy72 = 999999,
+                                    rain240012 = 999999,
+                                     rain241224 = 999999,
+                                    rain480012 = 999999,
+                                     rain481224 = 999999,
+                                    rain720012 = 999999,
+                                     rain721224 = 999999,
+                                    rain960012 = 999999,
+                                     rain961224 = 999999,
+                                    rain1200012 = 999999,
+                                     rain1201224 = 999999,
+                                tmax96 = 999999,
+                                    tmin96 = 999999,
+                                    qy96 = 999999,
+                                tmax120 = 999999,
+                                    tmin120 = 999999,
+                                    qy120 = 999999;
+                                try
+                                {
+                                    tmax24 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax24"));
+                                    tmin24 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin24"));
+                                    qy24 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain24"));
+                                    tmax48 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax48"));
+                                    tmin48 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin48"));
+                                    qy48 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain48"));
+                                    tmax72 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax72"));
+                                    tmin72 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin72"));
+                                    qy72 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain72"));
+                                    tmax96 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax96"));
+                                    tmin96 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin96"));
+                                    qy96 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain96"));
+                                    tmax120 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax120"));
+                                    tmin120 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin120"));
+                                    qy120 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain120"));
+                                    rain240012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain0012"));
+                                    rain241224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain1224"));
+                                    rain480012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain2436"));
+                                    rain481224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain3648"));
+                                    rain720012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain4860"));
+                                    rain721224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain6072"));
+                                    rain960012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain7284"));
+                                    rain961224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain8496"));
+                                    rain1200012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain96108"));
+                                    rain1201224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain108120"));
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                                pfzrtj1.Add(new PFZR()
+                                {
+                                    QX24TmaxZQL = tmax24,
+                                    QX24TminZQL = tmin24,
+                                    QX24QYZQL = Math.Abs(rain240012) + Math.Abs(rain241224),
+                                    QX48TmaxZQL = tmax48,
+                                    QX48TminZQL = tmin48,
+                                    QX48QYZQL = Math.Abs(rain480012) + Math.Abs(rain481224),
+                                    QX72TmaxZQL = tmax72,
+                                    QX72TminZQL = tmin72,
+                                    QX72QYZQL = Math.Abs(rain720012) + Math.Abs(rain721224),
+                                    QX96TmaxZQL = tmax96,
+                                    QX96TminZQL = tmin96,
+                                    QX96QYZQL = Math.Abs(rain960012) + Math.Abs(rain961224),
+                                    QX120TmaxZQL = tmax120,
+                                    QX120TminZQL = tmin120,
+                                    QX120QYZQL = Math.Abs(rain1200012) + Math.Abs(rain1201224),
+                                });
+                            }
+                            catch (Exception)
+                            { }
+                        }
+                    }
+                    mycon1.Close();
+                }
+                int ss = pfzrtj1.Count;
+                PFZR[] s1 = pfzrtj1.ToArray();
+                int[] zs = new int[15]; //保存计算准确率时候每个要素的总数，只需统计三天的最高最低晴雨，不用统计缺报，因为缺报率直接除元素总数即可
+                for (int i = 0; i < s1.Length; i++)
+                {
+                    if (s1[i].QX24TmaxZQL < 999998 && s1[i].QX24TmaxZQL > -999999)
+                    {
+                        zs[0]++;
+                        if (Math.Abs(s1[i].QX24TmaxZQL) <= 2)
+                        {
+                            tjsz[0]++;
+                        }
+                    }
+                    else if (s1[i].QX24TmaxZQL == -999999)
+                    {
+                        tjsz[15]++;
+                    }
+                    if (s1[i].QX24TminZQL < 999998 && s1[i].QX24TminZQL > -999999)
+                    {
+                        zs[1]++;
+                        if (Math.Abs(s1[i].QX24TminZQL) <= 2)
+                        {
+                            tjsz[1]++;
+                        }
+                    }
+                    if (s1[i].QX24QYZQL < 999998 && s1[i].QX24QYZQL > -999999)
+                    {
+                        zs[2] = zs[2] + 2;
+
+                        tjsz[2] += s1[i].QX24QYZQL;
+                    }
+
+                    if (s1[i].QX48TmaxZQL < 999998 && s1[i].QX48TmaxZQL > -999999)
+                    {
+                        zs[3]++;
+                        if (Math.Abs(s1[i].QX48TmaxZQL) <= 2)
+                        {
+                            tjsz[3]++;
+                        }
+                    }
+                    if (s1[i].QX48TminZQL < 999998 && s1[i].QX48TminZQL > -999999)
+                    {
+                        zs[4]++;
+                        if (Math.Abs(s1[i].QX48TminZQL) <= 2)
+                        {
+                            tjsz[4]++;
+                        }
+                    }
+                    if (s1[i].QX48QYZQL < 999998 && s1[i].QX48QYZQL > -999999)
+                    {
+                        zs[5] = zs[5] + 2;
+                        tjsz[5] += s1[i].QX48QYZQL;
+                    }
+                    if (s1[i].QX72TmaxZQL < 999998 && s1[i].QX72TmaxZQL > -999999)
+                    {
+                        zs[6]++;
+                        if (Math.Abs(s1[i].QX72TmaxZQL) <= 2)
+                        {
+                            tjsz[6]++;
+                        }
+                    }
+                    if (s1[i].QX72TminZQL < 999998 && s1[i].QX72TminZQL > -999999)
+                    {
+                        zs[7]++;
+                        if (Math.Abs(s1[i].QX72TminZQL) <= 2)
+                        {
+                            tjsz[7]++;
+                        }
+                    }
+                    if (s1[i].QX72QYZQL < 999998 && s1[i].QX72QYZQL > -999999)
+                    {
+                        zs[8] = zs[8] + 2;
+                        tjsz[8] += s1[i].QX72QYZQL;
+                    }
+
+                    if (s1[i].QX96TmaxZQL < 999998 && s1[i].QX96TmaxZQL > -999999)
+                    {
+                        zs[9]++;
+                        if (Math.Abs(s1[i].QX96TmaxZQL) <= 2)
+                        {
+                            tjsz[9]++;
+                        }
+                    }
+                    if (s1[i].QX96TminZQL < 999998 && s1[i].QX96TminZQL > -999999)
+                    {
+                        zs[10]++;
+                        if (Math.Abs(s1[i].QX96TminZQL) <= 2)
+                        {
+                            tjsz[10]++;
+                        }
+                    }
+                    if (s1[i].QX96QYZQL < 999998 && s1[i].QX96QYZQL > -999999)
+                    {
+                        zs[11] = zs[11] + 2;
+                        tjsz[11] += s1[i].QX96QYZQL;
+                    }
+                    if (s1[i].QX120TmaxZQL < 999998 && s1[i].QX120TmaxZQL > -999999)
+                    {
+                        zs[12]++;
+                        if (Math.Abs(s1[i].QX120TmaxZQL) <= 2)
+                        {
+                            tjsz[12]++;
+                        }
+                    }
+                    if (s1[i].QX120TminZQL < 999998 && s1[i].QX120TminZQL > -999999)
+                    {
+                        zs[13]++;
+                        if (Math.Abs(s1[i].QX120TminZQL) <= 2)
+                        {
+                            tjsz[13]++;
+                        }
+                    }
+                    if (s1[i].QX120QYZQL < 999998 && s1[i].QX120QYZQL > -999999)
+                    {
+                        zs[14] = zs[14] + 2;
+                        tjsz[14] += s1[i].QX120QYZQL;
+                    }
+
+                }
+                for (int i = 0; i < tjsz.Length; i++)
+                {
+                    if (i < tjsz.Length - 1)
+                    {
+                        tjsz[i] = tjsz[i] / zs[i];
+                        tjsz[i] = (float)Math.Round(tjsz[i] * 100, 2);
+                    }
+                    else
+                    {
+                        tjsz[i] = tjsz[i] / s1.Length;
+                        tjsz[i] = (float)Math.Round(tjsz[i] * 100, 2);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                //MessageBox.Show(e.Message);
+            }
+            return tjsz;
+        }
+        public float[] GWQXJDWC120(DateTime sdt, DateTime edt, String QXID, String GW, String sc)//返回指定区站号、指定时间段个人五天预报的最高、最低气温与实况的平均绝对误差
+        {
+            ObservableCollection<PJWCList> pfzrtj1 = new ObservableCollection<PJWCList>();
+            float[] tjsz = new float[10];
+            try
+            {
+
+                using (SqlConnection mycon1 = new SqlConnection(con))//创建SQL连接对象)
+                {
+                    mycon1.Open();//打开
+                    string sql =
+                        $@"select * from TJ where StationID='{QXID}' AND Date>='{sdt:yyyy-MM-dd}' AND Date<='{edt:yyyy-MM-dd}' AND GW='{GW}' AND SC='{sc}'";
+
+                    try
+                    {
+                        using (SqlCommand sqlman = new SqlCommand(sql, mycon1))
+                        {
+                            using (SqlDataReader sqlreader = sqlman.ExecuteReader())
+                            {
+                                while (sqlreader.Read())
+                                {
+                                    if (sqlreader.HasRows)
+                                    {
+                                        pfzrtj1.Add(new PJWCList()
+                                        {
+                                            QX24TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax24")),
+                                            QX24TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin24")),
+                                            QX48TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax48")),
+                                            QX48TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin48")),
+                                            QX72TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax72")),
+                                            QX72TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin72")),
+                                            QX96TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax96")),
+                                            QX96TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin96")),
+                                            QX120TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax120")),
+                                            QX120TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin120")),
+                                        });
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    mycon1.Close();
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+            int ss = pfzrtj1.Count;
+            PJWCList[] s1 = pfzrtj1.ToArray();
+            int[] zs = new int[10];//保存计算平均绝对误差时候每个要素的个数总数
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s1[i].QX24TmaxJDWC < 999998 && s1[i].QX24TmaxJDWC > -999999)
+                {
+                    zs[0]++;
+                    tjsz[0] += Math.Abs(s1[i].QX24TmaxJDWC);
+
+                }
+                if (s1[i].QX24TminJDWC < 999998 && s1[i].QX24TminJDWC > -999999)
+                {
+                    zs[1]++;
+                    tjsz[1] += Math.Abs(s1[i].QX24TminJDWC);
+                }
+
+                if (s1[i].QX48TmaxJDWC < 999998 && s1[i].QX48TmaxJDWC > -999999)
+                {
+                    zs[2]++;
+                    tjsz[2] += Math.Abs(s1[i].QX48TmaxJDWC);
+                }
+                if (s1[i].QX48TminJDWC < 999998 && s1[i].QX48TminJDWC > -999999)
+                {
+                    zs[3]++;
+                    tjsz[3] += Math.Abs(s1[i].QX48TminJDWC);
+                }
+                if (s1[i].QX72TmaxJDWC < 999998 && s1[i].QX72TmaxJDWC > -999999)
+                {
+                    zs[4]++;
+                    tjsz[4] += Math.Abs(s1[i].QX72TmaxJDWC);
+                }
+                if (s1[i].QX72TminJDWC < 999998 && s1[i].QX72TminJDWC > -999999)
+                {
+                    zs[5]++;
+                    tjsz[5] += Math.Abs(s1[i].QX72TminJDWC);
+                }
+                if (s1[i].QX96TmaxJDWC < 999998 && s1[i].QX96TmaxJDWC > -999999)
+                {
+                    zs[6]++;
+                    tjsz[6] += Math.Abs(s1[i].QX96TmaxJDWC);
+                }
+                if (s1[i].QX96TminJDWC < 999998 && s1[i].QX96TminJDWC > -999999)
+                {
+                    zs[7]++;
+                    tjsz[7] += Math.Abs(s1[i].QX96TminJDWC);
+                }
+                if (s1[i].QX120TmaxJDWC < 999998 && s1[i].QX120TmaxJDWC > -999999)
+                {
+                    zs[8]++;
+                    tjsz[8] += Math.Abs(s1[i].QX120TmaxJDWC);
+                }
+                if (s1[i].QX120TminJDWC < 999998 && s1[i].QX120TminJDWC > -999999)
+                {
+                    zs[9]++;
+                    tjsz[9] += Math.Abs(s1[i].QX120TminJDWC);
+                }
+
+            }
+            for (int i = 0; i < tjsz.Length; i++)
+            {
+                tjsz[i] = tjsz[i] / zs[i];
+                tjsz[i] = (float)Math.Round(tjsz[i], 3);
+            }
+            return tjsz;
+        }
+        public float[] GWQXZDJDWC120(DateTime sdt, DateTime edt, String QXID, String GW, String sc)//返回指定人员、指定时间段中央指导五天预报的最高、最低气温与实况的平均绝对误差
+        {
+            ObservableCollection<PJWCList> pfzrtj1 = new ObservableCollection<PJWCList>();
+            float[] tjsz = new float[10];
+            try
+            {
+
+                using (SqlConnection mycon1 = new SqlConnection(con))//创建SQL连接对象)
+                {
+                    mycon1.Open();//打开
+                    string sql =
+                        $@"select * from TJ where StationID='{QXID}' AND Date>='{sdt:yyyy-MM-dd}' AND Date<='{edt:yyyy-MM-dd}' AND GW='{GW}' AND SC='{sc}'";
+
+                    try
+                    {
+                        using (SqlCommand sqlman = new SqlCommand(sql, mycon1))
+                        {
+                            using (SqlDataReader sqlreader = sqlman.ExecuteReader())
+                            {
+                                while (sqlreader.Read())
+                                {
+
+
+                                    pfzrtj1.Add(new PJWCList()
+                                    {
+                                        QX24TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax24")),
+                                        QX24TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin24")),
+                                        QX48TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax48")),
+                                        QX48TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin48")),
+                                        QX72TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax72")),
+                                        QX72TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin72")),
+                                        QX96TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax96")),
+                                        QX96TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin96")),
+                                        QX120TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax120")),
+                                        QX120TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin120")),
+                                    });
+                                }
+
+                            }
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    mycon1.Close();
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+            int ss = pfzrtj1.Count;
+            PJWCList[] s1 = pfzrtj1.ToArray();
+            int[] zs = new int[10];//保存计算平均绝对误差时候每个要素的个数总数
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s1[i].QX24TmaxJDWC < 999998 && s1[i].QX24TmaxJDWC > -999999)
+                {
+                    zs[0]++;
+                    tjsz[0] += Math.Abs(s1[i].QX24TmaxJDWC);
+
+                }
+                if (s1[i].QX24TminJDWC < 999998 && s1[i].QX24TminJDWC > -999999)
+                {
+                    zs[1]++;
+                    tjsz[1] += Math.Abs(s1[i].QX24TminJDWC);
+                }
+
+                if (s1[i].QX48TmaxJDWC < 999998 && s1[i].QX48TmaxJDWC > -999999)
+                {
+                    zs[2]++;
+                    tjsz[2] += Math.Abs(s1[i].QX48TmaxJDWC);
+                }
+                if (s1[i].QX48TminJDWC < 999998 && s1[i].QX48TminJDWC > -999999)
+                {
+                    zs[3]++;
+                    tjsz[3] += Math.Abs(s1[i].QX48TminJDWC);
+                }
+                if (s1[i].QX72TmaxJDWC < 999998 && s1[i].QX72TmaxJDWC > -999999)
+                {
+                    zs[4]++;
+                    tjsz[4] += Math.Abs(s1[i].QX72TmaxJDWC);
+                }
+                if (s1[i].QX72TminJDWC < 999998 && s1[i].QX72TminJDWC > -999999)
+                {
+                    zs[5]++;
+                    tjsz[5] += Math.Abs(s1[i].QX72TminJDWC);
+                }
+                if (s1[i].QX96TmaxJDWC < 999998 && s1[i].QX96TmaxJDWC > -999999)
+                {
+                    zs[6]++;
+                    tjsz[6] += Math.Abs(s1[i].QX96TmaxJDWC);
+                }
+                if (s1[i].QX96TminJDWC < 999998 && s1[i].QX96TminJDWC > -999999)
+                {
+                    zs[7]++;
+                    tjsz[7] += Math.Abs(s1[i].QX96TminJDWC);
+                }
+                if (s1[i].QX120TmaxJDWC < 999998 && s1[i].QX120TmaxJDWC > -999999)
+                {
+                    zs[8]++;
+                    tjsz[8] += Math.Abs(s1[i].QX120TmaxJDWC);
+                }
+                if (s1[i].QX120TminJDWC < 999998 && s1[i].QX120TminJDWC > -999999)
+                {
+                    zs[9]++;
+                    tjsz[9] += Math.Abs(s1[i].QX120TminJDWC);
+                }
+
+            }
+            for (int i = 0; i < tjsz.Length; i++)
+            {
+                tjsz[i] = tjsz[i] / zs[i];
+                tjsz[i] = (float)Math.Round(tjsz[i], 3);
+            }
+            return tjsz;
+        }
+        public float[] GWQXZYZQL120(DateTime sdt, DateTime edt, String QXID, String GW, String sc)//返回指定区站号、指定时间段中央指导五天预报的最高、最低、晴雨准确率以及缺报率
+        {
+            ObservableCollection<ZQLTJ1> sjzqlTJ1 = new ObservableCollection<ZQLTJ1>();
+            float[] tjsz = new float[16];
+            try
+            {
+
+                using (SqlConnection mycon1 = new SqlConnection(con))//创建SQL连接对象)
+                {
+                    mycon1.Open();//打开
+                    string sql =
+                        $@"select * from TJ where StationID='{QXID}' AND Date>='{sdt:yyyy-MM-dd}' AND Date<='{edt:yyyy-MM-dd}' AND GW='{GW}' AND SC='{sc}'";
+
+                    try
+                    {
+                        using (SqlCommand sqlman = new SqlCommand(sql, mycon1))
+                        {
+                            using (SqlDataReader sqlreader = sqlman.ExecuteReader())
+                            {
+                                while (sqlreader.Read())
+                                {
+
+                                    float tmax24 = 999999,
+                                        tmin24 = 999999,
+                                        qy24 = 999999,
+                                        tmax48 = 999999,
+                                        tmin48 = 999999,
+                                        qy48 = 999999,
+                                        tmax72 = 999999,
+                                        tmin72 = 999999,
+                                        qy72 = 999999,
+                                         rain240012 = 999999,
+                                     rain241224 = 999999,
+                                    rain480012 = 999999,
+                                     rain481224 = 999999,
+                                    rain720012 = 999999,
+                                     rain721224 = 999999,
+                                    rain960012 = 999999,
+                                     rain961224 = 999999,
+                                    rain1200012 = 999999,
+                                     rain1201224 = 999999,
+                                         tmax96 = 999999,
+                                    tmin96 = 999999,
+                                    qy96 = 999999,
+                                tmax120 = 999999,
+                                    tmin120 = 999999,
+                                    qy120 = 999999;
+                                    try
+                                    {
+                                        tmax24 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax24"));
+                                        tmin24 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin24"));
+                                        qy24 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain24"));
+                                        tmax48 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax48"));
+                                        tmin48 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin48"));
+                                        qy48 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain48"));
+                                        tmax72 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax72"));
+                                        tmin72 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin72"));
+                                        qy72 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain72"));
+                                        tmax96 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax96"));
+                                        tmin96 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin96"));
+                                        qy96 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain96"));
+                                        tmax120 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax120"));
+                                        tmin120 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin120"));
+                                        qy120 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain120"));
+                                        rain240012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain0012"));
+                                        rain241224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain1224"));
+                                        rain480012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain2436"));
+                                        rain481224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain3648"));
+                                        rain720012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain4860"));
+                                        rain721224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain6072"));
+                                        rain960012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain7284"));
+                                        rain961224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain8496"));
+                                        rain1200012 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain96108"));
+                                        rain1201224 = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain108120"));
+                                    }
+                                    catch (Exception)
+                                    {
+                                        break;
+                                    }
+                                    sjzqlTJ1.Add(new ZQLTJ1()
+                                    {
+                                        SJ24TmaxZQL = tmax24,
+                                        SJ24TminZQL = tmin24,
+                                        SJ24QYZQL = Math.Abs(rain240012) + Math.Abs(rain241224),
+                                        SJ48TmaxZQL = tmax48,
+                                        SJ48TminZQL = tmin48,
+                                        SJ48QYZQL = Math.Abs(rain480012) + Math.Abs(rain481224),
+                                        SJ72TmaxZQL = tmax72,
+                                        SJ72TminZQL = tmin72,
+                                        SJ72QYZQL = Math.Abs(rain720012) + Math.Abs(rain721224),
+                                        SJ96TmaxZQL = tmax96,
+                                        SJ96TminZQL = tmin96,
+                                        SJ96QYZQL = Math.Abs(rain960012) + Math.Abs(rain961224),
+                                        SJ120TmaxZQL = tmax120,
+                                        SJ120TminZQL = tmin120,
+                                        SJ120QYZQL = Math.Abs(rain1200012) + Math.Abs(rain1201224),
+                                    });
+                                }
+
+                            }
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    mycon1.Close();
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+            int ss = sjzqlTJ1.Count;
+            ZQLTJ1[] s1 = sjzqlTJ1.ToArray();
+            int[] zs = new int[15];//保存计算准确率时候每个要素的总数，只需统计三天的最高最低晴雨，不用统计缺报，因为缺报率直接除元素总数即可
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s1[i].SJ24TmaxZQL < 999998 && s1[i].SJ24TmaxZQL > -999999)
+                {
+                    zs[0]++;
+                    if (Math.Abs(s1[i].SJ24TmaxZQL) <= 2)
+                    {
+                        tjsz[0]++;
+                    }
+                }
+                else if (s1[i].SJ24TmaxZQL == -999999)
+                {
+                    tjsz[15]++;
+                }
+                if (s1[i].SJ24TminZQL < 999998 && s1[i].SJ24TminZQL > -999999)
+                {
+                    zs[1]++;
+                    if (Math.Abs(s1[i].SJ24TminZQL) <= 2)
+                    {
+                        tjsz[1]++;
+                    }
+                }
+                if (s1[i].SJ24QYZQL < 999998 && s1[i].SJ24QYZQL > -999999)
+                {
+                    zs[2] += 2;
+                    tjsz[2] += s1[i].SJ24QYZQL;
+                }
+
+                if (s1[i].SJ48TmaxZQL < 999998 && s1[i].SJ48TmaxZQL > -999999)
+                {
+                    zs[3]++;
+                    if (Math.Abs(s1[i].SJ48TmaxZQL) <= 2)
+                    {
+                        tjsz[3]++;
+                    }
+                }
+                if (s1[i].SJ48TminZQL < 999998 && s1[i].SJ48TminZQL > -999999)
+                {
+                    zs[4]++;
+                    if (Math.Abs(s1[i].SJ48TminZQL) <= 2)
+                    {
+                        tjsz[4]++;
+                    }
+                }
+                if (s1[i].SJ48QYZQL < 999998 && s1[i].SJ48QYZQL > -999999)
+                {
+                    zs[5] += 2;
+                    tjsz[5] += s1[i].SJ48QYZQL;
+                }
+                if (s1[i].SJ72TmaxZQL < 999998 && s1[i].SJ72TmaxZQL > -999999)
+                {
+                    zs[6]++;
+                    if (Math.Abs(s1[i].SJ72TmaxZQL) <= 2)
+                    {
+                        tjsz[6]++;
+                    }
+                }
+                if (s1[i].SJ72TminZQL < 999998 && s1[i].SJ72TminZQL > -999999)
+                {
+                    zs[7]++;
+                    if (Math.Abs(s1[i].SJ72TminZQL) <= 2)
+                    {
+                        tjsz[7]++;
+                    }
+                }
+                if (s1[i].SJ72QYZQL < 999998 && s1[i].SJ72QYZQL > -999999)
+                {
+                    zs[8] += 2;
+                    tjsz[8] += s1[i].SJ72QYZQL;
+                }
+                if (s1[i].SJ96TmaxZQL < 999998 && s1[i].SJ96TmaxZQL > -999999)
+                {
+                    zs[9]++;
+                    if (Math.Abs(s1[i].SJ96TmaxZQL) <= 2)
+                    {
+                        tjsz[9]++;
+                    }
+                }
+                if (s1[i].SJ96TminZQL < 999998 && s1[i].SJ96TminZQL > -999999)
+                {
+                    zs[10]++;
+                    if (Math.Abs(s1[i].SJ96TminZQL) <= 2)
+                    {
+                        tjsz[10]++;
+                    }
+                }
+                if (s1[i].SJ96QYZQL < 999998 && s1[i].SJ96QYZQL > -999999)
+                {
+                    zs[11] += 2;
+                    tjsz[11] += s1[i].SJ96QYZQL;
+                }
+                if (s1[i].SJ120TmaxZQL < 999998 && s1[i].SJ120TmaxZQL > -999999)
+                {
+                    zs[12]++;
+                    if (Math.Abs(s1[i].SJ120TmaxZQL) <= 2)
+                    {
+                        tjsz[12]++;
+                    }
+                }
+                if (s1[i].SJ120TminZQL < 999998 && s1[i].SJ120TminZQL > -999999)
+                {
+                    zs[13]++;
+                    if (Math.Abs(s1[i].SJ120TminZQL) <= 2)
+                    {
+                        tjsz[13]++;
+                    }
+                }
+                if (s1[i].SJ120QYZQL < 999998 && s1[i].SJ120QYZQL > -999999)
+                {
+                    zs[14] += 2;
+                    tjsz[14] += s1[i].SJ120QYZQL;
+                }
+
+            }
+            for (int i = 0; i < tjsz.Length; i++)
+            {
+                if (i < tjsz.Length - 1)
+                {
+                    tjsz[i] = tjsz[i] / zs[i];
+                    tjsz[i] = (float)Math.Round(tjsz[i] * 100, 2);
+                }
+                else
+                {
+                    tjsz[i] = tjsz[i] / s1.Length;
+                    tjsz[i] = (float)Math.Round(tjsz[i] * 100, 2);
+                }
+            }
+            return tjsz;
+        }
+
+        public float[] GWZQL120(DateTime sdt, DateTime edt, String GW, String sc) //返回指定指定时间段个人五天预报的最高、最低、晴雨准确率以及缺报率
+        {
+            ObservableCollection<PFZR> pfzrtj1 = new ObservableCollection<PFZR>();
+            float[] tjsz = new float[16];
+            try
+            {
+                using (SqlConnection mycon1 = new SqlConnection(con)) //创建SQL连接对象)
+                {
+                    mycon1.Open(); //打开
+                    string sql =
+                        $@"select * from TJ where Date>='{sdt:yyyy-MM-dd}' AND Date<='{edt:yyyy-MM-dd}' AND GW='{GW}' AND SC='{sc}'";
+                    SqlCommand sqlman = new SqlCommand(sql, mycon1);
+                    SqlDataReader sqlreader = sqlman.ExecuteReader();
+                    if (sqlreader.HasRows)
+                    {
+                        while (sqlreader.Read())
+                        {
+                            try
+                            {
+                                float tmax24 = 999999,
+                                    tmin24 = 999999,
+                                    qy24 = 999999,
+                                    tmax48 = 999999,
+                                    tmin48 = 999999,
+                                    qy48 = 999999,
+                                    tmax72 = 999999,
+                                    tmin72 = 999999,
+                                    qy72 = 999999,
+                                    rain240012 = 999999,
+                                     rain241224 = 999999,
+                                    rain480012 = 999999,
+                                     rain481224 = 999999,
+                                    rain720012 = 999999,
+                                     rain721224 = 999999,
+                                    rain960012 = 999999,
+                                     rain961224 = 999999,
+                                    rain1200012 = 999999,
+                                     rain1201224 = 999999,
+                                tmax96 = 999999,
+                                    tmin96 = 999999,
+                                    qy96 = 999999,
+                                tmax120 = 999999,
+                                    tmin120 = 999999,
+                                    qy120 = 999999;
+                                try
+                                {
+                                    tmax24 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax24"));
+                                    tmin24 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin24"));
+                                    qy24 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain24"));
+                                    tmax48 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax48"));
+                                    tmin48 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin48"));
+                                    qy48 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain48"));
+                                    tmax72 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax72"));
+                                    tmin72 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin72"));
+                                    qy72 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain72"));
+                                    tmax96 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax96"));
+                                    tmin96 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin96"));
+                                    qy96 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain96"));
+                                    tmax120 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax120"));
+                                    tmin120 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin120"));
+                                    qy120 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain120"));
+                                    rain240012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain0012"));
+                                    rain241224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain1224"));
+                                    rain480012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain2436"));
+                                    rain481224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain3648"));
+                                    rain720012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain4860"));
+                                    rain721224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain6072"));
+                                    rain960012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain7284"));
+                                    rain961224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain8496"));
+                                    rain1200012 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain96108"));
+                                    rain1201224 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain108120"));
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                                pfzrtj1.Add(new PFZR()
+                                {
+                                    QX24TmaxZQL = tmax24,
+                                    QX24TminZQL = tmin24,
+                                    QX24QYZQL = Math.Abs(rain240012) + Math.Abs(rain241224),
+                                    QX48TmaxZQL = tmax48,
+                                    QX48TminZQL = tmin48,
+                                    QX48QYZQL = Math.Abs(rain480012) + Math.Abs(rain481224),
+                                    QX72TmaxZQL = tmax72,
+                                    QX72TminZQL = tmin72,
+                                    QX72QYZQL = Math.Abs(rain720012) + Math.Abs(rain721224),
+                                    QX96TmaxZQL = tmax96,
+                                    QX96TminZQL = tmin96,
+                                    QX96QYZQL = Math.Abs(rain960012) + Math.Abs(rain961224),
+                                    QX120TmaxZQL = tmax120,
+                                    QX120TminZQL = tmin120,
+                                    QX120QYZQL = Math.Abs(rain1200012) + Math.Abs(rain1201224),
+                                });
+                            }
+                            catch (Exception)
+                            { }
+                        }
+                    }
+                    mycon1.Close();
+                }
+                int ss = pfzrtj1.Count;
+                PFZR[] s1 = pfzrtj1.ToArray();
+                int[] zs = new int[15]; //保存计算准确率时候每个要素的总数，只需统计三天的最高最低晴雨，不用统计缺报，因为缺报率直接除元素总数即可
+                for (int i = 0; i < s1.Length; i++)
+                {
+                    if (s1[i].QX24TmaxZQL < 999998 && s1[i].QX24TmaxZQL > -999999)
+                    {
+                        zs[0]++;
+                        if (Math.Abs(s1[i].QX24TmaxZQL) <= 2)
+                        {
+                            tjsz[0]++;
+                        }
+                    }
+                    else if (s1[i].QX24TmaxZQL == -999999)
+                    {
+                        tjsz[15]++;
+                    }
+                    if (s1[i].QX24TminZQL < 999998 && s1[i].QX24TminZQL > -999999)
+                    {
+                        zs[1]++;
+                        if (Math.Abs(s1[i].QX24TminZQL) <= 2)
+                        {
+                            tjsz[1]++;
+                        }
+                    }
+                    if (s1[i].QX24QYZQL < 999998 && s1[i].QX24QYZQL > -999999)
+                    {
+                        zs[2] = zs[2] + 2;
+
+                        tjsz[2] += s1[i].QX24QYZQL;
+                    }
+
+                    if (s1[i].QX48TmaxZQL < 999998 && s1[i].QX48TmaxZQL > -999999)
+                    {
+                        zs[3]++;
+                        if (Math.Abs(s1[i].QX48TmaxZQL) <= 2)
+                        {
+                            tjsz[3]++;
+                        }
+                    }
+                    if (s1[i].QX48TminZQL < 999998 && s1[i].QX48TminZQL > -999999)
+                    {
+                        zs[4]++;
+                        if (Math.Abs(s1[i].QX48TminZQL) <= 2)
+                        {
+                            tjsz[4]++;
+                        }
+                    }
+                    if (s1[i].QX48QYZQL < 999998 && s1[i].QX48QYZQL > -999999)
+                    {
+                        zs[5] = zs[5] + 2;
+                        tjsz[5] += s1[i].QX48QYZQL;
+                    }
+                    if (s1[i].QX72TmaxZQL < 999998 && s1[i].QX72TmaxZQL > -999999)
+                    {
+                        zs[6]++;
+                        if (Math.Abs(s1[i].QX72TmaxZQL) <= 2)
+                        {
+                            tjsz[6]++;
+                        }
+                    }
+                    if (s1[i].QX72TminZQL < 999998 && s1[i].QX72TminZQL > -999999)
+                    {
+                        zs[7]++;
+                        if (Math.Abs(s1[i].QX72TminZQL) <= 2)
+                        {
+                            tjsz[7]++;
+                        }
+                    }
+                    if (s1[i].QX72QYZQL < 999998 && s1[i].QX72QYZQL > -999999)
+                    {
+                        zs[8] = zs[8] + 2;
+                        tjsz[8] += s1[i].QX72QYZQL;
+                    }
+
+                    if (s1[i].QX96TmaxZQL < 999998 && s1[i].QX96TmaxZQL > -999999)
+                    {
+                        zs[9]++;
+                        if (Math.Abs(s1[i].QX96TmaxZQL) <= 2)
+                        {
+                            tjsz[9]++;
+                        }
+                    }
+                    if (s1[i].QX96TminZQL < 999998 && s1[i].QX96TminZQL > -999999)
+                    {
+                        zs[10]++;
+                        if (Math.Abs(s1[i].QX96TminZQL) <= 2)
+                        {
+                            tjsz[10]++;
+                        }
+                    }
+                    if (s1[i].QX96QYZQL < 999998 && s1[i].QX96QYZQL > -999999)
+                    {
+                        zs[11] = zs[11] + 2;
+                        tjsz[11] += s1[i].QX96QYZQL;
+                    }
+                    if (s1[i].QX120TmaxZQL < 999998 && s1[i].QX120TmaxZQL > -999999)
+                    {
+                        zs[12]++;
+                        if (Math.Abs(s1[i].QX120TmaxZQL) <= 2)
+                        {
+                            tjsz[12]++;
+                        }
+                    }
+                    if (s1[i].QX120TminZQL < 999998 && s1[i].QX120TminZQL > -999999)
+                    {
+                        zs[13]++;
+                        if (Math.Abs(s1[i].QX120TminZQL) <= 2)
+                        {
+                            tjsz[13]++;
+                        }
+                    }
+                    if (s1[i].QX120QYZQL < 999998 && s1[i].QX120QYZQL > -999999)
+                    {
+                        zs[14] = zs[14] + 2;
+                        tjsz[14] += s1[i].QX120QYZQL;
+                    }
+
+                }
+                for (int i = 0; i < tjsz.Length; i++)
+                {
+                    if (i < tjsz.Length - 1)
+                    {
+                        tjsz[i] = tjsz[i] / zs[i];
+                        tjsz[i] = (float)Math.Round(tjsz[i] * 100, 2);
+                    }
+                    else
+                    {
+                        tjsz[i] = tjsz[i] / s1.Length;
+                        tjsz[i] = (float)Math.Round(tjsz[i] * 100, 2);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                //MessageBox.Show(e.Message);
+            }
+            return tjsz;
+        }
+        public float[] GWJDWC120(DateTime sdt, DateTime edt,String GW, String sc)//返回指定区站号、指定时间段个人五天预报的最高、最低气温与实况的平均绝对误差
+        {
+            ObservableCollection<PJWCList> pfzrtj1 = new ObservableCollection<PJWCList>();
+            float[] tjsz = new float[10];
+            try
+            {
+
+                using (SqlConnection mycon1 = new SqlConnection(con))//创建SQL连接对象)
+                {
+                    mycon1.Open();//打开
+                    string sql =
+                        $@"select * from TJ where Date>='{sdt:yyyy-MM-dd}' AND Date<='{edt:yyyy-MM-dd}' AND GW='{GW}' AND SC='{sc}'";
+
+                    try
+                    {
+                        using (SqlCommand sqlman = new SqlCommand(sql, mycon1))
+                        {
+                            using (SqlDataReader sqlreader = sqlman.ExecuteReader())
+                            {
+                                while (sqlreader.Read())
+                                {
+                                    if (sqlreader.HasRows)
+                                    {
+                                        pfzrtj1.Add(new PJWCList()
+                                        {
+                                            QX24TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax24")),
+                                            QX24TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin24")),
+                                            QX48TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax48")),
+                                            QX48TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin48")),
+                                            QX72TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax72")),
+                                            QX72TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin72")),
+                                            QX96TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax96")),
+                                            QX96TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin96")),
+                                            QX120TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax120")),
+                                            QX120TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin120")),
+                                        });
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    mycon1.Close();
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+            int ss = pfzrtj1.Count;
+            PJWCList[] s1 = pfzrtj1.ToArray();
+            int[] zs = new int[10];//保存计算平均绝对误差时候每个要素的个数总数
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s1[i].QX24TmaxJDWC < 999998 && s1[i].QX24TmaxJDWC > -999999)
+                {
+                    zs[0]++;
+                    tjsz[0] += Math.Abs(s1[i].QX24TmaxJDWC);
+
+                }
+                if (s1[i].QX24TminJDWC < 999998 && s1[i].QX24TminJDWC > -999999)
+                {
+                    zs[1]++;
+                    tjsz[1] += Math.Abs(s1[i].QX24TminJDWC);
+                }
+
+                if (s1[i].QX48TmaxJDWC < 999998 && s1[i].QX48TmaxJDWC > -999999)
+                {
+                    zs[2]++;
+                    tjsz[2] += Math.Abs(s1[i].QX48TmaxJDWC);
+                }
+                if (s1[i].QX48TminJDWC < 999998 && s1[i].QX48TminJDWC > -999999)
+                {
+                    zs[3]++;
+                    tjsz[3] += Math.Abs(s1[i].QX48TminJDWC);
+                }
+                if (s1[i].QX72TmaxJDWC < 999998 && s1[i].QX72TmaxJDWC > -999999)
+                {
+                    zs[4]++;
+                    tjsz[4] += Math.Abs(s1[i].QX72TmaxJDWC);
+                }
+                if (s1[i].QX72TminJDWC < 999998 && s1[i].QX72TminJDWC > -999999)
+                {
+                    zs[5]++;
+                    tjsz[5] += Math.Abs(s1[i].QX72TminJDWC);
+                }
+                if (s1[i].QX96TmaxJDWC < 999998 && s1[i].QX96TmaxJDWC > -999999)
+                {
+                    zs[6]++;
+                    tjsz[6] += Math.Abs(s1[i].QX96TmaxJDWC);
+                }
+                if (s1[i].QX96TminJDWC < 999998 && s1[i].QX96TminJDWC > -999999)
+                {
+                    zs[7]++;
+                    tjsz[7] += Math.Abs(s1[i].QX96TminJDWC);
+                }
+                if (s1[i].QX120TmaxJDWC < 999998 && s1[i].QX120TmaxJDWC > -999999)
+                {
+                    zs[8]++;
+                    tjsz[8] += Math.Abs(s1[i].QX120TmaxJDWC);
+                }
+                if (s1[i].QX120TminJDWC < 999998 && s1[i].QX120TminJDWC > -999999)
+                {
+                    zs[9]++;
+                    tjsz[9] += Math.Abs(s1[i].QX120TminJDWC);
+                }
+
+            }
+            for (int i = 0; i < tjsz.Length; i++)
+            {
+                tjsz[i] = tjsz[i] / zs[i];
+                tjsz[i] = (float)Math.Round(tjsz[i], 3);
+            }
+            return tjsz;
+        }
+        public float[] GWZDJDWC120(DateTime sdt, DateTime edt, String GW, String sc)//返回指定人员、指定时间段中央指导五天预报的最高、最低气温与实况的平均绝对误差
+        {
+            ObservableCollection<PJWCList> pfzrtj1 = new ObservableCollection<PJWCList>();
+            float[] tjsz = new float[10];
+            try
+            {
+
+                using (SqlConnection mycon1 = new SqlConnection(con))//创建SQL连接对象)
+                {
+                    mycon1.Open();//打开
+                    string sql =
+                        $@"select * from TJ where Date>='{sdt:yyyy-MM-dd}' AND Date<='{edt:yyyy-MM-dd}' AND GW='{GW}' AND SC='{sc}'";
+
+                    try
+                    {
+                        using (SqlCommand sqlman = new SqlCommand(sql, mycon1))
+                        {
+                            using (SqlDataReader sqlreader = sqlman.ExecuteReader())
+                            {
+                                while (sqlreader.Read())
+                                {
+
+
+                                    pfzrtj1.Add(new PJWCList()
+                                    {
+                                        QX24TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax24")),
+                                        QX24TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin24")),
+                                        QX48TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax48")),
+                                        QX48TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin48")),
+                                        QX72TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax72")),
+                                        QX72TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin72")),
+                                        QX96TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax96")),
+                                        QX96TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin96")),
+                                        QX120TmaxJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax120")),
+                                        QX120TminJDWC = sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin120")),
+                                    });
+                                }
+
+                            }
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    mycon1.Close();
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+            int ss = pfzrtj1.Count;
+            PJWCList[] s1 = pfzrtj1.ToArray();
+            int[] zs = new int[10];//保存计算平均绝对误差时候每个要素的个数总数
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s1[i].QX24TmaxJDWC < 999998 && s1[i].QX24TmaxJDWC > -999999)
+                {
+                    zs[0]++;
+                    tjsz[0] += Math.Abs(s1[i].QX24TmaxJDWC);
+
+                }
+                if (s1[i].QX24TminJDWC < 999998 && s1[i].QX24TminJDWC > -999999)
+                {
+                    zs[1]++;
+                    tjsz[1] += Math.Abs(s1[i].QX24TminJDWC);
+                }
+
+                if (s1[i].QX48TmaxJDWC < 999998 && s1[i].QX48TmaxJDWC > -999999)
+                {
+                    zs[2]++;
+                    tjsz[2] += Math.Abs(s1[i].QX48TmaxJDWC);
+                }
+                if (s1[i].QX48TminJDWC < 999998 && s1[i].QX48TminJDWC > -999999)
+                {
+                    zs[3]++;
+                    tjsz[3] += Math.Abs(s1[i].QX48TminJDWC);
+                }
+                if (s1[i].QX72TmaxJDWC < 999998 && s1[i].QX72TmaxJDWC > -999999)
+                {
+                    zs[4]++;
+                    tjsz[4] += Math.Abs(s1[i].QX72TmaxJDWC);
+                }
+                if (s1[i].QX72TminJDWC < 999998 && s1[i].QX72TminJDWC > -999999)
+                {
+                    zs[5]++;
+                    tjsz[5] += Math.Abs(s1[i].QX72TminJDWC);
+                }
+                if (s1[i].QX96TmaxJDWC < 999998 && s1[i].QX96TmaxJDWC > -999999)
+                {
+                    zs[6]++;
+                    tjsz[6] += Math.Abs(s1[i].QX96TmaxJDWC);
+                }
+                if (s1[i].QX96TminJDWC < 999998 && s1[i].QX96TminJDWC > -999999)
+                {
+                    zs[7]++;
+                    tjsz[7] += Math.Abs(s1[i].QX96TminJDWC);
+                }
+                if (s1[i].QX120TmaxJDWC < 999998 && s1[i].QX120TmaxJDWC > -999999)
+                {
+                    zs[8]++;
+                    tjsz[8] += Math.Abs(s1[i].QX120TmaxJDWC);
+                }
+                if (s1[i].QX120TminJDWC < 999998 && s1[i].QX120TminJDWC > -999999)
+                {
+                    zs[9]++;
+                    tjsz[9] += Math.Abs(s1[i].QX120TminJDWC);
+                }
+
+            }
+            for (int i = 0; i < tjsz.Length; i++)
+            {
+                tjsz[i] = tjsz[i] / zs[i];
+                tjsz[i] = (float)Math.Round(tjsz[i], 3);
+            }
+            return tjsz;
+        }
+        public float[] GWZYZQL120(DateTime sdt, DateTime edt, String GW, String sc)//返回指定区站号、指定时间段中央指导五天预报的最高、最低、晴雨准确率以及缺报率
+        {
+            ObservableCollection<ZQLTJ1> sjzqlTJ1 = new ObservableCollection<ZQLTJ1>();
+            float[] tjsz = new float[16];
+            try
+            {
+
+                using (SqlConnection mycon1 = new SqlConnection(con))//创建SQL连接对象)
+                {
+                    mycon1.Open();//打开
+                    string sql =
+                        $@"select * from TJ where Date>='{sdt:yyyy-MM-dd}' AND Date<='{edt:yyyy-MM-dd}' AND GW='{GW}' AND SC='{sc}'";
 
                     try
                     {
@@ -1915,6 +4121,7 @@ namespace sjzd
             public float QX120TminZQL { get; set; }
             public float QX120QYZQL { get; set; }
         }
+
     }
 
     public class StadiumCapacityStyle : System.Windows.Controls.StyleSelector

@@ -149,6 +149,14 @@ namespace sjzd
                         viewbox.Child = new 城镇预报逐日评分详情();
                         radTabItem.Content = viewbox;
                         break;
+                    case "城镇集体评分":
+                        viewbox.Child = new 城镇集体评分();
+                        radTabItem.Content = viewbox;
+                        break;
+                    case "城镇临时统计":
+                        viewbox.Child = new 城镇统计临时();
+                        radTabItem.Content = viewbox;
+                        break;
                     default:
                         return;
                 }

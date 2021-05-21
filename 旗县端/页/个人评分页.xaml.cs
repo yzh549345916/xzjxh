@@ -305,9 +305,10 @@ namespace 旗县端
                             }
                         }
                     }
+                    List<GRPF> lisLS = new List<GRPF>();
                     for (int i = 0; i < PeopleListSZ.Length; i++)
                     {
-                        grpf.Add(new GRPF()
+                        lisLS.Add(new GRPF()
                         {
                             PeopleID = GRPFSZ[i, 0],
                             PM = Convert.ToInt16(GRPFSZ[i, 1]),
@@ -325,17 +326,55 @@ namespace 旗县端
 
                         });
                     }
-
+                    foreach (var t in lisLS)
+                    {
+                        if (t.PM < 999 && (t.DWJQ < 0 || t.GWJQ < 0 || t.QYJQ < 0 || t.AllJQ < 0))
+                        {
+                            t.PM = 998;
+                        }
+                    }
                     if (QXSelect.Text == "全市")
                     {
-                        IOrderedEnumerable<GRPF> result = grpf.OrderBy(p => p.PM);//按照排名升序排列
-                        ((this.FindName("GRPFList")) as DataGrid).ItemsSource = result;
+                        lisLS = lisLS.OrderBy(p => p.PM).ThenByDescending(y => y.AllJQ).ToList();//按照排名升序排列
+                        Int16 myPM = 1;
+                        foreach (var item in lisLS)
+                        {
+                            if (item.PM < 900)
+                            {
+                                item.PM = myPM++;
+                            }
+                        }
+                        foreach (var item in lisLS)
+                        {
+                            if (item.PM == 998)
+                            {
+                                item.PM = myPM++;
+                            }
+                        }
+                        lisLS.ForEach(p => grpf.Add(p));
+                       // IOrderedEnumerable<GRPF> result = grpf.OrderBy(p => p.PM);//按照排名升序排列
+                        ((this.FindName("GRPFList")) as DataGrid).ItemsSource = grpf;
                     }
                     else
                     {
-                        IOrderedEnumerable<GRPF> result1 = grpf.OrderBy(p => p.PM);//按照排名升序排列
-                        IEnumerable<GRPF> result = result1.Where(c => c.Name == QXSelect.Text);
-                        ((this.FindName("GRPFList")) as DataGrid).ItemsSource = result;
+                        lisLS = lisLS.OrderBy(p => p.PM).ThenByDescending(y => y.AllJQ).Where(c => c.Name == QXSelect.Text).ToList();//按照排名升序排列
+                        Int16 myPM = 1;
+                        foreach (var item in lisLS)
+                        {
+                            if (item.PM < 900)
+                            {
+                                item.PM = myPM++;
+                            }
+                        }
+                        foreach (var item in lisLS)
+                        {
+                            if (item.PM == 998)
+                            {
+                                item.PM = myPM++;
+                            }
+                        }
+                        lisLS.ForEach(p => grpf.Add(p));
+                        ((this.FindName("GRPFList")) as DataGrid).ItemsSource = grpf;
                     }
 
 

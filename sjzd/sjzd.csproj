@@ -44,6 +44,9 @@
     <Reference Include="Aspose.Cells">
       <HintPath>..\..\demo\c#\Aspose.Cells.dll</HintPath>
     </Reference>
+    <Reference Include="Aspose.Email">
+      <HintPath>..\..\demo\c#\Aspose.Email\Aspose.Email.dll</HintPath>
+    </Reference>
     <Reference Include="Aspose.Words">
       <HintPath>..\..\demo\c#\Aspose.Words.dll</HintPath>
     </Reference>
@@ -436,6 +439,18 @@
     <Page Remove="Window2.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="新界面\乡镇精细化\userControl\书记短信制作界面.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="新界面\乡镇精细化\userControl\城镇统计临时.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="新界面\乡镇精细化\userControl\城镇集体评分.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="新界面\预报产品制作\产品制作usercontrol.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -447,6 +462,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="新界面\乡镇精细化\userControl\区台新方法表格 .xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="预报人员选择空气质量.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>
