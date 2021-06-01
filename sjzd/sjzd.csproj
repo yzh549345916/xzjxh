@@ -42,23 +42,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aspose.Cells">
-      <HintPath>..\..\demo\c#\Aspose.Cells.dll</HintPath>
+      <HintPath>..\..\libs\Aspose.Cells.dll</HintPath>
     </Reference>
     <Reference Include="Aspose.Email">
-      <HintPath>..\..\demo\c#\Aspose.Email\Aspose.Email.dll</HintPath>
+      <HintPath>..\..\libs\Aspose.Email.dll</HintPath>
     </Reference>
     <Reference Include="Aspose.Words">
-      <HintPath>..\..\demo\c#\Aspose.Words.dll</HintPath>
+      <HintPath>..\..\libs\Aspose.Words.dll</HintPath>
     </Reference>
     <Reference Include="Ice">
-      <HintPath>..\..\demo\c#\Ice.dll</HintPath>
+      <HintPath>..\..\libs\Ice.dll</HintPath>
     </Reference>
     <Reference Include="MediaFoundation, Version=3.1.0.32450, Culture=neutral, PublicKeyToken=36fa660e1d6ebf8d, processorArchitecture=MSIL">
       <HintPath>..\lib\RCWPF\2020.2.513.310\MediaFoundation\MediaFoundation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="music-client-v1.6.0">
-      <HintPath>..\..\demo\c#\music-client-v1.6.0.dll</HintPath>
+      <HintPath>..\..\libs\music-client-v1.6.0.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -70,122 +70,65 @@
       <HintPath>..\lib\RCWPF\2020.2.513.310\SharpDX\SharpDX.Direct3D9.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Windows.Controls">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Chart">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.Chart.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Data">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.DataVisualization">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.FileDialogs">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.FileDialogs.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.GridView">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.GridView.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.GridView.Export">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.GridView.Export.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Input">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.Input.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Media">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.Media.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Navigation">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Controls.Navigation.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Data">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Core">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Documents.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Fixed">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Documents.Fixed.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Spreadsheet">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Xls">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Xls.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.MediaFoundation">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.MediaFoundation.dll</HintPath>
-    </Reference>
     <Reference Include="Telerik.Windows.Themes.Crystal">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Crystal.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Crystal.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Expression_Dark">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Expression_Dark.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Expression_Dark.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Fluent">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Fluent.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Fluent.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Green">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Green.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Green.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Material">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Material.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Material.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Office2013">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office2013.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office2013.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Office2016">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office2016.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office2016.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Office2016Touch">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office2016Touch.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office2016Touch.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Office2019">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office2019.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office2019.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Office_Black">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office_Black.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office_Black.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Office_Blue">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office_Blue.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office_Blue.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Office_Silver">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office_Silver.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Office_Silver.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Summer">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Summer.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Summer.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Transparent">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Transparent.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Transparent.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Vista">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Vista.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Vista.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.VisualStudio2013">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.VisualStudio2013.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.VisualStudio2013.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.VisualStudio2019">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.VisualStudio2019.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.VisualStudio2019.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Windows7">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Windows7.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Windows7.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Windows8">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Windows8.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Windows8.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Windows8Touch">
-      <HintPath>F:\software\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Windows8Touch.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Zip">
-      <HintPath>F:\software\telerik\Binaries\NetCore\Telerik.Windows.Zip.dll</HintPath>
+      <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Windows8Touch.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -431,6 +374,7 @@
     <PackageReference Include="System.Data.OleDb" Version="4.7.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
+    <PackageReference Include="Telerik.UI.for.Wpf.NetCore.Xaml" Version="2021.1.325" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Window2.xaml.cs" />

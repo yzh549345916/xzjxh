@@ -23,7 +23,7 @@ namespace sjzd.类
             try
             {
                 CIMISS cIMISS = new CIMISS();
-                List<CIMISS.YS> myTem = cIMISS.获取小时温度(DateTime.Now.Date.AddDays(-1).AddHours(9), DateTime.Now.Date.AddDays(0).AddHours(8), "53463");
+                List<CIMISS.YS> myTem = cIMISS.获取小时温度(DateTime.Now.Date.AddDays(-1).AddHours(9), DateTime.Now.Date.AddDays(0).AddHours(8), "53466");
                 tMin = myTem.OrderBy(y => y.TEM_Min).ToList()[0].TEM_Min;
                 tMax = myTem.OrderByDescending(y => y.TEM_Max).ToList()[0].TEM_Max;
             }
@@ -123,7 +123,7 @@ namespace sjzd.类
             foreach (string sls in ybData.Split('\n'))
             {
                 string[] szls = sls.Split(',');
-                if (szls[0].Trim() == "53463")
+                if (szls[0].Trim() == "53466")
                 {
                     for (int i = 0; i < 7; i++)
                     {

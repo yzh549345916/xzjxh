@@ -66,7 +66,7 @@ namespace sjzd.类
                     builder.Write(qfName);
                     builder.MoveToBookmark("预报表格");
 
-                    List<myerh> myERH = ERH("53463", 168);
+                    List<myerh> myERH = ERH("53466", 168);
                     List<YBList> myYB=CLYB(ybData, myERH);
                     myERH.Clear();
                     if (myYB.Count > 0)
@@ -278,7 +278,7 @@ namespace sjzd.类
             foreach (string sls in ybData.Split('\n'))
             {
                 string[] szls = sls.Split(',');
-                if (szls[0].Trim() == "53463")
+                if (szls[0].Trim() == "53466")
                 {
                     for (int i = 0; i < 7; i++)
                     {

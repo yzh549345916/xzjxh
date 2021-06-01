@@ -70,11 +70,11 @@ namespace sjzd
                     builder.MoveToBookmark("签发");
                     builder.Write(qfName);
                     builder.MoveToBookmark("天气24"); //开始添加值
-                    string erh = "相对湿度" + ERH("53463", sc, 24) + "。\r\n";
+                    string erh = "相对湿度" + ERH("53466", sc, 24) + "。\r\n";
                     foreach (string sls in ybData.Split('\n'))
                     {
                         string[] szls = sls.Split(',');
-                        if (szls[0].Trim() == "53463")
+                        if (szls[0].Trim() == "53466")
                         {
                             if (szls[4].Contains("转") && szls[5].Contains("转"))//如果风向风速都含“转”，则合并
                             {
@@ -136,11 +136,11 @@ namespace sjzd
                     builder.MoveToBookmark("天气48"); //开始添加值
                     builder.Font.Name = "宋体";
                     builder.Font.Bold = false;
-                    erh = "相对湿度" + ERH("53463", sc, 48) + "。\r\n";
+                    erh = "相对湿度" + ERH("53466", sc, 48) + "。\r\n";
                     foreach (string sls in ybData.Split('\n'))
                     {
                         string[] szls = sls.Split(',');
-                        if (szls[0].Trim() == "53463")
+                        if (szls[0].Trim() == "53466")
                         {
                             if (szls[10].Contains("转") && szls[9].Contains("转"))//如果风向风速都含“转”，则合并
                             {
@@ -247,11 +247,11 @@ namespace sjzd
                     builder.MoveToBookmark("签发");
                     builder.Write(qfName);
                     builder.MoveToBookmark("天气24"); //开始添加值
-                    string erh = "相对湿度" + ERH("53463", sc, 24) + "。\r\n";
+                    string erh = "相对湿度" + ERH("53466", sc, 24) + "。\r\n";
                     foreach (string sls in ybData.Split('\n'))
                     {
                         string[] szls = sls.Split(',');
-                        if (szls[0].Trim() == "53463")
+                        if (szls[0].Trim() == "53466")
                         {
                             if (szls[4].Contains("转") && szls[5].Contains("转"))//如果风向风速都含“转”，则合并
                             {
@@ -313,11 +313,11 @@ namespace sjzd
                     builder.MoveToBookmark("天气48"); //开始添加值
                     builder.Font.Name = "宋体";
                     builder.Font.Bold = false;
-                    erh = "相对湿度" + ERH("53463", sc, 48) + "。\r\n";
+                    erh = "相对湿度" + ERH("53466", sc, 48) + "。\r\n";
                     foreach (string sls in ybData.Split('\n'))
                     {
                         string[] szls = sls.Split(',');
-                        if (szls[0].Trim() == "53463")
+                        if (szls[0].Trim() == "53466")
                         {
                             if (szls[10].Contains("转") && szls[9].Contains("转"))//如果风向风速都含“转”，则合并
                             {
