@@ -523,14 +523,14 @@ namespace sjzd
                 iDNames.Add(new IDName
                 {
                     ID = "53466",
-                    Name = "赛罕区",
+                    Name = "呼市市区",
                     LB = 1,
                     GJID = "53466"
                 });
                 iDNames.Add(new IDName
                 {
                     ID = "53463",
-                    Name = "呼市市区",
+                    Name = "市区北部",
                     LB = 1,
                     GJID = "53463"
                 });

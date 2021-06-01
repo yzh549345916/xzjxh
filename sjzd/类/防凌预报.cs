@@ -685,7 +685,7 @@ namespace sjzd
             using (SqlConnection mycon = new SqlConnection(con))
             {
                 mycon.Open(); //打开
-                string sql = "select * from 社区精细化预报站点 where Station_levl = 93 order by StatioID";
+                string sql = "select * from 社区精细化预报站点 where Station_levl = 86 order by StatioID";
                 SqlCommand sqlman = new SqlCommand(sql, mycon);
                 SqlDataReader sqlreader = sqlman.ExecuteReader();
                 while (sqlreader.Read())
