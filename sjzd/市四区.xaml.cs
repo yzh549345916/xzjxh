@@ -412,7 +412,7 @@ namespace sjzd
                 {
                     linShi1 = YBDataLines[j].Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                     //linShi1 = System.Text.RegularExpressions.Regex.Split(YBDataLines[j]，);
-                    if (zDYBSZ[i, 0] == linShi1[0])
+                    if (zDYBSZ[i, 0] == linShi1[0] || (linShi1[0] == "呼和浩特" && zDYBSZ[i, 0] == "赛罕区"))
                     {
                         try
                         {

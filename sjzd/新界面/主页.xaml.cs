@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using sjzd.新界面.类;
+using sjzd.类;
 using Telerik.Windows.Controls;
 
 namespace sjzd
@@ -24,6 +25,7 @@ namespace sjzd
             };
             InitializeComponent();
 
+            
             #region
 
             //.net core3.1中不支持GB2312编码,解决办法：
@@ -61,7 +63,7 @@ namespace sjzd
             {
                 ss+= ls.TJRK(dtls, "08", "主班");
             }*/
-           
+            
         }
 
         private void navigationView_SelectionChanged(object sender, SelectionChangedEventArgs e)

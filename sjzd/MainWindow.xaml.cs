@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows;
+using sjzd.类;
 using MessageBox = System.Windows.MessageBox;
 
 
@@ -20,7 +21,7 @@ namespace sjzd
         public MainWindow()
         {
             InitializeComponent();
-
+            
 
         }
 

@@ -90,7 +90,8 @@ namespace xzjxhyb_DBmain
                 }
             }
             // InitialTray(); //最小化至托盘
-            DeleteFile();
+            //DeleteFile();
+           
         }
         public static string utf8_gb2312(string text)
         {
@@ -435,6 +436,18 @@ namespace xzjxhyb_DBmain
                                 ));
                             SaveJL(ss);
                         }
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                if (dateTime.Hour == 2 && dateTime.Minute == 3)
+                {
+                    try
+                    {
+                        城镇20转08 fsd = new 城镇20转08();
+                        fsd.ZDSZ2BW();
                     }
                     catch
                     {

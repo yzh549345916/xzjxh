@@ -84,6 +84,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="20城镇转08.cs" />
     <Compile Include="ConfigClass1.cs" />
     <Compile Include="Ftp操作类备胎支持断点上传下载.cs" />
     <Compile Include="ftp操作类.cs" />

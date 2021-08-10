@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using sjzd.类;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.GridView;
 using Telerik.Windows.Controls.Navigation;
@@ -66,8 +67,8 @@ namespace sjzd
         {
             try
             {
-                CIMISS cIMISS = new CIMISS();
-                DateTime dateTime = cIMISS.获取EC2米温度最新时间();
+                mysql环境气象 mysqlHJ = new mysql环境气象();
+                DateTime dateTime = mysqlHJ.获取EC地面最新时次();;
                 TimeSpan timeSpan = DateTime.Now.Date.AddHours(8) - DateTime.Now.Date;
                 if (DateTime.Now.Hour > 12)
                     timeSpan = DateTime.Now.Date.AddHours(20) - DateTime.Now.Date;
@@ -85,6 +86,7 @@ namespace sjzd
             {
             }
         }
+        
 
         private void CXButton_Click(object sender, RoutedEventArgs e)
         {
@@ -109,58 +111,10 @@ namespace sjzd
                     int myHour = SCSelect.SelectedTime.Value.Hours;
                     BTLabel.Content = "EC" + startDate + myHour + "时起报最高、最低气温查询";
                     List<DateTime> errorDateList = new List<DateTime>();
-                    CIMISS cIMISS = new CIMISS();
-                    string LSPath = Environment.CurrentDirectory + "\\临时\\";
-                    if (!Directory.Exists(LSPath))
-                        Directory.CreateDirectory(LSPath);
+                    mysql环境气象 mysqlHJ = new mysql环境气象();
+                    myTem = mysqlHJ.根据区站号起报时间获取EC温度(idStr, sDateTime.AddHours(myHour));
 
-                    #region 删除14天前的临时文件
 
-                    DirectoryInfo root = new DirectoryInfo(LSPath);
-                    FileInfo[] files = root.GetFiles();
-                    foreach (FileInfo fileInfo in files)
-                    {
-                        if (fileInfo.CreationTime.CompareTo(DateTime.Now.AddDays(-14)) <= 0)
-                            fileInfo.Delete();
-                    }
-
-                    #endregion
-
-                    LSPath = LSPath + $"{startDate + myHour}时EC高低温临时.txt";
-                    if (!File.Exists(LSPath))
-                    {
-                        List<CIMISS.ECTEF0> myTem2 = cIMISS.获取EC温度(sDateTime.AddHours(myHour), idStr);
-                        string strData = "";
-                        foreach (var item in myTem2)
-                        {
-                            strData += $"{item.DateTime}\t{item.StationID}\t{item.TEM}\r\n";
-                        }
-
-                        using (StreamWriter sw = new StreamWriter(LSPath, false, Encoding.GetEncoding("GB2312")))
-                        {
-                            sw.Write(strData);
-                        }
-                    }
-
-                    using (StreamReader sr = new StreamReader(LSPath, Encoding.GetEncoding("GB2312")))
-                    {
-                        string line = "";
-                        while ((line = sr.ReadLine()) != null)
-                        {
-                            try
-                            {
-                                myTem.Add(new CIMISS.ECTEF0
-                                {
-                                    DateTime = Convert.ToDateTime(line.Split('\t')[0]),
-                                    StationID = Convert.ToString(line.Split('\t')[1]),
-                                    TEM = Convert.ToDouble(line.Split('\t')[2])
-                                });
-                            }
-                            catch
-                            {
-                            }
-                        }
-                    }
 
                     if (myTem.Count > 0)
                     {
@@ -224,7 +178,6 @@ namespace sjzd
                     else
                     {
                         RadSplashScreenManager.Close();
-                        File.Delete(LSPath);
                         RadWindow.Alert(new DialogParameters
                         {
                             Content = "所选起报时间的预报不存在",
@@ -249,6 +202,8 @@ namespace sjzd
                 });
             }
         }
+
+       
 
         private void RadGridView_CellLoaded(object sender, CellEventArgs e)
         {
@@ -761,6 +716,195 @@ namespace sjzd
             public double Tmin { get; set; }
             public DateTime 低温时间 { get; set; }
         }
+
+        #region 旧的备份
+        private void 时间初始化old()
+        {
+            try
+            {
+                CIMISS cIMISS = new CIMISS();
+                DateTime dateTime = cIMISS.获取EC2米温度最新时间();
+                TimeSpan timeSpan = DateTime.Now.Date.AddHours(8) - DateTime.Now.Date;
+                if (DateTime.Now.Hour > 12)
+                    timeSpan = DateTime.Now.Date.AddHours(20) - DateTime.Now.Date;
+                if (dateTime.CompareTo(DateTime.Now.AddDays(-2)) > 0)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        sDate.SelectedDate = dateTime.Date;
+                        SCSelect.SelectedTime = dateTime - dateTime.Date;
+                        YBSCSelect.SelectedTime = timeSpan;
+                    });
+                }
+            }
+            catch
+            {
+            }
+        }
+        private void CXButton_Clickold(object sender, RoutedEventArgs e)
+        {
+            RadSplashScreenManager.Show();
+            try
+            {
+                if (YBSCSelect.SelectedTime != null && YBSCSelect.SelectedTime.Value.Hours != sc)
+                    sc = YBSCSelect.SelectedTime.Value.Hours;
+            }
+            catch
+            {
+            }
+
+            if (sDate.SelectedDate.ToString().Length != 0 && SCSelect.SelectedDate.ToString().Length != 0)
+            {
+                try
+                {
+                    查询列表.Clear();
+                    myTem.Clear();
+                    DateTime sDateTime = Convert.ToDateTime(sDate.SelectedDate);
+                    string startDate = sDateTime.ToString("yyyy年MM月dd日");
+                    int myHour = SCSelect.SelectedTime.Value.Hours;
+                    BTLabel.Content = "EC" + startDate + myHour + "时起报最高、最低气温查询";
+                    List<DateTime> errorDateList = new List<DateTime>();
+                    CIMISS cIMISS = new CIMISS();
+                    string LSPath = Environment.CurrentDirectory + "\\临时\\";
+                    if (!Directory.Exists(LSPath))
+                        Directory.CreateDirectory(LSPath);
+
+                    #region 删除14天前的临时文件
+
+                    DirectoryInfo root = new DirectoryInfo(LSPath);
+                    FileInfo[] files = root.GetFiles();
+                    foreach (FileInfo fileInfo in files)
+                    {
+                        if (fileInfo.CreationTime.CompareTo(DateTime.Now.AddDays(-14)) <= 0)
+                            fileInfo.Delete();
+                    }
+
+                    #endregion
+
+                    LSPath = LSPath + $"{startDate + myHour}时EC高低温临时.txt";
+                    if (!File.Exists(LSPath))
+                    {
+                        List<CIMISS.ECTEF0> myTem2 = cIMISS.获取EC温度(sDateTime.AddHours(myHour), idStr);
+                        string strData = "";
+                        foreach (var item in myTem2)
+                        {
+                            strData += $"{item.DateTime}\t{item.StationID}\t{item.TEM}\r\n";
+                        }
+
+                        using (StreamWriter sw = new StreamWriter(LSPath, false, Encoding.GetEncoding("GB2312")))
+                        {
+                            sw.Write(strData);
+                        }
+                    }
+
+                    using (StreamReader sr = new StreamReader(LSPath, Encoding.GetEncoding("GB2312")))
+                    {
+                        string line = "";
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            try
+                            {
+                                myTem.Add(new CIMISS.ECTEF0
+                                {
+                                    DateTime = Convert.ToDateTime(line.Split('\t')[0]),
+                                    StationID = Convert.ToString(line.Split('\t')[1]),
+                                    TEM = Convert.ToDouble(line.Split('\t')[2])
+                                });
+                            }
+                            catch
+                            {
+                            }
+                        }
+                    }
+
+                    if (myTem.Count > 0)
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            DateTime myDate = DateTime.Now.Date.AddHours(sc).AddDays(i);
+                            List<实况查询详情ViewModel> 温度详情 = 处理EC温度详情(myTem, myDate, myDate.AddDays(1));
+                            List<SKList> sKLists = new List<SKList>();
+                            foreach (string item in idStr.Split(','))
+                            {
+                                try
+                                {
+                                    SKList sKList = 处理EC(myTem, item, myDate, myDate.AddDays(1), ref errorDateList);
+                                    if (sKList.ID.Length != 0)
+                                    {
+                                        sKLists.Add(sKList);
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                }
+                            }
+
+
+                            查询列表.Add(new 实况查询ViewModel(myDate.AddDays(1), "低温", sKLists.First(y => y.ID == "53368").Tmin, sKLists.First(y => y.ID == "53464").Tmin, sKLists.First(y => y.ID == "53466").Tmin, sKLists.First(y => y.ID == "53467").Tmin, sKLists.First(y => y.ID == "53469").Tmin, sKLists.First(y => y.ID == "53562").Tmin, sKLists.First(y => y.ID == "53463").Tmin, sKLists.First(y => y.ID == "53368").低温时间, sKLists.First(y => y.ID == "53464").低温时间, sKLists.First(y => y.ID == "53466").低温时间, sKLists.First(y => y.ID == "53467").低温时间, sKLists.First(y => y.ID == "53469").低温时间, sKLists.First(y => y.ID == "53562").低温时间, sKLists.First(y => y.ID == "53463").低温时间)
+                            {
+                                详情 = 温度详情,
+                                IsExpanded = true
+                            });
+                            查询列表.Add(new 实况查询ViewModel(myDate.AddDays(1), "高温", sKLists.First(y => y.ID == "53368").Tmax, sKLists.First(y => y.ID == "53464").Tmax, sKLists.First(y => y.ID == "53466").Tmax, sKLists.First(y => y.ID == "53467").Tmax, sKLists.First(y => y.ID == "53469").Tmax, sKLists.First(y => y.ID == "53562").Tmax, sKLists.First(y => y.ID == "53463").Tmax, sKLists.First(y => y.ID == "53368").高温时间, sKLists.First(y => y.ID == "53464").高温时间, sKLists.First(y => y.ID == "53466").高温时间, sKLists.First(y => y.ID == "53467").高温时间, sKLists.First(y => y.ID == "53469").高温时间, sKLists.First(y => y.ID == "53562").高温时间, sKLists.First(y => y.ID == "53463").高温时间)
+                            {
+                                IsExpanded = false
+                            });
+                        }
+
+                        if (errorDateList.Count > 0)
+                        {
+                            RadSplashScreenManager.Close();
+                            string error = "该起报时间的缺报数缺少较多，请注意是否需要更换起报时间。\r\n具体缺报的时间有:\r\n";
+                            foreach (var item in errorDateList)
+                            {
+                                error += item.ToString("M月d日H时") + "\r\n";
+                            }
+
+                            ScrollViewer scrollViewer = new ScrollViewer();
+                            scrollViewer.Content = error;
+                            RadWindow radWindow = new RadWindow
+                            {
+                                Content = scrollViewer,
+                                ResizeMode = ResizeMode.CanResize,
+                                MaxHeight = 500,
+                                MinWidth = 400,
+                                Header = "警告",
+                                ShouldUpdateActiveState = false
+                            };
+                            RadWindowInteropHelper.SetShowInTaskbar(radWindow, true);
+                            radWindow.Show();
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        RadSplashScreenManager.Close();
+                        File.Delete(LSPath);
+                        RadWindow.Alert(new DialogParameters
+                        {
+                            Content = "所选起报时间的预报不存在",
+                            Header = "警告"
+                        });
+                        return;
+                    }
+                }
+                catch (Exception)
+                {
+                }
+
+                RadSplashScreenManager.Close();
+            }
+            else
+            {
+                RadSplashScreenManager.Close();
+                RadWindow.Alert(new DialogParameters
+                {
+                    Content = "请选择起止时间",
+                    Header = "警告"
+                });
+            }
+        }
+        #endregion
     }
 
     public class MyEC温度08表格ViewModel : ViewModelBase

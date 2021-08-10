@@ -85,361 +85,365 @@ namespace sjzd
                             {
                                 while (sqlreader.Read())
                                 {
-                                    string qxname = "", id = "", gw1 = "", gw2 = "", gw3 = "", dw1 = "", dw2 = "", dw3 = "", sttq = "", stqy = "", zdtq = "", zdqy = "", sttq12 = "", stqy12 = "", zdtq12 = "", zdqy12 = "", sttq24 = "", stqy24 = "", zdtq24 = "", zdqy24 = "";
-                                    float stgw = 999999,
-                                        stdw = 999999,
-                                        zdgw = 999999,
-                                        zddw = 999999,
-                                        skgw = 999999,
-                                        skdw = 999999,
-                                        skjs12 = 999999,
-                                        skjs24 = 999999,
-                                        skjs = 999999;
-                                    string qxid = sqlreader.GetString(sqlreader.GetOrdinal("StationID"));
-                                    for (int i = 0; i < qxidSZ.Length; i++)
-                                    {
-                                        if (qxidSZ[i] == qxid)
-                                        {
-                                            qxname = qxnameSZ[i];
-                                            break;
-                                        }
-                                    }
-                                    id = sqlreader.GetString(sqlreader.GetOrdinal("PeopleID"));
-                                    float floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx)));
-                                    float floazy = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax" + sx)));
-                                    if (floasj < 9999)
-                                    {
-                                        if (floasj <= 1)
-                                        {
-                                            gw1 = "√";
-                                            gw2 = "×";
-                                            gw3 = "×";
-                                        }
-                                        else if (floasj <= 2 && (floasj - floazy) < 0)
-                                        {
-                                            gw1 = "×";
-                                            gw2 = "√";
-                                            gw3 = "×";
-                                        }
-                                        else if (floasj > 2 && (floasj - floazy) > 0)
-                                        {
-                                            gw1 = "×";
-                                            gw2 = "×";
-                                            gw3 = "√";
-                                        }
-                                        else
-                                        {
-                                            gw1 = "×";
-                                            gw2 = "×";
-                                            gw3 = "×";
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx)) > 999998)
-                                        {
-                                            gw1 = "缺测";
-                                            gw2 = "缺测";
-                                            gw3 = "缺测";
-                                        }
-                                        else if (sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx)) < -999998)
-                                        {
-                                            gw1 = "缺报";
-                                            gw2 = "缺报";
-                                            gw3 = "缺报";
-                                        }
-                                        else
-                                        {
-                                            gw1 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx)).ToString();
-                                            gw2 = gw1;
-                                            gw3 = gw1;
-                                        }
-                                    }
-                                    floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin" + sx)));
-                                    floazy = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin" + sx)));
-                                    if (floasj < 9999)
-                                    {
-                                        if (floasj <= 1)
-                                        {
-                                            dw1 = "√";
-                                            dw2 = "×";
-                                            dw3 = "×";
-                                        }
-                                        else if (floasj <= 2 && (floasj - floazy) < 0)
-                                        {
-                                            dw1 = "×";
-                                            dw2 = "√";
-                                            dw3 = "×";
-                                        }
-                                        else if (floasj > 2 && (floasj - floazy) > 0)
-                                        {
-                                            dw1 = "×";
-                                            dw2 = "×";
-                                            dw3 = "√";
-                                        }
-                                        else
-                                        {
-                                            dw1 = "×";
-                                            dw2 = "×";
-                                            dw3 = "×";
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx)) > 999998)
-                                        {
-                                            dw1 = "缺测";
-                                            dw2 = "缺测";
-                                            dw3 = "缺测";
-                                        }
-                                        else if (sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx)) < -999998)
-                                        {
-                                            dw1 = "缺报";
-                                            dw2 = "缺报";
-                                            dw3 = "缺报";
-                                        }
-                                        else
-                                        {
-                                            dw1 = (sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx))).ToString();
-                                            dw2 = dw1;
-                                            dw3 = dw1;
-                                        }
-                                    }
-                                    floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain" + sx)));
-                                    if (floasj < 0.1 && floasj > -1)
-                                        stqy = "×";
-                                    else if (Math.Abs(floasj - 1) < 0.1)
-                                        stqy = "√";
-                                    else if (Math.Abs(floasj - 999999) < 0.1)
-                                        stqy = "缺测";
-                                    else if (floasj < -999998)
-                                        stqy = "缺报";
-                                    else
-                                    {
-                                        stqy = floasj.ToString();
-                                    }
-
-                                    floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain" + sx)));
-                                    if (floasj < 0.1 && floasj > -1)
-                                        zdqy = "×";
-                                    else if (Math.Abs(floasj - 1) < 0.1)
-                                        zdqy = "√";
-                                    else if (Math.Abs(floasj - 999999) < 0.1)
-                                        zdqy = "缺测";
-                                    else if (floasj < -999998)
-                                        zdqy = "缺报";
-                                    else
-                                    {
-                                        zdqy = floasj.ToString();
-                                    }
-                                    #region 处理0012降水量
                                     try
                                     {
-                                        int intSX = Convert.ToInt32(sx);
-                                        floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal($"SJ_Rain{(intSX - 24).ToString().PadLeft(2, '0')}{(intSX - 12).ToString().PadLeft(2, '0')}")));
-                                        if (floasj < 0.1 && floasj > -1)
-                                            stqy12 = "×";
-                                        else if (Math.Abs(floasj - 1) < 0.1)
-                                            stqy12 = "√";
-                                        else if (Math.Abs(floasj - 999999) < 0.1)
-                                            stqy12 = "缺测";
-                                        else if (floasj < -999998)
-                                            stqy12 = "缺报";
-                                        else
+                                        string qxname = "", id = "", gw1 = "", gw2 = "", gw3 = "", dw1 = "", dw2 = "", dw3 = "", sttq = "", stqy = "", zdtq = "", zdqy = "", sttq12 = "", stqy12 = "", zdtq12 = "", zdqy12 = "", sttq24 = "", stqy24 = "", zdtq24 = "", zdqy24 = "";
+                                        float stgw = 999999,
+                                            stdw = 999999,
+                                            zdgw = 999999,
+                                            zddw = 999999,
+                                            skgw = 999999,
+                                            skdw = 999999,
+                                            skjs12 = 999999,
+                                            skjs24 = 999999,
+                                            skjs = 999999;
+                                        string qxid = sqlreader.GetString(sqlreader.GetOrdinal("StationID"));
+                                        for (int i = 0; i < qxidSZ.Length; i++)
                                         {
-                                            stqy12 = floasj.ToString();
-                                        }
-
-                                        floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal($"ZY_Rain{(intSX - 24).ToString().PadLeft(2, '0')}{(intSX - 12).ToString().PadLeft(2, '0')}")));
-                                        if (floasj < 0.1 && floasj > -1)
-                                            zdqy12 = "×";
-                                        else if (Math.Abs(floasj - 1) < 0.1)
-                                            zdqy12 = "√";
-                                        else if (Math.Abs(floasj - 999999) < 0.1)
-                                            zdqy12 = "缺测";
-                                        else if (floasj < -999998)
-                                            zdqy12 = "缺报";
-                                        else
-                                        {
-                                            zdqy12 = floasj.ToString();
-                                        }
-                                    }
-                                    catch (Exception)
-                                    {
-                                    }
-
-                                    #endregion
-                                    #region 处理1224降水量
-                                    try
-                                    {
-                                        int intSX = Convert.ToInt32(sx);
-                                        floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal($"SJ_Rain{(intSX - 12).ToString().PadLeft(2, '0')}{sx}")));
-                                        if (floasj < 0.1 && floasj > -1)
-                                            stqy24 = "×";
-                                        else if (Math.Abs(floasj - 1) < 0.1)
-                                            stqy24 = "√";
-                                        else if (Math.Abs(floasj - 999999) < 0.1)
-                                            stqy24 = "缺测";
-                                        else if (floasj < -999998)
-                                            stqy24 = "缺报";
-                                        else
-                                        {
-                                            stqy24 = floasj.ToString();
-                                        }
-
-                                        floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal($"ZY_Rain{(intSX - 12).ToString().PadLeft(2, '0')}{sx}")));
-                                        if (floasj < 0.1 && floasj > -1)
-                                            zdqy24 = "×";
-                                        else if (Math.Abs(floasj - 1) < 0.1)
-                                            zdqy24 = "√";
-                                        else if (Math.Abs(floasj - 999999) < 0.1)
-                                            zdqy24 = "缺测";
-                                        else if (floasj < -999998)
-                                            zdqy24 = "缺报";
-                                        else
-                                        {
-                                            zdqy24 = floasj.ToString();
-                                        }
-                                    }
-                                    catch (Exception)
-                                    {
-                                    }
-
-                                    #endregion
-                                    using (SqlConnection mycon1 = new SqlConnection(con))
-                                    {
-                                        mycon1.Open();//打开
-                                        int intDays = Convert.ToInt16(sx) / 24;
-                                        DateTime dtLS = dateTime.AddDays(intDays);
-                                        string SKDate = dtLS.ToString("yyyy-MM-dd");//查询日期
-                                        string sql1 = string.Format(@"select * from SK where StationID='{0}' AND Date='{1}' AND SC='{2}'", qxid, SKDate, sc);
-                                        using (SqlCommand sqlman1 = new SqlCommand(sql1, mycon1))
-                                        {
-                                            using (SqlDataReader sqlreader1 = sqlman1.ExecuteReader())
+                                            if (qxidSZ[i] == qxid)
                                             {
-                                                while (sqlreader1.Read())
-                                                {
-                                                    skgw = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Tmax"));
-                                                    skdw = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Tmin"));
-                                                    skjs = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Rain"));
-                                                    skjs12 = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Rain0012"));
-                                                    skjs24 = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Rain1224"));
-                                                    if ((Int32)skjs == 999990)
-                                                        skjs = 0;
-                                                    if ((Int32)skjs12 == 999990)
-                                                        skjs12 = 0;
-                                                    if ((Int32)skjs24 == 999990)
-                                                        skjs24 = 0;
-                                                }
+                                                qxname = qxnameSZ[i];
+                                                break;
                                             }
                                         }
-                                        mycon1.Close();
-                                    }
-                                    using (SqlConnection mycon1 = new SqlConnection(con))
-                                    {
-                                        mycon1.Open();//打开
-                                        string sql1 = string.Format(@"select * from SJYB where StationID='{0}' AND Date='{1:yyyy-MM-dd}' AND SC='{2}' AND GW='{3}'", qxid, dateTime, sc, gw);
-                                        using (SqlCommand sqlman1 = new SqlCommand(sql1, mycon1))
+                                        id = sqlreader.GetString(sqlreader.GetOrdinal("PeopleID"));
+                                        float floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx)));
+                                        float floazy = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmax" + sx)));
+                                        if (floasj < 9999)
                                         {
-                                            using (SqlDataReader sqlreader1 = sqlman1.ExecuteReader())
+                                            if (floasj <= 1)
                                             {
-                                                while (sqlreader1.Read())
-                                                {
-                                                    try
-                                                    {
-                                                        stgw = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Tmax" + sx));
-                                                        stdw = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Tmin" + sx));
-                                                        sttq = sqlreader1.GetString(sqlreader1.GetOrdinal("Rain" + sx));
-                                                        if (sttq.Contains("转"))
-                                                        {
-                                                            sttq12 = Regex.Split(sttq, "转", RegexOptions.IgnoreCase)[0];
-                                                            sttq24 = Regex.Split(sttq, "转", RegexOptions.IgnoreCase)[1];
-                                                        }
-                                                        else
-                                                        {
-                                                            sttq12 = sttq;
-                                                            sttq24 = sttq;
-                                                        }
-                                                    }
-                                                    catch
-                                                    {
-                                                    }
-
-
-                                                }
+                                                gw1 = "√";
+                                                gw2 = "×";
+                                                gw3 = "×";
+                                            }
+                                            else if (floasj <= 2 && (floasj - floazy) < 0)
+                                            {
+                                                gw1 = "×";
+                                                gw2 = "√";
+                                                gw3 = "×";
+                                            }
+                                            else if (floasj > 2 && (floasj - floazy) > 0)
+                                            {
+                                                gw1 = "×";
+                                                gw2 = "×";
+                                                gw3 = "√";
+                                            }
+                                            else
+                                            {
+                                                gw1 = "×";
+                                                gw2 = "×";
+                                                gw3 = "×";
                                             }
                                         }
-                                        mycon1.Close();
-                                    }
-
-                                    using (SqlConnection mycon1 = new SqlConnection(con))
-                                    {
-                                        mycon1.Open();//打开
-                                        string sql1 = string.Format(@"select * from ZYZD where StationID='{0}' AND Date='{1:yyyy-MM-dd}' AND SC='{2}'", qxid, dateTime, sc);
-                                        using (SqlCommand sqlman1 = new SqlCommand(sql1, mycon1))
+                                        else
                                         {
-                                            using (SqlDataReader sqlreader1 = sqlman1.ExecuteReader())
+                                            if (sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx)) > 999998)
                                             {
-                                                while (sqlreader1.Read())
+                                                gw1 = "缺测";
+                                                gw2 = "缺测";
+                                                gw3 = "缺测";
+                                            }
+                                            else if (sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx)) < -999998)
+                                            {
+                                                gw1 = "缺报";
+                                                gw2 = "缺报";
+                                                gw3 = "缺报";
+                                            }
+                                            else
+                                            {
+                                                gw1 = sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx)).ToString();
+                                                gw2 = gw1;
+                                                gw3 = gw1;
+                                            }
+                                        }
+                                        floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmin" + sx)));
+                                        floazy = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_SKTmin" + sx)));
+                                        if (floasj < 9999)
+                                        {
+                                            if (floasj <= 1)
+                                            {
+                                                dw1 = "√";
+                                                dw2 = "×";
+                                                dw3 = "×";
+                                            }
+                                            else if (floasj <= 2 && (floasj - floazy) < 0)
+                                            {
+                                                dw1 = "×";
+                                                dw2 = "√";
+                                                dw3 = "×";
+                                            }
+                                            else if (floasj > 2 && (floasj - floazy) > 0)
+                                            {
+                                                dw1 = "×";
+                                                dw2 = "×";
+                                                dw3 = "√";
+                                            }
+                                            else
+                                            {
+                                                dw1 = "×";
+                                                dw2 = "×";
+                                                dw3 = "×";
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx)) > 999998)
+                                            {
+                                                dw1 = "缺测";
+                                                dw2 = "缺测";
+                                                dw3 = "缺测";
+                                            }
+                                            else if (sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx)) < -999998)
+                                            {
+                                                dw1 = "缺报";
+                                                dw2 = "缺报";
+                                                dw3 = "缺报";
+                                            }
+                                            else
+                                            {
+                                                dw1 = (sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_SKTmax" + sx))).ToString();
+                                                dw2 = dw1;
+                                                dw3 = dw1;
+                                            }
+                                        }
+                                        floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("SJ_Rain" + sx)));
+                                        if (floasj < 0.1 && floasj > -1)
+                                            stqy = "×";
+                                        else if (Math.Abs(floasj - 1) < 0.1)
+                                            stqy = "√";
+                                        else if (Math.Abs(floasj - 999999) < 0.1)
+                                            stqy = "缺测";
+                                        else if (floasj < -999998)
+                                            stqy = "缺报";
+                                        else
+                                        {
+                                            stqy = floasj.ToString();
+                                        }
+
+                                        floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal("ZY_Rain" + sx)));
+                                        if (floasj < 0.1 && floasj > -1)
+                                            zdqy = "×";
+                                        else if (Math.Abs(floasj - 1) < 0.1)
+                                            zdqy = "√";
+                                        else if (Math.Abs(floasj - 999999) < 0.1)
+                                            zdqy = "缺测";
+                                        else if (floasj < -999998)
+                                            zdqy = "缺报";
+                                        else
+                                        {
+                                            zdqy = floasj.ToString();
+                                        }
+                                        #region 处理0012降水量
+                                        try
+                                        {
+                                            int intSX = Convert.ToInt32(sx);
+                                            floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal($"SJ_Rain{(intSX - 24).ToString().PadLeft(2, '0')}{(intSX - 12).ToString().PadLeft(2, '0')}")));
+                                            if (floasj < 0.1 && floasj > -1)
+                                                stqy12 = "×";
+                                            else if (Math.Abs(floasj - 1) < 0.1)
+                                                stqy12 = "√";
+                                            else if (Math.Abs(floasj - 999999) < 0.1)
+                                                stqy12 = "缺测";
+                                            else if (floasj < -999998)
+                                                stqy12 = "缺报";
+                                            else
+                                            {
+                                                stqy12 = floasj.ToString();
+                                            }
+
+                                            floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal($"ZY_Rain{(intSX - 24).ToString().PadLeft(2, '0')}{(intSX - 12).ToString().PadLeft(2, '0')}")));
+                                            if (floasj < 0.1 && floasj > -1)
+                                                zdqy12 = "×";
+                                            else if (Math.Abs(floasj - 1) < 0.1)
+                                                zdqy12 = "√";
+                                            else if (Math.Abs(floasj - 999999) < 0.1)
+                                                zdqy12 = "缺测";
+                                            else if (floasj < -999998)
+                                                zdqy12 = "缺报";
+                                            else
+                                            {
+                                                zdqy12 = floasj.ToString();
+                                            }
+                                        }
+                                        catch (Exception)
+                                        {
+                                        }
+
+                                        #endregion
+                                        #region 处理1224降水量
+                                        try
+                                        {
+                                            int intSX = Convert.ToInt32(sx);
+                                            floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal($"SJ_Rain{(intSX - 12).ToString().PadLeft(2, '0')}{sx}")));
+                                            if (floasj < 0.1 && floasj > -1)
+                                                stqy24 = "×";
+                                            else if (Math.Abs(floasj - 1) < 0.1)
+                                                stqy24 = "√";
+                                            else if (Math.Abs(floasj - 999999) < 0.1)
+                                                stqy24 = "缺测";
+                                            else if (floasj < -999998)
+                                                stqy24 = "缺报";
+                                            else
+                                            {
+                                                stqy24 = floasj.ToString();
+                                            }
+
+                                            floasj = Math.Abs(sqlreader.GetFloat(sqlreader.GetOrdinal($"ZY_Rain{(intSX - 12).ToString().PadLeft(2, '0')}{sx}")));
+                                            if (floasj < 0.1 && floasj > -1)
+                                                zdqy24 = "×";
+                                            else if (Math.Abs(floasj - 1) < 0.1)
+                                                zdqy24 = "√";
+                                            else if (Math.Abs(floasj - 999999) < 0.1)
+                                                zdqy24 = "缺测";
+                                            else if (floasj < -999998)
+                                                zdqy24 = "缺报";
+                                            else
+                                            {
+                                                zdqy24 = floasj.ToString();
+                                            }
+                                        }
+                                        catch (Exception)
+                                        {
+                                        }
+
+                                        #endregion
+                                        using (SqlConnection mycon1 = new SqlConnection(con))
+                                        {
+                                            mycon1.Open();//打开
+                                            int intDays = Convert.ToInt16(sx) / 24;
+                                            DateTime dtLS = dateTime.AddDays(intDays);
+                                            string SKDate = dtLS.ToString("yyyy-MM-dd");//查询日期
+                                            string sql1 = string.Format(@"select * from SK where StationID='{0}' AND Date='{1}' AND SC='{2}'", qxid, SKDate, sc);
+                                            using (SqlCommand sqlman1 = new SqlCommand(sql1, mycon1))
+                                            {
+                                                using (SqlDataReader sqlreader1 = sqlman1.ExecuteReader())
                                                 {
-                                                    try
+                                                    while (sqlreader1.Read())
                                                     {
-                                                        zdgw = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Tmax" + sx));
-                                                        zddw = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Tmin" + sx));
-                                                        zdtq = sqlreader1.GetString(sqlreader1.GetOrdinal("Rain" + sx));
-                                                        if (zdtq.Contains("转"))
-                                                        {
-                                                            zdtq12 = Regex.Split(zdtq, "转", RegexOptions.IgnoreCase)[0];
-                                                            zdtq24 = Regex.Split(zdtq, "转", RegexOptions.IgnoreCase)[1];
-                                                        }
-                                                        else
-                                                        {
-                                                            zdtq12 = zdtq;
-                                                            zdtq24 = zdtq;
-                                                        }
-                                                    }
-                                                    catch
-                                                    {
+                                                        skgw = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Tmax"));
+                                                        skdw = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Tmin"));
+                                                        skjs = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Rain"));
+                                                        skjs12 = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Rain0012"));
+                                                        skjs24 = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Rain1224"));
+                                                        if ((Int32)skjs == 999990)
+                                                            skjs = 0;
+                                                        if ((Int32)skjs12 == 999990)
+                                                            skjs12 = 0;
+                                                        if ((Int32)skjs24 == 999990)
+                                                            skjs24 = 0;
                                                     }
                                                 }
                                             }
+                                            mycon1.Close();
                                         }
-                                        mycon1.Close();
+                                        using (SqlConnection mycon1 = new SqlConnection(con))
+                                        {
+                                            mycon1.Open();//打开
+                                            string sql1 = string.Format(@"select * from SJYB where StationID='{0}' AND Date='{1:yyyy-MM-dd}' AND SC='{2}' AND GW='{3}'", qxid, dateTime, sc, gw);
+                                            using (SqlCommand sqlman1 = new SqlCommand(sql1, mycon1))
+                                            {
+                                                using (SqlDataReader sqlreader1 = sqlman1.ExecuteReader())
+                                                {
+                                                    while (sqlreader1.Read())
+                                                    {
+                                                        try
+                                                        {
+                                                            stgw = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Tmax" + sx));
+                                                            stdw = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Tmin" + sx));
+                                                            sttq = sqlreader1.GetString(sqlreader1.GetOrdinal("Rain" + sx));
+                                                            if (sttq.Contains("转"))
+                                                            {
+                                                                sttq12 = Regex.Split(sttq, "转", RegexOptions.IgnoreCase)[0];
+                                                                sttq24 = Regex.Split(sttq, "转", RegexOptions.IgnoreCase)[1];
+                                                            }
+                                                            else
+                                                            {
+                                                                sttq12 = sttq;
+                                                                sttq24 = sttq;
+                                                            }
+                                                        }
+                                                        catch
+                                                        {
+                                                        }
+
+
+                                                    }
+                                                }
+                                            }
+                                            mycon1.Close();
+                                        }
+
+                                        using (SqlConnection mycon1 = new SqlConnection(con))
+                                        {
+                                            mycon1.Open();//打开
+                                            string sql1 = string.Format(@"select * from ZYZD where StationID='{0}' AND Date='{1:yyyy-MM-dd}' AND SC='{2}'", qxid, dateTime, sc);
+                                            using (SqlCommand sqlman1 = new SqlCommand(sql1, mycon1))
+                                            {
+                                                using (SqlDataReader sqlreader1 = sqlman1.ExecuteReader())
+                                                {
+                                                    while (sqlreader1.Read())
+                                                    {
+                                                        try
+                                                        {
+                                                            zdgw = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Tmax" + sx));
+                                                            zddw = sqlreader1.GetFloat(sqlreader1.GetOrdinal("Tmin" + sx));
+                                                            zdtq = sqlreader1.GetString(sqlreader1.GetOrdinal("Rain" + sx));
+                                                            if (zdtq.Contains("转"))
+                                                            {
+                                                                zdtq12 = Regex.Split(zdtq, "转", RegexOptions.IgnoreCase)[0];
+                                                                zdtq24 = Regex.Split(zdtq, "转", RegexOptions.IgnoreCase)[1];
+                                                            }
+                                                            else
+                                                            {
+                                                                zdtq12 = zdtq;
+                                                                zdtq24 = zdtq;
+                                                            }
+                                                        }
+                                                        catch
+                                                        {
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            mycon1.Close();
+                                        }
+
+                                        zrpf.Add(new 城镇预报逐日评分ViewModel()
+                                        {
+                                            QXName = qxname,
+                                            ID = id,
+                                            STGW = stgw,
+                                            STDW = stdw,
+                                            ZDDW = zddw,
+                                            ZDGW = zdgw,
+
+                                            GW1 = gw1,
+                                            GW2 = gw2,
+                                            GW3 = gw3,
+                                            DW1 = dw1,
+                                            DW2 = dw2,
+                                            DW3 = dw3,
+                                            SKDW = skdw,
+                                            SKGW = skgw,
+                                            STQY = stqy,
+                                            STTQ = sttq,
+                                            ZDQY = zdqy,
+                                            ZDTQ = zdtq,
+                                            SKJS = skjs.ToString(),
+                                            STTQ12 = sttq12,
+                                            ZDQY12 = zdqy12,
+                                            ZDTQ12 = zdtq12,
+                                            SKJS12 = skjs12.ToString(),
+                                            STTQ24 = sttq24,
+                                            ZDQY24 = zdqy24,
+                                            ZDTQ24 = zdtq24,
+                                            SKJS24 = skjs24.ToString(),
+                                            STQY12 = stqy12,
+                                            STQY24 = stqy24
+                                        });
                                     }
-
-                                    zrpf.Add(new 城镇预报逐日评分ViewModel()
-                                    {
-                                        QXName = qxname,
-                                        ID = id,
-                                        STGW = stgw,
-                                        STDW = stdw,
-                                        ZDDW = zddw,
-                                        ZDGW = zdgw,
-
-                                        GW1 = gw1,
-                                        GW2 = gw2,
-                                        GW3 = gw3,
-                                        DW1 = dw1,
-                                        DW2 = dw2,
-                                        DW3 = dw3,
-                                        SKDW = skdw,
-                                        SKGW = skgw,
-                                        STQY = stqy,
-                                        STTQ = sttq,
-                                        ZDQY = zdqy,
-                                        ZDTQ = zdtq,
-                                        SKJS = skjs.ToString(),
-                                        STTQ12 = sttq12,
-                                        ZDQY12 = zdqy12,
-                                        ZDTQ12 = zdtq12,
-                                        SKJS12 = skjs12.ToString(),
-                                        STTQ24 = sttq24,
-                                        ZDQY24 = zdqy24,
-                                        ZDTQ24 = zdtq24,
-                                        SKJS24 = skjs24.ToString(),
-                                        STQY12 = stqy12,
-                                        STQY24 = stqy24
-                                    });
+                                    catch  { }
                                 }
                             }
                         }

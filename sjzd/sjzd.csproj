@@ -53,22 +53,8 @@
     <Reference Include="Ice">
       <HintPath>..\..\libs\Ice.dll</HintPath>
     </Reference>
-    <Reference Include="MediaFoundation, Version=3.1.0.32450, Culture=neutral, PublicKeyToken=36fa660e1d6ebf8d, processorArchitecture=MSIL">
-      <HintPath>..\lib\RCWPF\2020.2.513.310\MediaFoundation\MediaFoundation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="music-client-v1.6.0">
       <HintPath>..\..\libs\music-client-v1.6.0.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\RCWPF\2020.2.513.310\SharpDX\SharpDX.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D9, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\RCWPF\2020.2.513.310\SharpDX\SharpDX.Direct3D9.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Telerik.Windows.Themes.Crystal">
       <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Crystal.dll</HintPath>
