@@ -122,7 +122,6 @@ namespace 市台更新
                 {
                     MessageBox.Show("请确认升级文件的路径是否正确配置。");
                     return false;
-                    this.Close();
                 }
             }
             catch

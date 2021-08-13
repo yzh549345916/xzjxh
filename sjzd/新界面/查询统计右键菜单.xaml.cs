@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using sjzd.天擎;
 using Telerik.Windows;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.RadialMenu;
@@ -101,7 +102,10 @@ namespace sjzd
                         viewbox.Child = new 区台新方法表格();
                         radTabItem.Content = viewbox;
                         break;
-
+                    case "天擎实况查询":
+                        viewbox.Child = new 天擎获取实况();
+                        radTabItem.Content = viewbox;
+                        break;
                     default:
                         return;
                 }
@@ -151,7 +155,6 @@ namespace sjzd
 
             }
         }
-
 
     }
 }

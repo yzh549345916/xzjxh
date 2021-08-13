@@ -1421,6 +1421,10 @@ namespace sjzd
             int[] zs = new int[6];//保存计算平均绝对误差时候每个要素的个数总数
             for (int i = 0; i < s1.Length; i++)
             {
+                if (s1[i].QX24TmaxJDWC < -999)
+                {
+
+                }
                 if (s1[i].QX24TmaxJDWC < 999998 && s1[i].QX24TmaxJDWC > -999999)
                 {
                     zs[0]++;

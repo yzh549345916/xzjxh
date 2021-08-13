@@ -29,11 +29,11 @@
             <Image Source="/sjzd;component/新界面/Image/图标/查询实况.png" Height="30" Width="30" />
         </telerik:RadRadialMenuItem.IconContent>
     </telerik:RadRadialMenuItem>
-    <!--<telerik:RadRadialMenuItem x:Name="实况统计" Header="实况统计" Click="查询实况_Click"  ToolTipContent="实况统计"  GroupName="乡镇精细化">
+    <telerik:RadRadialMenuItem x:Name="天擎实况" Header="天擎实况" Click="查询实况_Click"  ToolTipContent="天擎实况查询"  GroupName="乡镇精细化">
         <telerik:RadRadialMenuItem.IconContent>
-            <Image Source="/sjzd;component/新界面/Image/图标/统计.png" Height="30" Width="30" />
+            <Image Source="/sjzd;component/新界面/Image/图标/科学.png" Height="30" Width="30" />
         </telerik:RadRadialMenuItem.IconContent>
-    </telerik:RadRadialMenuItem>-->
+    </telerik:RadRadialMenuItem>
     <telerik:RadRadialMenuItem x:Name="预报制作" Header="预报制作"  ToolTipContent="我要做预报" Click="RadRadialMenuItem_Click" GroupName="乡镇精细化">
         <telerik:RadRadialMenuItem.IconContent>
             <Image Source="/sjzd;component/新界面/Image/图标/EC表格08.png" Height="30" Width="30" />

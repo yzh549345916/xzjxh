@@ -56,6 +56,9 @@
     <Reference Include="music-client-v1.6.0">
       <HintPath>..\..\libs\music-client-v1.6.0.dll</HintPath>
     </Reference>
+    <Reference Include="music-sdk-net">
+      <HintPath>..\..\..\java\libs\天擎\C#\music-demo-cs\music-demo-cs\lib\music-sdk-net.dll</HintPath>
+    </Reference>
     <Reference Include="Telerik.Windows.Themes.Crystal">
       <HintPath>D:\developmentSoftware\telerik\Binaries.NoXaml\NetCore\Telerik.Windows.Themes.Crystal.dll</HintPath>
     </Reference>
@@ -355,6 +358,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MySql.Data" Version="8.0.22" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="SkiaSharp" Version="1.68.3" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Data.OleDb" Version="4.7.1" />
@@ -369,6 +373,11 @@
     <Page Remove="Window2.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="client.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="新界面\乡镇精细化\userControl\书记短信制作界面.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -380,6 +389,9 @@
     <Page Update="新界面\乡镇精细化\userControl\城镇集体评分.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="新界面\乡镇精细化\userControl\天擎获取实况.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="新界面\预报产品制作\产品制作usercontrol.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

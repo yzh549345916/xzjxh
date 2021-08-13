@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QX-update", "QX-update\QX-u
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xzjxhyb_DBmain", "xzjxhyb_DBmain\xzjxhyb_DBmain.csproj", "{13702A37-4DA0-4EBC-92BE-9AEFA8CFEBC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "市台更新", "市台更新\市台更新.csproj", "{4B0D2529-BC53-44E7-8BD2-3A7615155140}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "市台更新", "市台更新\市台更新.csproj", "{4B0D2529-BC53-44E7-8BD2-3A7615155140}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

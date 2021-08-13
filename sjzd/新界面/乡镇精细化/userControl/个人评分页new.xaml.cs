@@ -187,6 +187,10 @@ namespace sjzd
                 string[,] GRPFSZ = new string[PeopleListSZ.GetLength(0), 14];//数组保存个人评分信息
                 for (int i = 0; i < PeopleListSZ.GetLength(0); i++)
                 {
+                    if (PeopleListSZ[i, 0] == "3015404")
+                    {
+
+                    }
                     GRPFSZ[i, 0] = PeopleListSZ[i, 0];
                     GRPFSZ[i, 13] = PeopleListSZ[i, 1];
                     string qbdate = "";

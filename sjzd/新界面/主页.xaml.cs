@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using sjzd.天擎;
 using sjzd.新界面.类;
 using sjzd.类;
 using Telerik.Windows.Controls;
@@ -24,8 +25,9 @@ namespace sjzd
                 ResourceManager = GridViewResources.ResourceManager
             };
             InitializeComponent();
+            //天擎实况 fa = new 天擎实况();
+            //fa.cs();
 
-            
             #region
 
             //.net core3.1中不支持GB2312编码,解决办法：
